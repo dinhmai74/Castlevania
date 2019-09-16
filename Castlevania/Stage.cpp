@@ -92,10 +92,10 @@ void Stage::loadObjectFromFiles()
 void Stage::onKeyDown(int keyCode)
 {
 	simon->handleOnKeyDown(keyCode);
-	if(keyCode== DIK_B)
-	{
+	if (keyCode == DIK_B)
 		this->renderBoundingBox = !this->renderBoundingBox;
-	}
+	else if (keyCode == DIK_U) simon->upgradeWhipLv();
+	else if (keyCode == DIK_D) simon->upgradeWhipLv(false);
 }
 
 void Stage::onKeyUp(int keyCode)
@@ -111,28 +111,23 @@ void Stage::keyState(BYTE* states)
 void Stage::updateCamera(DWORD dt) const
 {
 	auto game = Game::getInstance();
-	auto map = TileMapManager::getInstance()->get(mapId);
-	float simonX, simonY, xCamera, yCamera, simonVx, simonVy;
+	const auto map = TileMapManager::getInstance()->get(mapId);
+	const auto mapWidth = map->getMapWidth();
+	float simonX, simonY, simonVx, simonVy;
 	simon->getPosition(simonX, simonY);
 	simon->getSpeed(simonVx, simonVy);
-	game->getCameraPosition(xCamera, yCamera);
 
-	auto newCameraPositionX = xCamera + simonVx * dt;
-	// check if new camera postion is out of box
-	if (newCameraPositionX + SCREEN_WIDTH > map->getMapWidth())
-		newCameraPositionX = map->getMapWidth()- SCREEN_WIDTH;
-	if (newCameraPositionX < 0) newCameraPositionX = 0;
+	const int offset = dt*simonVx;
 
+	float posX, posY;
+	game->getCameraPosition(posX, posY);
 
-	if (simonVx >= 0) {
-		if (simonX >= (0 + SCREEN_WIDTH) / 2)
-			game->setCameraPosition(newCameraPositionX, yCamera);
+	if (simonX + offset > SCREEN_WIDTH / 2 &&
+		simonX + offset + SCREEN_WIDTH / 2 < mapWidth) {
+		posX = simonX + offset - SCREEN_WIDTH / 2;
 	}
-	else {
-		const auto middlePointOfEndScreen = (map->getMapWidth()- SCREEN_WIDTH) + (SCREEN_WIDTH / 2);
-		if (simonX <= middlePointOfEndScreen)
-			game->setCameraPosition(newCameraPositionX, yCamera);
-	}
+
+	game->setCameraPosition(posX, posY);
 }
 
 void Stage::add(GameObject* gameObject)

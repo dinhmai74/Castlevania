@@ -83,7 +83,7 @@ public:
 		y = this->y;
 	}
 
-	void renderBoundingBox();
+	virtual void renderBoundingBox();
 
 	void addAnimation(int id, string animTexId);
 

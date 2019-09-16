@@ -60,6 +60,8 @@ public:
 
 	void initAnim() override;
 	RECT getBoundingBox() override;
+	void renderBoundingBox() override;
+	void upgradeWhipLv(bool up=true);
 private:
 	void updatePosWhenNotCollide();
 };

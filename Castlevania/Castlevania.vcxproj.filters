@@ -212,6 +212,9 @@
     <ClInclude Include="EnvConst.h">
       <Filter>Header Files\Constants</Filter>
     </ClInclude>
+    <ClInclude Include="WhipConst.h">
+      <Filter>Header Files\Constants</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Castlevania.rc">

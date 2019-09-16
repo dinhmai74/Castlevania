@@ -175,6 +175,7 @@
     <ClInclude Include="TilemapManager.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Whip.h" />
+    <ClInclude Include="WhipConst.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Castlevania.rc" />

@@ -1,6 +1,7 @@
 #pragma once
 #include "SimonConstants.h"
 #include "StageConst.h"
+#include "WhipConst.h"
 #include "TileConst.h"
 #include "EnvConst.h"
 #include <d3d9.h>
@@ -142,13 +143,9 @@ constexpr auto ANIMATION_BRICK_IDLE = 201;
 constexpr auto ANIM_SIM_WALKING_R = 101;
 constexpr auto ANIM_WALK = 1;
 constexpr auto ANIM_IDLE = 0;
-constexpr auto ANIM_SIM_IDLE_L = 112;
-constexpr auto ANIM_SIM_SITTING_R = 103;
 constexpr auto ANIM_SIT = 113;
 constexpr auto ANIM_HITTING = 121;
-constexpr auto ANIM_SIM_HITTING_R = 122;
-constexpr auto ANIM_SIM_HIT_WHEN_SITTING_L = 123;
-constexpr auto ANIM_SIM_HIT_WHEN_SITTING_R = 124;
+constexpr auto ANIM_HITTING_WHEN_SIT = 124;
 constexpr auto ANIM_SIM_THROW_L = 125;
 constexpr auto ANIM_SIM_THROW_R = 126;
 constexpr auto ANIM_SIM_THROW_WHEN_SIT_L = 127;
