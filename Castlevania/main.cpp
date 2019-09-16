@@ -14,20 +14,20 @@ void SampleKeyHander::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	StageManager::getInstance()->onKeyDown(KeyCode);
-	if(KeyCode== DIK_B)
-	{
-		char* showBoundary = nullptr;
-		size_t sz = 0;
-		if (_dupenv_s(&showBoundary, &sz, SHOW_BOUNDARY) == 0 && showBoundary != nullptr)
-		{
-			if (strcmp(showBoundary, "1") == 0)
-				_putenv("SHOW_BOUNDARY=0");
-			else
-				_putenv("SHOW_BOUNDARY=1");
+	//if(KeyCode== DIK_B)
+	//{
+	//	char* showBoundary = nullptr;
+	//	size_t sz = 0;
+	//	if (_dupenv_s(&showBoundary, &sz, SHOW_BOUNDARY) == 0 && showBoundary != nullptr)
+	//	{
+	//		if (strcmp(showBoundary, "1") == 0)
+	//			_putenv("SHOW_BOUNDARY=0");
+	//		else
+	//			_putenv("SHOW_BOUNDARY=1");
 
-			free(showBoundary);
-		}
-	}
+	//		free(showBoundary);
+	//	}
+	//}
 }
 
 void SampleKeyHander::OnKeyUp(int KeyCode)
@@ -66,7 +66,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 void loadEnvVariables()
 {
-	_putenv("SHOW_BOUNDARY=0");
+	//_putenv("SHOW_BOUNDARY=0");
 }
 
 HWND createGameWindow(HINSTANCE hInstance, int nCmdShow,
@@ -238,6 +238,7 @@ void loadResources()
 {
 	textureManager->add(ID_TEX_BBOX, L"textures\\Bbox.png");
 	LoadSprites(0, L"simon");
+	LoadSprites(1, L"whip");
 	vector<TileMapInfo> mapName;
 	//SpriteManager::getInstance()->add("tile", 0, 0, 1536, 320, 0, 0, 1536, 320,  textureManager->get(ID_SCENE_1));
 	mapName.push_back({ ID_SCENE_1,L"Scene1",1536,320,32,32 });

@@ -40,13 +40,12 @@ public:
 	void checkEnemyCollisions(vector<LPGAMEOBJECT> coObject);
 	// Inherited via GameObject
 	virtual void render() override;
-	void update(DWORD dt, float x, float y, vector<LPGAMEOBJECT> *coObject);
 	void setSide(int side);
 	void refreshAnim();
 	void upgradeWhipLv();
 	void initAnim() override;
 
 	virtual RECT getBoundingBox() override;
-
+	void update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT>* coObject, int simonState);
 };
 

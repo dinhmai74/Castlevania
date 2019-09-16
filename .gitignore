@@ -1,4 +1,5 @@
 # Compiled Object files
+node_modules
 *.slo
 *.lo
 *.o

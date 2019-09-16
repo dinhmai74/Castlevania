@@ -3,7 +3,7 @@ simon_walk_ani	simon_walk_1	100	simon_walk_2	100	simon_walk_3	100	simon_walk_4	1
 simon_sit_ani	simon_sit	100
 simon_jump_ani	simon_jump	100
 simon_hitsit_ani	simon_hitsit_1	100	simon_hitsit_2	100	simon_hitsit_3	100
-simon_hitstand_ani	simon_hitstand_1	100	simon_hitstand_2	100	simon_hitstand_3	100
+simon_hitstand_ani	simon_hitstand_1	100	simon_hitstand_2	100	simon_hitstand_3	150 simon_hitstand_3	100
 simon_powerup_ani	simon_powerup_1	50	simon_powerup_2	50	simon_powerup_3	50
 simon_stairup_ani	simon_stairup_1	100	simon_stairup_2	100
 simon_stairdown_ani	simon_stairdown_1	100	simon_stairdown_2	100

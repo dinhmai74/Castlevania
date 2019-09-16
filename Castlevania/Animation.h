@@ -18,7 +18,7 @@ class Animation
 	bool isRendered;
 	int state = -1;
 	vector <AnimationFrame* > frames;
-	bool isOneTimeAnim;
+	DWORD animStartTime;
 public:
 	Animation(int defaultTime=100) {
 		this->defaultTime = defaultTime;
@@ -32,7 +32,8 @@ public:
 	void render(int nx, float x, float y, int alpha=255);
 	void refresh();
 	bool isDone();
-	void setIsOneTimeAnim(bool isOnetimeAnim=true);
+	void setAniStartTime(DWORD t) { animStartTime = t; }
+	bool isOver(DWORD dt) const { return GetTickCount() - animStartTime >= dt; }
 	RECT getFrameRect();
 	RECT getFrameBBoxRect();
 };

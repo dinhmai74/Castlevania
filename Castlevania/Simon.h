@@ -61,10 +61,7 @@ public:
 	void initAnim() override;
 	RECT getBoundingBox() override;
 private:
-	void updatePosWhenNotColide()
-	{
-		throw std::logic_error("The method or operation is not implemented.");
-	}
+	void updatePosWhenNotCollide();
 };
 
 

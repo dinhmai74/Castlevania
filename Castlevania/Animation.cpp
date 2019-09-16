@@ -26,12 +26,7 @@ void Animation::render(int nx,float x, float y,int alpha) {
 			currentFrame++;
 			lastFrameTime = now;
 			if (currentFrame == frames.size()) {
-				if (!isOneTimeAnim) currentFrame = 0;
-				else
-				{
-					currentFrame = currentFrame - 1;
-					state = AnimState::rendered;
-				}
+				 currentFrame = 0;
 			}
 		}
 	}
@@ -43,10 +38,6 @@ bool Animation::isDone()
 	return currentFrame == frames.size()-1;
 }
 
-void Animation::setIsOneTimeAnim(bool isOnetimeAnim)
-{
-	this->isOneTimeAnim = isOnetimeAnim;
-}
 
 RECT Animation::getFrameRect()
 {
