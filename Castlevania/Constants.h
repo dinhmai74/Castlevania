@@ -2,6 +2,7 @@
 #include "SimonConstants.h"
 #include "StageConst.h"
 #include "TileConst.h"
+#include "EnvConst.h"
 #include <d3d9.h>
 #include <d3dx9.h>
 using namespace std;
@@ -22,6 +23,11 @@ constexpr auto HEADER_HEIGHT = 80;
 // Orientation
 constexpr auto  DIR_LEFT = -1;
 constexpr auto  DIR_RIGHT = 1;
+// Collision direction
+constexpr auto  CDIR_LEFT = 1.0f;
+constexpr auto  CDIR_RIGHT = -1.0f;
+constexpr auto  CDIR_TOP = 1.0f;
+constexpr auto 	CDIR_BOTTOM = -1.0f;
 constexpr auto MAIN_TEXTURE_TRANS_COLOR = D3DCOLOR_XRGB(255, 0, 255);
 constexpr auto  TILEMAP_TRANSPARENT_COLOR = D3DCOLOR_XRGB(5, 5, 5);
 constexpr auto  BOUND_BBOX_COLOR = D3DCOLOR_XRGB(255, 163, 177);
@@ -138,7 +144,7 @@ constexpr auto ANIM_WALK = 1;
 constexpr auto ANIM_IDLE = 0;
 constexpr auto ANIM_SIM_IDLE_L = 112;
 constexpr auto ANIM_SIM_SITTING_R = 103;
-constexpr auto ANIM_SIM_SITTING_L = 113;
+constexpr auto ANIM_SIT = 113;
 constexpr auto ANIM_SIM_HITTING_L = 121;
 constexpr auto ANIM_SIM_HITTING_R = 122;
 constexpr auto ANIM_SIM_HIT_WHEN_SITTING_L = 123;

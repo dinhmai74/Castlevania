@@ -9,6 +9,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 int run();
 void loadResources();
+void loadEnvVariables();
 
 void update(DWORD dt);
 void render();

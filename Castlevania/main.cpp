@@ -14,6 +14,20 @@ void SampleKeyHander::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	StageManager::getInstance()->onKeyDown(KeyCode);
+	if(KeyCode== DIK_B)
+	{
+		char* showBoundary = nullptr;
+		size_t sz = 0;
+		if (_dupenv_s(&showBoundary, &sz, SHOW_BOUNDARY) == 0 && showBoundary != nullptr)
+		{
+			if (strcmp(showBoundary, "1") == 0)
+				_putenv("SHOW_BOUNDARY=0");
+			else
+				_putenv("SHOW_BOUNDARY=1");
+
+			free(showBoundary);
+		}
+	}
 }
 
 void SampleKeyHander::OnKeyUp(int KeyCode)
@@ -34,6 +48,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	HWND hWnd = createGameWindow(hInstance, nCmdShow,
 	                             SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	loadEnvVariables();
 	game = Game::getInstance();
 	game->init(hWnd);
 
@@ -47,6 +62,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	run();
 
 	return 0;
+}
+
+void loadEnvVariables()
+{
+	_putenv("SHOW_BOUNDARY=0");
 }
 
 HWND createGameWindow(HINSTANCE hInstance, int nCmdShow,

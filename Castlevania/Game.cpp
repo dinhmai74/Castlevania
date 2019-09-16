@@ -66,7 +66,7 @@ void Game::draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, RECT frame
 		spriteHandler->GetTransform(&oldTransform);
 
 		D3DXVECTOR2 center;
-		D3DXVECTOR2 rotate = D3DXVECTOR2(nx, 1);
+		D3DXVECTOR2 rotate = D3DXVECTOR2(-nx, 1);
 
 		center.x = p.x + (boundaryRect.left - frameRect.left) + (boundaryRect.right - boundaryRect.left) / 2;
 		center.y = p.y + (boundaryRect.top - frameRect.top) + (boundaryRect.bottom - boundaryRect.top) / 2;

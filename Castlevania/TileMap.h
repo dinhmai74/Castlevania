@@ -50,7 +50,13 @@ public:
 
 	void draw();
 
+
 	~TileMap();
+	// for update camera base on map
+	int getMapWidth() const { return mapWidth; }
+	void setMapWidth(int val) { mapWidth = val; }
+	int getMapHeight() const { return mapHeight; }
+	void setMapHeight(int val) { mapHeight = val; }
 private:
 	void init();
 };

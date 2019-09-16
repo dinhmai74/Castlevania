@@ -207,10 +207,12 @@ void Simon::update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	checkCollision(dt, coObjects);
 	auto newPositionX = x + dx;
+	DebugOut(L"x:newPos: dx %f%f%f\n", x,newPositionX,dx);
 	if (newPositionX >= 0 && newPositionX + SIM_MOVE_W <= boundingGameX)
 	{
 		x = newPositionX;
 	}
+	x += dx;
 	updateAnimId();
 	// simple fall down
 	if (!isInGround) vy += dt * SIMON_GRAVITY;
@@ -340,8 +342,8 @@ void Simon::updateAnimId()
 			standUp();
 		}
 		animationId = faceSide == FaceSide::left
-			              ? ANIM_SIM_SITTING_L
-			              : ANIM_SIM_SITTING_L;
+			              ? ANIM_SIT
+			              : ANIM_SIT;
 	}
 	else if (currentState == SimonState::jumping)
 	{
@@ -354,8 +356,8 @@ void Simon::updateAnimId()
 		else
 		{
 			animationId = faceSide == FaceSide::left
-				              ? ANIM_SIM_SITTING_L
-				              : ANIM_SIM_SITTING_L;
+				              ? ANIM_SIT
+				              : ANIM_SIT;
 		}
 	}
 	else if (currentState == SimonState::hitting)
@@ -443,28 +445,12 @@ void Simon::updateAnimId()
 RECT Simon::getBoundingBox()
 {
 	// do more get bbox here
-	float width, height;
-
-	if (currentState == SimonState::sitting ||
-		(currentState == SimonState::jumping) ||
-		currentState == SimonState::hittingWhenSitting ||
-		currentState == SimonState::throwingWhenSitting
-	)
-	{
-		width = SIM_SIT_W;
-		height = SIM_SIT_H;
-	}
-	else
-	{
-		width = SIM_MOVE_W;
-		height = SIM_MOVE_H;
-	}
-
-	return {static_cast<LONG>(x), static_cast<LONG>(y), static_cast<LONG>(x + width), static_cast<LONG>(y + height)};
+	return GameObject::getBoundingBox(-1,-1);
 }
 
 void Simon::initAnim()
 {
 	addAnimation(ANIM_IDLE, "simon_stand_ani");
 	addAnimation(ANIM_WALK, "simon_walk_ani");
+	addAnimation(ANIM_SIT, "simon_sit_ani");
 }

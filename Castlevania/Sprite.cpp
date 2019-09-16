@@ -10,12 +10,12 @@ Sprite::Sprite(std::string id, int left, int top, int right, int bottom, int box
 	this->right = right;
 	this->bottom = bottom;
 	this->texture = texture;
-	this->bbox = { left,top,right,bottom };
+	this->bbox = { boxleft,boxtop,boxright,boxbottom };
 }
 
 void Sprite::draw(int nx, float x, float y, int alpha)
 {
 	if (!this || !texture) return;
 	auto game = Game::getInstance();
-	game->draw(-nx, x, y, texture, getSpriteRect(), bbox, alpha);
+	game->draw(nx, x, y, texture, getSpriteRect(), bbox, alpha);
 }

@@ -26,6 +26,7 @@ public:
 	void remove(GameObject* gameObject);
 	void removeObjectFromList(GameObject* gameObject, vector<GameObject*>& container);
 
+	bool renderBoundingBox;
 private:
 	Simon* simon{};
 	int mapId;

@@ -152,6 +152,7 @@
     <ClInclude Include="CollisionEffect.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnvConst.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Constants.h" />
