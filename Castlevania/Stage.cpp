@@ -29,14 +29,22 @@ void Stage::render()
 			bound->renderBoundingBox();
 		}
 	}
+
+	simon->render();
 }
 
 void Stage::update(DWORD dt)
 {
+	simon->update(dt,&listBoundary);
 }
 
 void Stage::loadContent()
 {
+	// simon is special one load in game;
+	simon = new Simon();
+	simon->setPosition(0, 0);
+	simon->setState(SimonState::idle);
+
 	loadObjectFromFiles();
 }
 
@@ -81,14 +89,17 @@ void Stage::loadObjectFromFiles()
 
 void Stage::onKeyDown(int keyCode)
 {
+	simon->handleOnKeyDown(keyCode);
 }
 
 void Stage::onKeyUp(int keyCode)
 {
+	simon->handleOnKeyRelease(keyCode);
 }
 
 void Stage::keyState(BYTE* states)
 {
+	simon->handleOnKeyPress(states);
 }
 
 void Stage::updateCamera(DWORD dt) const

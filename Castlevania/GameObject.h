@@ -16,6 +16,7 @@ typedef GameObject* LPGAMEOBJECT;
 enum GameObjectType {
 	simon = 1000,
 	brick = 1001,
+	boundary = 0,
 	coObject = 1002,
 	canHitObject=1003, // just display and not collision with simon
 	item = 1004

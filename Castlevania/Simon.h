@@ -49,9 +49,9 @@ public:
 	
 	// Inherited via GameObject
 	void setState(int state);
-	void update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = nullptr, 
-		vector<LPGAMEOBJECT>* canHitObjects=nullptr) ;
+	void update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = nullptr) ;
 	void processCollisionWithGround(float minTy, float ny);
+	void processCollisionWithBoundaryByX(float minTx, float ny);
 	void checkCollision(DWORD dt, vector<LPGAMEOBJECT> *coObject);
 	//void processCollisionWithItem(Item* item);
 
@@ -61,4 +61,5 @@ public:
 	void initAnim() override;
 	RECT getBoundingBox() override;
 };
+
 

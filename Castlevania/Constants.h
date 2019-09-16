@@ -22,7 +22,7 @@ constexpr auto HEADER_HEIGHT = 80;
 // Orientation
 constexpr auto  DIR_LEFT = -1;
 constexpr auto  DIR_RIGHT = 1;
-constexpr auto MAIN_TEXTURE_TRANS_COLOR = D3DCOLOR_XRGB(255, 255, 255);
+constexpr auto MAIN_TEXTURE_TRANS_COLOR = D3DCOLOR_XRGB(255, 0, 255);
 constexpr auto  TILEMAP_TRANSPARENT_COLOR = D3DCOLOR_XRGB(5, 5, 5);
 constexpr auto  BOUND_BBOX_COLOR = D3DCOLOR_XRGB(255, 163, 177);
 
@@ -134,8 +134,8 @@ constexpr auto ANIMATION_BRICK_IDLE = 201;
  * simon animation constants
  */
 constexpr auto ANIM_SIM_WALKING_R = 101;
-constexpr auto ANIM_SIM_WALKING_L = 111;
-constexpr auto ANIM_SIM_IDLE_R = 102;
+constexpr auto ANIM_WALK = 1;
+constexpr auto ANIM_IDLE = 0;
 constexpr auto ANIM_SIM_IDLE_L = 112;
 constexpr auto ANIM_SIM_SITTING_R = 103;
 constexpr auto ANIM_SIM_SITTING_L = 113;

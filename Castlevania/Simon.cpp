@@ -9,7 +9,7 @@ Simon::Simon()
 	isInGround = false;
 	isReleaseSitButton = true;
 	Simon::initAnim();
-	animationId = ANIM_SIM_IDLE_R;
+	animationId = ANIM_IDLE;
 }
 
 Simon::~Simon()
@@ -22,15 +22,17 @@ void Simon::setState(int state)
 
 void Simon::handleOnKeyRelease(int KeyCode)
 {
-	if (KeyCode == DIK_DOWN) {
+	if (KeyCode == DIK_DOWN)
+	{
 		isReleaseSitButton = true;
-		if (isInGround && !isHitting && !isThrowing) {
+		if (isInGround && !isHitting && !isThrowing)
+		{
 			standUp();
 		}
 	}
 }
 
-void Simon::handleOnKeyPress(BYTE * states)
+void Simon::handleOnKeyPress(BYTE* states)
 {
 	auto game = Game::getInstance();
 
@@ -38,20 +40,25 @@ void Simon::handleOnKeyPress(BYTE * states)
 	if (currentState == SimonState::sitting) return;
 	if (currentState == SimonState::jumping) return;
 
-	if (game->isKeyDown(DIK_RIGHT)) {
+	if (game->isKeyDown(DIK_RIGHT))
+	{
 		move(FaceSide::right);
 	}
-	else if (game->isKeyDown(DIK_LEFT)) {
+	else if (game->isKeyDown(DIK_LEFT))
+	{
 		move(FaceSide::left);
 	}
-	else if (game->isKeyDown(DIK_DOWN)) {
-		if (isInGround) {
+	else if (game->isKeyDown(DIK_DOWN))
+	{
+		if (isInGround)
+		{
 			isReleaseSitButton = false;
 			sit();
 		}
 	}
 
-	else {
+	else
+	{
 		stand();
 	}
 }
@@ -60,16 +67,21 @@ void Simon::handleOnKeyDown(int keyCode)
 {
 	if (isHitting || isThrowing) return;
 
-	if (keyCode == DIK_SPACE) {
-		if (previousState != SimonState::jumping&& isInGround && !isHitting) {
+	if (keyCode == DIK_SPACE)
+	{
+		if (previousState != SimonState::jumping && isInGround && !isHitting)
+		{
 			jump();
 		}
 	}
-	else if (keyCode == DIK_LCONTROL) {
-		if (!isReleaseSitButton) {
+	else if (keyCode == DIK_LCONTROL)
+	{
+		if (!isReleaseSitButton)
+		{
 			hitWhenSitting();
 		}
-		else {
+		else
+		{
 			hit();
 		}
 	}
@@ -84,7 +96,7 @@ void Simon::handleOnKeyDown(int keyCode)
 		if (isInGround
 			&& currentState != SimonState::sitting
 			&& currentState != SimonState::jumping
-			)
+		)
 		{
 			isReleaseSitButton = false;
 			sit();
@@ -147,7 +159,7 @@ void Simon::throwing()
 {
 	// if (!subWeapon) return;
 	// if (subWeapon->getState() == SubWeaponState::active) return;
-//	vx = 0;
+	//	vx = 0;
 	// vy = 0;
 	// isThrowing = true;
 	// setState(SimonState::throwing);
@@ -165,16 +177,16 @@ void Simon::throwingWhenSitting()
 
 void Simon::throwSubWeapon()
 {
-/*	if (!subWeapon) return;
-	if (subWeapon->getState() == SubWeaponState::active) return;
+	/*	if (!subWeapon) return;
+		if (subWeapon->getState() == SubWeaponState::active) return;
 
-	subWeapon->setSide(faceSide);
-	const auto subX = faceSide == FaceSide::left ? x - SIM_HIT_W + 10 : x + SIM_HIT_W - 10;
-	const auto subY = y + 16;
+		subWeapon->setSide(faceSide);
+		const auto subX = faceSide == FaceSide::left ? x - SIM_HIT_W + 10 : x + SIM_HIT_W - 10;
+		const auto subY = y + 16;
 
-	subWeapon->setPosition(subX, subY);
-subWeapon->setState(SubWeaponState::active);
-	*/
+		subWeapon->setPosition(subX, subY);
+	subWeapon->setState(SubWeaponState::active);
+		*/
 }
 
 void Simon::beginFight()
@@ -187,22 +199,21 @@ void Simon::resetState()
 	isThrowing = false;
 }
 
-void Simon::update(DWORD dt, vector<LPGAMEOBJECT>* coObjects,
-	vector<LPGAMEOBJECT>* canHitObjects)
+void Simon::update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	GameObject::update(dt);
-	return;
-	whip->update(dt, x, y, canHitObjects);
+	//whip->update(dt, x, y, canHitObjects);
 	// if (subWeapon) subWeapon->update(dt, canHitObjects);
 
 	checkCollision(dt, coObjects);
 	auto newPositionX = x + dx;
-	if (newPositionX >= 0 && newPositionX + SIM_MOVE_W <= boundingGameX) {
+	if (newPositionX >= 0 && newPositionX + SIM_MOVE_W <= boundingGameX)
+	{
 		x = newPositionX;
 	}
 	updateAnimId();
 	// simple fall down
-	if(!isInGround) vy += dt * SIMON_GRAVITY;
+	if (!isInGround) vy += dt * SIMON_GRAVITY;
 }
 
 
@@ -215,14 +226,16 @@ void Simon::checkCollision(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	calcPotentialCollisions(coObjects, coEvents);
 
 	// no collison
-	if (coEvents.empty()) {
+	if (coEvents.empty())
+	{
 		// case simon is so close the candle when hit
 		for (auto& coObject : *coObjects)
 		{
 			if (coObject->getType() == GameObjectType::item)
 			{
-				auto coBox=coObject->getBoundingBox();
-				if (isColliding(getBoundingBox(),coBox)) {
+				auto coBox = coObject->getBoundingBox();
+				if (isColliding(getBoundingBox(), coBox))
+				{
 					{
 						//processCollisionWithItem(dynamic_cast<Item*> (coObject));
 					}
@@ -231,7 +244,8 @@ void Simon::checkCollision(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		y += dy;
 	}
-	else {
+	else
+	{
 		float minTx;
 		float minTy;
 		float nx = 0;
@@ -241,19 +255,27 @@ void Simon::checkCollision(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (auto& i : coEventsResult)
 		{
 			const auto object = (i->obj);
-		/*	if (object->getType() == GameObjectType::item)
+			const auto boundary = dynamic_cast<Boundary*>(object);
+			// process when colis by nx
+			if (nx)
 			{
-				processCollisionWithItem(dynamic_cast<Item*> (object));
+				if (boundary) processCollisionWithBoundaryByX(minTx,ny);
 			}
-			else */if (object->getType() == GameObjectType::brick)
+			else if (ny)
 			{
-				processCollisionWithGround(minTy, ny);
+				if (boundary)
+					processCollisionWithGround(minTy, ny);
 			}
 			else
 			{
 				y += minTy * dy + ny * 0.4f;
 				x += minTx * dx + nx * 0.4;
 			}
+			/*	if (object->getType() == GameObjectType::item)
+				{
+					processCollisionWithItem(dynamic_cast<Item*> (object));
+				}
+				*/
 		}
 	}
 
@@ -277,7 +299,8 @@ void Simon::processCollisionWithGround(float minTy, float ny)
 {
 	y += minTy * dy + ny * 0.4f;
 
-	if (ny != 0) {
+	if (ny != 0)
+	{
 		vy = 0;
 		isInGround = true;
 		if (currentState == SimonState::jumping)
@@ -286,91 +309,102 @@ void Simon::processCollisionWithGround(float minTy, float ny)
 }
 
 
+void Simon::processCollisionWithBoundaryByX(float minTx, float ny)
+{
+}
+
 void Simon::render()
 {
-	return;
-	if (isHitting) {
+	/*if (isHitting) {
 		whip->setSide(faceSide);
 		whip->render();
-	}
+	}*/
 	// if (subWeapon)
 	// {
-		// subWeapon->render();
+	// subWeapon->render();
 	// }
-	animations[animationId]->render(faceSide,x, y);
+	animations[animationId]->render(faceSide, x, y);
 	previousAmiId = animationId;
 }
 
 void Simon::updateAnimId()
 {
-
-	if (currentState == SimonState::walking) {
-		animationId = faceSide == FaceSide::left
-			? ANIM_SIM_WALKING_L
-			: ANIM_SIM_WALKING_L;
+	if (currentState == SimonState::walking)
+	{
+		animationId = ANIM_WALK;
 	}
-	else if (currentState == SimonState::sitting) {
-		if (isReleaseSitButton) {
+	else if (currentState == SimonState::sitting)
+	{
+		if (isReleaseSitButton)
+		{
 			standUp();
 		}
 		animationId = faceSide == FaceSide::left
-			? ANIM_SIM_SITTING_L
-			: ANIM_SIM_SITTING_L;
+			              ? ANIM_SIM_SITTING_L
+			              : ANIM_SIM_SITTING_L;
 	}
-	else if (currentState == SimonState::jumping) {
+	else if (currentState == SimonState::jumping)
+	{
 		if (vy > 0.15)
 		{
 			animationId = faceSide == FaceSide::left
-				? ANIM_SIM_IDLE_L
-				: ANIM_SIM_IDLE_L;
+				              ? ANIM_SIM_IDLE_L
+				              : ANIM_SIM_IDLE_L;
 		}
 		else
 		{
 			animationId = faceSide == FaceSide::left
-				? ANIM_SIM_SITTING_L
-				: ANIM_SIM_SITTING_L;
+				              ? ANIM_SIM_SITTING_L
+				              : ANIM_SIM_SITTING_L;
 		}
 	}
-	else if (currentState == SimonState::hitting) {
+	else if (currentState == SimonState::hitting)
+	{
 		// set hitting anim
 		animationId = faceSide == FaceSide::left
-			? ANIM_SIM_HITTING_L
-			: ANIM_SIM_HITTING_L;
+			              ? ANIM_SIM_HITTING_L
+			              : ANIM_SIM_HITTING_L;
 		// check and process if animation hitting is done
-		if (animations[animationId]) {
-			if (animations[animationId]->isDone()) {
+		if (animations[animationId])
+		{
+			if (animations[animationId]->isDone())
+			{
 				whip->refreshAnim();
 				animations[animationId]->refresh();
 				stand();
 				animationId = faceSide == FaceSide::left
-					? ANIM_SIM_IDLE_L
-					: ANIM_SIM_IDLE_L;
+					              ? ANIM_SIM_IDLE_L
+					              : ANIM_SIM_IDLE_L;
 			}
 		}
 	}
-	else if (currentState == SimonState::hittingWhenSitting) {
+	else if (currentState == SimonState::hittingWhenSitting)
+	{
 		animationId = faceSide == FaceSide::left
-			? ANIM_SIM_HIT_WHEN_SITTING_L
-			: ANIM_SIM_HIT_WHEN_SITTING_L;
-		if (animations[animationId]) {
+			              ? ANIM_SIM_HIT_WHEN_SITTING_L
+			              : ANIM_SIM_HIT_WHEN_SITTING_L;
+		if (animations[animationId])
+		{
 			const auto frame = animations[animationId]->getFrame();
-			if (animations[animationId]->isDone()) {
+			if (animations[animationId]->isDone())
+			{
 				whip->refreshAnim();
 				isHitting = false;
 				setState(SimonState::sitting);
 				animations[animationId]->refresh();
 				animationId = faceSide == FaceSide::left
-					? ANIM_SIM_IDLE_L
-					: ANIM_SIM_IDLE_L;
+					              ? ANIM_SIM_IDLE_L
+					              : ANIM_SIM_IDLE_L;
 			}
 		}
 	}
 	else if (currentState == SimonState::throwing)
 	{
 		animationId = faceSide == FaceSide::left
-			? ANIM_SIM_HITTING_L
-			: ANIM_SIM_HITTING_R;
-		if (animations[animationId]) {
+			              ? ANIM_SIM_HITTING_L
+			              : ANIM_SIM_HITTING_R;
+		if (animations[animationId])
+		{
 			const auto frame = animations[animationId]->getFrame();
 			if (frame == 2) throwSubWeapon();
 			else if (animations[animationId]->isDone())
@@ -383,9 +417,10 @@ void Simon::updateAnimId()
 	else if (currentState == SimonState::throwingWhenSitting)
 	{
 		animationId = faceSide == FaceSide::left
-			? ANIM_SIM_HIT_WHEN_SITTING_L
-			: ANIM_SIM_HIT_WHEN_SITTING_R;
-		if (animations[animationId]) {
+			              ? ANIM_SIM_HIT_WHEN_SITTING_L
+			              : ANIM_SIM_HIT_WHEN_SITTING_R;
+		if (animations[animationId])
+		{
 			const auto frame = animations[animationId]->getFrame();
 			if (frame == 2) throwSubWeapon();
 			else if (animations[animationId]->isDone())
@@ -394,17 +429,17 @@ void Simon::updateAnimId()
 				setState(SimonState::sitting);
 				isThrowing = false;
 				animationId = faceSide == FaceSide::left
-					? ANIM_SIM_IDLE_L
-					: ANIM_SIM_IDLE_R;
+					              ? ANIM_SIM_IDLE_L
+					              : ANIM_IDLE;
 			}
 		}
 	}
-	else {
-		animationId = faceSide == FaceSide::left
-			? ANIM_SIM_IDLE_L
-			: ANIM_SIM_IDLE_R;
+	else
+	{
+		animationId = ANIM_IDLE;
 	}
 }
+
 RECT Simon::getBoundingBox()
 {
 	// do more get bbox here
@@ -414,11 +449,13 @@ RECT Simon::getBoundingBox()
 		(currentState == SimonState::jumping) ||
 		currentState == SimonState::hittingWhenSitting ||
 		currentState == SimonState::throwingWhenSitting
-		) {
+	)
+	{
 		width = SIM_SIT_W;
 		height = SIM_SIT_H;
 	}
-	else {
+	else
+	{
 		width = SIM_MOVE_W;
 		height = SIM_MOVE_H;
 	}
@@ -428,4 +465,6 @@ RECT Simon::getBoundingBox()
 
 void Simon::initAnim()
 {
+	addAnimation(ANIM_IDLE, "simon_stand_ani");
+	addAnimation(ANIM_WALK, "simon_walk_ani");
 }

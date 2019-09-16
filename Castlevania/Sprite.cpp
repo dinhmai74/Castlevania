@@ -17,5 +17,5 @@ void Sprite::draw(int nx, float x, float y, int alpha)
 {
 	if (!this || !texture) return;
 	auto game = Game::getInstance();
-	game->draw(nx, x, y, texture, getSpriteRect(), bbox, alpha);
+	game->draw(-nx, x, y, texture, getSpriteRect(), bbox, alpha);
 }
