@@ -148,6 +148,7 @@
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="Boundary.h" />
+    <ClInclude Include="Box.h" />
     <ClInclude Include="BurnEffect.h" />
     <ClInclude Include="CollisionEffect.h" />
     <ClInclude Include="debug.h" />
@@ -157,6 +158,8 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemConst.h" />
     <ClInclude Include="KeyboardHandler.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="resource.h" />

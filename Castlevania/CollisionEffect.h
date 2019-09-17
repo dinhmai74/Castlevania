@@ -9,7 +9,7 @@ public:
 	void render() override;
 	void initAnim() override;
 
-	virtual RECT getBoundingBox() override;
+	virtual Box getBoundingBox() override;
 
 };
 

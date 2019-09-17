@@ -62,11 +62,11 @@ void Whip::refreshAnim()
 	if (animations[lv]) animations[lv]->refresh();
 }
 
-RECT Whip::getBoundingBox()
+Box Whip::getBoundingBox()
 {
 	if (currentState != STATE_WHIP_HITTING) return { 0,0,0,0, };
 
-	LONG left, top, right, bottom;
+	float left, top, right, bottom;
 	top = y + 15;
 	bottom = top + WHIP_BBOX_HEIGHT;
 	if (faceSide == FaceSide::left)

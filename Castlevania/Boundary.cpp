@@ -9,7 +9,7 @@ void Boundary::render()
 {
 }
 
-RECT Boundary::getBoundingBox()
+Box Boundary::getBoundingBox()
 {
-	return {static_cast<LONG>(x), static_cast<LONG>(y), static_cast<LONG>(x + width), static_cast<LONG>(y + height)};
+	return { x,y,x + width,y + height};
 }

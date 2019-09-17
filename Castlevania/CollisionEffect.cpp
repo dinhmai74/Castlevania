@@ -15,7 +15,7 @@ void CollisionEffect::render()
 {
 }
 
-RECT CollisionEffect::getBoundingBox()
+Box CollisionEffect::getBoundingBox()
 {
 	return GameObject::getBoundingBox(30, 30);
 }

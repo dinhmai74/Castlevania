@@ -54,7 +54,9 @@ inquirer.prompt(questions).then(answers => {
 	const l = Number(answers["left"]) || 0;
 	const t = Number(answers["top"]) || 0;
 	const name = answers["name"] || "default_sprites";
-	const animName = answers["animName"] || "default";
+	let animName = answers["animName"] || "default";
+	let animName += "_anim";
+
 	const duration = Number(answers["duration"]) || 100;
 	calData(name, animName, { num, l, t, w, h, duration });
 });

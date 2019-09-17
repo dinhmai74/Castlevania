@@ -1,7 +1,7 @@
 #include "Sprite.h"
 
 
-Sprite::Sprite(std::string id, int left, int top, int right, int bottom, int boxleft, int boxtop, int boxright, int boxbottom,
+Sprite::Sprite(std::string id, float left, float top, float right, float bottom, float boxleft, float boxtop, float boxright, float boxbottom,
 	LPDIRECT3DTEXTURE9 texture)
 {
 	this->id = id;

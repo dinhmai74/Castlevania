@@ -7,68 +7,67 @@ Unit::Unit(Grid* grid, LPGAMEOBJECT obj, float x, float y)
 	this->x = x;
 	this->y = y;
 
-	this->prev = NULL;
-	this->next = NULL;
+	this->prev = nullptr;
+	this->next = nullptr;
 
-	grid->Add(this);
+	grid->add(this);
 }
 
-void Unit::Move(float x, float y)
+void Unit::move(float x, float y)
 {
-	grid->Move(this, x, y);
+	grid->move(this, x, y);
 }
 
-Grid::Grid(int map_width, int map_height, int cell_width, int cell_height)
+Grid::Grid(int mapWidth, int mapHeight, int cellWidth, int cellHeight)
 {
-	this->mapWidth = map_width;
-	this->mapHeight = map_height;
+	this->mapWidth = mapWidth;
+	this->mapHeight = mapHeight;
 
-	this->cellWidth = cell_width;
-	this->cellHeight = cell_height;
+	this->cellWidth = cellWidth;
+	this->cellHeight = cellHeight;
 
-	numsCol = map_width / cell_width;
-	numsRow = map_height / cell_height;
+	totalCols = mapWidth / cellWidth;
+	totalRows = mapHeight/ cellHeight;
 
-	cells.resize(numsRow);
+	cells.resize(totalRows);
 
-	for (int i = 0; i < numsRow; i++)
-		cells[i].resize(numsCol);
+	for (auto i = 0; i < totalRows; i++)
+		cells[i].resize(totalCols);
 
-	for (int i = 0; i < numsRow; i++)
-		for (int j = 0; j < numsCol; j++)
-			cells[i][j] = NULL;
+	for (auto i = 0; i < totalRows; i++)
+		for (auto j = 0; j < totalCols; j++)
+			cells[i][j] = nullptr;
 }
 
 Grid::~Grid()
 {
 }
 
-void Grid::Add(Unit* unit)
+void Grid::add(Unit* unit)
 {
-	int row = (int)(unit->y / cellHeight);
-	int col = (int)(unit->x / cellWidth);
+	// dua vao x,y -> calculate row and and unit in
+	const auto row = static_cast<int>(unit->y / cellHeight);
+	const auto col = static_cast<int>(unit->x / cellWidth);
 
 	// thêm vào đầu cell - add head
-	unit->prev = NULL;
-	unit->next = cells[row][col];
+	unit->prev = nullptr;
+	unit->next = cells[col][row];
 	cells[row][col] = unit;
 
-	if (unit->next != NULL)
+	if (unit->next != nullptr)
 		unit->next->prev = unit;
 }
 
-void Grid::Move(Unit* unit, float x, float y)
+void Grid::move(Unit* unit, float x, float y)
 {
-	// lấy chỉ số cell cũ
-	int old_row = (int)(unit->y / cellHeight);
-	int old_col = (int)(unit->x / cellWidth);
+	const auto oldRow = static_cast<int>(unit->y / cellHeight);
+	const auto oldCol = static_cast<int>(unit->x / cellWidth);
 
-	// lấy chỉ số cell mới
-	int new_row = (int)(y / cellHeight);
-	int new_col = (int)(x / cellWidth);
+	const auto newRow = static_cast<int>(y / cellHeight);
+	const auto newCol = static_cast<int>(x / cellWidth);
 
 	// nếu object ra khỏi vùng viewport -> không cần cập nhật
-	if (new_row < 0 || new_row >= numsRow || new_col < 0 || new_col >= numsCol)
+	if (newRow < 0 || newRow >= totalRows || newCol < 0 || newCol >= totalCols)
 		return;
 
 	// cập nhật toạ độ mới
@@ -76,43 +75,37 @@ void Grid::Move(Unit* unit, float x, float y)
 	unit->y = y;
 
 	// cell không thay đổi
-	if (old_row == new_row && old_col == new_col)
+	if (oldRow == newRow && oldCol == newCol)
 		return;
 
 	// huỷ liên kết với cell cũ
-	if (unit->prev != NULL)
-	{
+	if (unit->prev != nullptr)
 		unit->prev->next = unit->next;
-	}
 
-	if (unit->next != NULL)
-	{
+	if (unit->next != nullptr)
 		unit->next->prev = unit->prev;
-	}
 
-	if (cells[old_row][old_col] == unit)
-	{
-		cells[old_row][old_col] = unit->next;
-	}
+	if (cells[oldRow][oldCol] == unit)
+		cells[oldRow][oldCol] = unit->next;
 
 	// thêm vào cell mới
-	Add(unit);
+	add(unit);
 }
 
-void Grid::Get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
+void Grid::get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
 {
-	int start_col = (int)(camPosition.x / cellWidth);
-	int end_col = ceil((camPosition.x + SCREEN_WIDTH) / cellWidth);
+	const auto startCol = static_cast<int>(camPosition.x / cellWidth);
+	const int endCol = ceil((camPosition.x + SCREEN_WIDTH) / cellWidth);
 
-	for (int i = 0; i < numsRow; i++)
+	for (auto i = 0; i < totalRows; i++)
 	{
-		for (int j = start_col; j < end_col; j++)
+		for (int j = startCol; j < endCol; j++)
 		{
-			Unit* unit = cells[i][j];
+			auto unit = cells[i][j];
 
-			while (unit != NULL)
+			while (unit != nullptr)
 			{
-				if (unit->GetObj()->IsEnable() == true)
+				if (unit->get()->IsEnable())
 					listUnits.push_back(unit);
 
 				unit = unit->next;
@@ -120,27 +113,4 @@ void Grid::Get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
 		}
 	}
 }
-
-void Grid::Out()
-{
-	for (int i = 0; i < numsRow; i++)
-	{
-		for (int j = 0; j < numsCol; j++)
-		{
-			int c = 0;
-			Unit* unit = cells[i][j];
-
-			while (unit)
-			{
-				c++;
-				unit = unit->next;
-			}
-
-			DebugOut(L"%d\t", c);
-		}
-
-		DebugOut(L"\n");
-	}
-}
-
 

@@ -25,7 +25,7 @@ public:
 	void setItemContain(int item);
 	void initAnim() override;
 
-	virtual RECT getBoundingBox() override;
+	virtual Box getBoundingBox() override;
 
 };
 

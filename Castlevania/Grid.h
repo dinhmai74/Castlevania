@@ -22,8 +22,8 @@ private:
 public:
 	Unit(Grid* grid, GameObject* obj, float x, float y);
 
-	void Move(float x, float y);
-	auto GetObj() { return this->obj; }
+	void move(float x, float y);
+	auto get() { return this->obj; }
 };
 
 class Grid
@@ -34,19 +34,18 @@ class Grid
 	int cellWidth;
 	int cellHeight;
 
-	int numsCol;
-	int numsRow;
+	int totalCols;
+	int totalRows;
 
 	vector<vector<Unit*>> cells;
 
 public:
-	Grid(int map_width, int map_height, int cell_width = DEFAULT_CELL_WIDTH, int cell_height = DEFAULT_CELL_HEIGHT);
+	Grid(int mapWidth, int mapHeight, int cellWidth = DEFAULT_CELL_WIDTH, int cellHeight = DEFAULT_CELL_HEIGHT);
 	~Grid();
 
-	void Add(Unit* unit);
-	void Move(Unit* unit, float x, float y); // x, y là toạ độ mới của unit, vì vậy lúc này x, y của unit lưu vị trí cũ
-	void Get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits); // lấy tất cả các Unit* nằm trong vùng viewport để Update và Render
+	void add(Unit* unit);
+	void move(Unit* unit, float x, float y); // x, y là toạ độ mới của unit, vì vậy lúc này x, y của unit lưu vị trí cũ
+	void get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits); // lấy tất cả các Unit* nằm trong vùng viewport để Update và Render
 
-	void Out();
 };
 

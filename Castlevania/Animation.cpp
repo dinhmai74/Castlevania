@@ -39,7 +39,7 @@ bool Animation::isDone()
 }
 
 
-RECT Animation::getFrameRect()
+Box Animation::getFrameSprite()
 {
 
 	if (currentFrame == -1)
@@ -48,7 +48,7 @@ RECT Animation::getFrameRect()
 	return frames[currentFrame]->getSprite()->getSpriteRect();
 }
 
-RECT Animation::getFrameBBoxRect()
+Box Animation::getFrameBoundingBox()
 {
 	if (currentFrame == -1)
 		return frames[0]->getSprite()->getBbox();

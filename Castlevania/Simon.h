@@ -28,6 +28,9 @@ class Simon :
 	bool isInGround;
 public:
 	Simon();
+
+	void init();
+
 	~Simon();
 
 	void handleOnKeyPress(BYTE *states);
@@ -59,11 +62,9 @@ public:
 	void updateAnimId();
 
 	void initAnim() override;
-	RECT getBoundingBox() override;
+	Box getBoundingBox() override;
 	void renderBoundingBox() override;
 	void upgradeWhipLv(bool up=true);
-private:
-	void updatePosWhenNotCollide();
 };
 
 

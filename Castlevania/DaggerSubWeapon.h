@@ -17,7 +17,7 @@ public:
 	void update(DWORD dt, vector<GameObject*>* coObjects) override;
 	void initAnim() override;
 
-	virtual RECT getBoundingBox() override;
+	virtual Box getBoundingBox() override;
 
 };
 

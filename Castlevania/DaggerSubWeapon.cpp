@@ -56,7 +56,7 @@ void DaggerSubWeapon::render()
 	animations[animationId]->render(faceSide,x, y);
 }
 
-RECT DaggerSubWeapon::getBoundingBox()
+Box DaggerSubWeapon::getBoundingBox()
 {
 	return GameObject::getBoundingBox(DAGGER_W, DAGGER_H);
 }

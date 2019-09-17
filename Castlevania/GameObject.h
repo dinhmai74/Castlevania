@@ -18,7 +18,7 @@ enum GameObjectType {
 	brick = 1001,
 	boundary = 0,
 	coObject = 1002,
-	canHitObject=1003, // just display and not collision with simon
+	canHitObject = 1003, // just display and not collision with simon
 	item = 1004
 };
 
@@ -31,6 +31,8 @@ protected:
 	float x;
 	float y;
 	float dx;	// dx = vx*dt
+	D3DXVECTOR2 initPos;
+	float gravity;
 	float dy;	// dy = vy*dt
 	float vx;
 	float vy;
@@ -56,8 +58,8 @@ public:
 
 	virtual ~GameObject();
 
-	virtual void initAnim()=0;
-	virtual void render() = 0;
+	virtual void initAnim() = 0;
+	virtual void render();
 
 	void setType(int type) { this->type = type; }
 	void setId(int id) { this->id = id; }
@@ -73,43 +75,52 @@ public:
 	int getType() const { return type; }
 	int getPreviousState() const { return previousState; }
 	int getState() const { return currentState; }
-	void getSpeed(float &vx, float &vy) const
+	void getSpeed(float& vx, float& vy) const
 	{
 		vx = this->vx; vy = this->vy;
 	}
-	void getPosition(float &x, float &y) const
+	void getPosition(float& x, float& y) const
 	{
 		x = this->x;
 		y = this->y;
 	}
+
+	D3DXVECTOR2 getPosition() { return{ x,y }; }
 
 	virtual void renderBoundingBox();
 
 	void addAnimation(int id, string animTexId);
 
 	LPCollisionEvent sweptAABBEx(LPGAMEOBJECT coO);
-	void calcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCollisionEvent> & coEvents);
+	void calcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCollisionEvent>& coEvents);
 	void filterCollision(
-		vector<LPCollisionEvent> &coEvents,
-		vector<LPCollisionEvent> &coEventsResult,
-		float &minTx,
-		float &minTy,
-		float &nx,
-		float &ny);
+		vector<LPCollisionEvent>& coEvents,
+		vector<LPCollisionEvent>& coEventsResult,
+		float& minTx,
+		float& minTy,
+		float& nx,
+		float& ny);
 
-	virtual void update(DWORD dt, vector<GameObject*> *coObjects = nullptr);
+	virtual void update(DWORD dt, vector<GameObject*>* coObjects = nullptr);
+	void updateGravity(float gravity);
+	void updatePosWhenNotCollide();
+	void updatePosInTheMomentCollide(float minTx, float minTy, float nx,
+		float ny);
+	void checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* coObjects);
 
-	RECT getBoundingBoxBaseOnFile();
-	RECT getBoundingBoxBaseOnFileAndPassWidth(float width);
-	virtual RECT getBoundingBox(float width, float height);
-	virtual RECT getBoundingBox() = 0;
+	Box getBoundingBoxBaseOnFile();
+	Box getBoundingBoxBaseOnFileAndPassWidth(float width);
+	virtual Box getBoundingBox(float width, float height);
+	virtual Box getBoundingBox() = 0;
 	bool IsInActive() const { return isInActive; }
 	void setIsInActive(bool val) { isInActive = val; }
 	bool IsEnable() const { return isEnable; }
-	void SetEnable(bool val=true) { isEnable = val; }
+	void setEnable(bool val = true) { isEnable = val; }
+	D3DXVECTOR2 getInitPos() const { return initPos; }
+	void setInitPos(D3DXVECTOR2 val) { initPos = val; }
 };
 
-inline RECT GameObject::getBoundingBox(float width, float height)
+inline Box GameObject::getBoundingBox(float width, float height)
 {	// return width height default by file;
 	if (width == -1 && height == -1) return getBoundingBoxBaseOnFile();
 	// return if set width height get bounding box
@@ -123,7 +134,7 @@ inline RECT GameObject::getBoundingBox(float width, float height)
 	const auto r = l + width;
 	const auto t = y + boxHeight / 2 - height / 2;
 	const auto b = t + height;
-	return {static_cast<LONG>(l), static_cast<LONG>(t), static_cast<LONG>(r), static_cast<LONG>(b)};
+	return { l,t,r,b };
 }
 
 struct CollisionEvent
@@ -135,7 +146,7 @@ struct CollisionEvent
 		this->t = t; this->nx = nx; this->ny = ny; this->obj = obj;
 	}
 
-	static bool compare(const LPCollisionEvent &a, LPCollisionEvent &b)
+	static bool compare(const LPCollisionEvent& a, LPCollisionEvent& b)
 	{
 		return a->t < b->t;
 	}

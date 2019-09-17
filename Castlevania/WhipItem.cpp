@@ -20,7 +20,7 @@ void WhipItem::render()
 	}
 }
 
-RECT WhipItem::getBoundingBox()
+Box WhipItem::getBoundingBox()
 {
 	return GameObject::getBoundingBox(WHIP_ITEM_W, WHIP_ITEM_H);
 }

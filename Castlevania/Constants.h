@@ -4,6 +4,8 @@
 #include "WhipConst.h"
 #include "TileConst.h"
 #include "EnvConst.h"
+#include "ItemConst.h"
+#include "Box.h"
 #include <d3d9.h>
 #include <d3dx9.h>
 using namespace std;

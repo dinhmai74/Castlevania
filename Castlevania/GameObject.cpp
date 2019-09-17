@@ -1,10 +1,11 @@
-#include "GameObject.h"
+﻿#include "GameObject.h"
 #include <algorithm>
 
 
 GameObject::GameObject()
 {
 	x = y = 0;
+	initPos = { 0,0 };
 	vx = vy = 0;
 	faceSide = FaceSide::right; // right side
 	previousAmiId = -1;
@@ -12,11 +13,16 @@ GameObject::GameObject()
 	boundingGameX = 0;
 	boundingGameY = 0;
 	currentState = State::normal;
+	gravity = 0;
 }
 
 GameObject::~GameObject()
 {
 	if (texture != nullptr) texture->Release();
+}
+
+void GameObject::render()
+{
 }
 
 
@@ -26,7 +32,7 @@ void GameObject::renderBoundingBox()
 	auto game = Game::getInstance();
 	const auto rect = getBoundingBox();
 
-	game->draw(faceSide,rect.left, rect.top,texture,rect, rect, 40);
+	game->draw(faceSide, rect.left, rect.top, texture, rect, rect, 140);
 }
 
 void GameObject::addAnimation(int id, string animTexId)
@@ -40,7 +46,7 @@ LPCollisionEvent GameObject::sweptAABBEx(LPGAMEOBJECT coO)
 {
 	float t, nx, ny;
 
-	auto coBox=coO->getBoundingBox();
+	auto coBox = coO->getBoundingBox();
 
 	// deal with moving object: m speed = original m speed - collide object speed
 	float svx, svy;
@@ -52,7 +58,7 @@ LPCollisionEvent GameObject::sweptAABBEx(LPGAMEOBJECT coO)
 	float dx = this->dx - sdx;
 	float dy = this->dy - sdy;
 
-	auto obBox=getBoundingBox();
+	auto obBox = getBoundingBox();
 
 	sweptAABB(
 		obBox,
@@ -71,12 +77,12 @@ LPCollisionEvent GameObject::sweptAABBEx(LPGAMEOBJECT coO)
 	coObjects: the list of colliable objects
 	coEvents: list of potential collisions
 */
-	void GameObject::calcPotentialCollisions
+void GameObject::calcPotentialCollisions
 (vector<LPGAMEOBJECT>* coObjects, vector<LPCollisionEvent>& coEvents)
 {
-	for (auto& coObject : *coObjects)
+	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		LPCollisionEvent e = sweptAABBEx(coObject);
+		auto e = sweptAABBEx(coObjects->at(i));
 
 		if (e->t > 0 && e->t <= 1.0f)
 			coEvents.push_back(e);
@@ -90,7 +96,7 @@ LPCollisionEvent GameObject::sweptAABBEx(LPGAMEOBJECT coO)
 void GameObject::filterCollision
 (vector<LPCollisionEvent>& coEvents,
 	vector<LPCollisionEvent>& coEventsResult,
-	float & min_tx, float & min_ty, float & nx, float & ny)
+	float& min_tx, float& min_ty, float& nx, float& ny)
 {
 	min_tx = 1.0f;
 	min_ty = 1.0f;
@@ -110,7 +116,7 @@ void GameObject::filterCollision
 			min_tx = c->t; nx = c->nx; min_ix = i;
 		}
 
-		if (c->t < min_ty  && c->ny != 0) {
+		if (c->t < min_ty && c->ny != 0) {
 			min_ty = c->t; ny = c->ny; min_iy = i;
 		}
 	}
@@ -120,25 +126,78 @@ void GameObject::filterCollision
 }
 
 
-void GameObject::update(const DWORD dt, vector<GameObject*> *coObject)
+void GameObject::update(const DWORD dt, vector<GameObject*>* coObject)
 {
 	this->dt = dt;
 	dx = vx * dt;
 	dy = vy * dt;
 }
 
-RECT GameObject::getBoundingBoxBaseOnFile()
+
+
+
+void GameObject::checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* coObjects)
 {
-	LONG r, l;
-	if (!animations[animationId]) return {static_cast<LONG>(x), static_cast<LONG>(y),1,1 };
-	auto spriteFrame = animations[animationId]->getFrameRect();
-	auto spriteBoundary = animations[animationId]->getFrameBBoxRect();
+	vector<LPCollisionEvent> coEvents;
+	vector<LPCollisionEvent> coEventsResult;
+	coEvents.clear();
+
+	calcPotentialCollisions(coObjects, coEvents);
+	// no collison
+	if (coEvents.empty())
+		updatePosWhenNotCollide();
+	else
+	{
+		float minTx;
+		float minTy;
+		float nx = 0;
+		float ny;
+		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
+		updatePosInTheMomentCollide(minTx, minTy, nx, ny);
+
+		if (ny == -1.0f)
+		{
+			// nếu va chạm với đất set vy=0 để đỡ bug va chạm. 
+			// k set vy=0 ( có lúc rớt xuống trùng với đất nhanh quá sweepAABB k xét va chạm)
+			vy = 0;
+		}
+	}
+
+	for (auto& coEvent : coEvents) delete coEvent;
+}
+
+void GameObject::updatePosWhenNotCollide()
+{
+	x += dx;
+	y += dy;
+	updateGravity(gravity);
+}
+
+void GameObject::updateGravity(float gravity)
+{
+	vy += gravity * dt;
+	this->gravity = gravity;
+}
+
+void GameObject::updatePosInTheMomentCollide(float minTx, float minTy, float nx, float ny)
+{
+	x += minTx * dx + nx * 0.4f;
+	y += minTy * dy + ny * 0.4f;
+}
+
+
+Box GameObject::getBoundingBoxBaseOnFile()
+{
+	float r, l;
+	if (!animations[animationId]) return{ x,y,1,1 };
+	auto spriteFrame = animations[animationId]->getFrameSprite();
+	auto spriteBoundary = animations[animationId]->getFrameBoundingBox();
 
 	// spriteFrame is usually larger than the spriteBoundary so we need to take account of the offset
 	auto offset_x = spriteBoundary.left - spriteFrame.left;
 	auto offset_y = spriteBoundary.top - spriteFrame.top;
 
-	if (faceSide== FaceSide::right)
+	if (faceSide == FaceSide::right)
 	{
 		r = x + (spriteFrame.right - spriteFrame.left) - offset_x;
 		l = r - (spriteBoundary.right - spriteBoundary.left);
@@ -154,16 +213,16 @@ RECT GameObject::getBoundingBoxBaseOnFile()
 
 	// neu truyen width vao tinh left right o giua enemy
 
-	return {static_cast<LONG>(l), static_cast<LONG>(t), static_cast<LONG>(r), static_cast<LONG>(b)};
+	return { l,t,r,b };
 }
 
-RECT GameObject::getBoundingBoxBaseOnFileAndPassWidth(float width)
+Box GameObject::getBoundingBoxBaseOnFileAndPassWidth(float width)
 {
 	const auto box = getBoundingBoxBaseOnFile();
 	const auto bboxWidth = box.right - box.left;
 	const auto l = x + bboxWidth / 2 - width / 2;
 	const auto r = l + width;
-	return {static_cast<LONG>(l), box.top, static_cast<LONG>(r), box.bottom };
+	return { (l), box.top, (r), box.bottom };
 }
 
 

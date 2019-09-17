@@ -7,7 +7,7 @@ bool isColliding(float bl, float bt, float br, float bb, float sl, float st, flo
 	return !(br < sl || bl > sr || bb < st || bt > sb);
 }
 
-bool isColliding(const RECT box1, const RECT box2)
+bool isColliding(const Box box1, const Box box2)
 {
 	return isColliding(box1.left, box1.top, box1.right, box1.bottom, box2.left, box2.top, box2.right, box2.bottom);
 }
@@ -120,7 +120,7 @@ void sweptAABB(
 	}
 }
 
-void sweptAABB(RECT movingBox, RECT staticBox, float dx, float dy, float& t, float& nx, float& ny)
+void sweptAABB(Box movingBox, Box staticBox, float dx, float dy, float& t, float& nx, float& ny)
 {
 	return sweptAABB(movingBox.left, movingBox.top, movingBox.right, movingBox.bottom,
 	                 staticBox.left, staticBox.top, staticBox.right, staticBox.bottom,

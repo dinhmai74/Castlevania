@@ -198,14 +198,13 @@ void LoadSprites(int id, wstring texName, D3DCOLOR transparentColor = MAIN_TEXTU
 	// Load sprite data
 
 	string spriteid;
-	int left, top, right, bottom;
-	int boxleft, boxtop, boxright, boxbottom;
+	float left, top, right, bottom;
+	float boxleft, boxtop, boxright, boxbottom;
 
 	while (spriteReader >> spriteid >> left >> top >> right >> bottom >> boxleft >> boxtop >> boxright >> boxbottom)
 	{
 		spriteManager->add(spriteid, left, top, right, bottom, boxleft, boxtop, boxright, boxbottom, texture);
 	}
-
 
 	spriteReader.close();
 
@@ -237,8 +236,9 @@ void LoadSprites(int id, wstring texName, D3DCOLOR transparentColor = MAIN_TEXTU
 void loadResources()
 {
 	textureManager->add(ID_TEX_BBOX, L"textures\\Bbox.png");
-	LoadSprites(0, L"simon");
-	LoadSprites(1, L"whip");
+	LoadSprites(1000, L"simon");
+	LoadSprites(1001, L"whip");
+	LoadSprites(1002, L"Items");
 	vector<TileMapInfo> mapName;
 	//SpriteManager::getInstance()->add("tile", 0, 0, 1536, 320, 0, 0, 1536, 320,  textureManager->get(ID_SCENE_1));
 	mapName.push_back({ ID_SCENE_1,L"Scene1",1536,320,32,32 });

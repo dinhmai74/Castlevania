@@ -66,7 +66,7 @@ void BigCandle::initAnim()
 	addAnimation(ANIM_BIG_CANDLE_IDLE);
 }
 
-RECT BigCandle::getBoundingBox()
+Box BigCandle::getBoundingBox()
 {
 	return GameObject::getBoundingBox(BIG_CANDLE_WIDTH, BIG_CANDLE_HEIGHT);
 }

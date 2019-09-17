@@ -18,7 +18,7 @@ public:
 	void upgradeWhipLv(bool up=true);
 	void initAnim() override;
 
-	virtual RECT getBoundingBox() override;
+	virtual Box getBoundingBox() override;
 	void updatePos(float simonX, float simonY, int simonState);
 	void update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT>* coObject, int simonState);
 };

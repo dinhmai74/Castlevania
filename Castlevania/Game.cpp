@@ -44,45 +44,48 @@ void Game::init(HWND hWnd)
 
 	OutputDebugString(L"[INFO] InitGame done;\n");
 
-	xCamera=0;
-	yCamera=0;
+	xCamera = 0;
+	yCamera = 0;
 }
 
-void Game::draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, RECT frameRect, RECT boundaryRect, int alpha)
+void Game::draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect, int alpha)
 {
 	if (!texture || !spriteHandler)
 	{
 		DebugOut(L"[INFO]sprite has problem!\n");
+		return;
 	};
-	if (spriteHandler && texture)
-	{
-		// calculation position of object in game
-		D3DXVECTOR3 p(floor(x - xCamera), floor(y - yCamera), 0);
+	// calculation position of object in game
+	D3DXVECTOR3 p(floor(x - xCamera), floor(y - yCamera), 0);
 
-		// flip sprite, using nx parameter
-		D3DXMATRIX oldTransform;
-		D3DXMATRIX newTransform;
+	// flip sprite, using nx parameter
+	D3DXMATRIX oldTransform;
+	D3DXMATRIX newTransform;
 
-		spriteHandler->GetTransform(&oldTransform);
+	spriteHandler->GetTransform(&oldTransform);
 
-		D3DXVECTOR2 center;
-		D3DXVECTOR2 rotate = D3DXVECTOR2(-nx, 1);
+	D3DXVECTOR2 center;
+	D3DXVECTOR2 rotate = D3DXVECTOR2(-nx, 1);
 
-		center.x = p.x + (boundaryRect.left - frameRect.left) + (boundaryRect.right - boundaryRect.left) / 2;
-		center.y = p.y + (boundaryRect.top - frameRect.top) + (boundaryRect.bottom - boundaryRect.top) / 2;
+	RECT convertFrameRect;
+	convertFrameRect.top = frameRect.top;
+	convertFrameRect.right = frameRect.right;
+	convertFrameRect.left = frameRect.left;
+	convertFrameRect.bottom = frameRect.bottom;
 
-		// Xây dựng một ma trận 2D lưu thông tin biến đổi (scale, rotate)
-		D3DXMatrixTransformation2D(&newTransform, &center, 0.0f, &rotate, NULL, 0.0f, NULL);
+	center.x = p.x + (boundaryRect.left - frameRect.left) + (boundaryRect.right - boundaryRect.left) / 2;
+	center.y = p.y + (boundaryRect.top - frameRect.top) + (boundaryRect.bottom - boundaryRect.top) / 2;
 
-		// Cần nhân với ma trận cũ để tính ma trận biến đổi cuối cùng
-		D3DXMATRIX finalTransform = newTransform * oldTransform;
-		spriteHandler->SetTransform(&finalTransform);
+	// Xây dựng một ma trận 2D lưu thông tin biến đổi (scale, rotate)
+	D3DXMatrixTransformation2D(&newTransform, &center, 0.0f, &rotate, NULL, 0.0f, NULL);
 
-		spriteHandler->Draw(texture, &frameRect, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	// Cần nhân với ma trận cũ để tính ma trận biến đổi cuối cùng
+	D3DXMATRIX finalTransform = newTransform * oldTransform;
+	spriteHandler->SetTransform(&finalTransform);
 
-		spriteHandler->SetTransform(&oldTransform);
-	}
+	spriteHandler->Draw(texture, &convertFrameRect, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 
+	spriteHandler->SetTransform(&oldTransform);
 }
 
 void Game::processKeyboard()
@@ -114,7 +117,7 @@ void Game::processKeyboard()
 			return;
 		}
 	}
-	if (keyHandler != nullptr) keyHandler->KeyState((BYTE *)&keyStates);
+	if (keyHandler != nullptr) keyHandler->KeyState((BYTE*)& keyStates);
 	// Collect all buffered events
 	DWORD dwElements = KEYBOARD_BUFFER_SIZE;
 	hr = didv->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), keyEvents, &dwElements, 0);
@@ -138,11 +141,11 @@ void Game::processKeyboard()
 
 void Game::setCameraPosition(float x, float y)
 {
-	xCamera=x;
-	yCamera=y;
+	xCamera = x;
+	yCamera = y;
 }
 
-void Game::getCameraPosition(float & x, float & y)
+void Game::getCameraPosition(float& x, float& y)
 {
 	x = xCamera;
 	y = yCamera;
@@ -158,14 +161,14 @@ int Game::isKeyUp(int keyCode)
 	return (keyStates[keyCode] & 0x80) > 0;
 }
 
-void Game::initKeyboard(KeyboardHandler * handler)
+void Game::initKeyboard(KeyboardHandler* handler)
 {
 	HRESULT
 		hr = DirectInput8Create
 		(
 		(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
 			DIRECTINPUT_VERSION,
-			IID_IDirectInput8, (VOID**)&di, NULL
+			IID_IDirectInput8, (VOID * *)& di, NULL
 		);
 
 	if (hr != DI_OK)

@@ -17,7 +17,7 @@ void BurnEffect::render()
 }
 
 
-RECT BurnEffect::getBoundingBox()
+Box BurnEffect::getBoundingBox()
 {
 	return GameObject::getBoundingBox(10, 10);
 }

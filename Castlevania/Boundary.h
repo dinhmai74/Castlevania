@@ -11,7 +11,7 @@ public:
 
 	void initAnim() override;
 	void render() override;
-	RECT getBoundingBox() override;
+	Box getBoundingBox() override;
 private:
 	float width;
 	float height;

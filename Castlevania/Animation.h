@@ -34,6 +34,6 @@ public:
 	bool isDone();
 	void setAniStartTime(DWORD t) { animStartTime = t; }
 	bool isOver(DWORD dt) const { return GetTickCount() - animStartTime >= dt; }
-	RECT getFrameRect();
-	RECT getFrameBBoxRect();
+	Box getFrameSprite();
+	Box getFrameBoundingBox();
 };

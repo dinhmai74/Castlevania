@@ -9,6 +9,7 @@
 
 
 #include "KeyboardHandler.h"
+#include "Box.h"
 
 #define KEYBOARD_BUFFER_SIZE 1024
 #define DIRECTINPUT_VERSION 0x0800
@@ -49,7 +50,7 @@ private:
 
 public:
 	void init(HWND hWnd);
-	void draw(int nx,float x, float y, LPDIRECT3DTEXTURE9 texture, RECT frameRect, RECT boundaryRect,int alpha);
+	void draw(int nx,float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect,int alpha);
 
 	static Game * getInstance() {
 		if (instance == NULL) instance = new Game();

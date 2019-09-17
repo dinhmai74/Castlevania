@@ -32,7 +32,6 @@ void TileMap::loadResources()
 			idSprite = idSprite + 1;
 		}
 	}
-
 }
 
 
@@ -75,33 +74,30 @@ void TileMap::loadMap()
 
 void TileMap::draw()
 {
-	D3DXVECTOR2 camPosition={0,0};
+	D3DXVECTOR2 camPosition = {0, 0};
 	Game::getInstance()->getCameraPosition(camPosition.x, camPosition.y);
 
 
-	int start_row_to_draw = (int)camPosition.y / tileHeight;
-	int end_row_to_draw = start_row_to_draw + SCREEN_HEIGHT / tileHeight;
+	int startRowToDraw = (int)camPosition.y / tileHeight;
+	int endRowToDraw = startRowToDraw + SCREEN_HEIGHT / tileHeight;
 
-	int start_col_to_draw = (int)camPosition.x / tileWidth;
-	int end_col_to_draw = start_col_to_draw + SCREEN_WIDTH / tileWidth;
+	int startColToDraw = (int)camPosition.x / tileWidth;
+	int endColToDraw = startColToDraw + SCREEN_WIDTH / tileWidth;
 
 	// Xử lí giới hạn
-	if (end_row_to_draw >= totalRow)
-		end_row_to_draw = totalRow- 1;
+	if (endRowToDraw >= totalRow) endRowToDraw = totalRow - 1;
+	if (endColToDraw >= totalCol) endColToDraw = totalCol - 1;
 
-	if (end_col_to_draw >= totalCol)
-		end_col_to_draw = totalCol- 1;
-
-	for (UINT i = start_row_to_draw; i <= end_row_to_draw; i++)
+	for (UINT i = startRowToDraw; i <= endRowToDraw; i++)
 	{
-		for (UINT j = start_col_to_draw; j <= end_col_to_draw; j++)
+		for (UINT j = startColToDraw; j <= endColToDraw; j++)
 		{
 			// +camPosition.x để luôn giữ camera ở chính giữa, vì trong hàm Game::Draw() có trừ cho camPosition.x làm các object đều di chuyển theo
 			// +(int)camPosition.x % 32 để giữ cho camera chuyển động mượt
-			float x = tileWidth * (j - start_col_to_draw) + camPosition.x - (int)camPosition.x % tileWidth;
-			float y = tileHeight * (i - start_row_to_draw) + camPosition.y - (int)camPosition.y % tileHeight;
+			const auto x = tileWidth * (j - startColToDraw) + camPosition.x - (int)camPosition.x % tileWidth;
+			const auto y = tileHeight * (i - startRowToDraw) + camPosition.y - (int)camPosition.y % tileHeight;
 
-			matrix[i][j]->draw(1, x, y +HEADER_HEIGHT);
+			matrix[i][j]->draw(1, x, y + HEADER_HEIGHT);
 		}
 	}
 }
@@ -112,7 +108,6 @@ TileMap::~TileMap()
 
 void TileMap::init()
 {
-
 	loadResources();
 	loadMap();
 }

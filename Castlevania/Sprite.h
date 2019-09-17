@@ -6,20 +6,20 @@ class Sprite
 {
 private:
 	std::string id;
-	int left;
-	int top;
-	int right;
-	int bottom;
+	float left;
+	float top;
+	float right;
+	float bottom;
 
-	RECT bbox;
+	Box bbox;
 
 	LPDIRECT3DTEXTURE9 texture;
 public:
-	Sprite(std::string id, int left, int top, int right, int bottom, int boxleft, int boxtop,
-	       int boxright, int boxbottom, LPDIRECT3DTEXTURE9 texture);
-	RECT getSpriteRect() const { return {left,top,right,bottom}; }
+	Sprite(std::string id, float left, float top, float right, float bottom, float boxleft, float boxtop,
+		float boxright, float boxbottom, LPDIRECT3DTEXTURE9 texture);
+	Box getSpriteRect() const { return {left,top,right,bottom}; }
 	void draw(int nx,float x,float y,int alpha=255);
-	RECT getBbox() const { return bbox; }
-	void setBbox(RECT val) { bbox = val; }
+	Box getBbox() const { return bbox; }
+	void setBbox(Box val) { bbox = val; }
 };
 

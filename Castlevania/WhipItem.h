@@ -14,7 +14,7 @@ public:
 	void update(DWORD dt, vector<LPGameObject>* bricks) override;
 	void render() override;
 
-	virtual RECT getBoundingBox() override;
+	virtual Box getBoundingBox() override;
 
 };
 

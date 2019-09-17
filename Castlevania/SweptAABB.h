@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include <windows.h>
+#include "Box.h"
+
 bool isColliding(float bl, float bt, float br, float bb, float sl, float st, float sr, float sb);
-bool isColliding(RECT box1, RECT box2);
+bool isColliding(Box box1, Box box2);
 
 void sweptAABB(
 	float ml,			// move left 
@@ -14,4 +15,4 @@ void sweptAABB(
 	float sb,
 	float dx, float dy, // distance in delta time can move
 	float &t, float &nx, float &ny); // time,nx,ny  collide
-void sweptAABB(RECT movingBox, RECT staticBox, float dx, float dy, float& t, float& nx, float& ny);
+void sweptAABB(Box movingBox, Box staticBox, float dx, float dy, float& t, float& nx, float& ny);
