@@ -1,17 +1,12 @@
 #include "Stage.h"
-#include <utility>
-#include "TileMapManager.h"
-#include "Item.h"
 #include "ItemFactory.h"
-#include "CandleFactory.h"
 
 Stage::Stage()
 {
 }
 
 Stage::~Stage()
-{
-}
+= default;
 
 void Stage::init(int mapId, wstring mapName)
 {
@@ -28,8 +23,21 @@ void Stage::loadContent()
 	// simon is special one load in game;
 	simon = new Simon();
 	simon->setState(State::idle);
+	initSimonPos();
 
 	loadObjectFromFiles();
+}
+
+void Stage::initSimonPos()
+{
+	auto game = Game::getInstance();
+	switch (mapId)
+	{
+	case ID_SCENE_1:
+		game->setCameraPosition(0, 0);
+		simon->setPosition(10, 280);
+		break;
+	}
 }
 
 void Stage::loadObjectFromFiles()
@@ -45,46 +53,42 @@ void Stage::loadObjectFromFiles()
 	}
 
 	int id;
-	float posX, posY;
+	float x, y;
 
 	// read all file
 	while (!fs.eof())
 	{
 		// read line
-		fs >> id >> posX >> posY;
+		fs >> id >> x >> y;
 		switch (id)
 		{
 			// boundary
 		case boundary:
-		{
-			float width, height;
-			fs >> width >> height;
-			auto boundary = new Boundary(width, height);
-			boundary->setPosition(posX, posY);
-			boundary->setEnable();
-			listBoundary.push_back(boundary);
-			break;
-		}
+			{
+				float width, height;
+				fs >> width >> height;
+				auto boundary = new Boundary(width, height);
+				boundary->setPosition(x, y);
+				boundary->setEnable();
+				listBoundary.push_back(boundary);
+				break;
+			}
 		case item:
-		{
-			int type;
-			fs >> type;
-			auto item = ItemFactory::getItem(type);
-			item->setPosition(posX, posY);
-			item->setInitPos({ posX, posY });
-			auto unit = new Unit(grid, item, posX, posY);
-			break;
-		}
+			{
+				int type;
+				fs >> type;
+				auto item = ItemFactory::Get()->getItem(type, {x, y});
+				auto unit = new Unit(grid, item, x, y);
+				break;
+			}
 		case candle:
-		{
-			int type;
-			fs >> type;
-			auto item = CandleFactory::getCandle(type);
-			item->setPosition(posX, posY);
-			item->setInitPos({ posX, posY });
-			auto unit = new Unit(grid, item, posX, posY);
-			break;
-		}
+			{
+				int type, itemContainType ,itemNx;
+				fs >> type >> itemContainType>> itemNx;
+				const auto candle = CandleFactory::Get()->getCandle(type, itemContainType,itemNx, {x, y}, grid);
+				auto unit = new Unit(grid, candle, x, y);
+				break;
+			}
 
 		default: break;
 		}
@@ -124,9 +128,9 @@ void Stage::update(DWORD dt)
 vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 {
 	vector<MapGameObjects> map;
-	map.push_back({ boundary, &listBoundary });
-	map.push_back({ item, &listItems });
-	map.push_back({ canHitObjs, &listCanHitObjects});
+	map.push_back({boundary, &listBoundary});
+	map.push_back({item, &listItems});
+	map.push_back({canHitObjs, &listCanHitObjects});
 	return map;
 }
 
@@ -157,15 +161,15 @@ void Stage::loadListObjFromGrid()
 		listRenderObj.push_back(obj);
 
 		const auto item = dynamic_cast<Item*>(obj);
-		if (item) {
+		if (item)
+		{
 			listItems.push_back(item);
 			continue;
 		}
-		const auto candle= dynamic_cast<Candle*>(obj);
+		const auto candle = dynamic_cast<Candle*>(obj);
 
 		const auto canHitObject = candle;
 		if (canHitObject) listCanHitObjects.push_back(candle);
-
 	}
 }
 
@@ -200,7 +204,9 @@ void Stage::onKeyDown(const int keyCode)
 		this->renderBoundingBox = !this->renderBoundingBox;
 	else if (keyCode == DIK_U) simon->upgradeWhipLv();
 	else if (keyCode == DIK_D) simon->upgradeWhipLv(false);
-	else if (keyCode == DIK_R) init(mapId, mapName);
+	else if (keyCode == DIK_R) {
+		init(mapId, mapName);
+	}
 }
 
 void Stage::onKeyUp(const int keyCode) const

@@ -3,6 +3,10 @@
 #include "Simon.h"
 #include "Boundary.h"
 #include "Grid.h"
+#include <utility>
+#include "TileMapManager.h"
+#include "Item.h"
+#include "CandleFactory.h"
 
 
 class Stage
@@ -32,6 +36,7 @@ private:
 
 	void loadObjectFromFiles();
 	void loadContent();
+	void initSimonPos();
 	void loadListObjFromGrid();
 	void updateCamera(DWORD dt) const;
 	bool renderBoundingBox;

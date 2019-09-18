@@ -2,6 +2,7 @@
 #include "Candle.h"
 #include "BigCandle.h"
 #include "SmallCandle.h"
+#include "Grid.h"
 
 class CandleFactory
 {
@@ -11,26 +12,14 @@ public:
 	static CandleFactory* Get()
 	{
 		if (instance == nullptr)
-			instance = new CandleFactory;
+			instance = new CandleFactory();
 		return instance;
 	}
 
-	static Candle* getCandle(const int type, bool isEnable = true)
-	{
-		Candle* candle;
-		switch (type)
-		{
-		case bigCandle: candle = new BigCandle(); break;
-		case smallCandle: candle = new SmallCandle(); break;
-		default: candle = new Candle();
-		}
-		candle->setEnable(isEnable);
-		return candle;
-	}
+	static Candle* getCandle(const int type, const int itemType, const int itemNx, D3DXVECTOR2 pos, Grid* grid, bool isEnable = true);
 
 private:
 	CandleFactory() = default;
 	static CandleFactory* instance;
 };
 
-CandleFactory* CandleFactory::instance = nullptr;

@@ -66,6 +66,7 @@ int Grid::limitRange(int current, int total)
 {
 	if (current < 0) return 0;
 	if (current >= total) return total - 1;
+	return current;
 }
 
 void Grid::move(Unit* unit, float x, float y)

@@ -7,7 +7,7 @@ GameObject::GameObject()
 	x = y = 0;
 	initPos = { 0,0 };
 	vx = vy = 0;
-	faceSide = FaceSide::right; // right side
+	setFaceSide(FaceSide::right); // right side
 	previousAmiId = -1;
 	previousAnimIsOneTimeAnim = false;
 	boundingGameX = 0;

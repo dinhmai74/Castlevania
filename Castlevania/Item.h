@@ -25,11 +25,12 @@ inline void Item::initAnim()
 {
 	addAnimation(itemSmallHeart, "item_smallheart_ani");
 	addAnimation(itemWhip, "item_chain_ani");
+	addAnimation(itemDagger, "item_dagger_ani");
 }
 
 inline void Item::init()
 {
-	faceSide = FaceSide::right;
+	setFaceSide(FaceSide::right);
 	initAnim();
 }
 

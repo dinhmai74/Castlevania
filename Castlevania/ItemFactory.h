@@ -1,6 +1,8 @@
-﻿#include "Item.h"
+﻿#pragma once
+#include "Item.h"
 #include "ItemHeart.h"
 #include "ItemWhip.h"
+#include "ItemDagger.h"
 
 class ItemFactory
 {
@@ -10,23 +12,11 @@ public:
 	static ItemFactory* Get()
 	{
 		if (instance == nullptr)
-			instance = new ItemFactory;
+			instance = new ItemFactory();
 		return instance;
 	}
 
-	static Item* getItem(int type,bool isEnable=true)
-	{
-		Item* item;
-		switch (type)
-		{
-		case itemSmallHeart: item = new ItemHeart(); break;
-		case itemWhip: item = new ItemWhip(); break;
-		default: item = new Item();
-		}
-
-		item->setEnable(isEnable);
-		return item;
-	}
+	static Item* getItem(int type, D3DXVECTOR2 pos, bool isEnable = true);
 
 private:
 	ItemFactory() = default;
@@ -34,4 +24,3 @@ private:
 };
 
 
-ItemFactory* ItemFactory::instance = nullptr;

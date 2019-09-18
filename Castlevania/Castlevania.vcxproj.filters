@@ -93,14 +93,8 @@
     <ClCompile Include="Whip.cpp">
       <Filter>Source Files\Object</Filter>
     </ClCompile>
-    <ClCompile Include="BurnEffect.cpp">
-      <Filter>Source Files\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="SweptAABB.cpp">
       <Filter>Source Files\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionEffect.cpp">
-      <Filter>Source Files\Effect</Filter>
     </ClCompile>
     <ClCompile Include="TileMap.cpp">
       <Filter>Source Files\GameManager</Filter>
@@ -122,6 +116,12 @@
     </ClCompile>
     <ClCompile Include="Grid.cpp">
       <Filter>Source Files\GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="CandleFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemFactory.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -178,12 +178,6 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BurnEffect.h">
-      <Filter>Header Files\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionEffect.h">
-      <Filter>Header Files\Effect</Filter>
     </ClInclude>
     <ClInclude Include="TileMap.h">
       <Filter>Header Files\GameManager</Filter>
@@ -244,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="SmallCandle.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemDagger.h">
+      <Filter>Header Files\Object\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

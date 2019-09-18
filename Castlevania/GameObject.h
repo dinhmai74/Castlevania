@@ -109,6 +109,7 @@ public:
 	void setEnable(bool val = true) { isEnable = val; }
 	D3DXVECTOR2 getInitPos() const { return initPos; }
 	void setInitPos(D3DXVECTOR2 val) { initPos = val; }
+	void setFaceSide(int val) { faceSide = val; }
 };
 
 inline Box GameObject::getBoundingBox(float width, float height)

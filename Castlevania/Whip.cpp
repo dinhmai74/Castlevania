@@ -1,6 +1,7 @@
 #pragma once
 #include "Whip.h"
 #include "Simon.h"
+#include "Candle.h"
 
 
 Whip::Whip()
@@ -21,12 +22,15 @@ void Whip::checkEnemyCollisions(vector<LPGAMEOBJECT> coObjects)
 		if (isColliding(getBoundingBox(), coObject->getBoundingBox()))
 		{
 			coObject->setEnable(false);
+			auto candle= dynamic_cast<Candle*>(coObject);
+			candle->generateItem();
 		}
 	}
 }
 
 void Whip::render()
 {
+	renderBoundingBox();
 	animations[lv]->render(faceSide, x, y);
 
 	const auto frame = animations[lv]->getFrame();
@@ -53,7 +57,7 @@ void Whip::update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT>* co
 
 void Whip::setSide(int side)
 {
-	faceSide = side;
+	setFaceSide(side);
 }
 
 void Whip::refreshAnim()

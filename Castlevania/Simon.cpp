@@ -168,7 +168,7 @@ void Simon::processCollisionWithItem(Item* item) const
 	{
 		if (whip) whip->upgradeWhipLv();
 	}
-	else if (item->getItemType() == daggerItem)
+	else if (item->getItemType() == itemDagger)
 	{
 		// subWeapon = new DaggerSubWeapon();
 	}
@@ -288,7 +288,7 @@ void Simon::setState(int state)
 
 void Simon::move(int side)
 {
-	faceSide = side;
+	setFaceSide(side);
 	setState(walking);
 	vx = faceSide * SIMON_VX;
 }

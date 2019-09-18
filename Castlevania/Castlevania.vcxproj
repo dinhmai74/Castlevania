@@ -125,12 +125,12 @@
     <ClCompile Include="AnimationFrame.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
     <ClCompile Include="Boundary.cpp" />
-    <ClCompile Include="BurnEffect.cpp" />
-    <ClCompile Include="CollisionEffect.cpp" />
+    <ClCompile Include="CandleFactory.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="ItemFactory.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -150,10 +150,8 @@
     <ClInclude Include="BigCandle.h" />
     <ClInclude Include="Boundary.h" />
     <ClInclude Include="Box.h" />
-    <ClInclude Include="BurnEffect.h" />
     <ClInclude Include="Candle.h" />
     <ClInclude Include="CandleFactory.h" />
-    <ClInclude Include="CollisionEffect.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
@@ -161,6 +159,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemDagger.h" />
     <ClInclude Include="ItemFactory.h" />
     <ClInclude Include="ItemHeart.h" />
     <ClInclude Include="KeyboardHandler.h" />

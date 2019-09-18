@@ -1,7 +1,6 @@
+#pragma once
 #include"main.h"
-#include "BurnEffect.h"
 #include "StageManager.h"
-#include "BigCandle.h"
 #include "TileMapManager.h"
 
 Game* game;
