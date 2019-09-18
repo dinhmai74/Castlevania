@@ -66,9 +66,9 @@ Box Whip::getBoundingBox()
 {
 	if (currentState != STATE_WHIP_HITTING) return { 0,0,0,0, };
 
-	float left, top, right, bottom;
-	top = y + 15;
-	bottom = top + WHIP_BBOX_HEIGHT;
+	float left;
+	const auto top = y + 15;
+	const auto bottom = top + WHIP_BBOX_HEIGHT;
 	if (faceSide == FaceSide::left)
 	{
 		left = lv == 3 ? x+20: x + 55;
@@ -77,13 +77,13 @@ Box Whip::getBoundingBox()
 		left = lv == 3 ? (240 - 20) - LONG_CHAIN_BBOX_WIDTH + x : (240 - 50) - WHIP_BBOX_WIDTH + x;
 	}
 
-	right = lv == 3 ? left + LONG_CHAIN_BBOX_WIDTH : left + WHIP_BBOX_WIDTH;
+	const auto right = lv == 3 ? left + LONG_CHAIN_BBOX_WIDTH : left + WHIP_BBOX_WIDTH;
 	return { left,top,right,bottom };
 }
 
 void Whip::updatePos(float simonX, float simonY, int simonState)
 {
-	if (simonState == SimonState::hittingWhenSitting)
+	if (simonState == hittingWhenSitting)
 		simonY += 15;
 	setPosition(simonX - 90, simonY);
 }

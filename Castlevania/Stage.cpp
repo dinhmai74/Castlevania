@@ -27,7 +27,7 @@ void Stage::loadContent()
 {
 	// simon is special one load in game;
 	simon = new Simon();
-	simon->setState(SimonState::idle);
+	simon->setState(State::idle);
 
 	loadObjectFromFiles();
 }
