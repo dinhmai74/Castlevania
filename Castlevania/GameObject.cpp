@@ -225,4 +225,3 @@ Box GameObject::getBoundingBoxBaseOnFileAndPassWidth(float width)
 	return { (l), box.top, (r), box.bottom };
 }
 
-

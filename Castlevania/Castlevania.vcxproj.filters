@@ -123,9 +123,6 @@
     <ClCompile Include="Grid.cpp">
       <Filter>Source Files\GameManager</Filter>
     </ClCompile>
-    <ClCompile Include="BigCandle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -215,17 +212,11 @@
     <ClInclude Include="TileConst.h">
       <Filter>Header Files\Constants</Filter>
     </ClInclude>
-    <ClInclude Include="EnvConst.h">
-      <Filter>Header Files\Constants</Filter>
-    </ClInclude>
     <ClInclude Include="WhipConst.h">
       <Filter>Header Files\Constants</Filter>
     </ClInclude>
     <ClInclude Include="Grid.h">
       <Filter>Header Files\GameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemConst.h">
-      <Filter>Header Files\Constants</Filter>
     </ClInclude>
     <ClInclude Include="Box.h">
       <Filter>Header Files</Filter>
@@ -247,6 +238,12 @@
     </ClInclude>
     <ClInclude Include="ItemWhip.h">
       <Filter>Header Files\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CandleFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallCandle.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

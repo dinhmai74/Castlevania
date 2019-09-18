@@ -46,7 +46,6 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 
 {
 	GameObject::update(dt);
-	whip->update(dt, x, y, nullptr, currentState);
 	// if (subWeapon) subWeapon->update(dt, canHitObjects);
 
 	checkCollision(dt, maps);
@@ -62,10 +61,11 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 	{
 		switch (map.id)
 		{
-		case boundaries: checkCollisionWithBoundary(dt, map.objs);
+		case boundary: checkCollisionWithBoundary(dt, map.objs);
 			break;
-		case items: checkCollisionWithItems(dt, map.objs);
+		case item: checkCollisionWithItems(dt, map.objs);
 			break;
+		case canHitObjs: updateWeaponAction(dt, map.objs); break;
 		default: DebugOut(L"[WARNING] unknown obj to check collision with id %d!\n", map.id);
 		}
 	}
@@ -151,6 +151,11 @@ void Simon::checkCollisionWithItems(DWORD dt, vector<GameObject*>* items)
 	}
 
 	for (auto& coEvent : coEvents) delete coEvent;
+}
+
+void Simon::updateWeaponAction(DWORD dt, vector<GameObject*>* objs)
+{
+	whip->update(dt, x, y, objs, currentState);
 }
 
 void Simon::processCollisionWithItem(Item* item) const

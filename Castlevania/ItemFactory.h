@@ -14,15 +14,18 @@ public:
 		return instance;
 	}
 
-	static Item* getItem(int type)
+	static Item* getItem(int type,bool isEnable=true)
 	{
+		Item* item;
 		switch (type)
 		{
-		case itemSmallHeart: return new ItemHeart();
-		case itemWhip: return new ItemWhip();
-		default: ;
+		case itemSmallHeart: item = new ItemHeart(); break;
+		case itemWhip: item = new ItemWhip(); break;
+		default: item = new Item();
 		}
-		return nullptr;
+
+		item->setEnable(isEnable);
+		return item;
 	}
 
 private:

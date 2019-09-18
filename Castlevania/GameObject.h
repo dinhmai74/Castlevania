@@ -13,15 +13,6 @@ typedef CollisionEvent* LPCollisionEvent;
 class GameObject;
 typedef GameObject* LPGAMEOBJECT;
 
-enum GameObjectType {
-	simon = 1000,
-	brick = 1001,
-	boundary = 0,
-	coObject = 1002,
-	canHitObject = 1003, // just display and not collision with simon
-	item = 1004
-};
-
 class GameObject
 {
 protected:
@@ -111,7 +102,7 @@ public:
 	Box getBoundingBoxBaseOnFile();
 	Box getBoundingBoxBaseOnFileAndPassWidth(float width);
 	virtual Box getBoundingBox(float width, float height);
-	virtual Box getBoundingBox() = 0;
+	virtual Box getBoundingBox() { return getBoundingBox(-1, -1); };
 	bool IsInActive() const { return isInActive; }
 	void setIsInActive(bool val) { isInActive = val; }
 	bool IsEnable() const { return isEnable; }

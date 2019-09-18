@@ -58,6 +58,7 @@ private:
 	void processCollisionWithBoundaryByX(float minTx, float ny);
 	void checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries);
 	void checkCollisionWithItems(DWORD dt, vector<GameObject*>* items);
+	void updateWeaponAction(DWORD dt, vector<GameObject*>* objs);
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
 	void processCollisionWithItem(Item* item) const;
 };

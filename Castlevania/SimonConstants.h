@@ -32,7 +32,22 @@ constexpr auto SIMON_THROWING_TIME = 150;
 //trong luc luc roi
 constexpr auto SIMON_FALL = 180;
 //di binh thuong
-constexpr auto SIMON_VX = 0.17f;;
+constexpr auto SIMON_VX = 0.17f;
 //len xuong cau thang
 #define SIMON_VX_STAIR 43	
 #define SIMON_VY_STAIR 43
+
+
+/*
+ * simon animation constants
+ */
+constexpr auto ANIM_SIM_WALKING_R = 101;
+constexpr auto ANIM_WALK = 1;
+constexpr auto ANIM_IDLE = 0;
+constexpr auto ANIM_SIT = 113;
+constexpr auto ANIM_HITTING = 121;
+constexpr auto ANIM_HITTING_WHEN_SIT = 124;
+constexpr auto ANIM_SIM_THROW_L = 125;
+constexpr auto ANIM_SIM_THROW_R = 126;
+constexpr auto ANIM_SIM_THROW_WHEN_SIT_L = 127;
+constexpr auto ANIM_SIM_THROW_WHEN_SIT_R = 128;

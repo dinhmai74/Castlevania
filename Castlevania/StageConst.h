@@ -5,10 +5,12 @@ auto constexpr MAP_NAME_PREFIX= L"Scene";
 auto constexpr SCENE_PREFIX_PATH = L"Scenes\\";
 auto constexpr SCENE_OBJECTS_PATH = L"_objects.txt";
 
-enum MapObjectsId
+enum ObjectType
 {
-	boundaries,
-	items
+	boundary,
+	item,
+	candle,
+	canHitObjs,
 };
 
 #pragma region object id from file

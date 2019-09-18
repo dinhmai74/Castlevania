@@ -20,7 +20,7 @@ void Whip::checkEnemyCollisions(vector<LPGAMEOBJECT> coObjects)
 	{
 		if (isColliding(getBoundingBox(), coObject->getBoundingBox()))
 		{
-			coObject->setState(State::dead);
+			coObject->setEnable(false);
 		}
 	}
 }
@@ -28,7 +28,6 @@ void Whip::checkEnemyCollisions(vector<LPGAMEOBJECT> coObjects)
 void Whip::render()
 {
 	animations[lv]->render(faceSide, x, y);
-	renderBoundingBox();
 
 	const auto frame = animations[lv]->getFrame();
 
@@ -47,7 +46,7 @@ void Whip::update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT>* co
 	auto state = getState();
 	if (state == STATE_WHIP_HITTING)
 	{
-		//checkEnemyCollisions(*coObject);
+		checkEnemyCollisions(*coObject);
 	}
 
 }

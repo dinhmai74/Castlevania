@@ -26,6 +26,7 @@ private:
 	wstring mapName;
 	vector<GameObject*> listBoundary;
 	vector<GameObject*> listItems;
+	vector<GameObject*> listCanHitObjects;
 	vector<GameObject*> listRenderObj;
 	vector<Unit*> listUnit;
 

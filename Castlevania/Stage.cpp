@@ -3,6 +3,7 @@
 #include "TileMapManager.h"
 #include "Item.h"
 #include "ItemFactory.h"
+#include "CandleFactory.h"
 
 Stage::Stage()
 {
@@ -22,7 +23,6 @@ void Stage::init(int mapId, wstring mapName)
 	loadContent();
 }
 
-
 void Stage::loadContent()
 {
 	// simon is special one load in game;
@@ -31,7 +31,6 @@ void Stage::loadContent()
 
 	loadObjectFromFiles();
 }
-
 
 void Stage::loadObjectFromFiles()
 {
@@ -56,7 +55,7 @@ void Stage::loadObjectFromFiles()
 		switch (id)
 		{
 			// boundary
-		case BOUNDARY:
+		case boundary:
 		{
 			float width, height;
 			fs >> width >> height;
@@ -66,16 +65,27 @@ void Stage::loadObjectFromFiles()
 			listBoundary.push_back(boundary);
 			break;
 		}
-		case ITEM:
+		case item:
 		{
-			float type;
+			int type;
 			fs >> type;
 			auto item = ItemFactory::getItem(type);
 			item->setPosition(posX, posY);
 			item->setInitPos({ posX, posY });
-			item->setEnable();
 			auto unit = new Unit(grid, item, posX, posY);
+			break;
 		}
+		case candle:
+		{
+			int type;
+			fs >> type;
+			auto item = CandleFactory::getCandle(type);
+			item->setPosition(posX, posY);
+			item->setInitPos({ posX, posY });
+			auto unit = new Unit(grid, item, posX, posY);
+			break;
+		}
+
 		default: break;
 		}
 	}
@@ -97,12 +107,11 @@ void Stage::render()
 	simon->render();
 }
 
-
-
-
 void Stage::update(DWORD dt)
 {
-	auto map = getMapSimonCanCollisionObjects();
+	loadListObjFromGrid();
+
+	const auto map = getMapSimonCanCollisionObjects();
 	simon->update(dt, map);
 	for (auto staticObj : listRenderObj)
 	{
@@ -110,14 +119,14 @@ void Stage::update(DWORD dt)
 	}
 	updateCamera(dt);
 	updateGrid();
-	loadListObjFromGrid();
 }
 
 vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 {
 	vector<MapGameObjects> map;
 	map.push_back({ boundary, &listBoundary });
-	map.push_back({ items, &listItems });
+	map.push_back({ item, &listItems });
+	map.push_back({ canHitObjs, &listCanHitObjects});
 	return map;
 }
 
@@ -138,6 +147,7 @@ void Stage::loadListObjFromGrid()
 	listUnit.clear();
 	listRenderObj.clear();
 	listItems.clear();
+	listCanHitObjects.clear();
 	listRenderObj = listBoundary;
 	grid->get(Game::getInstance()->getCameraPosition(), listUnit);
 
@@ -147,7 +157,15 @@ void Stage::loadListObjFromGrid()
 		listRenderObj.push_back(obj);
 
 		const auto item = dynamic_cast<Item*>(obj);
-		if (item) listItems.push_back(item);
+		if (item) {
+			listItems.push_back(item);
+			continue;
+		}
+		const auto candle= dynamic_cast<Candle*>(obj);
+
+		const auto canHitObject = candle;
+		if (canHitObject) listCanHitObjects.push_back(candle);
+
 	}
 }
 
