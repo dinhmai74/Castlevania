@@ -5,7 +5,7 @@ constexpr auto SIMON_DEAD_TIME = 3000;
 
 
 //nhay
-constexpr auto SIMON_VJUMP = 0.35f;
+constexpr auto SIMON_VJUMP = 0.5f;
 // Simon's width when moving
 constexpr auto SIM_MOVE_W = 32;
 // Simon's width when moving

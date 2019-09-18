@@ -17,7 +17,7 @@ enum FaceSide {
 
 constexpr auto BRICK_2_SIZE = 32;
 constexpr auto LV1_GROUND_Y = 384;
-constexpr auto HEADER_HEIGHT = 80;
+constexpr auto HEADER_HEIGHT = 60;
 // Orientation
 constexpr auto  DIR_LEFT = -1;
 constexpr auto  DIR_RIGHT = 1;

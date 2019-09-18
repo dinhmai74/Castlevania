@@ -26,6 +26,7 @@ class TileMap
 	int totalRow;
 	int totalCol;
 	vector<vector<Sprite*>> matrix;
+	vector<vector<string>> stringMatrix;
 	SpriteManager * sprites;
 public:
 	TileMap(int id, LPCWSTR texPath, LPCWSTR dataPath, int mapWidth, int mapHeight, int tileWidth, int tileHeight)

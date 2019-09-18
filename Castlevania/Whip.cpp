@@ -69,12 +69,14 @@ Box Whip::getBoundingBox()
 	float left;
 	const auto top = y + 15;
 	const auto bottom = top + WHIP_BBOX_HEIGHT;
+	const auto normalXOffset = 50;
+	const auto longWhipXOffset = 20;
 	if (faceSide == FaceSide::left)
 	{
-		left = lv == 3 ? x+20: x + 55;
+		left = lv == 3 ? x + longWhipXOffset : x + normalXOffset;
 	}
 	else {
-		left = lv == 3 ? (240 - 20) - LONG_CHAIN_BBOX_WIDTH + x : (240 - 50) - WHIP_BBOX_WIDTH + x;
+		left = lv == 3 ? (240 - longWhipXOffset) - LONG_CHAIN_BBOX_WIDTH + x : (240 - normalXOffset) - WHIP_BBOX_WIDTH + x;
 	}
 
 	const auto right = lv == 3 ? left + LONG_CHAIN_BBOX_WIDTH : left + WHIP_BBOX_WIDTH;

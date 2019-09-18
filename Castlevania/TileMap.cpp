@@ -17,7 +17,7 @@ void TileMap::loadResources()
 
 
 	// thực hiện lưu danh sách các tile vô sprites theo thứ tự id_sprite
-	auto idSprite = 1;
+	auto idSprite = 0;
 
 	for (UINT i = 0; i < totalTextureRow; i++)
 	{
@@ -58,6 +58,7 @@ void TileMap::loadMap()
 
 		// Lưu sprite tile vào vector tilemap
 		vector<Sprite*> spriteline;
+		vector<string> stringLine;
 		stringstream ss(line);
 		int n;
 
@@ -65,8 +66,10 @@ void TileMap::loadMap()
 		{
 			string idTile = "map_" + to_string(id) + "_tile_" + to_string(n);
 			spriteline.push_back(sprites->get(idTile));
+			stringLine.push_back(idTile);
 		}
 		matrix.push_back(spriteline);
+		stringMatrix.push_back(stringLine);
 	}
 
 	fs.close();
@@ -97,7 +100,7 @@ void TileMap::draw()
 			const auto x = tileWidth * (j - startColToDraw) + camPosition.x - (int)camPosition.x % tileWidth;
 			const auto y = tileHeight * (i - startRowToDraw) + camPosition.y - (int)camPosition.y % tileHeight;
 
-			matrix[i][j]->draw(1, x, y + HEADER_HEIGHT);
+			sprites->get(stringMatrix[i][j])->draw(1, x, y + HEADER_HEIGHT);
 		}
 	}
 }
