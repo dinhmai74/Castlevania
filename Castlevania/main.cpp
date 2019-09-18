@@ -43,10 +43,10 @@ void SampleKeyHander::KeyState(BYTE* states)
 
 /// Create a window then display and running until exit message send
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-                   LPSTR lpCmdLine, int nCmdShow)
+	LPSTR lpCmdLine, int nCmdShow)
 {
 	HWND hWnd = createGameWindow(hInstance, nCmdShow,
-	                             SCREEN_WIDTH, SCREEN_HEIGHT);
+		SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	loadEnvVariables();
 	game = Game::getInstance();
@@ -57,7 +57,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	loadResources();
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,
-	             SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+		SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
 	run();
 
@@ -70,7 +70,7 @@ void loadEnvVariables()
 }
 
 HWND createGameWindow(HINSTANCE hInstance, int nCmdShow,
-                      int screenWidth, int screenHeight)
+	int screenWidth, int screenHeight)
 {
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);
@@ -239,12 +239,11 @@ void loadResources()
 	LoadSprites(1000, L"simon");
 	LoadSprites(1001, L"whip");
 	LoadSprites(1002, L"Items");
+	LoadSprites(1003, L"Candle");
 	vector<TileMapInfo> mapName;
-	//SpriteManager::getInstance()->add("tile", 0, 0, 1536, 320, 0, 0, 1536, 320,  textureManager->get(ID_SCENE_1));
 	mapName.push_back({ ID_SCENE_1,L"Scene1",1536,320,32,32 });
 	StageManager::getInstance()->init(mapName);
 }
-
 
 void update(DWORD dt)
 {

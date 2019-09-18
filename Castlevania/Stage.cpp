@@ -2,6 +2,7 @@
 #include <utility>
 #include "TileMapManager.h"
 #include "Item.h"
+#include "ItemFactory.h"
 
 Stage::Stage()
 {
@@ -69,7 +70,7 @@ void Stage::loadObjectFromFiles()
 		{
 			float type;
 			fs >> type;
-			auto item = new Item();
+			auto item = ItemFactory::getItem(type);
 			item->setPosition(posX, posY);
 			item->setInitPos({ posX, posY });
 			item->setEnable();
@@ -85,7 +86,6 @@ void Stage::loadObjectFromFiles()
 void Stage::render()
 {
 	TileMapManager::getInstance()->get(mapId)->draw();
-
 
 	for (auto object : listRenderObj)
 	{

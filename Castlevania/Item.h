@@ -21,13 +21,15 @@ private:
 	void initAnim() override;
 	void checkCollision(DWORD dt, vector<GameObject*>* boundary);
 };
+inline void Item::initAnim()
+{
+	addAnimation(itemSmallHeart, "item_smallheart_ani");
+	addAnimation(itemWhip, "item_chain_ani");
+}
 
 inline void Item::init()
 {
-	itemType = heartItem;
-	animationId = itemType;
 	faceSide = FaceSide::right;
-	gravity = 0.001f;
 	initAnim();
 }
 
@@ -50,10 +52,6 @@ inline void Item::update(DWORD dt, vector<GameObject*>* boundary)
 	checkCollision(dt, boundary);
 }
 
-inline void Item::initAnim()
-{
-	addAnimation(heartItem, "item_smallheart_ani");
-}
 
 inline void Item::setItemType(const int type)
 {

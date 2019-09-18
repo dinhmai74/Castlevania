@@ -27,7 +27,7 @@ Grid::Grid(int mapWidth, int mapHeight, int cellWidth, int cellHeight)
 	this->cellHeight = cellHeight;
 
 	totalCols = mapWidth / cellWidth;
-	totalRows = mapHeight/ cellHeight;
+	totalRows = mapHeight / cellHeight;
 
 	cells.resize(totalRows);
 
@@ -46,16 +46,26 @@ Grid::~Grid()
 void Grid::add(Unit* unit)
 {
 	// dua vao x,y -> calculate row and and unit in
-	const auto row = static_cast<int>(unit->y / cellHeight);
-	const auto col = static_cast<int>(unit->x / cellWidth);
+	auto row = static_cast<int>(unit->y / cellHeight);
+	auto col = static_cast<int>(unit->x / cellWidth);
+
+	// validate if the case out of range;
+	row = limitRange(row, totalRows);
+	col = limitRange(col, totalCols);
 
 	// thêm vào đầu cell - add head
 	unit->prev = nullptr;
-	unit->next = cells[col][row];
+	unit->next = cells[row][col];
 	cells[row][col] = unit;
 
 	if (unit->next != nullptr)
 		unit->next->prev = unit;
+}
+
+int Grid::limitRange(int current, int total)
+{
+	if (current < 0) return 0;
+	if (current >= total) return total - 1;
 }
 
 void Grid::move(Unit* unit, float x, float y)

@@ -1,19 +1,19 @@
 #pragma once
 #include "Item.h"
 
-class WhipItem :
+class ItemWhip :
 	public Item
 {
 public:
-	WhipItem();
-	~WhipItem() = default;
+	ItemWhip();
+	~ItemWhip() = default;
 
 };
 
-inline WhipItem::WhipItem()
+inline ItemWhip::ItemWhip()
 {
 	itemType = itemWhip;
-	gravity = 0.001f;
+	gravity = 0.001;
 	animationId = itemWhip;
 }
 

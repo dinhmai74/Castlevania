@@ -117,12 +117,17 @@ void Simon::checkCollisionWithItems(DWORD dt, vector<GameObject*>* items)
 
 	calcPotentialCollisions(items, coEvents);
 
-	// no collison
+	// no collison => check case inside
 	if (coEvents.empty())
 		for (auto& coObject : *items)
 		{
 			const auto item = dynamic_cast<Item*>(coObject);
-			if (item) processCollisionWithItem(item);
+			if (item)
+			{
+				auto coBox = item->getBoundingBox();
+				if (isColliding(getBoundingBox(), coBox))
+					processCollisionWithItem(item);
+			}
 		}
 	else
 	{
@@ -136,7 +141,12 @@ void Simon::checkCollisionWithItems(DWORD dt, vector<GameObject*>* items)
 		{
 			const auto object = (i->obj);
 			const auto item = dynamic_cast<Item*>(object);
-			if (item) processCollisionWithItem(item);
+			if (item)
+			{
+				auto coBox = item->getBoundingBox();
+				if (isColliding(getBoundingBox(), coBox))
+					processCollisionWithItem(item);
+			}
 		}
 	}
 
@@ -145,13 +155,13 @@ void Simon::checkCollisionWithItems(DWORD dt, vector<GameObject*>* items)
 
 void Simon::processCollisionWithItem(Item* item) const
 {
-	if (item->getItemType() == heartItem)
+	if (item->getItemType() == itemSmallHeart)
 	{
 		DebugOut(L"heart !\n ");
 	}
-	else if (item->getItemType() == whipItem)
+	else if (item->getItemType() == itemWhip)
 	{
-		if (whip)whip->upgradeWhipLv();
+		if (whip) whip->upgradeWhipLv();
 	}
 	else if (item->getItemType() == daggerItem)
 	{
@@ -452,7 +462,7 @@ void Simon::handleOnKeyDown(int keyCode)
 		if (isInGround
 			&& currentState != sitting
 			&& currentState != jumping
-		)
+			)
 		{
 			isReleaseSitButton = false;
 			sit();

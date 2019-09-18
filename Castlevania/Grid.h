@@ -44,6 +44,7 @@ public:
 	~Grid();
 
 	void add(Unit* unit);
+	int limitRange(int current, int total);
 	void move(Unit* unit, float x, float y); // x, y là toạ độ mới của unit, vì vậy lúc này x, y của unit lưu vị trí cũ
 	void get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits); // lấy tất cả các Unit* nằm trong vùng viewport để Update và Render
 
