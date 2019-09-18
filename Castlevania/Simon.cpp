@@ -29,7 +29,8 @@ void Simon::initAnim()
 
 void Simon::render()
 {
-	if (isHitting) {
+	if (isHitting)
+	{
 		whip->setSide(faceSide);
 		whip->render();
 	}
@@ -41,44 +42,46 @@ void Simon::render()
 	previousAmiId = animationId;
 }
 
-void Simon::update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
+
 {
 	GameObject::update(dt);
 	whip->update(dt, x, y, nullptr, currentState);
 	// if (subWeapon) subWeapon->update(dt, canHitObjects);
 
-	checkCollision(dt, coObjects);
+	checkCollision(dt, maps);
 	updateAnimId();
 	// simple fall down
 	updateGravity(gravity);
 }
 
-void Simon::checkCollision(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+
+void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
+{
+	for (auto map : maps)
+	{
+		switch (map.id)
+		{
+		case boundaries: checkCollisionWithBoundary(dt, map.objs);
+			break;
+		case items: checkCollisionWithItems(dt, map.objs);
+			break;
+		default: DebugOut(L"[WARNING] unknown obj to check collision with id %d!\n", map.id);
+		}
+	}
+}
+
+void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries)
 {
 	vector<LPCollisionEvent> coEvents;
 	vector<LPCollisionEvent> coEventsResult;
 	coEvents.clear();
 
-	calcPotentialCollisions(coObjects, coEvents);
+	calcPotentialCollisions(boundaries, coEvents);
 
 	// no collison
 	if (coEvents.empty())
 	{
-		// case simon is so close the candle when hit
-		for (auto& coObject : *coObjects)
-		{
-			if (coObject->getType() == GameObjectType::item)
-			{
-				auto coBox = coObject->getBoundingBox();
-				if (isColliding(getBoundingBox(), coBox))
-				{
-					{
-						//processCollisionWithItem(dynamic_cast<Item*> (coObject));
-					}
-				}
-			}
-		}
-
 		updatePosWhenNotCollide();
 	}
 	else
@@ -95,42 +98,71 @@ void Simon::checkCollision(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			const auto object = (i->obj);
 			const auto boundary = dynamic_cast<Boundary*>(object);
-			// process when colis by nx
+			if (!boundary) continue;
 			if (nx)
-			{
-				if (boundary) processCollisionWithBoundaryByX(minTx, ny);
-			}
+				processCollisionWithBoundaryByX(minTx, ny);
 			else if (ny)
-			{
-				if (boundary)
-					processCollisionWithGround(minTy, ny);
-			}
-			/*	if (object->getType() == GameObjectType::item)
-				{
-					processCollisionWithItem(dynamic_cast<Item*> (object));
-				}
-				*/
+				processCollisionWithGround(minTy, ny);
 		}
 	}
 
 	for (auto& coEvent : coEvents) delete coEvent;
 }
-//void Simon::processCollisionWithItem(Item* item)
-//{
-//	if (item->getItemType() == ItemType::heartItem) {
-//	}
-//	else if (item->getItemType() == ItemType::whipItem) {
-//		if (whip)whip->upgradeWhipLv();
-//	}
-//	else if (item->getItemType() == ItemType::daggerItem) {
-//		// subWeapon = new DaggerSubWeapon();
-//	}
-//	item->setState(State::dead);
-//}
+
+void Simon::checkCollisionWithItems(DWORD dt, vector<GameObject*>* items)
+{
+	vector<LPCollisionEvent> coEvents;
+	vector<LPCollisionEvent> coEventsResult;
+	coEvents.clear();
+
+	calcPotentialCollisions(items, coEvents);
+
+	// no collison
+	if (coEvents.empty())
+		for (auto& coObject : *items)
+		{
+			const auto item = dynamic_cast<Item*>(coObject);
+			if (item) processCollisionWithItem(item);
+		}
+	else
+	{
+		float minTx;
+		float minTy;
+		float nx = 0;
+		float ny;
+		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
+
+		for (auto& i : coEventsResult)
+		{
+			const auto object = (i->obj);
+			const auto item = dynamic_cast<Item*>(object);
+			if (item) processCollisionWithItem(item);
+		}
+	}
+
+	for (auto& coEvent : coEvents) delete coEvent;
+}
+
+void Simon::processCollisionWithItem(Item* item) const
+{
+	if (item->getItemType() == heartItem)
+	{
+		DebugOut(L"heart !\n ");
+	}
+	else if (item->getItemType() == whipItem)
+	{
+		if (whip)whip->upgradeWhipLv();
+	}
+	else if (item->getItemType() == daggerItem)
+	{
+		// subWeapon = new DaggerSubWeapon();
+	}
+
+	item->setEnable(false);
+}
 
 void Simon::processCollisionWithGround(float minTy, float ny)
 {
-
 	if (ny != 0)
 	{
 		vy = 0;
@@ -292,20 +324,20 @@ void Simon::throwing()
 {
 	// if (!subWeapon) return;
 	// if (subWeapon->getState() == SubWeaponState::active) return;
-		vx = 0;
-	 vy = 0;
-	 isThrowing = true;
-	 setState(State::throwing);
+	vx = 0;
+	vy = 0;
+	isThrowing = true;
+	setState(State::throwing);
 }
 
 void Simon::throwingWhenSitting()
 {
 	// if (!subWeapon) return;
 	// if (subWeapon->getState() == SubWeaponState::active) return;
-	 vx = 0;
-	 vy = 0;
-	 isThrowing = true;
-	 setState(State::throwingWhenSitting);
+	vx = 0;
+	vy = 0;
+	isThrowing = true;
+	setState(State::throwingWhenSitting);
 }
 
 void Simon::throwSubWeapon()
@@ -420,7 +452,7 @@ void Simon::handleOnKeyDown(int keyCode)
 		if (isInGround
 			&& currentState != sitting
 			&& currentState != jumping
-			)
+		)
 		{
 			isReleaseSitButton = false;
 			sit();

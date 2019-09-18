@@ -4,6 +4,7 @@
 #include "Constants.h"
 #include "SetTimeOut.h"
 #include <conio.h>
+#include "Item.h"
 
 class Simon :
 	public GameObject
@@ -24,7 +25,6 @@ public:
 
 	// Inherited via GameObject
 	void setState(int state);
-	void update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = nullptr);
 
 	virtual void render() override;
 	void updateAnimId();
@@ -32,6 +32,7 @@ public:
 	Box getBoundingBox() override;
 	void renderBoundingBox() override;
 	void upgradeWhipLv(bool up = true) const;
+	void update(DWORD dt, const vector<MapGameObjects>& maps);
 
 private:
 	bool isHitting;
@@ -55,6 +56,9 @@ private:
 	/*----------------- check collision -----------------*/
 	void processCollisionWithGround(float minTy, float ny);
 	void processCollisionWithBoundaryByX(float minTx, float ny);
-	void checkCollision(DWORD dt, vector<LPGAMEOBJECT>* coObject);
-	//void processCollisionWithItem(Item* item);
+	void checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries);
+	void checkCollisionWithItems(DWORD dt, vector<GameObject*>* items);
+	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
+	void processCollisionWithItem(Item* item) const;
 };
+

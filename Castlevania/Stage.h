@@ -4,9 +4,9 @@
 #include "Boundary.h"
 #include "Grid.h"
 
+
 class Stage
 {
-
 public:
 	Stage();
 	~Stage();
@@ -14,23 +14,24 @@ public:
 	void init(int mapId, wstring mapName);
 	void render();
 	void update(DWORD dt);
+	vector<MapGameObjects> getMapSimonCanCollisionObjects();
 	void updateGrid();
 	void onKeyDown(int keyCode);
-	void onKeyUp(int keyCode);
-	void keyState(BYTE* states);
+	void onKeyUp(int keyCode) const;
+	void keyState(BYTE* states) const;
 private:
-	Simon* simon{};
+	Simon* simon;
 	int mapId;
 	Grid* grid;
 	wstring mapName;
 	vector<GameObject*> listBoundary;
-	vector<GameObject*> listStaticObj;
-	vector<Unit*>listUnit;
+	vector<GameObject*> listItems;
+	vector<GameObject*> listRenderObj;
+	vector<Unit*> listUnit;
 
 	void loadObjectFromFiles();
 	void loadContent();
 	void loadListObjFromGrid();
-	void updateCamera(DWORD dt);
+	void updateCamera(DWORD dt) const;
 	bool renderBoundingBox;
 };
-

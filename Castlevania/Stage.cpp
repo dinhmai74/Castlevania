@@ -3,7 +3,6 @@
 #include "TileMapManager.h"
 #include "Item.h"
 
-
 Stage::Stage()
 {
 }
@@ -88,26 +87,38 @@ void Stage::render()
 	TileMapManager::getInstance()->get(mapId)->draw();
 
 
-	for (auto object : listStaticObj)
+	for (auto object : listRenderObj)
 	{
 		if (renderBoundingBox) object->renderBoundingBox();
-		object->render();
+		if (object->IsEnable())object->render();
 	}
 
-	if (renderBoundingBox)simon->renderBoundingBox();
+	if (renderBoundingBox) simon->renderBoundingBox();
 	simon->render();
 }
 
+
+
+
 void Stage::update(DWORD dt)
 {
-	simon->update(dt, &listBoundary);
-	for (auto staticObj : listStaticObj)
+	auto map = getMapSimonCanCollisionObjects();
+	simon->update(dt, map);
+	for (auto staticObj : listRenderObj)
 	{
 		staticObj->update(dt, &listBoundary);
 	}
 	updateCamera(dt);
 	updateGrid();
 	loadListObjFromGrid();
+}
+
+vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
+{
+	vector<MapGameObjects> map;
+	map.push_back({ boundary, &listBoundary });
+	map.push_back({ items, &listItems });
+	return map;
 }
 
 void Stage::updateGrid()
@@ -125,17 +136,22 @@ void Stage::updateGrid()
 void Stage::loadListObjFromGrid()
 {
 	listUnit.clear();
-	listStaticObj.clear();
-	listStaticObj = listBoundary;
+	listRenderObj.clear();
+	listItems.clear();
+	listRenderObj = listBoundary;
 	grid->get(Game::getInstance()->getCameraPosition(), listUnit);
 
 	for (auto unit : listUnit)
 	{
-		listStaticObj.push_back(unit->get());
+		auto obj = unit->get();
+		listRenderObj.push_back(obj);
+
+		const auto item = dynamic_cast<Item*>(obj);
+		if (item) listItems.push_back(item);
 	}
 }
 
-void Stage::updateCamera(DWORD dt)
+void Stage::updateCamera(const DWORD dt) const
 {
 	auto game = Game::getInstance();
 	const auto map = TileMapManager::getInstance()->get(mapId);
@@ -144,36 +160,37 @@ void Stage::updateCamera(DWORD dt)
 	simon->getPosition(simonX, simonY);
 	simon->getSpeed(simonVx, simonVy);
 
-	const int offset = dt * simonVx;
+	const int offset = simonVx * dt;
 
 	float posX, posY;
 	game->getCameraPosition(posX, posY);
 
-	if (simonX + offset > SCREEN_WIDTH / 2 &&
-		simonX + offset + SCREEN_WIDTH / 2 < mapWidth)
-	{
+	const auto isCanMoveArea =
+		simonX + offset > SCREEN_WIDTH / 2 &&
+		simonX + offset + SCREEN_WIDTH / 2 < mapWidth;
+
+	if (isCanMoveArea)
 		posX = simonX + offset - SCREEN_WIDTH / 2;
-	}
 
 	game->setCameraPosition(posX, posY);
 }
 
-void Stage::onKeyDown(int keyCode)
+void Stage::onKeyDown(const int keyCode)
 {
 	simon->handleOnKeyDown(keyCode);
 	if (keyCode == DIK_B)
 		this->renderBoundingBox = !this->renderBoundingBox;
 	else if (keyCode == DIK_U) simon->upgradeWhipLv();
 	else if (keyCode == DIK_D) simon->upgradeWhipLv(false);
-	else if (keyCode == DIK_R) init(mapId,mapName);
+	else if (keyCode == DIK_R) init(mapId, mapName);
 }
 
-void Stage::onKeyUp(int keyCode)
+void Stage::onKeyUp(const int keyCode) const
 {
 	simon->handleOnKeyRelease(keyCode);
 }
 
-void Stage::keyState(BYTE* states)
+void Stage::keyState(BYTE* states) const
 {
 	simon->handleOnKeyPress(states);
 }

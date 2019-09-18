@@ -151,3 +151,9 @@ struct CollisionEvent
 		return a->t < b->t;
 	}
 };
+
+struct MapGameObjects
+{
+	int id;
+	vector<GameObject*>* objs;
+};
