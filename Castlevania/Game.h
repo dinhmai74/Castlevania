@@ -22,8 +22,8 @@ constexpr auto SCREEN_WIDTH = 512;
 constexpr auto SCREEN_HEIGHT = 480;
 
 constexpr auto MAX_FRAME_RATE = 90;
- #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0) //black
- //#define BACKGROUND_COLOR D3DCOLOR_XRGB(255,255,255) //white
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0) //black
+//#define BACKGROUND_COLOR D3DCOLOR_XRGB(255,255,255) //white
 //#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
 
 
@@ -36,7 +36,7 @@ private:
 	LPDIRECT3D9 d3d = NULL; // direct3D handle
 	LPDIRECT3DDEVICE9 d3ddv = NULL;// Direct 3d device object
 
-	LPDIRECT3DSURFACE9 backBuffer = NULL; 
+	LPDIRECT3DSURFACE9 backBuffer = NULL;
 	LPD3DXSPRITE spriteHandler = NULL;  	// Sprite helper library to help us draw 2D image on the screen 
 
 	LPDIRECTINPUT8       di;		// The DirectInput object         
@@ -50,9 +50,9 @@ private:
 
 public:
 	void init(HWND hWnd);
-	void draw(int nx,float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect,int alpha);
+	void draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect, int alpha, int r = 255, int g = 255, int b = 255);
 
-	static Game * getInstance() {
+	static Game* getInstance() {
 		if (instance == NULL) instance = new Game();
 		return instance;
 	};
@@ -67,7 +67,7 @@ public:
 	int isKeyUp(int keyCode);
 	void processKeyboard();
 	void setCameraPosition(float x, float y);
-	void getCameraPosition(float & x, float & y);
+	void getCameraPosition(float& x, float& y);
 	D3DXVECTOR2 getCameraPosition() const { return { xCamera,yCamera }; }
 
 	~Game();

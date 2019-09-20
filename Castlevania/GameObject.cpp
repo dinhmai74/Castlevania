@@ -7,8 +7,9 @@ GameObject::GameObject()
 	x = y = 0;
 	initPos = { 0,0 };
 	vx = vy = 0;
+	alpha = r = b = g = 255;
 	setFaceSide(FaceSide::right); // right side
-	previousAmiId = -1;
+	preAnimId = -1;
 	previousAnimIsOneTimeAnim = false;
 	boundingGameX = 0;
 	boundingGameY = 0;
@@ -23,6 +24,8 @@ GameObject::~GameObject()
 
 void GameObject::render()
 {
+	if (!IsEnable())  return;
+	animations[animId]->render(faceSide, x, y, alpha);
 }
 
 
@@ -189,9 +192,9 @@ void GameObject::updatePosInTheMomentCollide(float minTx, float minTy, float nx,
 Box GameObject::getBoundingBoxBaseOnFile()
 {
 	float r, l;
-	if (!animations[animationId]) return{ x,y,1,1 };
-	auto spriteFrame = animations[animationId]->getFrameSprite();
-	auto spriteBoundary = animations[animationId]->getFrameBoundingBox();
+	if (!animations[animId]) return{ x,y,1,1 };
+	auto spriteFrame = animations[animId]->getFrameSprite();
+	auto spriteBoundary = animations[animId]->getFrameBoundingBox();
 
 	// spriteFrame is usually larger than the spriteBoundary so we need to take account of the offset
 	auto offset_x = spriteBoundary.left - spriteFrame.left;

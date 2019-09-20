@@ -5,6 +5,9 @@
 #include "SetTimeOut.h"
 #include <conio.h>
 #include "Item.h"
+#include "SubWeaponFactory.h"
+#include "SubWeapon.h"
+#include "Timer.h"
 
 class Simon :
 	public GameObject
@@ -17,6 +20,7 @@ public:
 	~Simon();
 
 	void handleOnKeyPress(BYTE* states);
+	bool isDoingImportantAnim();
 	void handleOnKeyDown(int KeyCode);
 	void handleOnKeyRelease(int KeyCode);
 
@@ -34,12 +38,17 @@ public:
 	void upgradeWhipLv(bool up = true) const;
 	void update(DWORD dt, const vector<MapGameObjects>& maps);
 
+	SubWeapon* getSubWeapon() const { return subWeapon; }
 private:
 	bool isHitting;
 	bool isThrowing;
+	bool isCollectingWhip;
+	Timer *collectingWhipTimer = new Timer(1000);
 	bool isReleaseSitButton;
 	Whip* whip;
+	SubWeapon* subWeapon;
 	bool isInGround;
+	int forceRenderFrame;
 
 	/*----------------- simon actions -----------------*/
 	void move(int side);
@@ -59,7 +68,9 @@ private:
 	void checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries);
 	void checkCollisionWithItems(DWORD dt, vector<GameObject*>* items);
 	void updateWeaponAction(DWORD dt, vector<GameObject*>* objs);
+	void updateRGB();
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
-	void processCollisionWithItem(Item* item) const;
+	void processCollisionWithItem(Item* item) ;
 };
+
 

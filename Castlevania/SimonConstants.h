@@ -3,7 +3,6 @@
 constexpr auto SIMON_DEAD_TIME = 3000;
 
 
-
 //nhay
 constexpr auto SIMON_VJUMP = 0.5f;
 // Simon's width when moving
@@ -28,11 +27,11 @@ constexpr auto SIMON_JUMPING_TIME= 300;
 constexpr auto SIMON_THROWING_TIME = 150;
 
 // trong luc luc nhay
-#define SIMON_GRAVITY 0.0011f;
+#define SIMON_GRAVITY 0.0008f;
 //trong luc luc roi
 constexpr auto SIMON_FALL = 180;
 //di binh thuong
-constexpr auto SIMON_VX = 0.17f;
+constexpr auto SIMON_VX = 0.13f;
 //len xuong cau thang
 #define SIMON_VX_STAIR 43	
 #define SIMON_VY_STAIR 43

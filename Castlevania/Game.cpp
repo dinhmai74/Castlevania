@@ -48,7 +48,7 @@ void Game::init(HWND hWnd)
 	yCamera = 0;
 }
 
-void Game::draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect, int alpha)
+void Game::draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect, int alpha, int r, int g, int b)
 {
 	if (!texture || !spriteHandler)
 	{
@@ -83,7 +83,7 @@ void Game::draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameR
 	D3DXMATRIX finalTransform = newTransform * oldTransform;
 	spriteHandler->SetTransform(&finalTransform);
 
-	spriteHandler->Draw(texture, &convertFrameRect, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	spriteHandler->Draw(texture, &convertFrameRect, NULL, &p, D3DCOLOR_ARGB(alpha, r, g, b));
 
 	spriteHandler->SetTransform(&oldTransform);
 }

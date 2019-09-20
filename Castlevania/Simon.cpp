@@ -1,6 +1,8 @@
 #include "Simon.h"
-#include "DaggerSubWeapon.h"
 #include "StageManager.h"
+#include "SubWeaponDagger.h"
+
+auto subWeaponFactory = SubWeaponFactory::getInstance();
 
 Simon::Simon()
 {
@@ -10,11 +12,14 @@ Simon::Simon()
 void Simon::init()
 {
 	whip = new Whip();
+	subWeapon = subWeaponFactory->getSubWeapon(itemDagger);
+	getSubWeapon()->setEnable(false);
 	whip->setPosition(x, y);
+
 	isInGround = false;
 	isReleaseSitButton = true;
 	Simon::initAnim();
-	animationId = ANIM_IDLE;
+	animId = ANIM_IDLE;
 	gravity = SIMON_GRAVITY;
 }
 
@@ -29,24 +34,25 @@ void Simon::initAnim()
 
 void Simon::render()
 {
-	if (isHitting)
+	if (isHitting && collectingWhipTimer ->IsTimeUp())
 	{
 		whip->setSide(faceSide);
 		whip->render();
 	}
-	// if (subWeapon)
-	// {
-	// subWeapon->render();
-	// }
-	animations[animationId]->render(faceSide, x, y);
-	previousAmiId = animationId;
+
+	DebugOut(L"\n %d", forceRenderFrame);
+	animations[animId]->render(faceSide, x, y, alpha, r, g, b);
+	currentFrame = animations[animId]->getCurrentFrame();
+
+	preAnimId = animId;
 }
 
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 
 {
+	updateRGB();
+	if (!collectingWhipTimer->IsTimeUp()) return;
 	GameObject::update(dt);
-	// if (subWeapon) subWeapon->update(dt, canHitObjects);
 
 	checkCollision(dt, maps);
 	updateAnimId();
@@ -54,6 +60,22 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 	updateGravity(gravity);
 }
 
+void Simon::updateRGB()
+{
+	if (!collectingWhipTimer->IsTimeUp())
+	{
+		r = g + 80;
+		g = 100 + rand() % 150;
+		b = g + 35;
+		animations[animId]->setRenderFrame(forceRenderFrame);
+	}
+	else
+	{
+		r = g = b = 255;
+		isCollectingWhip = false;
+		collectingWhipTimer->Stop();
+	}
+}
 
 void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 {
@@ -65,7 +87,8 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 			break;
 		case item: checkCollisionWithItems(dt, map.objs);
 			break;
-		case canHitObjs: updateWeaponAction(dt, map.objs); break;
+		case canHitObjs: updateWeaponAction(dt, map.objs);
+			break;
 		default: DebugOut(L"[WARNING] unknown obj to check collision with id %d!\n", map.id);
 		}
 	}
@@ -80,7 +103,7 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 	calcPotentialCollisions(boundaries, coEvents);
 
 	// no collison
-	if (coEvents.empty())
+	if (coEvents.empty()  )
 	{
 		updatePosWhenNotCollide();
 	}
@@ -158,19 +181,21 @@ void Simon::updateWeaponAction(DWORD dt, vector<GameObject*>* objs)
 	whip->update(dt, x, y, objs, currentState);
 }
 
-void Simon::processCollisionWithItem(Item* item) const
+void Simon::processCollisionWithItem(Item* item)
 {
-	if (item->getItemType() == itemSmallHeart)
+	const auto itemType = item->getItemType();
+	switch (itemType)
 	{
-		DebugOut(L"heart !\n ");
-	}
-	else if (item->getItemType() == itemWhip)
-	{
+	case itemSmallHeart: break;
+	case itemWhip:
 		if (whip) whip->upgradeWhipLv();
-	}
-	else if (item->getItemType() == itemDagger)
-	{
-		// subWeapon = new DaggerSubWeapon();
+		collectingWhipTimer->Start();
+		currentFrame = currentFrame - 1;
+		if (currentFrame < 0) currentFrame = 0;
+		forceRenderFrame = currentFrame;
+		break;
+	default: subWeapon = SubWeaponFactory::getInstance()->getSubWeapon(itemDagger);
+		break;
 	}
 
 	item->setEnable(false);
@@ -195,7 +220,7 @@ void Simon::updateAnimId()
 {
 	if (currentState == walking)
 	{
-		animationId = ANIM_WALK;
+		animId = ANIM_WALK;
 	}
 	else if (currentState == sitting)
 	{
@@ -203,81 +228,81 @@ void Simon::updateAnimId()
 		{
 			standUp();
 		}
-		animationId = ANIM_SIT;
+		animId = ANIM_SIT;
 	}
 	else if (currentState == jumping)
 	{
 		// will sit if get enough jump enough high;
 		if (vy > 0.15)
-			animationId = ANIM_IDLE;
+			animId = ANIM_IDLE;
 		else
-			animationId = ANIM_SIT;
+			animId = ANIM_SIT;
 	}
 	else if (currentState == hitting)
 	{
 		// set hitting anim
-		animationId = ANIM_HITTING;
+		animId = ANIM_HITTING;
 		// check and process if animation hitting is done
-		if (animations[animationId])
+		if (animations[animId])
 		{
-			if (animations[animationId]->isDone())
+			if (animations[animId]->isDone())
 			{
 				whip->refreshAnim();
-				animations[animationId]->refresh();
+				animations[animId]->refresh();
 				stand();
-				animationId = ANIM_IDLE;
+				animId = ANIM_IDLE;
 			}
 		}
 	}
 	else if (currentState == hittingWhenSitting)
 	{
-		animationId = ANIM_HITTING_WHEN_SIT;
-		if (animations[animationId])
+		animId = ANIM_HITTING_WHEN_SIT;
+		if (animations[animId])
 		{
-			const auto frame = animations[animationId]->getFrame();
-			if (animations[animationId]->isDone())
+			const auto frame = animations[animId]->getCurrentFrame();
+			if (animations[animId]->isDone())
 			{
 				whip->refreshAnim();
 				isHitting = false;
 				setState(sitting);
-				animations[animationId]->refresh();
-				animationId = ANIM_SIT;
+				animations[animId]->refresh();
+				animId = ANIM_SIT;
 			}
 		}
 	}
 	else if (currentState == State::throwing)
 	{
-		animationId = ANIM_HITTING;
-		if (animations[animationId])
+		animId = ANIM_HITTING;
+		if (animations[animId])
 		{
-			const auto frame = animations[animationId]->getFrame();
+			const auto frame = animations[animId]->getCurrentFrame();
 			if (frame == 2) throwSubWeapon();
-			else if (animations[animationId]->isDone())
+			else if (animations[animId]->isDone())
 			{
-				animations[animationId]->refresh();
+				animations[animId]->refresh();
 				stand();
 			}
 		}
 	}
 	else if (currentState == State::throwingWhenSitting)
 	{
-		animationId = ANIM_HITTING_WHEN_SIT;
-		if (animations[animationId])
+		animId = ANIM_HITTING_WHEN_SIT;
+		if (animations[animId])
 		{
-			const auto frame = animations[animationId]->getFrame();
+			const auto frame = animations[animId]->getCurrentFrame();
 			if (frame == 2) throwSubWeapon();
-			else if (animations[animationId]->isDone())
+			else if (animations[animId]->isDone())
 			{
-				animations[animationId]->refresh();
+				animations[animId]->refresh();
 				setState(State::sitting);
 				isThrowing = false;
-				animationId = ANIM_IDLE;
+				animId = ANIM_IDLE;
 			}
 		}
 	}
 	else
 	{
-		animationId = ANIM_IDLE;
+		animId = ANIM_IDLE;
 	}
 }
 
@@ -337,8 +362,6 @@ void Simon::hitWhenSitting()
 
 void Simon::throwing()
 {
-	// if (!subWeapon) return;
-	// if (subWeapon->getState() == SubWeaponState::active) return;
 	vx = 0;
 	vy = 0;
 	isThrowing = true;
@@ -347,8 +370,6 @@ void Simon::throwing()
 
 void Simon::throwingWhenSitting()
 {
-	// if (!subWeapon) return;
-	// if (subWeapon->getState() == SubWeaponState::active) return;
 	vx = 0;
 	vy = 0;
 	isThrowing = true;
@@ -357,16 +378,14 @@ void Simon::throwingWhenSitting()
 
 void Simon::throwSubWeapon()
 {
-	/*	if (!subWeapon) return;
-		if (subWeapon->getState() == SubWeaponState::active) return;
+	subWeapon = subWeaponFactory->getSubWeapon(itemDagger);
+	subWeapon->setFaceSide(faceSide);
+	const auto subX = faceSide == FaceSide::left ? x - SIM_HIT_W + 10 : x + SIM_HIT_W - 10;
+	const auto subY = y;
 
-		subWeapon->setSide(faceSide);
-		const auto subX = faceSide == FaceSide::left ? x - SIM_HIT_W + 10 : x + SIM_HIT_W - 10;
-		const auto subY = y + 16;
-
-		subWeapon->setPosition(subX, subY);
-	subWeapon->setState(SubWeaponState::active);
-		*/
+	subWeapon->setPosition(subX, subY);
+	subWeapon->setEnable();
+	StageManager::getInstance()->add(subWeapon);
 }
 
 void Simon::resetState()
@@ -397,9 +416,7 @@ void Simon::handleOnKeyRelease(int KeyCode)
 	{
 		isReleaseSitButton = true;
 		if (isInGround && !isHitting && !isThrowing)
-		{
 			standUp();
-		}
 	}
 }
 
@@ -407,18 +424,15 @@ void Simon::handleOnKeyPress(BYTE* states)
 {
 	auto game = Game::getInstance();
 
-	if (isHitting || isThrowing) return;
+	if (isHitting || isThrowing || isCollectingWhip) return;
 	if (currentState == sitting) return;
 	if (currentState == jumping) return;
 
+
 	if (game->isKeyDown(DIK_RIGHT))
-	{
 		move(FaceSide::right);
-	}
 	else if (game->isKeyDown(DIK_LEFT))
-	{
 		move(FaceSide::left);
-	}
 	else if (game->isKeyDown(DIK_DOWN))
 	{
 		if (isInGround)
@@ -427,51 +441,44 @@ void Simon::handleOnKeyPress(BYTE* states)
 			sit();
 		}
 	}
-
 	else
 	{
 		stand();
 	}
 }
 
+bool Simon::isDoingImportantAnim()
+{
+	return isHitting || isThrowing || isCollectingWhip;
+}
+
 void Simon::handleOnKeyDown(int keyCode)
 {
-	if (isHitting || isThrowing) return;
+	if (isDoingImportantAnim()) return;
 
-	if (keyCode == DIK_SPACE)
+	switch (keyCode)
 	{
+	case DIK_SPACE:
 		if (previousState != jumping && isInGround && !isHitting)
-		{
 			jump();
-		}
-	}
-	else if (keyCode == DIK_LCONTROL)
-	{
-		if (!isReleaseSitButton)
-		{
-			hitWhenSitting();
-		}
-		else
-		{
-			hit();
-		}
-	}
-	else if (keyCode == DIK_A)
-	{
-		if (!isReleaseSitButton)
-			throwingWhenSitting();
-		else throwing();
-	}
-	else if (keyCode == DIK_DOWN)
-	{
+		break;
+	case DIK_LCONTROL:
+		isReleaseSitButton ? hit() : hitWhenSitting();
+		break;
+	case DIK_A:
+		isReleaseSitButton ? throwing() : throwingWhenSitting();
+		break;
+	case DIK_DOWN:
 		if (isInGround
 			&& currentState != sitting
 			&& currentState != jumping
-			)
+		)
 		{
 			isReleaseSitButton = false;
 			sit();
 		}
+		break;
+	default: ;
 	}
 }
 

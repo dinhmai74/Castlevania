@@ -13,9 +13,9 @@ Sprite::Sprite(std::string id, float left, float top, float right, float bottom,
 	this->bbox = { boxleft,boxtop,boxright,boxbottom };
 }
 
-void Sprite::draw(int nx, float x, float y, int alpha)
+void Sprite::draw(int nx, float x, float y, int alpha, int r, int g, int b)
 {
 	if (!this || !texture) return;
 	auto game = Game::getInstance();
-	game->draw(nx, x, y, texture, getSpriteRect(), bbox, alpha);
+	game->draw(nx, x, y, texture, getSpriteRect(), bbox, alpha, r, g, b);
 }

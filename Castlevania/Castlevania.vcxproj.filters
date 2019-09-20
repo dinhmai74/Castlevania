@@ -9,21 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Header Files\GameManager">
-      <UniqueIdentifier>{444e833b-f07c-4dc2-b0ef-c66764a79ac0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Object">
-      <UniqueIdentifier>{c6c45ec3-9503-4d6e-ab61-b6f395b14595}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Util">
-      <UniqueIdentifier>{05471cab-ec67-41c3-b71c-9efe54bdc7e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Animation">
-      <UniqueIdentifier>{32e69ea2-4553-4be7-a300-85f9a291ae95}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Sprite">
-      <UniqueIdentifier>{74334ce4-90e4-43a6-91cd-a575b5a6bfb6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GameManager">
       <UniqueIdentifier>{f0c6c592-19c9-4472-bf03-544418174c5c}</UniqueIdentifier>
     </Filter>
@@ -43,20 +28,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Constants">
-      <UniqueIdentifier>{fb807abb-9a87-4dbe-a184-55e573131449}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Effect">
-      <UniqueIdentifier>{c5af837c-e7a9-457a-8bfa-1365f1b04958}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Effect">
       <UniqueIdentifier>{4015e134-8bd2-4f65-8e10-641fda78d684}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Object\Item">
       <UniqueIdentifier>{9052f299-3148-436f-a3ed-834a0c9fa671}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Object\Item">
-      <UniqueIdentifier>{62fb86a9-1ac0-42fb-a72d-1a162e6d84d0}</UniqueIdentifier>
+    <Filter Include="Source Files\Object\candle">
+      <UniqueIdentifier>{867e4c4b-12e1-46e5-b5cb-4a922c212195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\SubWeapon">
+      <UniqueIdentifier>{106f68c6-05e2-4d9b-9c28-f46a6b3fe16f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,9 +72,6 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>Source Files\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="Whip.cpp">
-      <Filter>Source Files\Object</Filter>
-    </ClCompile>
     <ClCompile Include="SweptAABB.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
@@ -111,16 +90,25 @@
     <ClCompile Include="StageManager.cpp">
       <Filter>Source Files\GameManager</Filter>
     </ClCompile>
-    <ClCompile Include="Boundary.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Grid.cpp">
       <Filter>Source Files\GameManager</Filter>
     </ClCompile>
-    <ClCompile Include="CandleFactory.cpp">
+    <ClCompile Include="Whip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ItemFactory.cpp">
+      <Filter>Source Files\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CandleFactory.cpp">
+      <Filter>Source Files\Object\candle</Filter>
+    </ClCompile>
+    <ClCompile Include="Boundary.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="SubWeapon.cpp">
+      <Filter>Source Files\Object\SubWeapon</Filter>
+    </ClCompile>
+    <ClCompile Include="SubWeaponFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,110 +116,59 @@
     <ClInclude Include="main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files\GameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="SweptAABB.h">
-      <Filter>Header Files\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyboardHandler.h">
-      <Filter>Header Files\GameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="debug.h">
-      <Filter>Header Files\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Header Files\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationFrame.h">
-      <Filter>Header Files\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationManager.h">
-      <Filter>Header Files\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteManager.h">
-      <Filter>Header Files\Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>Header Files\Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Header Files\Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Simon.h">
-      <Filter>Header Files\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Whip.h">
-      <Filter>Header Files\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Constants.h">
-      <Filter>Header Files\Constants</Filter>
-    </ClInclude>
-    <ClInclude Include="SimonConstants.h">
-      <Filter>Header Files\Constants</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TileMap.h">
-      <Filter>Header Files\GameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="TilemapManager.h">
-      <Filter>Header Files\GameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
+    <ClInclude Include="Simon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>Header Files\GameManager</Filter>
+    <ClInclude Include="Whip.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StageManager.h">
-      <Filter>Header Files\GameManager</Filter>
+    <ClInclude Include="SubWeapon.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tileMapInfo.h">
+    <ClInclude Include="Box.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SweptAABB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Boundary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StageConst.h">
-      <Filter>Header Files\Constants</Filter>
-    </ClInclude>
-    <ClInclude Include="TileConst.h">
-      <Filter>Header Files\Constants</Filter>
-    </ClInclude>
-    <ClInclude Include="WhipConst.h">
-      <Filter>Header Files\Constants</Filter>
-    </ClInclude>
-    <ClInclude Include="Grid.h">
-      <Filter>Header Files\GameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Box.h">
+    <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Candle.h">
+    <ClInclude Include="Item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemDagger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemHeart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemWhip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BigCandle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Header Files\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemFactory.h">
-      <Filter>Header Files\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemHeart.h">
-      <Filter>Header Files\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemWhip.h">
-      <Filter>Header Files\Object\Item</Filter>
+    <ClInclude Include="Candle.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CandleFactory.h">
       <Filter>Header Files</Filter>
@@ -239,8 +176,68 @@
     <ClInclude Include="SmallCandle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ItemDagger.h">
-      <Filter>Header Files\Object\Item</Filter>
+    <ClInclude Include="Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimonConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StageConst.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TileConst.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WhipConst.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StageManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tileMapInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubWeaponFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubWeaponDagger.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

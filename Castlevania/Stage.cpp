@@ -64,31 +64,31 @@ void Stage::loadObjectFromFiles()
 		{
 			// boundary
 		case boundary:
-			{
-				float width, height;
-				fs >> width >> height;
-				auto boundary = new Boundary(width, height);
-				boundary->setPosition(x, y);
-				boundary->setEnable();
-				listBoundary.push_back(boundary);
-				break;
-			}
+		{
+			float width, height;
+			fs >> width >> height;
+			auto boundary = new Boundary(width, height);
+			boundary->setPosition(x, y);
+			boundary->setEnable();
+			listBoundary.push_back(boundary);
+			break;
+		}
 		case item:
-			{
-				int type;
-				fs >> type;
-				auto item = ItemFactory::Get()->getItem(type, {x, y});
-				auto unit = new Unit(grid, item, x, y);
-				break;
-			}
+		{
+			int type;
+			fs >> type;
+			auto item = ItemFactory::Get()->getItem(type, { x, y });
+			auto unit = new Unit(getGrid(), item, x, y);
+			break;
+		}
 		case candle:
-			{
-				int type, itemContainType ,itemNx;
-				fs >> type >> itemContainType>> itemNx;
-				const auto candle = CandleFactory::Get()->getCandle(type, itemContainType,itemNx, {x, y}, grid);
-				auto unit = new Unit(grid, candle, x, y);
-				break;
-			}
+		{
+			int type, itemContainType, itemNx;
+			fs >> type >> itemContainType >> itemNx;
+			const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, { x, y }, getGrid());
+			auto unit = new Unit(getGrid(), candle, x, y);
+			break;
+		}
 
 		default: break;
 		}
@@ -128,9 +128,9 @@ void Stage::update(DWORD dt)
 vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 {
 	vector<MapGameObjects> map;
-	map.push_back({boundary, &listBoundary});
-	map.push_back({item, &listItems});
-	map.push_back({canHitObjs, &listCanHitObjects});
+	map.push_back({ boundary, &listBoundary });
+	map.push_back({ item, &listItems });
+	map.push_back({ canHitObjs, &listCanHitObjects });
 	return map;
 }
 
@@ -144,6 +144,7 @@ void Stage::updateGrid()
 		const auto pos = obj->getPosition();
 		unit->move(pos.x, pos.y);
 	}
+
 }
 
 void Stage::loadListObjFromGrid()
@@ -153,7 +154,7 @@ void Stage::loadListObjFromGrid()
 	listItems.clear();
 	listCanHitObjects.clear();
 	listRenderObj = listBoundary;
-	grid->get(Game::getInstance()->getCameraPosition(), listUnit);
+	getGrid()->get(Game::getInstance()->getCameraPosition(), listUnit);
 
 	for (auto unit : listUnit)
 	{
@@ -166,12 +167,15 @@ void Stage::loadListObjFromGrid()
 			listItems.push_back(item);
 			continue;
 		}
+
 		const auto candle = dynamic_cast<Candle*>(obj);
+		const auto subWeapon = dynamic_cast<SubWeapon*>(obj);
 
 		const auto canHitObject = candle;
 		if (canHitObject) listCanHitObjects.push_back(candle);
 	}
 }
+
 
 void Stage::updateCamera(const DWORD dt) const
 {
@@ -182,7 +186,7 @@ void Stage::updateCamera(const DWORD dt) const
 	simon->getPosition(simonX, simonY);
 	simon->getSpeed(simonVx, simonVy);
 
-	const int offset = simonVx * dt;
+	const int offset =  60;
 
 	float posX, posY;
 	game->getCameraPosition(posX, posY);

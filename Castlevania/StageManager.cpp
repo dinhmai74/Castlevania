@@ -13,14 +13,21 @@ void StageManager::init(vector<TileMapInfo> tileMapsInfo)
 
 	loadTileMaps();
 	currentStage = new Stage();
-	currentStage->init(tileMapsInfo[0].id,tileMapsInfo[0].mapName);
+	currentStage->init(tileMapsInfo[0].id, tileMapsInfo[0].mapName);
 }
+
 
 void StageManager::loadTileMaps()
 {
-	for (auto&& map: tileMapsInfo)
+	for (auto&& map : tileMapsInfo)
 	{
 		TileMapManager::getInstance()->add(map);
-
 	}
+}
+
+
+void StageManager::add(GameObject* ob) const
+{
+	auto pos = ob->getPosition();
+	auto unit = new Unit(currentStage->getGrid(), ob, pos.x, pos.y);
 }

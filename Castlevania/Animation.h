@@ -27,12 +27,13 @@ public:
 		state = -1;
 	}
 
-	int getFrame();
+	int getCurrentFrame();
 	void add(string spriteId, DWORD time = 0);
-	void render(int nx, float x, float y, int alpha=255);
+	void render(int nx, float x, float y, int alpha=255, int r=255, int g=255, int b=255);
 	void refresh();
 	bool isDone();
 	void setAniStartTime(DWORD t) { animStartTime = t; }
+	void setRenderFrame(int frame) { currentFrame = frame; }
 	bool isOver(DWORD dt) const { return GetTickCount() - animStartTime >= dt; }
 	Box getFrameSprite();
 	Box getFrameBoundingBox();

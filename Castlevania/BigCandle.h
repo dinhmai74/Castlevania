@@ -12,6 +12,6 @@ public:
 inline BigCandle::BigCandle()
 {
 	type = bigCandle;
-	animationId = type;
+	animId = type;
 }
 

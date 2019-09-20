@@ -12,5 +12,5 @@ public:
 inline SmallCandle::SmallCandle()
 {
 	type = smallCandle;
-	animationId = type;
+	animId = type;
 }

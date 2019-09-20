@@ -137,6 +137,8 @@
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StageManager.cpp" />
+    <ClCompile Include="SubWeapon.cpp" />
+    <ClCompile Include="SubWeaponFactory.cpp" />
     <ClCompile Include="SweptAABB.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TileMap.cpp" />
@@ -173,6 +175,9 @@
     <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageManager.h" />
+    <ClInclude Include="SubWeapon.h" />
+    <ClInclude Include="SubWeaponDagger.h" />
+    <ClInclude Include="SubWeaponFactory.h" />
     <ClInclude Include="SweptAABB.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TileConst.h" />

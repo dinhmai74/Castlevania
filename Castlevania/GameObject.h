@@ -22,6 +22,10 @@ protected:
 	float x;
 	float y;
 	float dx;	// dx = vx*dt
+	int alpha;
+	int r;
+	int g;
+	int b;
 	D3DXVECTOR2 initPos;
 	float gravity;
 	float dy;	// dy = vy*dt
@@ -30,14 +34,15 @@ protected:
 	float boundingGameX; // gioi han man hinh game x
 	float boundingGameY; // gioi han man hinh game y
 	DWORD dt;
-	int animationId;
+	int animId;
+	int currentFrame;
 
 	int faceSide;
 
 	int currentState;
 	int previousState;
 	unordered_map<int, Animation*> animations;
-	int previousAmiId;
+	int preAnimId;
 	bool previousAnimIsOneTimeAnim;
 	bool isEnable;
 	bool isInActive;

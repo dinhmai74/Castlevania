@@ -12,5 +12,5 @@ inline ItemDagger::ItemDagger()
 {
 	itemType = itemDagger;
 	gravity = 0.0015;
-	animationId = itemDagger;
+	animId = itemDagger;
 }

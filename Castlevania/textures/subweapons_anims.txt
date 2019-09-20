@@ -1,0 +1,1 @@
+subweapons_dagger_ani	subweapons_dagger_ani_0	100

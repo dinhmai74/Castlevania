@@ -1,21 +1,13 @@
 #pragma once
 #include "GameObject.h"
-
-enum SubWeaponState
+class SubWeapon :
+	public GameObject
 {
-	active=1,
-	inActive=-1
-};
-
-class SubWeapon : public GameObject
-{
-	float cameraX, cameraY;
 public:
 	SubWeapon();
-	~SubWeapon();
-	void setSide(int side)
-	{
-		faceSide = side;
-	}
+	void init();
+	void initAnim() override;
+	void update(DWORD dt, vector<GameObject*>* coObjects) override;
+	~SubWeapon() = default;
 };
 

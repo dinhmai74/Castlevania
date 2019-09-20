@@ -69,27 +69,9 @@ int Grid::limitRange(int current, int total)
 	return current;
 }
 
-void Grid::move(Unit* unit, float x, float y)
+void Grid::UnlinkUnit(Unit* unit, int oldRow, int oldCol)
 {
-	const auto oldRow = static_cast<int>(unit->y / cellHeight);
-	const auto oldCol = static_cast<int>(unit->x / cellWidth);
-
-	const auto newRow = static_cast<int>(y / cellHeight);
-	const auto newCol = static_cast<int>(x / cellWidth);
-
-	// nếu object ra khỏi vùng viewport -> không cần cập nhật
-	if (newRow < 0 || newRow >= totalRows || newCol < 0 || newCol >= totalCols)
-		return;
-
-	// cập nhật toạ độ mới
-	unit->x = x;
-	unit->y = y;
-
-	// cell không thay đổi
-	if (oldRow == newRow && oldCol == newCol)
-		return;
-
-	// huỷ liên kết với cell cũ
+	// unlink the old cell contain unit
 	if (unit->prev != nullptr)
 		unit->prev->next = unit->next;
 
@@ -98,9 +80,47 @@ void Grid::move(Unit* unit, float x, float y)
 
 	if (cells[oldRow][oldCol] == unit)
 		cells[oldRow][oldCol] = unit->next;
+}
 
-	// thêm vào cell mới
+Cell Grid::getCellBaseOnPos(float x, float y)
+{
+	auto row = static_cast<int>(y / cellHeight);
+	auto col = static_cast<int>(x / cellWidth);
+
+	return { row,col };
+}
+
+void Grid::move(Unit* unit, float x, float y)
+{
+	const auto oldCell = getCellBaseOnPos(unit->x, unit->y);
+	const auto newCell = getCellBaseOnPos(x, y);
+
+	const auto newRow = newCell.row;
+	const auto newCol = newCell.col;
+	const auto oldCol = oldCell.col;
+	const auto oldRow = oldCell.row;
+
+	//// if out boundary => we won't care about that unit
+	if (newRow < 0 || newRow >= totalRows || newCol < 0 || newCol >= totalCols)
+		return;
+	// if still in the same cell => not update;
+	unit->x = x;
+	unit->y = y;
+
+	if (oldRow == newRow && oldCol == newCol)return;
+
+	remove(unit, oldRow, oldCol);
+
 	add(unit);
+}
+
+void Grid::remove(Unit* unit, float oldRow, float oldCol)
+{
+	auto cell = getCellBaseOnPos(unit->x, unit->y);
+	if (oldCol == -1) oldCol = cell.col;
+	if (oldRow == -1) oldRow = cell.row;
+	// unlink the old cell contain unit
+	UnlinkUnit(unit, oldRow, oldCol);
 }
 
 void Grid::get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
@@ -110,7 +130,7 @@ void Grid::get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
 
 	for (auto i = 0; i < totalRows; i++)
 	{
-		for (int j = startCol; j < endCol; j++)
+		for (auto j = startCol; j < endCol; j++)
 		{
 			auto unit = cells[i][j];
 
@@ -124,4 +144,3 @@ void Grid::get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
 		}
 	}
 }
-

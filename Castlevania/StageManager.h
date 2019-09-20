@@ -28,6 +28,7 @@ public:
 	void onKeyDown(int keyCode) const { currentStage->onKeyDown(keyCode); }
 	void onKeyUp(int keyCode) const { currentStage->onKeyUp(keyCode); }
 	void keyState(BYTE *states) const { currentStage->keyState(states); }
+	void add(GameObject* ob) const;
 private:
 	void loadTileMaps();
 };

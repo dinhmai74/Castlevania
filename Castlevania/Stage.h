@@ -23,6 +23,7 @@ public:
 	void onKeyDown(int keyCode);
 	void onKeyUp(int keyCode) const;
 	void keyState(BYTE* states) const;
+	Grid* getGrid() const { return grid; }
 private:
 	Simon* simon;
 	int mapId;

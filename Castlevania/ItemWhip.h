@@ -14,6 +14,6 @@ inline ItemWhip::ItemWhip()
 {
 	itemType = itemWhip;
 	gravity = 0.001;
-	animationId = itemWhip;
+	animId = itemWhip;
 }
 

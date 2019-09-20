@@ -12,5 +12,5 @@ inline ItemHeart::ItemHeart()
 {
 	itemType = itemSmallHeart;
 	gravity = 0.0002;
-	animationId = itemSmallHeart;
+	animId = itemSmallHeart;
 }

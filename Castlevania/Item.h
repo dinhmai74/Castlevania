@@ -15,7 +15,6 @@ public:
 	void update(DWORD dt, vector<GameObject*>* boundary);
 	void setItemType(const int type);
 	int getItemType() const { return itemType; }
-	void render() override;
 	Box getBoundingBox() override;
 private:
 	void initAnim() override;
@@ -30,6 +29,7 @@ inline void Item::initAnim()
 
 inline void Item::init()
 {
+	type = item;
 	setFaceSide(FaceSide::right);
 	initAnim();
 }
@@ -57,13 +57,7 @@ inline void Item::update(DWORD dt, vector<GameObject*>* boundary)
 inline void Item::setItemType(const int type)
 {
 	itemType = type;
-	animationId = itemType;
-}
-
-inline void Item::render()
-{
-	GameObject::render();
-	animations[animationId]->render(faceSide, x, y);
+	animId = itemType;
 }
 
 inline Box Item::getBoundingBox()

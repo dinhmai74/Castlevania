@@ -40,7 +40,7 @@ enum State
 	throwing = 7,
 	throwingWhenSitting = 8,
 	dead = -1,
-	normal = 1
+	normal = 1,
 };
 
 enum CandleType
@@ -48,6 +48,16 @@ enum CandleType
 	bigCandle,
 	smallCandle
 };
+
+enum ObjectType
+{
+	boundary,
+	item,
+	candle,
+	canHitObjs,
+	subWeapon
+};
+
 
 /*----------------- item regions -----------------*/
 #pragma region Items
@@ -58,7 +68,7 @@ enum ItemType
 {
 	itemSmallHeart,
 	itemWhip,
-	itemDagger
+	itemDagger = 2,
 };
 
 #pragma endregion
@@ -66,11 +76,4 @@ enum ItemType
 /*
 	texture constants
 */
-
 constexpr auto ID_TEX_BBOX = -101; //
-
-/* Animation constants */
-
-/*
- * item animation constants
- */

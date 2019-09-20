@@ -1,6 +1,6 @@
 #include "Animation.h"
 
-int Animation::getFrame()
+int Animation::getCurrentFrame()
 {
 	return currentFrame;
 }
@@ -14,7 +14,8 @@ void Animation::add(string spriteId, DWORD time) {
 	frames.push_back(frame);
 }
 
-void Animation::render(int nx,float x, float y,int alpha) {
+void Animation::render(int nx, float x, float y, int alpha, int r, int g, int b)
+{
 	const auto now = GetTickCount();
 	if (currentFrame == -1) {
 		currentFrame = 0;
@@ -26,16 +27,17 @@ void Animation::render(int nx,float x, float y,int alpha) {
 			currentFrame++;
 			lastFrameTime = now;
 			if (currentFrame == frames.size()) {
-				 currentFrame = 0;
+				currentFrame = 0;
 			}
 		}
 	}
-	frames[currentFrame]->getSprite()->draw(nx,x, y,alpha);
+	frames[currentFrame]->getSprite()->draw(nx, x, y, alpha, r, b, g);
+
 }
 
 bool Animation::isDone()
 {
-	return currentFrame == frames.size()-1;
+	return currentFrame == frames.size() - 1;
 }
 
 
