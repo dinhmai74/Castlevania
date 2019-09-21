@@ -1,11 +1,11 @@
 item_stopwatch	194	0	224	32	194	0	224	32
-item_smallheart	0	0	16	16	0	0	16	16
-item_largeheart	16	0	40	20	16	0	40	20
+item_smallheart	0	0	16	32 0	0	16	32
+item_largeheart	16	0	40	32 16	0	40	32
 item_redmoneybag	40	0	70	30	40	0	70	30
 item_whitemoneybag	70	0	100	30	70	0	100	30
 item_bluemoneybag	100	0	130	30	100	0	130	30
 item_chain	130	0	162	32	130	0	162	32
-item_dagger	162	0	194	18	162	0	194	18
+item_dagger	347 32	381	64 347 32	381	64
 item_cross	224	0	256	32	224	0	256	32
 item_axe	256	0	286	28	256	0	286	28
 item_invisibilitypotion	286	0	312	32	286	0	312	32

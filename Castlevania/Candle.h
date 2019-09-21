@@ -20,9 +20,11 @@ public:
 	{
 		if (!isGeneratedItem && grid)
 		{
-			const auto item = ItemFactory::Get()->getItem(itemInside, { x,y });
+			auto box = getBoundingBox();
+			auto itemY = y + (box.bottom - box.top) / 2 - 20;
+			const auto item = ItemFactory::Get()->getItem(itemInside, { x,itemY });
 			item->setFaceSide(itemNx);
-			auto unit = new Unit(grid, item, x, y);
+			auto unit = new Unit(grid, item, x, itemY);
 			isGeneratedItem = true;
 		}
 	}
