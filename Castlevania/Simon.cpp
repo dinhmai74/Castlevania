@@ -236,7 +236,7 @@ void Simon::updateAnimId()
 		animId = ANIM_SIT;
 		break;
 	case jumping:
-		animId = (vy > 0.15) ? ANIM_IDLE : ANIM_SIT;
+		animId = (vy > SIM_VY_READY_TO_LAND) ? ANIM_IDLE : ANIM_SIT;
 		break;
 	case hitting:
 		animId = ANIM_HITTING;
@@ -323,33 +323,42 @@ void Simon::stand()
 void Simon::standUp()
 {
 	resetState();
+	vx = 0;
 	setState(idle);
+}
+
+void Simon::stopMoveWhenHitting()
+{
+	if (currentState == jumping) return;
+	vx = 0;
 }
 
 void Simon::hit()
 {
-	if (isInGround)vx = 0;
+	stopMoveWhenHitting();
 	isHitting = true;
+	whip->refreshAnim();
 	setState(hitting);
 }
 
 void Simon::hitWhenSitting()
 {
-	if (isInGround)vx = 0;
+	stopMoveWhenHitting();
 	isHitting = true;
+	whip->refreshAnim();
 	setState(hittingWhenSitting);
 }
 
 void Simon::throwing()
 {
-	if (isInGround)vx = 0;
+	stopMoveWhenHitting();
 	isThrowing = true;
 	setState(State::throwing);
 }
 
 void Simon::throwingWhenSitting()
 {
-	if (isInGround)vx = 0;
+	stopMoveWhenHitting();
 	isThrowing = true;
 	setState(State::throwingWhenSitting);
 }
@@ -433,6 +442,7 @@ void Simon::handleOnKeyDown(int keyCode)
 {
 	if (isDoingImportantAnim()) return;
 
+	auto isJumpingHit = false;
 	switch (keyCode)
 	{
 	case DIK_SPACE:
@@ -440,7 +450,8 @@ void Simon::handleOnKeyDown(int keyCode)
 			jump();
 		break;
 	case DIK_LCONTROL:
-		isReleaseSitButton ? hit() : hitWhenSitting();
+		if (currentState == jumping) isJumpingHit = true;
+		(isReleaseSitButton || isJumpingHit) ? hit() : hitWhenSitting();
 		break;
 	case DIK_A:
 		isReleaseSitButton ? throwing() : throwingWhenSitting();

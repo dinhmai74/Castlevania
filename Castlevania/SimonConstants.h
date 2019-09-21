@@ -21,6 +21,7 @@ constexpr auto SIM_SIT_H = 48;
 constexpr auto SIM_HIT_WHEN_SIT_W = 48;
 // Simon's height when hitting( in sitting state)
 constexpr auto SIM_HIT_WHEN_SIT_H = 48;
+constexpr auto SIM_VY_READY_TO_LAND = 0.15f;
 
 constexpr auto SIMON_HITTING_TIME = 100;
 constexpr auto SIMON_JUMPING_TIME= 300;

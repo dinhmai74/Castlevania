@@ -56,6 +56,7 @@ private:
 	void sit();
 	void stand();
 	void standUp();
+	void stopMoveWhenHitting();
 	void hit();
 	void hitWhenSitting();
 	void throwing();
