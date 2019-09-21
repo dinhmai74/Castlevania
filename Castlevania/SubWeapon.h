@@ -1,13 +1,15 @@
 #pragma once
-#include "GameObject.h"
+#include "Weapon.h"
+
 class SubWeapon :
-	public GameObject
+	public Weapon 
 {
 public:
 	SubWeapon();
 	void init();
 	void initAnim() override;
-	void update(DWORD dt, vector<GameObject*>* coObjects) override;
+
+	/*----------------- get set -----------------*/
 	~SubWeapon() = default;
 };
 

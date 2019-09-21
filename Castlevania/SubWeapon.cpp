@@ -1,4 +1,5 @@
 #include "SubWeapon.h"
+#include "Candle.h"
 
 SubWeapon::SubWeapon()
 {
@@ -13,9 +14,4 @@ void SubWeapon::init()
 void SubWeapon::initAnim()
 {
 	addAnimation(itemDagger, "subweapons_dagger_ani");
-}
-
-void SubWeapon::update(DWORD dt, vector<GameObject*>* coObjects)
-{
-	GameObject::update(dt);
 }

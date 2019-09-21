@@ -18,8 +18,6 @@ public:
 	void init(int mapId, wstring mapName);
 	void render();
 	void update(DWORD dt);
-	vector<MapGameObjects> getMapSimonCanCollisionObjects();
-	void updateGrid();
 	void onKeyDown(int keyCode);
 	void onKeyUp(int keyCode) const;
 	void keyState(BYTE* states) const;
@@ -39,6 +37,11 @@ private:
 	void loadContent();
 	void initSimonPos();
 	void loadListObjFromGrid();
+	vector<MapGameObjects> getMapSimonCanCollisionObjects();
 	void updateCamera(DWORD dt) const;
+	bool isInViewport(GameObject* object);
+	void updateInActiveUnit();
+	void updateGrid();
 	bool renderBoundingBox;
 };
+

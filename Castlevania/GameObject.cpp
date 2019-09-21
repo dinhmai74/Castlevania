@@ -77,13 +77,18 @@ void GameObject::addAnimation(int id, string animTexId)
 
 void GameObject::getHurt(int nx, int hpLose)
 {
+	loseHp(hpLose);
 	if (this->hp <= 0)
 	{
 		setState(dead);
 		this->hp = 0;
 	}
 	this->faceSide = nx;
-	setStatusWhenStillHaveEnoughHP(hpLose);
+}
+
+void GameObject::getHurt(int nx, int ny, int hpLose)
+{
+	GameObject::getHurt(nx, hpLose);
 }
 
 void GameObject::loseHp(int hpLose)

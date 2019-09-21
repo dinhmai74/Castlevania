@@ -26,6 +26,8 @@ constexpr auto SIM_VY_READY_TO_LAND = 0.15f;
 constexpr auto SIMON_HITTING_TIME = 100;
 constexpr auto SIMON_JUMPING_TIME= 300;
 constexpr auto SIMON_THROWING_TIME = 150;
+constexpr auto SIM_POWERING_DURATION= 1000;
+constexpr auto SIM_DELTA_TRHOWING_TIME= 300;
 
 // trong luc luc nhay
 #define SIMON_GRAVITY 0.0008f;

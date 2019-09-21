@@ -27,11 +27,8 @@ public:
 		}
 	}
 
-	void getHurt(int nx = 1, int hp = 1) override;
 private:
 	bool isGeneratedItem;
-	bool firstTimeHurt;
-	Timer* destroyedTimer = new Timer(BURNED_DURATION-100);
 };
 
 inline void Candle::init()
@@ -50,17 +47,5 @@ inline void Candle::update(DWORD dt, vector<GameObject*>* coObjects)
 {
 	GameObject::update(dt);
 	GameObject::checkCollisionAndStopMovement(dt, coObjects);
-	if (firstTimeHurt && destroyedTimer->IsTimeUp())
-		generateItem();
-}
-
-inline void Candle::getHurt(int nx, int hp)
-{
-	GameObject::getHurt(hp);
-
-	if (!isGeneratedItem)
-	{
-		destroyedTimer->Start();
-	}
-	firstTimeHurt = true;
+	if (burnEffect && burnEffect->isOver(BURNED_DURATION - 100)) generateItem();
 }

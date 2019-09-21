@@ -22,7 +22,7 @@ void Whip::checkEnemyCollisions(vector<LPGAMEOBJECT> coObjects)
 		if (isColliding(getBoundingBox(), coObject->getBoundingBox()))
 		{
 			auto candle = dynamic_cast<Candle*>(coObject);
-			candle->getHurt();
+			candle->getHurt(1,1,1);
 		}
 	}
 }

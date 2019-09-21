@@ -12,8 +12,7 @@ Simon::Simon()
 void Simon::init()
 {
 	whip = new Whip();
-	subWeapon = subWeaponFactory->getSubWeapon(itemDagger);
-	getSubWeapon()->setEnable(false);
+	subWeaponType = itemDagger;
 	whip->setPosition(x, y);
 
 	isInGround = false;
@@ -203,7 +202,8 @@ void Simon::processCollisionWithItem(Item* item)
 	case itemWhip:
 		powerUpWhip();
 		break;
-	default: subWeapon = SubWeaponFactory::getInstance()->getSubWeapon(itemDagger);
+	default:
+		subWeaponType = itemDagger;
 		break;
 	}
 
@@ -352,6 +352,7 @@ void Simon::hitWhenSitting()
 
 void Simon::throwing()
 {
+	if (!isHaveSubWeapon() || !throwingTimer->IsTimeUp()) return;
 	stopMoveWhenHitting();
 	isThrowing = true;
 	setState(State::throwing);
@@ -359,6 +360,7 @@ void Simon::throwing()
 
 void Simon::throwingWhenSitting()
 {
+	if (!isHaveSubWeapon() || !throwingTimer->IsTimeUp()) return;
 	stopMoveWhenHitting();
 	isThrowing = true;
 	setState(State::throwingWhenSitting);
@@ -366,14 +368,27 @@ void Simon::throwingWhenSitting()
 
 void Simon::throwSubWeapon()
 {
-	subWeapon = subWeaponFactory->getSubWeapon(itemDagger);
-	subWeapon->setFaceSide(faceSide);
-	const auto subX = faceSide == FaceSide::left ? x - SIM_HIT_W + 10 : x + SIM_HIT_W - 10;
+	if (!subWeapon && isHaveSubWeapon())
+		generateSubWeapon();
+	else
+	{
+		if (!isHaveSubWeapon() || subWeapon->IsActive() || subWeapon->IsEnable() || !throwingTimer->IsTimeUp()) return;
+		generateSubWeapon();
+	}
+
+}
+
+void Simon::generateSubWeapon()
+{
+	subWeapon = subWeaponFactory->getSubWeapon(subWeaponType, faceSide);
+	const auto width = getBoundingBox().right - getBoundingBox().left;
+	const auto subX = faceSide == FaceSide::left ? x - width + 10 : x + width;
 	const auto subY = y;
 
 	subWeapon->setPosition(subX, subY);
 	subWeapon->setEnable();
 	StageManager::getInstance()->add(subWeapon);
+	throwingTimer->Start();
 }
 
 void Simon::resetState()

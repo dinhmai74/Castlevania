@@ -89,6 +89,7 @@ public:
 
 	virtual void renderBoundingBox();
 	virtual void getHurt(int nx = 1, int hpLose = 1);
+	virtual void getHurt(int nx ,int ny, int hpLose );
 	void loseHp(int hpLose = 1);
 	void setStatusWhenStillHaveEnoughHP(int hpLose);
 

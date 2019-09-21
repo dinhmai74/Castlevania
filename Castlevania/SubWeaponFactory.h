@@ -13,7 +13,9 @@ public:
 		return instance;
 	}
 
+	int getDmg(int type);
 	SubWeapon* getSubWeapon(int type);
+	SubWeapon* getSubWeapon(int type, int faceSide);
 	D3DXVECTOR2 getVelocity(int type);
 
 

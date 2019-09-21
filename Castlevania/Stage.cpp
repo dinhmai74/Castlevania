@@ -107,7 +107,8 @@ void Stage::render()
 		object->render();
 	}
 
-	if (renderBoundingBox) {
+	if (renderBoundingBox)
+	{
 		simon->renderBoundingBox();
 		simon->getWhip()->renderBoundingBox();
 	}
@@ -120,11 +121,21 @@ void Stage::update(DWORD dt)
 
 	const auto map = getMapSimonCanCollisionObjects();
 	simon->update(dt, map);
-	for (auto staticObj : listRenderObj)
+	for (auto obj : listRenderObj)
 	{
-		staticObj->update(dt, &listBoundary);
+
+		auto subWeapon = dynamic_cast<SubWeapon*>(obj);
+		if (subWeapon)
+		{
+			auto simonPos = simon->getPosition();
+			subWeapon->update(dt, simonPos, simon->getState(), &listCanHitObjects);
+			continue;
+		}
+
+		obj->update(dt, &listBoundary);
 	}
 	updateCamera(dt);
+	updateInActiveUnit();
 	updateGrid();
 }
 
@@ -137,6 +148,29 @@ vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 	return map;
 }
 
+void Stage::updateInActiveUnit()
+{
+	for (auto object : listRenderObj)
+	{
+		if (!isInViewport(object))
+		{
+			auto subWeapon = dynamic_cast<SubWeapon*>(object);
+			if (subWeapon) {
+				subWeapon->setActive(false);
+				subWeapon->setEnable(false);
+			}
+		}
+	}
+}
+
+bool Stage::isInViewport(GameObject* object)
+{
+	const auto camPosition = Game::getInstance()->getCameraPosition();
+
+	return isColliding(object->getBoundingBox(),
+		{ camPosition.x, camPosition.y, camPosition.x + SCREEN_WIDTH, camPosition.y + SCREEN_HEIGHT });
+}
+
 void Stage::updateGrid()
 {
 	for (auto unit : listUnit)
@@ -147,7 +181,6 @@ void Stage::updateGrid()
 		const auto pos = obj->getPosition();
 		unit->move(pos.x, pos.y);
 	}
-
 }
 
 void Stage::loadListObjFromGrid()
@@ -189,7 +222,7 @@ void Stage::updateCamera(const DWORD dt) const
 	simon->getPosition(simonX, simonY);
 	simon->getSpeed(simonVx, simonVy);
 
-	const int offset =  60;
+	const int offset = 60;
 
 	float posX, posY;
 	game->getCameraPosition(posX, posY);
@@ -204,6 +237,7 @@ void Stage::updateCamera(const DWORD dt) const
 	game->setCameraPosition(posX, posY);
 }
 
+
 void Stage::onKeyDown(const int keyCode)
 {
 	simon->handleOnKeyDown(keyCode);
@@ -211,7 +245,8 @@ void Stage::onKeyDown(const int keyCode)
 		this->renderBoundingBox = !this->renderBoundingBox;
 	else if (keyCode == DIK_U) simon->powerUpWhip();
 	else if (keyCode == DIK_D) simon->powerUpWhip(false);
-	else if (keyCode == DIK_R) {
+	else if (keyCode == DIK_R)
+	{
 		init(mapId, mapName);
 	}
 }

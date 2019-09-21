@@ -26,7 +26,6 @@ public:
 
 	void resetState();
 
-
 	// Inherited via GameObject
 	void setState(int state);
 
@@ -37,16 +36,18 @@ public:
 	void update(DWORD dt, const vector<MapGameObjects>& maps);
 
 	SubWeapon* getSubWeapon() const { return subWeapon; }
-	void powerUpWhip(bool upgrade=true);
+	void powerUpWhip(bool upgrade = true);
 	Whip* getWhip() { return whip; }
 private:
 	bool isHitting;
 	bool isThrowing;
 	bool isCollectingWhip;
-	Timer *collectingWhipTimer = new Timer(1000);
+	Timer* collectingWhipTimer = new Timer(SIM_POWERING_DURATION);
+	Timer* throwingTimer = new Timer(400);
 	bool isReleaseSitButton;
 	Whip* whip;
 	SubWeapon* subWeapon;
+	int subWeaponType;
 	bool isInGround;
 	int forceRenderFrame;
 
@@ -62,6 +63,8 @@ private:
 	void throwing();
 	void throwingWhenSitting();
 	void throwSubWeapon();
+	void generateSubWeapon();
+	bool isHaveSubWeapon() const {return subWeaponType != -1;	};
 	bool isPowering() const { return !collectingWhipTimer->IsTimeUp(); };
 
 
@@ -75,7 +78,7 @@ private:
 	void updateRGB();
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
 
-	void processCollisionWithItem(Item* item) ;
+	void processCollisionWithItem(Item* item);
 };
 
 

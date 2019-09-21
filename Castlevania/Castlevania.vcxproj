@@ -185,6 +185,7 @@
     <ClInclude Include="tileMapInfo.h" />
     <ClInclude Include="TilemapManager.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Weapon.h" />
     <ClInclude Include="Whip.h" />
     <ClInclude Include="WhipConst.h" />
     <ClInclude Include="ItemWhip.h" />
