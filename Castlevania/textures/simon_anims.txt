@@ -1,5 +1,5 @@
 simon_stand_ani	simon_stand	100
-simon_walk_ani	simon_walk_1	100	simon_walk_2	100	simon_walk_3	100	simon_walk_4	100
+simon_walk_ani	simon_walk_1	100	simon_walk_2	100	simon_walk_3	100	simon_walk_4	50 simon_walk_4	50
 simon_sit_ani	simon_sit	100
 simon_jump_ani	simon_jump	100
 simon_hitsit_ani	simon_hitsit_1	100	simon_hitsit_2	100	simon_hitsit_3	100 simon_hitsit_3	100

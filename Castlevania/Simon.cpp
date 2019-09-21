@@ -40,7 +40,6 @@ void Simon::render()
 		whip->render();
 	}
 
-	DebugOut(L"\n %d", forceRenderFrame);
 	animations[animId]->render(faceSide, x, y, alpha, r, g, b);
 	currentFrame = animations[animId]->getCurrentFrame();
 
@@ -190,8 +189,6 @@ void Simon::processCollisionWithItem(Item* item)
 	case itemWhip:
 		if (whip) whip->upgradeWhipLv();
 		collectingWhipTimer->Start();
-		currentFrame = currentFrame - 1;
-		if (currentFrame < 0) currentFrame = 0;
 		forceRenderFrame = currentFrame;
 		break;
 	default: subWeapon = SubWeaponFactory::getInstance()->getSubWeapon(itemDagger);
