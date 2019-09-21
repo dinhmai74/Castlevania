@@ -155,6 +155,21 @@ void GameObject::calcPotentialCollisions
 	std::sort(coEvents.begin(), coEvents.end(), CollisionEvent::compare);
 }
 
+void GameObject::calcPotentialCollisionsAABB(vector<LPGAMEOBJECT>* coObjects, vector<LPCollisionEvent>& coEvents)
+{
+
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		auto ob = coObjects->at(i);
+		auto isCollided = isColliding(getBoundingBox(), ob->getBoundingBox());
+		if(isCollided)
+		{
+			auto* e = new CollisionEvent(0, 1, 1, ob);
+			coEvents.push_back(e);
+		}
+	}
+}
+
 void GameObject::filterCollision
 (vector<LPCollisionEvent>& coEvents,
  vector<LPCollisionEvent>& coEventsResult,

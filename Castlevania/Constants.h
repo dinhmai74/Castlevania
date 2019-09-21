@@ -55,7 +55,9 @@ enum ObjectType
 	item,
 	candle,
 	canHitObjs,
-	subWeapon
+	subWeapon,
+	whip,
+	simon
 };
 
 

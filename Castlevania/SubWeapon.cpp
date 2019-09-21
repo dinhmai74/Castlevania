@@ -8,6 +8,7 @@ SubWeapon::SubWeapon()
 
 void SubWeapon::init()
 {
+	type = subWeapon;
 	initAnim();
 }
 

@@ -97,6 +97,7 @@ public:
 
 	LPCollisionEvent sweptAABBEx(LPGAMEOBJECT coO);
 	void calcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCollisionEvent>& coEvents);
+	void calcPotentialCollisionsAABB(vector<LPGAMEOBJECT>* coObjects, vector<LPCollisionEvent>& coEvents);
 	void filterCollision(
 		vector<LPCollisionEvent>& coEvents,
 		vector<LPCollisionEvent>& coEventsResult,

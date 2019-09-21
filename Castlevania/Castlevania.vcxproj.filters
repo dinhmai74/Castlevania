@@ -109,6 +109,9 @@
       <Filter>Source Files\Object\SubWeapon</Filter>
     </ClCompile>
     <ClCompile Include="SubWeaponFactory.cpp">
+      <Filter>Source Files\Object\SubWeapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

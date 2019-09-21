@@ -20,6 +20,7 @@ void Simon::init()
 	Simon::initAnim();
 	animId = ANIM_IDLE;
 	gravity = SIMON_GRAVITY;
+	type = simon;
 }
 
 void Simon::initAnim()

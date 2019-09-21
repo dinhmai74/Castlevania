@@ -143,6 +143,7 @@
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="TilemapManager.cpp" />
+    <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Whip.cpp" />
   </ItemGroup>
   <ItemGroup>

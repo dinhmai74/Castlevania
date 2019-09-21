@@ -9,6 +9,8 @@ Whip::Whip()
 	Whip::initAnim();
 	lv = 1;
 	animId = -1;
+	type = whip;
+	setDmg(1);
 }
 
 
@@ -19,10 +21,11 @@ void Whip::checkEnemyCollisions(vector<LPGAMEOBJECT> coObjects)
 {
 	for (auto& coObject : coObjects)
 	{
-		if (isColliding(getBoundingBox(), coObject->getBoundingBox()))
+		if (isColliding(getBoundingBox(), coObject->getBoundingBox()) && !rendered)
 		{
 			auto candle = dynamic_cast<Candle*>(coObject);
-			candle->getHurt(1,1,1);
+			candle->getHurt(1,1,getDmg());
+			rendered = true;
 		}
 	}
 }
@@ -49,7 +52,9 @@ void Whip::update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT>* co
 
 	auto state = getState();
 	if (state == STATE_WHIP_HITTING)
+	{
 		checkEnemyCollisions(*coObject);
+	}
 
 }
 
@@ -61,6 +66,7 @@ void Whip::setSide(int side)
 void Whip::refreshAnim()
 {
 	if (animations[lv]) animations[lv]->refresh();
+	rendered = false;
 }
 
 Box Whip::getBoundingBox()
@@ -96,6 +102,8 @@ void Whip::upgradeWhipLv(bool up)
 {
 	if (lv < MAX_WHIP_LV && up) lv++;
 	else if (lv > 1 && !up) lv--;
+
+	setDmg(lv);
 }
 
 void Whip::initAnim()

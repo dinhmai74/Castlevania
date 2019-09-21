@@ -1,25 +1,26 @@
 #pragma once
-#include "GameObject.h"
 #include "SimonConstants.h"
+#include "Weapon.h"
 
 
-class Whip : public GameObject
+class Whip : public Weapon 
 {
 	int lv;
+	bool rendered;
 public:
 	Whip();
 	~Whip();
 
 	void checkEnemyCollisions(vector<LPGAMEOBJECT> coObject);
 	// Inherited via GameObject
-	virtual void render() override;
+	void render() override;
 	void setSide(int side);
 	void refreshAnim();
 	void refreshState() { setState(STATE_WHIP_DISAPPEAR); };
 	void upgradeWhipLv(bool up=true);
 	void initAnim() override;
 
-	virtual Box getBoundingBox() override;
+	Box getBoundingBox() override;
 	void updatePos(float simonX, float simonY, int simonState);
 	void update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT>* coObject, int simonState);
 };
