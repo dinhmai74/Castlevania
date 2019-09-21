@@ -35,9 +35,14 @@ void Animation::render(int nx, float x, float y, int alpha, int r, int g, int b)
 
 }
 
+void Animation::render(int nx, float x, float y, int frame, int alpha, int r, int g, int b)
+{
+	frames[frame]->getSprite()->draw(nx, x, y, alpha, r, b, g);
+}
+
 bool Animation::isDone()
 {
-	return currentFrame == frames.size() - 1;
+	return currentFrame == frames.size() - 1 || forceDone;
 }
 
 

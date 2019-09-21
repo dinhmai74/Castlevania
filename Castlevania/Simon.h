@@ -35,10 +35,10 @@ public:
 	void initAnim() override;
 	Box getBoundingBox() override;
 	void renderBoundingBox() override;
-	void upgradeWhipLv(bool up = true) const;
 	void update(DWORD dt, const vector<MapGameObjects>& maps);
 
 	SubWeapon* getSubWeapon() const { return subWeapon; }
+	void powerUpWhip(bool upgrade=true);
 private:
 	bool isHitting;
 	bool isThrowing;
@@ -61,15 +61,19 @@ private:
 	void throwing();
 	void throwingWhenSitting();
 	void throwSubWeapon();
+	bool isPowering() const { return !collectingWhipTimer->IsTimeUp(); };
+
 
 	/*----------------- check collision -----------------*/
 	void processCollisionWithGround(float minTy, float ny);
 	void processCollisionWithBoundaryByX(float minTx, float ny);
 	void checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries);
 	void checkCollisionWithItems(DWORD dt, vector<GameObject*>* items);
+	void upgradeWhipLv(bool up = true) const;
 	void updateWeaponAction(DWORD dt, vector<GameObject*>* objs);
 	void updateRGB();
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
+
 	void processCollisionWithItem(Item* item) ;
 };
 

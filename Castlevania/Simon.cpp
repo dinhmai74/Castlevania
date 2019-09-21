@@ -34,13 +34,17 @@ void Simon::initAnim()
 
 void Simon::render()
 {
-	if (isHitting && collectingWhipTimer ->IsTimeUp())
+	if (isHitting && collectingWhipTimer->IsTimeUp())
 	{
 		whip->setSide(faceSide);
 		whip->render();
 	}
 
-	animations[animId]->render(faceSide, x, y, alpha, r, g, b);
+	if (!collectingWhipTimer->IsTimeUp())
+	{
+		animations[animId]->render(faceSide, x, y, currentFrame, alpha, r, g, b);
+	}
+	else animations[animId]->render(faceSide, x, y, alpha, r, g, b);
 	currentFrame = animations[animId]->getCurrentFrame();
 
 	preAnimId = animId;
@@ -66,7 +70,6 @@ void Simon::updateRGB()
 		r = g + 80;
 		g = 100 + rand() % 150;
 		b = g + 35;
-		animations[animId]->setRenderFrame(forceRenderFrame);
 	}
 	else
 	{
@@ -102,7 +105,7 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 	calcPotentialCollisions(boundaries, coEvents);
 
 	// no collison
-	if (coEvents.empty()  )
+	if (coEvents.empty())
 	{
 		updatePosWhenNotCollide();
 	}
@@ -175,6 +178,15 @@ void Simon::checkCollisionWithItems(DWORD dt, vector<GameObject*>* items)
 	for (auto& coEvent : coEvents) delete coEvent;
 }
 
+void Simon::powerUpWhip(bool upgrade)
+{
+	if (whip) whip->upgradeWhipLv(upgrade);
+	if (isHitting) return;
+
+	if (isPowering()) return;
+	collectingWhipTimer->Start();
+}
+
 void Simon::updateWeaponAction(DWORD dt, vector<GameObject*>* objs)
 {
 	whip->update(dt, x, y, objs, currentState);
@@ -186,10 +198,9 @@ void Simon::processCollisionWithItem(Item* item)
 	switch (itemType)
 	{
 	case itemSmallHeart: break;
+
 	case itemWhip:
-		if (whip) whip->upgradeWhipLv();
-		collectingWhipTimer->Start();
-		forceRenderFrame = currentFrame;
+		powerUpWhip();
 		break;
 	default: subWeapon = SubWeaponFactory::getInstance()->getSubWeapon(itemDagger);
 		break;
@@ -215,90 +226,63 @@ void Simon::processCollisionWithBoundaryByX(float minTx, float ny)
 
 void Simon::updateAnimId()
 {
-	if (currentState == walking)
+	int frame;
+	switch (currentState)
 	{
-		animId = ANIM_WALK;
-	}
-	else if (currentState == sitting)
-	{
-		if (isReleaseSitButton)
-		{
-			standUp();
-		}
+	case walking: animId = ANIM_WALK;
+		break;
+	case sitting:
+		if (isReleaseSitButton) standUp();
 		animId = ANIM_SIT;
-	}
-	else if (currentState == jumping)
-	{
-		// will sit if get enough jump enough high;
-		if (vy > 0.15)
-			animId = ANIM_IDLE;
-		else
-			animId = ANIM_SIT;
-	}
-	else if (currentState == hitting)
-	{
-		// set hitting anim
+		break;
+	case jumping:
+		animId = (vy > 0.15) ? ANIM_IDLE : ANIM_SIT;
+		break;
+	case hitting:
 		animId = ANIM_HITTING;
 		// check and process if animation hitting is done
-		if (animations[animId])
+		if (animations[animId]->isDone())
 		{
-			if (animations[animId]->isDone())
-			{
-				whip->refreshAnim();
-				animations[animId]->refresh();
-				stand();
-				animId = ANIM_IDLE;
-			}
+			whip->refreshAnim();
+			animations[animId]->refresh();
+			stand();
+			animId = ANIM_IDLE;
 		}
-	}
-	else if (currentState == hittingWhenSitting)
-	{
+		break;
+	case hittingWhenSitting:
 		animId = ANIM_HITTING_WHEN_SIT;
-		if (animations[animId])
+		if (animations[animId]->isDone())
 		{
-			const auto frame = animations[animId]->getCurrentFrame();
-			if (animations[animId]->isDone())
-			{
-				whip->refreshAnim();
-				isHitting = false;
-				setState(sitting);
-				animations[animId]->refresh();
-				animId = ANIM_SIT;
-			}
+			whip->refreshAnim();
+			isHitting = false;
+			setState(sitting);
+			animations[animId]->refresh();
+			animId = ANIM_SIT;
 		}
-	}
-	else if (currentState == State::throwing)
-	{
+		break;
+	case State::throwing:
 		animId = ANIM_HITTING;
-		if (animations[animId])
+		frame = animations[animId]->getCurrentFrame();
+		if (frame == 2) throwSubWeapon();
+		else if (animations[animId]->isDone())
 		{
-			const auto frame = animations[animId]->getCurrentFrame();
-			if (frame == 2) throwSubWeapon();
-			else if (animations[animId]->isDone())
-			{
-				animations[animId]->refresh();
-				stand();
-			}
+			animations[animId]->refresh();
+			stand();
 		}
-	}
-	else if (currentState == State::throwingWhenSitting)
-	{
+		break;
+	case State::throwingWhenSitting:
 		animId = ANIM_HITTING_WHEN_SIT;
-		if (animations[animId])
+		frame = animations[animId]->getCurrentFrame();
+		if (frame == 2) throwSubWeapon();
+		else if (animations[animId]->isDone())
 		{
-			const auto frame = animations[animId]->getCurrentFrame();
-			if (frame == 2) throwSubWeapon();
-			else if (animations[animId]->isDone())
-			{
-				animations[animId]->refresh();
-				setState(State::sitting);
-				isThrowing = false;
-				animId = ANIM_IDLE;
-			}
+			animations[animId]->refresh();
+			setState(State::sitting);
+			isThrowing = false;
+			animId = ANIM_IDLE;
 		}
-	}
-	else
-	{
+		break;
+	default:
 		animId = ANIM_IDLE;
 	}
 }
@@ -406,7 +390,6 @@ void Simon::upgradeWhipLv(bool up) const
 	whip->upgradeWhipLv(up);
 }
 
-
 void Simon::handleOnKeyRelease(int KeyCode)
 {
 	if (KeyCode == DIK_DOWN)
@@ -421,7 +404,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 {
 	auto game = Game::getInstance();
 
-	if (isHitting || isThrowing || isCollectingWhip) return;
+	if (isHitting || isThrowing || !collectingWhipTimer->IsTimeUp()) return;
 	if (currentState == sitting) return;
 	if (currentState == jumping) return;
 
@@ -446,7 +429,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 
 bool Simon::isDoingImportantAnim()
 {
-	return isHitting || isThrowing || isCollectingWhip;
+	return isHitting || isThrowing || isPowering();
 }
 
 void Simon::handleOnKeyDown(int keyCode)
@@ -469,13 +452,13 @@ void Simon::handleOnKeyDown(int keyCode)
 		if (isInGround
 			&& currentState != sitting
 			&& currentState != jumping
-		)
+			)
 		{
 			isReleaseSitButton = false;
 			sit();
 		}
 		break;
-	default: ;
+	default:;
 	}
 }
 

@@ -67,6 +67,8 @@ void Whip::refreshAnim()
 	if (animations[lv]) animations[lv]->refresh();
 }
 
+
+
 Box Whip::getBoundingBox()
 {
 	if (currentState != STATE_WHIP_HITTING) return { 0,0,0,0, };
@@ -100,7 +102,6 @@ void Whip::upgradeWhipLv(bool up)
 {
 	if (lv < MAX_WHIP_LV && up) lv++;
 	else if (lv > 1 && !up) lv--;
-
 }
 
 void Whip::initAnim()

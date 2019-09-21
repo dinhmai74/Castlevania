@@ -19,8 +19,9 @@ class Animation
 	int state = -1;
 	vector <AnimationFrame* > frames;
 	DWORD animStartTime;
+	bool forceDone;
 public:
-	Animation(int defaultTime=100) {
+	Animation(int defaultTime = 100) {
 		this->defaultTime = defaultTime;
 		lastFrameTime = -1;
 		currentFrame = -1;
@@ -29,7 +30,8 @@ public:
 
 	int getCurrentFrame();
 	void add(string spriteId, DWORD time = 0);
-	void render(int nx, float x, float y, int alpha=255, int r=255, int g=255, int b=255);
+	void render(int nx, float x, float y, int alpha = 255, int r = 255, int g = 255, int b = 255);
+	void render(int nx, float x, float y, int frame, int alpha, int r, int g, int b);
 	void refresh();
 	bool isDone();
 	void setAniStartTime(DWORD t) { animStartTime = t; }
@@ -37,4 +39,5 @@ public:
 	bool isOver(DWORD dt) const { return GetTickCount() - animStartTime >= dt; }
 	Box getFrameSprite();
 	Box getFrameBoundingBox();
+	void setForceDone(bool val=true) { forceDone = val; }
 };

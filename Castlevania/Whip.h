@@ -15,6 +15,7 @@ public:
 	virtual void render() override;
 	void setSide(int side);
 	void refreshAnim();
+	void refreshState() { setState(STATE_WHIP_DISAPPEAR); };
 	void upgradeWhipLv(bool up=true);
 	void initAnim() override;
 

@@ -206,8 +206,8 @@ void Stage::onKeyDown(const int keyCode)
 	simon->handleOnKeyDown(keyCode);
 	if (keyCode == DIK_B)
 		this->renderBoundingBox = !this->renderBoundingBox;
-	else if (keyCode == DIK_U) simon->upgradeWhipLv();
-	else if (keyCode == DIK_D) simon->upgradeWhipLv(false);
+	else if (keyCode == DIK_U) simon->powerUpWhip();
+	else if (keyCode == DIK_D) simon->powerUpWhip(false);
 	else if (keyCode == DIK_R) {
 		init(mapId, mapName);
 	}

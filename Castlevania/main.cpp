@@ -240,6 +240,7 @@ void loadResources()
 	LoadSprites(1002, L"Items");
 	LoadSprites(1003, L"Candle");
 	LoadSprites(1004, L"subweapons");
+	LoadSprites(1005, L"empty");
 	vector<TileMapInfo> mapName;
 	mapName.push_back({ ID_SCENE_1,L"Scene1",1536,384,32,32 });
 	StageManager::getInstance()->init(mapName);
