@@ -22,21 +22,7 @@ void Weapon::checkCollision(DWORD dt, vector<GameObject*>* coObjs)
 	calcPotentialCollisions(coObjs, coEvents);
 	calcPotentialCollisionsAABB(coObjs, coEvents);
 
-	if (coEvents.empty())
-	{
-		// case that collide in init;
-		/*for (UINT i = 0; i < coObjs->size(); i++)
-		{
-			GameObject* coObject = coObjs->at[i];
-			if (isColliding(getBoundingBox(), coObject->getBoundingBox()))
-			{
-				processWithCandle(coObject, 1, 1);
-				disableWeapon();
-			}
-		}*/
-
-		updatePosWhenNotCollide();
-	}
+	if (coEvents.empty()) updatePosWhenNotCollide();
 	else
 	{
 		float minTx;
