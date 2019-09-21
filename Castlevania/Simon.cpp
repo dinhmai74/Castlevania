@@ -51,10 +51,8 @@ void Simon::render()
 }
 
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
-
 {
 	updateRGB();
-	if (!collectingWhipTimer->IsTimeUp()) return;
 	GameObject::update(dt);
 
 	checkCollision(dt, maps);
@@ -185,6 +183,7 @@ void Simon::powerUpWhip(bool upgrade)
 
 	if (isPowering()) return;
 	collectingWhipTimer->Start();
+	vx = 0;
 }
 
 void Simon::updateWeaponAction(DWORD dt, vector<GameObject*>* objs)
@@ -373,7 +372,7 @@ void Simon::throwSubWeapon()
 		generateSubWeapon();
 	else
 	{
-		if (!isHaveSubWeapon() || subWeapon->IsActive() || subWeapon->IsEnable() || !throwingTimer->IsTimeUp()) return;
+		if (!isHaveSubWeapon() || subWeapon->IsActive() ||!throwingTimer->IsTimeUp()) return;
 		generateSubWeapon();
 	}
 
@@ -422,7 +421,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 {
 	auto game = Game::getInstance();
 
-	if (isHitting || isThrowing || !collectingWhipTimer->IsTimeUp()) return;
+	if (isDoingImportantAnim()) return;
 	if (currentState == sitting) return;
 	if (currentState == jumping) return;
 

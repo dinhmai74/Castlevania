@@ -43,7 +43,7 @@ private:
 	bool isThrowing;
 	bool isCollectingWhip;
 	Timer* collectingWhipTimer = new Timer(SIM_POWERING_DURATION);
-	Timer* throwingTimer = new Timer(400);
+	Timer* throwingTimer = new Timer(SIM_DELTA_TRHOWING_TIME);
 	bool isReleaseSitButton;
 	Whip* whip;
 	SubWeapon* subWeapon;
