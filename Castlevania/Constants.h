@@ -69,8 +69,14 @@ auto constexpr G_HEART_SMALL = 0.0001f;
 enum ItemType
 {
 	itemSmallHeart,
+	itemBigHeart,
+	itemDagger,
 	itemWhip,
-	itemDagger = 2,
+	itemRedMoneyBag,
+	itemWhiteMoneyBag,
+	itemBlueMoneyBag,
+	itemCross,
+	itemAxe,
 };
 
 #pragma endregion

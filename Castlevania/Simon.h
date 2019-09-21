@@ -50,6 +50,7 @@ private:
 	int subWeaponType;
 	bool isInGround;
 	int forceRenderFrame;
+	int energy;
 
 	/*----------------- simon actions -----------------*/
 	void move(int side);
@@ -60,11 +61,13 @@ private:
 	void stopMoveWhenHitting();
 	void hit();
 	void hitWhenSitting();
+	bool canThrow();
 	void throwing();
 	void throwingWhenSitting();
 	void throwSubWeapon();
+	void loseEnergy() { energy--; energy = energy < 0 ? 0 : energy; };
 	void generateSubWeapon();
-	bool isHaveSubWeapon() const {return subWeaponType != -1;	};
+	bool isHaveSubWeapon() const { return subWeaponType != -1; };
 	bool isPowering() const { return !collectingWhipTimer->IsTimeUp(); };
 
 

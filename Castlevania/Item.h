@@ -23,8 +23,14 @@ private:
 inline void Item::initAnim()
 {
 	addAnimation(itemSmallHeart, "item_smallheart_ani");
+	addAnimation(itemBigHeart, "item_largeheart_ani");
 	addAnimation(itemWhip, "item_chain_ani");
 	addAnimation(itemDagger, "item_dagger_ani");
+	addAnimation(itemAxe, "item_axe_ani");
+	addAnimation(itemCross, "item_cross_ani");
+	addAnimation(itemBlueMoneyBag, "item_blue_ani");
+	addAnimation(itemWhiteMoneyBag, "item_white_ani");
+	addAnimation(itemRedMoneyBag, "item_red_ani");
 }
 
 inline void Item::init()

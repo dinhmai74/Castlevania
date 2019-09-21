@@ -13,6 +13,7 @@ void Simon::init()
 {
 	whip = new Whip();
 	subWeaponType = itemDagger;
+	energy = 5;
 	whip->setPosition(x, y);
 
 	isInGround = false;
@@ -53,6 +54,7 @@ void Simon::render()
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 {
 	updateRGB();
+	DebugOut(L"energy %d\n", energy);
 	GameObject::update(dt);
 
 	checkCollision(dt, maps);
@@ -194,9 +196,12 @@ void Simon::updateWeaponAction(DWORD dt, vector<GameObject*>* objs)
 void Simon::processCollisionWithItem(Item* item)
 {
 	const auto itemType = item->getItemType();
+	const auto itemHeart = dynamic_cast<ItemHeart*>(item);
 	switch (itemType)
 	{
 	case itemSmallHeart:
+	case itemBigHeart:
+		energy += itemHeart->getEnergy();
 		break;
 
 	case itemWhip:
@@ -350,9 +355,15 @@ void Simon::hitWhenSitting()
 	setState(hittingWhenSitting);
 }
 
+bool Simon::canThrow()
+{
+	const auto isHaveEnoughEnergy = energy > 0;
+	return  isHaveEnoughEnergy && isHaveSubWeapon() && throwingTimer->IsTimeUp();
+}
+
 void Simon::throwing()
 {
-	if (!isHaveSubWeapon() || !throwingTimer->IsTimeUp()) return;
+	if (!canThrow()) return;
 	stopMoveWhenHitting();
 	isThrowing = true;
 	setState(State::throwing);
@@ -360,7 +371,7 @@ void Simon::throwing()
 
 void Simon::throwingWhenSitting()
 {
-	if (!isHaveSubWeapon() || !throwingTimer->IsTimeUp()) return;
+	if (!canThrow()) return;
 	stopMoveWhenHitting();
 	isThrowing = true;
 	setState(State::throwingWhenSitting);
@@ -372,7 +383,7 @@ void Simon::throwSubWeapon()
 		generateSubWeapon();
 	else
 	{
-		if (!isHaveSubWeapon() || subWeapon->IsActive() ||!throwingTimer->IsTimeUp()) return;
+		if (!isHaveSubWeapon() || subWeapon->IsActive() || subWeapon->IsEnable() || !throwingTimer->IsTimeUp()) return;
 		generateSubWeapon();
 	}
 
@@ -380,6 +391,7 @@ void Simon::throwSubWeapon()
 
 void Simon::generateSubWeapon()
 {
+	loseEnergy();
 	subWeapon = subWeaponFactory->getSubWeapon(subWeaponType, faceSide);
 	const auto width = getBoundingBox().right - getBoundingBox().left;
 	const auto subX = faceSide == FaceSide::left ? x - width + 10 : x + width;
