@@ -104,10 +104,13 @@ void Stage::render()
 	for (auto object : listRenderObj)
 	{
 		if (renderBoundingBox) object->renderBoundingBox();
-		if (object->IsEnable())object->render();
+		object->render();
 	}
 
-	if (renderBoundingBox) simon->renderBoundingBox();
+	if (renderBoundingBox) {
+		simon->renderBoundingBox();
+		simon->getWhip()->renderBoundingBox();
+	}
 	simon->render();
 }
 

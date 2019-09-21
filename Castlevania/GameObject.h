@@ -31,6 +31,7 @@ protected:
 	float dy;	// dy = vy*dt
 	float vx;
 	float vy;
+	int hp;
 	float boundingGameX; // gioi han man hinh game x
 	float boundingGameY; // gioi han man hinh game y
 	DWORD dt;
@@ -45,10 +46,13 @@ protected:
 	int preAnimId;
 	bool previousAnimIsOneTimeAnim;
 	bool isEnable;
-	bool isInActive;
+	bool isActive;
 
 	LPDIRECT3DTEXTURE9 texture;
+	Animation* burnEffect;
 
+	void createBlowUpEffectAndSetRespawnTimer();
+	void processWhenBurnedEffectDone();
 public:
 	GameObject();
 
@@ -84,6 +88,9 @@ public:
 	D3DXVECTOR2 getPosition() { return{ x,y }; }
 
 	virtual void renderBoundingBox();
+	virtual void getHurt(int nx = 1, int hpLose = 1);
+	void loseHp(int hpLose = 1);
+	void setStatusWhenStillHaveEnoughHP(int hpLose);
 
 	void addAnimation(int id, string animTexId);
 
@@ -108,8 +115,8 @@ public:
 	Box getBoundingBoxBaseOnFileAndPassWidth(float width);
 	virtual Box getBoundingBox(float width, float height);
 	virtual Box getBoundingBox() { return getBoundingBox(-1, -1); };
-	bool IsInActive() const { return isInActive; }
-	void setIsInActive(bool val) { isInActive = val; }
+	bool IsActive() const { return isActive; }
+	void setActive(bool val = true) { isActive = val; }
 	bool IsEnable() const { return isEnable; }
 	void setEnable(bool val = true) { isEnable = val; }
 	D3DXVECTOR2 getInitPos() const { return initPos; }

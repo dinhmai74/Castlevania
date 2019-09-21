@@ -2,10 +2,33 @@
 #include <algorithm>
 
 
+void GameObject::createBlowUpEffectAndSetRespawnTimer()
+{
+	if (currentState == dead)
+	{
+		if (!burnEffect)
+		{
+			const auto now = GetTickCount();
+			burnEffect = AnimationManager::getInstance()->get(ANIM_BURNED);
+			burnEffect->setAniStartTime(now);
+			setEnable(false);
+		}
+	}
+}
+
+void GameObject::processWhenBurnedEffectDone()
+{
+	if (burnEffect && burnEffect->isOver(BURNED_DURATION))
+	{
+		burnEffect = nullptr;
+		if (currentState == dead)setActive(false);
+	}
+}
+
 GameObject::GameObject()
 {
 	x = y = 0;
-	initPos = { 0,0 };
+	initPos = {0, 0};
 	vx = vy = 0;
 	alpha = r = b = g = 255;
 	setFaceSide(FaceSide::right); // right side
@@ -14,7 +37,9 @@ GameObject::GameObject()
 	boundingGameX = 0;
 	boundingGameY = 0;
 	currentState = State::normal;
+	isActive = true;
 	gravity = 0;
+	hp = 1;
 }
 
 GameObject::~GameObject()
@@ -24,7 +49,13 @@ GameObject::~GameObject()
 
 void GameObject::render()
 {
-	if (!IsEnable())  return;
+	if (burnEffect)
+	{
+		const auto blowX = x;
+		const auto blowY = y;
+		burnEffect->render(1, blowX, blowY);
+	}
+	if (!IsEnable()) return;
 	animations[animId]->render(faceSide, x, y, alpha);
 }
 
@@ -44,6 +75,29 @@ void GameObject::addAnimation(int id, string animTexId)
 	animations[id] = animation;
 }
 
+void GameObject::getHurt(int nx, int hpLose)
+{
+	if (this->hp <= 0)
+	{
+		setState(dead);
+		this->hp = 0;
+	}
+	this->faceSide = nx;
+	setStatusWhenStillHaveEnoughHP(hpLose);
+}
+
+void GameObject::loseHp(int hpLose)
+{
+	hp -= hpLose;
+	if (hp <= 0)
+		hp = 0;
+}
+
+
+void GameObject::setStatusWhenStillHaveEnoughHP(int hpLose)
+{
+	loseHp(hpLose);
+}
 
 LPCollisionEvent GameObject::sweptAABBEx(LPGAMEOBJECT coO)
 {
@@ -98,8 +152,8 @@ void GameObject::calcPotentialCollisions
 
 void GameObject::filterCollision
 (vector<LPCollisionEvent>& coEvents,
-	vector<LPCollisionEvent>& coEventsResult,
-	float& min_tx, float& min_ty, float& nx, float& ny)
+ vector<LPCollisionEvent>& coEventsResult,
+ float& min_tx, float& min_ty, float& nx, float& ny)
 {
 	min_tx = 1.0f;
 	min_ty = 1.0f;
@@ -115,12 +169,18 @@ void GameObject::filterCollision
 	{
 		auto c = coEvents[i];
 
-		if (c->t < min_tx && c->nx != 0) {
-			min_tx = c->t; nx = c->nx; min_ix = i;
+		if (c->t < min_tx && c->nx != 0)
+		{
+			min_tx = c->t;
+			nx = c->nx;
+			min_ix = i;
 		}
 
-		if (c->t < min_ty && c->ny != 0) {
-			min_ty = c->t; ny = c->ny; min_iy = i;
+		if (c->t < min_ty && c->ny != 0)
+		{
+			min_ty = c->t;
+			ny = c->ny;
+			min_iy = i;
 		}
 	}
 
@@ -134,9 +194,9 @@ void GameObject::update(const DWORD dt, vector<GameObject*>* coObject)
 	this->dt = dt;
 	dx = vx * dt;
 	dy = vy * dt;
+	createBlowUpEffectAndSetRespawnTimer();
+	processWhenBurnedEffectDone();
 }
-
-
 
 
 void GameObject::checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* coObjects)
@@ -192,7 +252,7 @@ void GameObject::updatePosInTheMomentCollide(float minTx, float minTy, float nx,
 Box GameObject::getBoundingBoxBaseOnFile()
 {
 	float r, l;
-	if (!animations[animId]) return{ x,y,1,1 };
+	if (!animations[animId]) return {x, y, 1, 1};
 	auto spriteFrame = animations[animId]->getFrameSprite();
 	auto spriteBoundary = animations[animId]->getFrameBoundingBox();
 
@@ -202,8 +262,8 @@ Box GameObject::getBoundingBoxBaseOnFile()
 
 	if (faceSide == FaceSide::right)
 	{
-		r = x + (spriteFrame.right - spriteFrame.left) - offset_x;
-		l = r - (spriteBoundary.right - spriteBoundary.left);
+		r = x + (spriteFrame.right - spriteFrame.left) - offset_x ;
+		l = r - (spriteBoundary.right - spriteBoundary.left) ;
 	}
 	else
 	{
@@ -216,7 +276,7 @@ Box GameObject::getBoundingBoxBaseOnFile()
 
 	// neu truyen width vao tinh left right o giua enemy
 
-	return { l,t,r,b };
+	return {l, t, r, b};
 }
 
 Box GameObject::getBoundingBoxBaseOnFileAndPassWidth(float width)
@@ -225,6 +285,5 @@ Box GameObject::getBoundingBoxBaseOnFileAndPassWidth(float width)
 	const auto bboxWidth = box.right - box.left;
 	const auto l = x + bboxWidth / 2 - width / 2;
 	const auto r = l + width;
-	return { (l), box.top, (r), box.bottom };
+	return {(l), box.top, (r), box.bottom};
 }
-

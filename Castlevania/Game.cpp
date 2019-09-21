@@ -73,8 +73,8 @@ void Game::draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameR
 	convertFrameRect.left = frameRect.left;
 	convertFrameRect.bottom = frameRect.bottom;
 
-	center.x = p.x + (boundaryRect.left - frameRect.left) + (boundaryRect.right - boundaryRect.left) / 2;
-	center.y = p.y + (boundaryRect.top - frameRect.top) + (boundaryRect.bottom - boundaryRect.top) / 2;
+	center.x = p.x + (frameRect.right - frameRect.left) / 2;
+	center.y = p.y + (frameRect.bottom - frameRect.top) / 2;
 
 	// Xây dựng một ma trận 2D lưu thông tin biến đổi (scale, rotate)
 	D3DXMatrixTransformation2D(&newTransform, &center, 0.0f, &rotate, NULL, 0.0f, NULL);

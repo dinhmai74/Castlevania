@@ -6,9 +6,9 @@
 
 Whip::Whip()
 {
+	Whip::initAnim();
 	lv = 1;
 	animId = -1;
-	Whip::initAnim();
 }
 
 
@@ -21,9 +21,8 @@ void Whip::checkEnemyCollisions(vector<LPGAMEOBJECT> coObjects)
 	{
 		if (isColliding(getBoundingBox(), coObject->getBoundingBox()))
 		{
-			coObject->setEnable(false);
 			auto candle = dynamic_cast<Candle*>(coObject);
-			candle->generateItem();
+			candle->getHurt();
 		}
 	}
 }

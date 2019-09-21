@@ -136,7 +136,7 @@ void Grid::get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
 
 			while (unit != nullptr)
 			{
-				if (unit->get()->IsEnable())
+				if (unit->get()->IsActive())
 					listUnits.push_back(unit);
 
 				unit = unit->next;

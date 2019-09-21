@@ -73,7 +73,14 @@ enum ItemType
 
 #pragma endregion
 
+/*----------------- candle -----------------*/
+auto constexpr CANDLE_DESTROYED_TIME = 300;
+
 /*
 	texture constants
 */
 constexpr auto ID_TEX_BBOX = -101; //
+
+/*----------------- normal anim -----------------*/
+auto constexpr ANIM_BURNED = "burned_effect_default_ani";
+auto constexpr BURNED_DURATION= 400;

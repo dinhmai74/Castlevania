@@ -1,0 +1,1 @@
+burned_effect_default_ani	burned_effect_default_ani_0	200	burned_effect_default_ani_1	100	burned_effect_default_ani_2	100

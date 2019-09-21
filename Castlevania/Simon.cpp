@@ -197,7 +197,8 @@ void Simon::processCollisionWithItem(Item* item)
 	const auto itemType = item->getItemType();
 	switch (itemType)
 	{
-	case itemSmallHeart: break;
+	case itemSmallHeart:
+		break;
 
 	case itemWhip:
 		powerUpWhip();
@@ -206,7 +207,7 @@ void Simon::processCollisionWithItem(Item* item)
 		break;
 	}
 
-	item->setEnable(false);
+	item->setActive(false);
 }
 
 void Simon::processCollisionWithGround(float minTy, float ny)
@@ -384,11 +385,6 @@ void Simon::resetState()
 Box Simon::getBoundingBox()
 {
 	return GameObject::getBoundingBox(-1, -1);
-}
-
-void Simon::renderBoundingBox()
-{
-	GameObject::renderBoundingBox();
 }
 
 void Simon::upgradeWhipLv(bool up) const

@@ -34,11 +34,11 @@ public:
 	void updateAnimId();
 	void initAnim() override;
 	Box getBoundingBox() override;
-	void renderBoundingBox() override;
 	void update(DWORD dt, const vector<MapGameObjects>& maps);
 
 	SubWeapon* getSubWeapon() const { return subWeapon; }
 	void powerUpWhip(bool upgrade=true);
+	Whip* getWhip() { return whip; }
 private:
 	bool isHitting;
 	bool isThrowing;
