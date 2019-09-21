@@ -328,31 +328,28 @@ void Simon::standUp()
 
 void Simon::hit()
 {
-	vx = 0;
+	if (isInGround)vx = 0;
 	isHitting = true;
 	setState(hitting);
 }
 
 void Simon::hitWhenSitting()
 {
-	vx = 0;
-	vy = 0;
+	if (isInGround)vx = 0;
 	isHitting = true;
 	setState(hittingWhenSitting);
 }
 
 void Simon::throwing()
 {
-	vx = 0;
-	vy = 0;
+	if (isInGround)vx = 0;
 	isThrowing = true;
 	setState(State::throwing);
 }
 
 void Simon::throwingWhenSitting()
 {
-	vx = 0;
-	vy = 0;
+	if (isInGround)vx = 0;
 	isThrowing = true;
 	setState(State::throwingWhenSitting);
 }
