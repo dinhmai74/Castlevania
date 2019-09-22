@@ -19,6 +19,8 @@ constexpr auto MAIN_TEXTURE_TRANS_COLOR = D3DCOLOR_XRGB(255, 0, 255);
 constexpr auto TILEMAP_TRANSPARENT_COLOR = D3DCOLOR_XRGB(5, 5, 5);
 constexpr auto BOUND_BBOX_COLOR = D3DCOLOR_XRGB(255, 163, 177);
 constexpr auto HEADER_HEIGHT = 60;
+constexpr auto TEXT_COLOR = D3DCOLOR_XRGB(252, 252, 252);
+constexpr auto DEFAULT_TIME_PLAY = 300;
 // Orientation
 constexpr auto DIR_LEFT = -1;
 constexpr auto DIR_RIGHT = 1;
@@ -88,6 +90,7 @@ auto constexpr CANDLE_DESTROYED_TIME = 300;
 	texture constants
 */
 constexpr auto ID_TEX_BBOX = -101; //
+constexpr auto ID_TEX_BLACK_BOARD= 1000001; //
 
 /*----------------- normal anim -----------------*/
 auto constexpr ANIM_BURNED = "burned_effect_default_ani";

@@ -130,6 +130,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="ItemFactory.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Simon.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemDagger.h" />
     <ClInclude Include="ItemFactory.h" />

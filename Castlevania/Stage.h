@@ -22,6 +22,8 @@ public:
 	void onKeyUp(int keyCode) const;
 	void keyState(BYTE* states) const;
 	Grid* getGrid() const { return grid; }
+	Simon* getSimon() const { return simon; }
+	int getId() { return mapId; };
 private:
 	Simon* simon;
 	int mapId;

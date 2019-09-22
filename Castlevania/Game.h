@@ -47,10 +47,12 @@ private:
 
 	float xCamera;
 	float yCamera;
+	ID3DXFont* font;
 
 public:
 	void init(HWND hWnd);
 	void draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect, int alpha, int r = 255, int g = 255, int b = 255);
+	void draw(int accordingCam,int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect, int alpha, int r = 255, int g = 255, int b = 255);
 
 	static Game* getInstance() {
 		if (instance == NULL) instance = new Game();
@@ -69,6 +71,7 @@ public:
 	void setCameraPosition(float x, float y);
 	void getCameraPosition(float& x, float& y);
 	D3DXVECTOR2 getCameraPosition() const { return { xCamera,yCamera }; }
+	ID3DXFont* getFont() const { return this->font; }
 
 	~Game();
 };

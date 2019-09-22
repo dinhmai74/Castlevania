@@ -41,14 +41,25 @@ void Game::init(HWND hWnd)
 
 	// Initialize sprite helper from Direct3DX helper library
 	D3DXCreateSprite(d3ddv, &spriteHandler);
+	// Font
+	font = NULL;
+	AddFontResourceEx(L"Font\\prstart.ttf", FR_PRIVATE, NULL);
+
+	HRESULT hr = D3DXCreateFont(
+		getDirect3DDevice(), 16, 0, FW_NORMAL, 1, false,
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
+		ANTIALIASED_QUALITY, FF_DONTCARE, L"Press Start", &font);
 
 	OutputDebugString(L"[INFO] InitGame done;\n");
-
-	xCamera = 0;
-	yCamera = 0;
 }
 
 void Game::draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect, int alpha, int r, int g, int b)
+{
+	draw(1, nx, x, y, texture, frameRect, boundaryRect, alpha, r, g, b);
+}
+
+void Game::draw(int accordingCam, int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect,
+	int alpha, int r, int g, int b)
 {
 	if (!texture || !spriteHandler)
 	{
@@ -56,7 +67,8 @@ void Game::draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameR
 		return;
 	};
 	// calculation position of object in game
-	D3DXVECTOR3 p(floor(x - xCamera), floor(y - yCamera), 0);
+	// if according =0 => don't move base on cam
+	D3DXVECTOR3 p(floor(x - xCamera * accordingCam), floor(y - yCamera * accordingCam), 0);
 
 	// flip sprite, using nx parameter
 	D3DXMATRIX oldTransform;

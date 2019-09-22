@@ -13,7 +13,7 @@ void StageManager::init(vector<TileMapInfo> tileMapsInfo)
 
 	loadTileMaps();
 	currentStage = new Stage();
-	currentStage->init(tileMapsInfo[0].id, tileMapsInfo[0].mapName);
+	getCurrentStage()->init(tileMapsInfo[0].id, tileMapsInfo[0].mapName);
 }
 
 
@@ -29,5 +29,5 @@ void StageManager::loadTileMaps()
 void StageManager::add(GameObject* ob) const
 {
 	auto pos = ob->getPosition();
-	auto unit = new Unit(currentStage->getGrid(), ob, pos.x, pos.y);
+	auto unit = new Unit(getCurrentStage()->getGrid(), ob, pos.x, pos.y);
 }

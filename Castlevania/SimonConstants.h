@@ -2,7 +2,6 @@
 
 constexpr auto SIMON_DEAD_TIME = 3000;
 
-
 //nhay
 constexpr auto SIMON_VJUMP = 0.5f;
 // Simon's width when moving
@@ -35,6 +34,7 @@ constexpr auto SIM_DELTA_TRHOWING_TIME= 400;
 constexpr auto SIMON_FALL = 180;
 //di binh thuong
 constexpr auto SIMON_VX = 0.13f;
+constexpr auto MAX_ENERGY= 15;
 //len xuong cau thang
 #define SIMON_VX_STAIR 43	
 #define SIMON_VY_STAIR 43

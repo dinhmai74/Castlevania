@@ -12,8 +12,9 @@ Simon::Simon()
 void Simon::init()
 {
 	whip = new Whip();
-	subWeaponType = itemDagger;
+	subWeaponType = -1;
 	energy = 5;
+	hp = 10;
 	whip->setPosition(x, y);
 
 	isInGround = false;
@@ -54,7 +55,6 @@ void Simon::render()
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 {
 	updateRGB();
-	DebugOut(L"energy %d\n", energy);
 	GameObject::update(dt);
 
 	checkCollision(dt, maps);

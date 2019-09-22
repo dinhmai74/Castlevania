@@ -36,8 +36,11 @@ public:
 	void update(DWORD dt, const vector<MapGameObjects>& maps);
 
 	SubWeapon* getSubWeapon() const { return subWeapon; }
+	int  getSubWeaponType() const { return subWeaponType; }
 	void powerUpWhip(bool upgrade = true);
 	Whip* getWhip() { return whip; }
+	int getHp() { return hp; };
+	int getEnergy() { return energy; };
 private:
 	bool isHitting;
 	bool isThrowing;
@@ -66,6 +69,7 @@ private:
 	void throwingWhenSitting();
 	void throwSubWeapon();
 	void loseEnergy() { energy--; energy = energy < 0 ? 0 : energy; };
+	void addEnergy() { energy++; energy = energy > MAX_ENERGY ? MAX_ENERGY : energy; };
 	void generateSubWeapon();
 	bool isHaveSubWeapon() const { return subWeaponType != -1; };
 	bool isPowering() const { return !collectingWhipTimer->IsTimeUp(); };

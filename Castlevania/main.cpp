@@ -2,10 +2,12 @@
 #include"main.h"
 #include "StageManager.h"
 #include "TileMapManager.h"
+#include "HUD.h"
 
 Game* game;
 SampleKeyHander* keyHandler;
 TextureManager* textureManager = TextureManager::getInstance();
+HUD* hud=HUD::getInstance();
 
 //Create keyboard handler for main program
 
@@ -13,6 +15,10 @@ void SampleKeyHander::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	StageManager::getInstance()->onKeyDown(KeyCode);
+	if(KeyCode ==DIK_R)
+	{
+		hud->Init();
+	}
 	//if(KeyCode== DIK_B)
 	//{
 	//	char* showBoundary = nullptr;
@@ -242,14 +248,20 @@ void loadResources()
 	LoadSprites(1004, L"subweapons");
 	LoadSprites(1005, L"empty");
 	LoadSprites(1006, L"burned_effect");
+	LoadSprites(100001, L"blackboard", D3DCOLOR_XRGB(0, 0, 0));
+	LoadSprites(100002, L"HP");
 	vector<TileMapInfo> mapName;
 	mapName.push_back({ ID_SCENE_1,L"Scene1",1536,384,32,32 });
-	StageManager::getInstance()->init(mapName);
+	auto stages = StageManager::getInstance();
+	stages->init(mapName);
+	hud->Init();
+
 }
 
 void update(DWORD dt)
 {
 	StageManager::getInstance()->update(dt);
+	hud->update(dt);
 }
 
 void render()
@@ -266,6 +278,7 @@ void render()
 		float x, y;
 		Game::getInstance()->getCameraPosition(x, y);
 		StageManager::getInstance()->render();
+		hud->render();
 		spriteHandler->End();
 		d3ddv->EndScene();
 	}

@@ -17,18 +17,19 @@ public:
 
 	~StageManager();
 
-	Stage* getCurrentState() const { return currentStage; }
+	Stage* getCurrentState() const { return getCurrentStage(); }
 	void init(vector<TileMapInfo> tileMapsInfo);
-	void setStage(Stage* newStage) { preStage = currentStage; currentStage = newStage; }
+	void setStage(Stage* newStage) { preStage = getCurrentStage(); currentStage = newStage; }
 	void render() const
 	{
-		currentStage->render();
+		getCurrentStage()->render();
 	}
-	void update(const DWORD dt) const { currentStage->update(dt); }
-	void onKeyDown(int keyCode) const { currentStage->onKeyDown(keyCode); }
-	void onKeyUp(int keyCode) const { currentStage->onKeyUp(keyCode); }
-	void keyState(BYTE *states) const { currentStage->keyState(states); }
+	void update(const DWORD dt) const { getCurrentStage()->update(dt); }
+	void onKeyDown(int keyCode) const { getCurrentStage()->onKeyDown(keyCode); }
+	void onKeyUp(int keyCode) const { getCurrentStage()->onKeyUp(keyCode); }
+	void keyState(BYTE *states) const { getCurrentStage()->keyState(states); }
 	void add(GameObject* ob) const;
+	Stage* getCurrentStage() const { return currentStage; }
 private:
 	void loadTileMaps();
 };

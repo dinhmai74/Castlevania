@@ -22,7 +22,7 @@ void Stage::loadContent()
 {
 	// simon is special one load in game;
 	simon = new Simon();
-	simon->setState(State::idle);
+	getSimon()->setState(State::idle);
 	initSimonPos();
 
 	loadObjectFromFiles();
@@ -35,7 +35,7 @@ void Stage::initSimonPos()
 	{
 	case ID_SCENE_1:
 		game->setCameraPosition(0, 0);
-		simon->setPosition(10, 280);
+		getSimon()->setPosition(10, 280);
 		break;
 	}
 }
@@ -109,10 +109,10 @@ void Stage::render()
 
 	if (renderBoundingBox)
 	{
-		simon->renderBoundingBox();
-		simon->getWhip()->renderBoundingBox();
+		getSimon()->renderBoundingBox();
+		getSimon()->getWhip()->renderBoundingBox();
 	}
-	simon->render();
+	getSimon()->render();
 }
 
 void Stage::update(DWORD dt)
@@ -120,15 +120,15 @@ void Stage::update(DWORD dt)
 	loadListObjFromGrid();
 
 	const auto map = getMapSimonCanCollisionObjects();
-	simon->update(dt, map);
+	getSimon()->update(dt, map);
 	for (auto obj : listRenderObj)
 	{
 
 		auto subWeapon = dynamic_cast<SubWeapon*>(obj);
 		if (subWeapon)
 		{
-			auto simonPos = simon->getPosition();
-			subWeapon->update(dt, simonPos, simon->getState(), &listCanHitObjects);
+			auto simonPos = getSimon()->getPosition();
+			subWeapon->update(dt, simonPos, getSimon()->getState(), &listCanHitObjects);
 			continue;
 		}
 
@@ -219,8 +219,8 @@ void Stage::updateCamera(const DWORD dt) const
 	const auto map = TileMapManager::getInstance()->get(mapId);
 	const auto mapWidth = map->getMapWidth();
 	float simonX, simonY, simonVx, simonVy;
-	simon->getPosition(simonX, simonY);
-	simon->getSpeed(simonVx, simonVy);
+	getSimon()->getPosition(simonX, simonY);
+	getSimon()->getSpeed(simonVx, simonVy);
 
 	const int offset = 60;
 
@@ -240,11 +240,11 @@ void Stage::updateCamera(const DWORD dt) const
 
 void Stage::onKeyDown(const int keyCode)
 {
-	simon->handleOnKeyDown(keyCode);
+	getSimon()->handleOnKeyDown(keyCode);
 	if (keyCode == DIK_B)
 		this->renderBoundingBox = !this->renderBoundingBox;
-	else if (keyCode == DIK_U) simon->powerUpWhip();
-	else if (keyCode == DIK_D) simon->powerUpWhip(false);
+	else if (keyCode == DIK_U) getSimon()->powerUpWhip();
+	else if (keyCode == DIK_D) getSimon()->powerUpWhip(false);
 	else if (keyCode == DIK_R)
 	{
 		init(mapId, mapName);
@@ -253,10 +253,10 @@ void Stage::onKeyDown(const int keyCode)
 
 void Stage::onKeyUp(const int keyCode) const
 {
-	simon->handleOnKeyRelease(keyCode);
+	getSimon()->handleOnKeyRelease(keyCode);
 }
 
 void Stage::keyState(BYTE* states) const
 {
-	simon->handleOnKeyPress(states);
+	getSimon()->handleOnKeyPress(states);
 }
