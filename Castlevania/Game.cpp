@@ -80,13 +80,13 @@ void Game::draw(int accordingCam, int nx, float x, float y, LPDIRECT3DTEXTURE9 t
 	D3DXVECTOR2 rotate = D3DXVECTOR2(-nx, 1);
 
 	RECT convertFrameRect;
-	convertFrameRect.top = frameRect.top;
-	convertFrameRect.right = frameRect.right;
-	convertFrameRect.left = frameRect.left;
-	convertFrameRect.bottom = frameRect.bottom;
+	convertFrameRect.top = frameRect.t;
+	convertFrameRect.right = frameRect.r;
+	convertFrameRect.left = frameRect.l;
+	convertFrameRect.bottom = frameRect.b;
 
-	center.x = p.x + (frameRect.right - frameRect.left) / 2;
-	center.y = p.y + (frameRect.bottom - frameRect.top) / 2;
+	center.x = p.x + (frameRect.r - frameRect.l) / 2;
+	center.y = p.y + (frameRect.b - frameRect.t) / 2;
 
 	// Xây dựng một ma trận 2D lưu thông tin biến đổi (scale, rotate)
 	D3DXMatrixTransformation2D(&newTransform, &center, 0.0f, &rotate, NULL, 0.0f, NULL);
@@ -214,6 +214,7 @@ void Game::initKeyboard(KeyboardHandler* handler)
 
 	this->keyHandler = handler;
 }
+
 
 Game::~Game()
 {

@@ -28,7 +28,7 @@ void GameObject::processWhenBurnedEffectDone()
 GameObject::GameObject()
 {
 	x = y = 0;
-	initPos = {0, 0};
+	initPos = { 0, 0 };
 	vx = vy = 0;
 	alpha = r = b = g = 255;
 	setFaceSide(FaceSide::right); // right side
@@ -64,9 +64,10 @@ void GameObject::renderBoundingBox()
 {
 	const auto texture = TextureManager::getInstance()->get(ID_TEX_BBOX);
 	auto game = Game::getInstance();
+	float l, r, t, b;
 	const auto rect = getBoundingBox();
 
-	game->draw(faceSide, rect.left, rect.top, texture, rect, rect, 140);
+	game->draw(faceSide, rect.l, rect.t, texture, rect, rect, 140);
 }
 
 void GameObject::addAnimation(int id, string animTexId)
@@ -162,7 +163,7 @@ void GameObject::calcPotentialCollisionsAABB(vector<LPGAMEOBJECT>* coObjects, ve
 	{
 		auto ob = coObjects->at(i);
 		auto isCollided = isColliding(getBoundingBox(), ob->getBoundingBox());
-		if(isCollided)
+		if (isCollided)
 		{
 			auto* e = new CollisionEvent(0, 1, 1, ob);
 			coEvents.push_back(e);
@@ -172,8 +173,8 @@ void GameObject::calcPotentialCollisionsAABB(vector<LPGAMEOBJECT>* coObjects, ve
 
 void GameObject::filterCollision
 (vector<LPCollisionEvent>& coEvents,
- vector<LPCollisionEvent>& coEventsResult,
- float& min_tx, float& min_ty, float& nx, float& ny)
+	vector<LPCollisionEvent>& coEventsResult,
+	float& min_tx, float& min_ty, float& nx, float& ny)
 {
 	min_tx = 1.0f;
 	min_ty = 1.0f;
@@ -189,18 +190,12 @@ void GameObject::filterCollision
 	{
 		auto c = coEvents[i];
 
-		if (c->t < min_tx && c->nx != 0)
-		{
-			min_tx = c->t;
-			nx = c->nx;
-			min_ix = i;
+		if (c->t < min_tx && c->nx != 0) {
+			min_tx = c->t; nx = c->nx; min_ix = i;
 		}
 
-		if (c->t < min_ty && c->ny != 0)
-		{
-			min_ty = c->t;
-			ny = c->ny;
-			min_iy = i;
+		if (c->t < min_ty && c->ny != 0) {
+			min_ty = c->t; ny = c->ny; min_iy = i;
 		}
 	}
 
@@ -238,12 +233,8 @@ void GameObject::checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* co
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
 		updatePosInTheMomentCollide(minTx, minTy, nx, ny);
 
-		if (ny == -1.0f)
-		{
-			// nếu va chạm với đất set vy=0 để đỡ bug va chạm. 
-			// k set vy=0 ( có lúc rớt xuống trùng với đất nhanh quá sweepAABB k xét va chạm)
-			vy = 0;
-		}
+		if (ny != 0) vy = 0;
+		if (nx != 0) vx = 0;
 	}
 
 	for (auto& coEvent : coEvents) delete coEvent;
@@ -253,7 +244,6 @@ void GameObject::updatePosWhenNotCollide()
 {
 	x += dx;
 	y += dy;
-	updateGravity(gravity);
 }
 
 void GameObject::updateGravity(float gravity)
@@ -272,38 +262,53 @@ void GameObject::updatePosInTheMomentCollide(float minTx, float minTy, float nx,
 Box GameObject::getBoundingBoxBaseOnFile()
 {
 	float r, l;
-	if (!animations[animId]) return {x, y, 1, 1};
 	auto spriteFrame = animations[animId]->getFrameSprite();
 	auto spriteBoundary = animations[animId]->getFrameBoundingBox();
-
-	// spriteFrame is usually larger than the spriteBoundary so we need to take account of the offset
-	auto offset_x = spriteBoundary.left - spriteFrame.left;
-	auto offset_y = spriteBoundary.top - spriteFrame.top;
+	auto offset = getOffsetFromBoundingBox();
 
 	if (faceSide == FaceSide::right)
 	{
-		r = x + (spriteFrame.right - spriteFrame.left) - offset_x ;
-		l = r - (spriteBoundary.right - spriteBoundary.left) ;
+		r = x + (spriteFrame.r - spriteFrame.l) - offset.x;
+		l = r - (spriteBoundary.r - spriteBoundary.l);
 	}
 	else
 	{
-		l = x + offset_x;
-		r = spriteBoundary.right - spriteBoundary.left + l;
+		l = x + offset.x;
+		r = spriteBoundary.r - spriteBoundary.l + l;
 	}
 
-	const auto t = y + offset_y;
-	const auto b = t + (spriteBoundary.bottom - spriteBoundary.top);
+	const float t = y + offset.y;
+	const float b = t + (spriteBoundary.b - spriteBoundary.t);
 
 	// neu truyen width vao tinh left right o giua enemy
-
-	return {l, t, r, b};
+	return Box(l, t, r, b);
 }
 
 Box GameObject::getBoundingBoxBaseOnFileAndPassWidth(float width)
 {
 	const auto box = getBoundingBoxBaseOnFile();
-	const auto bboxWidth = box.right - box.left;
-	const auto l = x + bboxWidth / 2 - width / 2;
-	const auto r = l + width;
-	return {(l), box.top, (r), box.bottom};
+	const float bboxWidth = box.r - box.l;
+	const float l = x + bboxWidth / 2 - width / 2;
+	const float r = l + width;
+	return Box(l, box.t, r, box.b);
+}
+
+void GameObject::getBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	auto box = getBoundingBoxBaseOnFile();
+	left = box.l;
+	top = box.t;
+	right = box.r;
+	bottom = box.b;
+}
+
+D3DXVECTOR2 GameObject::getOffsetFromBoundingBox()
+{
+	auto spriteFrame = animations[animId]->getFrameSprite();
+	auto spriteBoundary = animations[animId]->getFrameBoundingBox();
+
+	// spriteFrame is usually larger than the spriteBoundary so we need to take account of the offset
+	auto offsetX = spriteBoundary.l - spriteFrame.l;
+	auto  offsetY = spriteBoundary.t - spriteFrame.t;
+	return { offsetX, offsetY };
 }

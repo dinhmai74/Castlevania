@@ -29,7 +29,7 @@ constexpr auto SIM_POWERING_DURATION= 1000;
 constexpr auto SIM_DELTA_TRHOWING_TIME= 400;
 
 // trong luc luc nhay
-#define SIMON_GRAVITY 0.0008f;
+#define SIMON_GRAVITY 0.003f;
 //trong luc luc roi
 constexpr auto SIMON_FALL = 180;
 //di binh thuong

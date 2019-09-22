@@ -3,6 +3,8 @@
 #include "AnimationManager.h"
 #include "TextureManager.h"
 #include "SweptAABB.h"
+#include <Windows.h>
+#include "Library/Inc/D3DX10math.h"
 using namespace std;
 
 constexpr auto FACE_TO_RIGHT = 1;
@@ -115,8 +117,10 @@ public:
 
 	Box getBoundingBoxBaseOnFile();
 	Box getBoundingBoxBaseOnFileAndPassWidth(float width);
+	virtual void getBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual Box getBoundingBox(float width, float height);
 	virtual Box getBoundingBox() { return getBoundingBox(-1, -1); };
+	D3DXVECTOR2 getOffsetFromBoundingBox();
 	bool IsActive() const { return isActive; }
 	void setActive(bool val = true) { isActive = val; }
 	bool IsEnable() const { return isEnable; }
@@ -134,13 +138,13 @@ inline Box GameObject::getBoundingBox(float width, float height)
 
 	// lấy full box với width height tính từ trung tâm;
 	const auto box = getBoundingBoxBaseOnFile();
-	const auto boxWidth = box.right - box.left;
-	const auto boxHeight = box.bottom - box.top;
-	const auto l = x + boxWidth / 2 - width / 2;
-	const auto r = l + width;
-	const auto t = y + boxHeight / 2 - height / 2;
-	const auto b = t + height;
-	return { l,t,r,b };
+	const auto boxWidth = box.r - box.l;
+	const auto boxHeight = box.b - box.t;
+	const float l = x + boxWidth / 2 - width / 2;
+	const float r = l + width;
+	const float t = y + boxHeight / 2 - height / 2;
+	const float b = t + height;
+	return Box(l, t, r, b);
 }
 
 struct CollisionEvent

@@ -21,7 +21,7 @@ void Simon::init()
 	isReleaseSitButton = true;
 	Simon::initAnim();
 	animId = ANIM_IDLE;
-	gravity = SIMON_GRAVITY;
+	gravity = 0.0015f;
 	type = simon;
 }
 
@@ -105,10 +105,7 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 	calcPotentialCollisions(boundaries, coEvents);
 
 	// no collison
-	if (coEvents.empty())
-	{
-		updatePosWhenNotCollide();
-	}
+	if (coEvents.empty()) updatePosWhenNotCollide();
 	else
 	{
 		float minTx;
@@ -117,17 +114,23 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 		float ny;
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
 
-		updatePosInTheMomentCollide(minTx, minTy, nx, ny);
+		// block 
+		x += minTx * dx + nx * 0.2f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += minTy * dy + ny * 0.2f;
+
+		if (nx != 0) vx = 0;
+		if (ny != 0) vy = 0;
 
 		for (auto& i : coEventsResult)
 		{
 			const auto object = (i->obj);
 			const auto boundary = dynamic_cast<Boundary*>(object);
-			if (!boundary) continue;
-			if (nx)
-				processCollisionWithBoundaryByX(minTx, ny);
-			else if (ny)
+			if (nx != 0)
+				processCollisionWithBoundaryByX(minTx, nx);
+			if (ny != 0) {
 				processCollisionWithGround(minTy, ny);
+			}
+
 		}
 	}
 
@@ -188,6 +191,12 @@ void Simon::powerUpWhip(bool upgrade)
 	vx = 0;
 }
 
+Box Simon::getBoundingBox()
+{
+	auto box = GameObject::getBoundingBoxBaseOnFile();
+	return Box(x, box.t, x+50, box.b);
+}
+
 void Simon::updateWeaponAction(DWORD dt, vector<GameObject*>* objs)
 {
 	whip->update(dt, x, y, objs, currentState);
@@ -217,17 +226,15 @@ void Simon::processCollisionWithItem(Item* item)
 
 void Simon::processCollisionWithGround(float minTy, float ny)
 {
-	if (ny != 0)
-	{
-		vy = 0;
-		isInGround = true;
-		if (currentState == State::jumping)
-			standUp();
-	}
+	vy = 0;
+	isInGround = true;
+	if (currentState == State::jumping)
+		standUp();
 }
 
 void Simon::processCollisionWithBoundaryByX(float minTx, float ny)
 {
+	vx = 0;
 }
 
 void Simon::updateAnimId()
@@ -302,7 +309,7 @@ void Simon::move(int side)
 {
 	setFaceSide(side);
 	setState(walking);
-	vx = faceSide * SIMON_VX;
+	vx = faceSide * 0.09f;
 }
 
 void Simon::jump()
@@ -393,7 +400,7 @@ void Simon::generateSubWeapon()
 {
 	loseEnergy();
 	subWeapon = subWeaponFactory->getSubWeapon(subWeaponType, faceSide);
-	const auto width = getBoundingBox().right - getBoundingBox().left;
+	const auto width = getBoundingBox().r - getBoundingBox().l;
 	const auto subX = faceSide == FaceSide::left ? x - width + 10 : x + width;
 	const auto subY = y;
 
@@ -407,11 +414,6 @@ void Simon::resetState()
 {
 	isHitting = false;
 	isThrowing = false;
-}
-
-Box Simon::getBoundingBox()
-{
-	return GameObject::getBoundingBox(-1, -1);
 }
 
 void Simon::upgradeWhipLv(bool up) const

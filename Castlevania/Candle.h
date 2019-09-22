@@ -21,7 +21,7 @@ public:
 		if (!isGeneratedItem && grid)
 		{
 			auto box = getBoundingBox();
-			auto itemY = y + (box.bottom - box.top) / 2 - 20;
+			auto itemY = y + (box.b - box.t) / 2 - 20;
 			const auto item = ItemFactory::Get()->getItem(itemInside, { x,itemY });
 			item->setFaceSide(itemNx);
 			auto unit = new Unit(grid, item, x, itemY);

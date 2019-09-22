@@ -9,7 +9,7 @@ bool isColliding(float bl, float bt, float br, float bb, float sl, float st, flo
 
 bool isColliding(const Box box1, const Box box2)
 {
-	return isColliding(box1.left, box1.top, box1.right, box1.bottom, box2.left, box2.top, box2.right, box2.bottom);
+	return isColliding(box1.l, box1.t, box1.r, box1.b, box2.l, box2.t, box2.r, box2.b);
 }
 
 void sweptAABB(
@@ -98,13 +98,8 @@ void sweptAABB(
 	t_entry = max(tx_entry, ty_entry);
 	t_exit = min(tx_exit, ty_exit);
 
-	const bool notCollision = (t_entry > t_exit
-		|| (t_entry < 0.0f && t_entry < 0.0f)
-		|| t_entry > 1.0f
-		|| t_entry > 1.0f
-	);
-	if (notCollision) return;
 
+	if (t_entry > t_exit) return;
 
 	t = t_entry;
 
@@ -122,8 +117,8 @@ void sweptAABB(
 
 void sweptAABB(Box movingBox, Box staticBox, float dx, float dy, float& t, float& nx, float& ny)
 {
-	return sweptAABB(movingBox.left, movingBox.top, movingBox.right, movingBox.bottom,
-	                 staticBox.left, staticBox.top, staticBox.right, staticBox.bottom,
-	                 dx, dy, t, nx, ny
+	return sweptAABB(movingBox.l, movingBox.t, movingBox.r, movingBox.b,
+		staticBox.l, staticBox.t, staticBox.r, staticBox.b,
+		dx, dy, t, nx, ny
 	);
 }

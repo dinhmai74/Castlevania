@@ -32,7 +32,6 @@ public:
 	virtual void render() override;
 	void updateAnimId();
 	void initAnim() override;
-	Box getBoundingBox() override;
 	void update(DWORD dt, const vector<MapGameObjects>& maps);
 
 	SubWeapon* getSubWeapon() const { return subWeapon; }
@@ -41,6 +40,9 @@ public:
 	Whip* getWhip() { return whip; }
 	int getHp() { return hp; };
 	int getEnergy() { return energy; };
+
+	Box getBoundingBox() override;
+
 private:
 	bool isHitting;
 	bool isThrowing;
@@ -86,6 +88,7 @@ private:
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
 
 	void processCollisionWithItem(Item* item);
+	void processWithBoundary(float minTx, float minTy, float nx, float ny);
 };
 
 
