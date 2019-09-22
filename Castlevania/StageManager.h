@@ -19,13 +19,14 @@ public:
 
 	Stage* getCurrentState() const { return getCurrentStage(); }
 	void init(vector<TileMapInfo> tileMapsInfo);
+	void nextStage(int stageId=-1);
 	void setStage(Stage* newStage) { preStage = getCurrentStage(); currentStage = newStage; }
 	void render() const
 	{
 		getCurrentStage()->render();
 	}
 	void update(const DWORD dt) const { getCurrentStage()->update(dt); }
-	void onKeyDown(int keyCode) const { getCurrentStage()->onKeyDown(keyCode); }
+	void onKeyDown(int keyCode) ;
 	void onKeyUp(int keyCode) const { getCurrentStage()->onKeyUp(keyCode); }
 	void keyState(BYTE *states) const { getCurrentStage()->keyState(states); }
 	void add(GameObject* ob) const;

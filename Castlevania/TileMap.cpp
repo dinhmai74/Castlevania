@@ -17,7 +17,7 @@ void TileMap::loadResources()
 
 
 	// thực hiện lưu danh sách các tile vô sprites theo thứ tự id_sprite
-	auto idSprite = 0;
+	auto idSprite = 1;
 
 	for (UINT i = 0; i < totalTextureRow; i++)
 	{

@@ -14,7 +14,7 @@ void Stage::init(int mapId, wstring mapName)
 	this->mapName = std::move(mapName);
 	this->renderBoundingBox = false;
 	const auto map = TileMapManager::getInstance()->get(mapId);
-	this->grid = new Grid(map->getMapWidth(), map->getMapHeight(), 256, map->getMapHeight() / 2);
+	this->grid = new Grid(map->getMapWidth(), map->getMapHeight());
 	loadContent();
 }
 

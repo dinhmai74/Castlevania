@@ -251,7 +251,9 @@ void loadResources()
 	LoadSprites(100001, L"blackboard", D3DCOLOR_XRGB(0, 0, 0));
 	LoadSprites(100002, L"HP");
 	vector<TileMapInfo> mapName;
-	mapName.push_back({ ID_SCENE_1,L"Scene1",1536,384,32,32 });
+	mapName.push_back({ ID_SCENE_1,L"Scene1",1536,320,32,32 });
+	mapName.push_back({ ID_SCENE_2,L"Scene2",5632,352,32,32 });
+
 	auto stages = StageManager::getInstance();
 	stages->init(mapName);
 	hud->Init();
