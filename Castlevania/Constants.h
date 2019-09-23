@@ -47,8 +47,8 @@ enum State
 
 enum CandleType
 {
-	bigCandle,
-	smallCandle
+	candleBig,
+	candleSmall
 };
 
 enum ObjectType

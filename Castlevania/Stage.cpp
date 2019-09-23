@@ -24,7 +24,7 @@ void Stage::loadContent()
 {
 	// simon is special one load in game;
 	simon = new Simon();
-	getSimon()->setState(State::idle);
+	getSimon()->setState(idle);
 	initSimonPos();
 
 	loadObjectFromFiles();
@@ -66,46 +66,46 @@ void Stage::loadObjectFromFiles()
 		{
 			// boundary
 		case boundary:
-		{
-			float width, height;
-			int type;
-			fs >> width >> height >> type;
-			auto boundary = BoundaryFactory::getInstance()->getBoundary(type);
-			boundary->setWidhtHeight(width, height);
-			boundary->setPosition(x, y);
-			boundary->setEnable();
-			listBoundary.push_back(boundary);
-			break;
-		}
+			{
+				float width, height;
+				int type;
+				fs >> width >> height >> type;
+				auto boundary = BoundaryFactory::getInstance()->getBoundary(type);
+				boundary->setWidhtHeight(width, height);
+				boundary->setPosition(x, y);
+				boundary->setEnable();
+				listBoundary.push_back(boundary);
+				break;
+			}
 		case item:
-		{
-			int type;
-			fs >> type;
-			auto item = ItemFactory::Get()->getItem(type, { x, y });
-			auto unit = new Unit(getGrid(), item, x, y);
-			break;
-		}
+			{
+				int type;
+				fs >> type;
+				auto item = ItemFactory::Get()->getItem(type, {x, y});
+				auto unit = new Unit(getGrid(), item, x, y);
+				break;
+			}
 		case candle:
-		{
-			int type, itemContainType, itemNx;
-			fs >> type >> itemContainType >> itemNx;
-			const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, { x, y }, getGrid());
-			auto unit = new Unit(getGrid(), candle, x, y);
-			break;
-		}
+			{
+				int type, itemContainType, itemNx;
+				fs >> type >> itemContainType >> itemNx;
+				const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, {x, y}, getGrid());
+				auto unit = new Unit(getGrid(), candle, x, y);
+				break;
+			}
 
 		case obChangeStage:
-		{
-			float width, height;
-			int nextStage;
-			fs >> width >> height >> nextStage;
-			auto obj = new ObjectChangeStage();
-			obj->setWidthHeight(width, height);
-			obj->setPosition(x, y);
-			obj->setEnable();
-			auto unit = new Unit(getGrid(), obj, x, y);
-			break;
-		}
+			{
+				float width, height;
+				int nextStage;
+				fs >> width >> height >> nextStage;
+				auto obj = new ObjectChangeStage();
+				obj->setWidthHeight(width, height);
+				obj->setPosition(x, y);
+				obj->setEnable();
+				auto unit = new Unit(getGrid(), obj, x, y);
+				break;
+			}
 
 		default: break;
 		}
@@ -140,7 +140,6 @@ void Stage::update(DWORD dt)
 	getSimon()->update(dt, map);
 	for (auto obj : listRenderObj)
 	{
-
 		auto subWeapon = dynamic_cast<SubWeapon*>(obj);
 		if (subWeapon)
 		{
@@ -159,9 +158,9 @@ void Stage::update(DWORD dt)
 vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 {
 	vector<MapGameObjects> map;
-	map.push_back({ boundary, &listBoundary });
-	map.push_back({ item, &listItems });
-	map.push_back({ canHitObjs, &listCanHitObjects });
+	map.push_back({boundary, &listBoundary});
+	map.push_back({item, &listItems});
+	map.push_back({canHitObjs, &listCanHitObjects});
 	return map;
 }
 
@@ -172,7 +171,8 @@ void Stage::updateInActiveUnit()
 		if (!isInViewport(object))
 		{
 			auto subWeapon = dynamic_cast<SubWeapon*>(object);
-			if (subWeapon) {
+			if (subWeapon)
+			{
 				subWeapon->setActive(false);
 				subWeapon->setEnable(false);
 			}
@@ -185,7 +185,7 @@ bool Stage::isInViewport(GameObject* object)
 	const auto camPosition = Game::getInstance()->getCameraPosition();
 
 	return isColliding(object->getBoundingBox(),
-		{ camPosition.x, camPosition.y, camPosition.x + SCREEN_WIDTH, camPosition.y + SCREEN_HEIGHT });
+	                   {camPosition.x, camPosition.y, camPosition.x + SCREEN_WIDTH, camPosition.y + SCREEN_HEIGHT});
 }
 
 void Stage::updateGrid()
@@ -214,18 +214,17 @@ void Stage::loadListObjFromGrid()
 		auto obj = unit->get();
 		listRenderObj.push_back(obj);
 
-		const auto item = dynamic_cast<Item*>(obj);
-		if (item)
+		const auto type = obj->getType();
+		switch (type)
 		{
-			listItems.push_back(item);
-			continue;
+		case item: listItems.push_back(obj);
+			break;
+		case obChangeStage: listObjectChangeStage.push_back(obj);
+			break;
+		case candle: listCanHitObjects.push_back(obj);
+			break;
+		default: ;
 		}
-
-		const auto candle = dynamic_cast<Candle*>(obj);
-		const auto subWeapon = dynamic_cast<SubWeapon*>(obj);
-
-		const auto canHitObject = candle;
-		if (canHitObject) listCanHitObjects.push_back(candle);
 	}
 }
 

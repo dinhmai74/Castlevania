@@ -29,20 +29,24 @@ public:
 		}
 	}
 
+	int CandleType() const { return candleType; }
+	void setCandleType(int val) { candleType = val; }
 private:
 	bool isGeneratedItem;
+	int candleType;
 };
 
 inline void Candle::init()
 {
 	initAnim();
-	animId = bigCandle;
+	type = candle;
+	animId = candleBig;
 }
 
 inline void Candle::initAnim()
 {
-	addAnimation(bigCandle, "bigcandle_ani");
-	addAnimation(smallCandle, "smallcandle_ani");
+	addAnimation(candleBig, "bigcandle_ani");
+	addAnimation(candleSmall, "smallcandle_ani");
 }
 
 inline void Candle::update(DWORD dt, vector<GameObject*>* coObjects)

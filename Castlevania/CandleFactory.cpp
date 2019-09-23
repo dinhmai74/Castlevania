@@ -7,9 +7,9 @@ Candle* CandleFactory::getCandle(const int type, const int itemType, const int i
 	Candle* candle;
 	switch (type)
 	{
-	case bigCandle: candle = new BigCandle();
+	case candleBig: candle = new BigCandle();
 		break;
-	case smallCandle: candle = new SmallCandle();
+	case candleSmall: candle = new SmallCandle();
 		break;
 	default: candle = new Candle();
 	}

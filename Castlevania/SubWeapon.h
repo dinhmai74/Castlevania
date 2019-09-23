@@ -4,6 +4,7 @@
 class SubWeapon :
 	public Weapon 
 {
+	int weaponType;
 public:
 	SubWeapon();
 	void init();
@@ -11,5 +12,7 @@ public:
 
 	/*----------------- get set -----------------*/
 	~SubWeapon() = default;
+	int WeaponType() const { return weaponType; }
+	void setWeaponType(int val) { weaponType = val; }
 };
 

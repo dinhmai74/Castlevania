@@ -6,12 +6,12 @@ class BigCandle :
 {
 public:
 	BigCandle();
-	~BigCandle()= default;
+	~BigCandle() = default;
 };
 
 inline BigCandle::BigCandle()
 {
-	type = bigCandle;
-	animId = type;
+	setCandleType(candleBig);
+	animId = candleBig;
 }
 

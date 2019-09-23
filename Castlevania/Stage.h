@@ -33,6 +33,7 @@ private:
 	vector<GameObject*> listItems;
 	vector<GameObject*> listCanHitObjects;
 	vector<GameObject*> listRenderObj;
+	vector<GameObject*> listObjectChangeStage;
 	vector<Unit*> listUnit;
 
 	void loadObjectFromFiles();
