@@ -125,6 +125,7 @@
     <ClCompile Include="AnimationFrame.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
     <ClCompile Include="Boundary.cpp" />
+    <ClCompile Include="BoundaryFactory.cpp" />
     <ClCompile Include="CandleFactory.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="BigCandle.h" />
     <ClInclude Include="Boundary.h" />
+    <ClInclude Include="BoundaryFactory.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Candle.h" />
     <ClInclude Include="CandleFactory.h" />

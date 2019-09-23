@@ -49,6 +49,9 @@
     <Filter Include="Library\Inc">
       <UniqueIdentifier>{618d8915-4e83-4702-8de9-19b2f93ade74}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Object\boundary">
+      <UniqueIdentifier>{83ede9b2-1b52-47df-8a2f-db8e2ce394f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -111,19 +114,22 @@
     <ClCompile Include="CandleFactory.cpp">
       <Filter>Source Files\Object\candle</Filter>
     </ClCompile>
-    <ClCompile Include="Boundary.cpp">
-      <Filter>Source Files\Object</Filter>
-    </ClCompile>
     <ClCompile Include="SubWeapon.cpp">
       <Filter>Source Files\Object\SubWeapon</Filter>
     </ClCompile>
     <ClCompile Include="SubWeaponFactory.cpp">
       <Filter>Source Files\Object\SubWeapon</Filter>
     </ClCompile>
-    <ClCompile Include="Weapon.cpp">
+    <ClCompile Include="HUD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HUD.cpp">
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Boundary.cpp">
+      <Filter>Source Files\Object\boundary</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundaryFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -481,6 +487,9 @@
     </ClInclude>
     <ClInclude Include="Library\Inc\xnamath.h">
       <Filter>Library\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundaryFactory.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 #include "Stage.h"
 #include "ItemFactory.h"
+#include "BoundaryFactory.h"
 
 Stage::Stage()
 {
@@ -66,8 +67,10 @@ void Stage::loadObjectFromFiles()
 		case boundary:
 		{
 			float width, height;
-			fs >> width >> height;
-			auto boundary = new Boundary(width, height);
+			int type;
+			fs >> width >> height >> type;
+			auto boundary = BoundaryFactory::getInstance()->getBoundary(type);
+			boundary->setWidhtHeight(width, height);
 			boundary->setPosition(x, y);
 			boundary->setEnable();
 			listBoundary.push_back(boundary);

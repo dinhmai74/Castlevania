@@ -1,19 +1,20 @@
-﻿#include "GameObject.h"
+﻿#pragma once
+#include "GameObject.h"
 
-class Boundary final : public GameObject
+class Boundary : public GameObject
 {
 public:
-	Boundary(float width, float height)
-		: width(width),
-		height(height)
-	{
-	}
-
+	Boundary();
 	void initAnim() override;
 	void render() override;
 	virtual Box getBoundingBox() override;
 
+	int getBoundaryType() const;
+	void setBoundaryType(int val);
+	void setWidhtHeight(float w, float h);
 private:
 	float width;
 	float height;
+	int boundaryType;
+	void init();
 };

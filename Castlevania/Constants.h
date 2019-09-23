@@ -62,6 +62,10 @@ enum ObjectType
 	simon
 };
 
+enum BoundaryType {
+	boundaryNormal,
+};
+
 
 /*----------------- item regions -----------------*/
 #pragma region Items

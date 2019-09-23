@@ -7,6 +7,7 @@
 #include "Item.h"
 #include "SubWeaponFactory.h"
 #include "SubWeapon.h"
+#include "Boundary.h"
 #include "Timer.h"
 
 class Simon :
@@ -76,7 +77,7 @@ private:
 
 	/*----------------- check collision -----------------*/
 	void processCollisionWithGround(float minTy, float ny);
-	void processCollisionWithBoundaryByX(float minTx, float ny);
+	void processCollisionWithBoundaryByX(float minTx, float ny, Boundary* boundary);
 	void checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries);
 	void checkCollisionWithItems(DWORD dt, vector<GameObject*>* items);
 	void upgradeWhipLv(bool up = true) const;
@@ -85,7 +86,7 @@ private:
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
 
 	void processCollisionWithItem(Item* item);
-	void processWithBoundary(float minTx, float minTy, float nx, float ny);
+	void doChangeStageEffect();
 };
 
 

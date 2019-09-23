@@ -105,7 +105,18 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 	calcPotentialCollisions(boundaries, coEvents);
 
 	// no collison
-	if (coEvents.empty()) updatePosWhenNotCollide();
+	if (coEvents.empty())
+	{
+		for (UINT i = 0; i < boundaries->size(); i++)
+		{
+			auto obj = boundaries->at(i);
+
+			// auto bound = dynamic_cast<Boundary*>(obj);
+			// if (isColliding(getBoundingBox(), bound->getBoundingBox()))
+			// 	doChangeStageEffect();
+		}
+		updatePosWhenNotCollide();
+	}
 	else
 	{
 		float minTx;
@@ -122,11 +133,11 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 			const auto object = (i->obj);
 			const auto boundary = dynamic_cast<Boundary*>(object);
 			if (nx != 0)
-				processCollisionWithBoundaryByX(minTx, nx);
-			if (ny != 0) {
+				processCollisionWithBoundaryByX(minTx, nx, boundary);
+			if (ny != 0)
+			{
 				processCollisionWithGround(minTy, ny);
 			}
-
 		}
 	}
 
@@ -214,6 +225,11 @@ void Simon::processCollisionWithItem(Item* item)
 	item->setActive(false);
 }
 
+void Simon::doChangeStageEffect()
+{
+	StageManager::getInstance()->nextStage();
+}
+
 void Simon::processCollisionWithGround(float minTy, float ny)
 {
 	vy = 0;
@@ -222,9 +238,9 @@ void Simon::processCollisionWithGround(float minTy, float ny)
 		standUp();
 }
 
-void Simon::processCollisionWithBoundaryByX(float minTx, float ny)
+void Simon::processCollisionWithBoundaryByX(float minTx, float ny, Boundary* boundary)
 {
-	vx = 0;
+	auto type = boundary->getBoundaryType();
 }
 
 void Simon::updateAnimId()
@@ -355,7 +371,7 @@ void Simon::hitWhenSitting()
 bool Simon::canThrow()
 {
 	const auto isHaveEnoughEnergy = energy > 0;
-	return  isHaveEnoughEnergy && isHaveSubWeapon() && throwingTimer->IsTimeUp();
+	return isHaveEnoughEnergy && isHaveSubWeapon() && throwingTimer->IsTimeUp();
 }
 
 void Simon::throwing()
@@ -383,7 +399,6 @@ void Simon::throwSubWeapon()
 		if (!isHaveSubWeapon() || subWeapon->IsActive() || subWeapon->IsEnable() || !throwingTimer->IsTimeUp()) return;
 		generateSubWeapon();
 	}
-
 }
 
 void Simon::generateSubWeapon()
