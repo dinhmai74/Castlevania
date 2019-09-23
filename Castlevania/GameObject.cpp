@@ -256,6 +256,8 @@ void GameObject::updatePosInTheMomentCollide(float minTx, float minTy, float nx,
 {
 	x += minTx * dx + nx * 0.4f;
 	y += minTy * dy + ny * 0.4f;
+	if (nx != 0) vx = 0;
+	if (ny != 0) vy = 0;
 }
 
 
@@ -293,14 +295,6 @@ Box GameObject::getBoundingBoxBaseOnFileAndPassWidth(float width)
 	return Box(l, box.t, r, box.b);
 }
 
-void GameObject::getBoundingBox(float& left, float& top, float& right, float& bottom)
-{
-	auto box = getBoundingBoxBaseOnFile();
-	left = box.l;
-	top = box.t;
-	right = box.r;
-	bottom = box.b;
-}
 
 D3DXVECTOR2 GameObject::getOffsetFromBoundingBox()
 {

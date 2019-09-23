@@ -11,7 +11,6 @@ public:
 
 	void initAnim() override;
 	void render() override;
-	virtual void getBoundingBox(float& left, float& top, float& right, float& bottom) override;
 	virtual Box getBoundingBox() override;
 
 private:

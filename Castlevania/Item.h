@@ -57,6 +57,7 @@ inline void Item::update(DWORD dt, vector<GameObject*>* boundary)
 {
 	GameObject::update(dt);
 	checkCollision(dt, boundary);
+	updateGravity(gravity);
 }
 
 

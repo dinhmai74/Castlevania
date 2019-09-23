@@ -40,9 +40,6 @@ public:
 	Whip* getWhip() { return whip; }
 	int getHp() { return hp; };
 	int getEnergy() { return energy; };
-
-	Box getBoundingBox() override;
-
 private:
 	bool isHitting;
 	bool isThrowing;

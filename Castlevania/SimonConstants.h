@@ -33,7 +33,7 @@ constexpr auto SIM_DELTA_TRHOWING_TIME= 400;
 //trong luc luc roi
 constexpr auto SIMON_FALL = 180;
 //di binh thuong
-constexpr auto SIMON_VX = 0.13f;
+constexpr auto SIMON_VX = 0.10f;
 constexpr auto MAX_ENERGY= 15;
 //len xuong cau thang
 #define SIMON_VX_STAIR 43	

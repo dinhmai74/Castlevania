@@ -117,7 +117,6 @@ public:
 
 	Box getBoundingBoxBaseOnFile();
 	Box getBoundingBoxBaseOnFileAndPassWidth(float width);
-	virtual void getBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual Box getBoundingBox(float width, float height);
 	virtual Box getBoundingBox() { return getBoundingBox(-1, -1); };
 	D3DXVECTOR2 getOffsetFromBoundingBox();

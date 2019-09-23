@@ -115,11 +115,7 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
 
 		// block 
-		x += minTx * dx + nx * 0.2f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += minTy * dy + ny * 0.2f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
+		updatePosInTheMomentCollide(minTx, minTy, nx, ny);
 
 		for (auto& i : coEventsResult)
 		{
@@ -189,12 +185,6 @@ void Simon::powerUpWhip(bool upgrade)
 	if (isPowering()) return;
 	collectingWhipTimer->Start();
 	vx = 0;
-}
-
-Box Simon::getBoundingBox()
-{
-	auto box = GameObject::getBoundingBoxBaseOnFile();
-	return Box(x, box.t, x+50, box.b);
 }
 
 void Simon::updateWeaponAction(DWORD dt, vector<GameObject*>* objs)
@@ -309,7 +299,7 @@ void Simon::move(int side)
 {
 	setFaceSide(side);
 	setState(walking);
-	vx = faceSide * 0.09f;
+	vx = faceSide * SIMON_VX;
 }
 
 void Simon::jump()
