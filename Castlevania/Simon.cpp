@@ -36,13 +36,13 @@ void Simon::initAnim()
 
 void Simon::render()
 {
-	if (isHitting && collectingWhipTimer->IsTimeUp())
+	if (isHitting && timerPowering->IsTimeUp())
 	{
 		whip->setSide(faceSide);
 		whip->render();
 	}
 
-	if (!collectingWhipTimer->IsTimeUp())
+	if (!timerPowering->IsTimeUp())
 	{
 		animations[animId]->render(faceSide, x, y, currentFrame, alpha, r, g, b);
 	}
@@ -65,7 +65,7 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 
 void Simon::updateRGB()
 {
-	if (!collectingWhipTimer->IsTimeUp())
+	if (!timerPowering->IsTimeUp())
 	{
 		r = g + 80;
 		g = 100 + rand() % 150;
@@ -75,7 +75,7 @@ void Simon::updateRGB()
 	{
 		r = g = b = 255;
 		isCollectingWhip = false;
-		collectingWhipTimer->Stop();
+		timerPowering->Stop();
 	}
 }
 
@@ -91,9 +91,18 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 			break;
 		case canHitObjs: updateWeaponAction(dt, map.objs);
 			break;
+		case obChangeStage: doChangeStageEffect(dt, map.objs);
+			break;
 		default: DebugOut(L"[WARNING] unknown obj to check collision with id %d!\n", map.id);
 		}
 	}
+}
+void Simon::doChangeStageEffect(DWORD dt, vector<GameObject*>* objs)
+{
+}
+
+void Simon::doAutoWalk()
+{
 }
 
 void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries)
@@ -194,7 +203,7 @@ void Simon::powerUpWhip(bool upgrade)
 	if (isHitting) return;
 
 	if (isPowering()) return;
-	collectingWhipTimer->Start();
+	timerPowering->Start();
 	vx = 0;
 }
 
@@ -225,16 +234,12 @@ void Simon::processCollisionWithItem(Item* item)
 	item->setActive(false);
 }
 
-void Simon::doChangeStageEffect()
-{
-	StageManager::getInstance()->nextStage();
-}
 
 void Simon::processCollisionWithGround(float minTy, float ny)
 {
 	vy = 0;
 	isInGround = true;
-	if (currentState == State::jumping)
+	if (currentState == jumping)
 		standUp();
 }
 
@@ -296,7 +301,7 @@ void Simon::updateAnimId()
 		else if (animations[animId]->isDone())
 		{
 			animations[animId]->refresh();
-			setState(State::sitting);
+			setState(sitting);
 			isThrowing = false;
 			animId = ANIM_IDLE;
 		}
@@ -371,7 +376,7 @@ void Simon::hitWhenSitting()
 bool Simon::canThrow()
 {
 	const auto isHaveEnoughEnergy = energy > 0;
-	return isHaveEnoughEnergy && isHaveSubWeapon() && throwingTimer->IsTimeUp();
+	return isHaveEnoughEnergy && isHaveSubWeapon() && timerThrowing->IsTimeUp();
 }
 
 void Simon::throwing()
@@ -396,7 +401,7 @@ void Simon::throwSubWeapon()
 		generateSubWeapon();
 	else
 	{
-		if (!isHaveSubWeapon() || subWeapon->IsActive() || subWeapon->IsEnable() || !throwingTimer->IsTimeUp()) return;
+		if (!isHaveSubWeapon() || subWeapon->IsActive() || subWeapon->IsEnable() || !timerThrowing->IsTimeUp()) return;
 		generateSubWeapon();
 	}
 }
@@ -412,7 +417,7 @@ void Simon::generateSubWeapon()
 	subWeapon->setPosition(subX, subY);
 	subWeapon->setEnable();
 	StageManager::getInstance()->add(subWeapon);
-	throwingTimer->Start();
+	timerThrowing->Start();
 }
 
 void Simon::resetState()
@@ -490,13 +495,13 @@ void Simon::handleOnKeyDown(int keyCode)
 		if (isInGround
 			&& currentState != sitting
 			&& currentState != jumping
-			)
+		)
 		{
 			isReleaseSitButton = false;
 			sit();
 		}
 		break;
-	default:;
+	default: ;
 	}
 }
 

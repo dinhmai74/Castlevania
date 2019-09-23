@@ -45,8 +45,8 @@ private:
 	bool isHitting;
 	bool isThrowing;
 	bool isCollectingWhip;
-	Timer* collectingWhipTimer = new Timer(SIM_POWERING_DURATION);
-	Timer* throwingTimer = new Timer(SIM_DELTA_TRHOWING_TIME);
+	Timer* timerPowering = new Timer(SIM_POWERING_DURATION);
+	Timer* timerThrowing = new Timer(SIM_DELTA_TRHOWING_TIME);
 	bool isReleaseSitButton;
 	Whip* whip;
 	SubWeapon* subWeapon;
@@ -72,8 +72,11 @@ private:
 	void addEnergy() { energy++; energy = energy > MAX_ENERGY ? MAX_ENERGY : energy; };
 	void generateSubWeapon();
 	bool isHaveSubWeapon() const { return subWeaponType != -1; };
-	bool isPowering() const { return !collectingWhipTimer->IsTimeUp(); };
 
+	/*----------------- special effect  -----------------*/
+	bool isPowering() const { return !timerPowering->IsTimeUp(); };
+	void doChangeStageEffect(DWORD dt, vector<GameObject*>* objs);
+	void doAutoWalk();
 
 	/*----------------- check collision -----------------*/
 	void processCollisionWithGround(float minTy, float ny);
@@ -86,7 +89,6 @@ private:
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
 
 	void processCollisionWithItem(Item* item);
-	void doChangeStageEffect();
 };
 
 

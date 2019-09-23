@@ -161,6 +161,7 @@ vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 	map.push_back({boundary, &listBoundary});
 	map.push_back({item, &listItems});
 	map.push_back({canHitObjs, &listCanHitObjects});
+	map.push_back({obChangeStage, &listObjectChangeStage});
 	return map;
 }
 
