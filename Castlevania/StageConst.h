@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-auto constexpr ID_SCENE_1 = 1;
-auto constexpr ID_SCENE_2 = 2;
-auto constexpr MAP_NAME_PREFIX= L"Scene";
-auto constexpr SCENE_PREFIX_PATH = L"Scenes\\";
-auto constexpr SCENE_OBJECTS_PATH = L"_objects.txt";
+auto constexpr ID_STAGE_1 = 1;
+auto constexpr ID_STAGE_2 = 2;
+auto constexpr STAGE_PREFIX_PATH = L"Stages\\";
+auto constexpr STAGE_OBJECTS_PATH = L"_objects.txt";
+auto constexpr STAGE_MAP_PATH = L"_map.txt";
 
 #pragma region object id from file
 auto constexpr BOUNDARY = 0;

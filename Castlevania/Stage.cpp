@@ -29,7 +29,7 @@ void Stage::loadContent()
 void Stage::loadObjectFromFiles()
 {
 	fstream fs;
-	const wstring objectsPath = SCENE_PREFIX_PATH + mapName + SCENE_OBJECTS_PATH;
+	const wstring objectsPath = STAGE_PREFIX_PATH + mapName + STAGE_OBJECTS_PATH;
 	fs.open(objectsPath.c_str(), ios::in);
 	if (fs.fail())
 	{
@@ -226,6 +226,7 @@ void Stage::updateCamera(const DWORD dt) const
 	auto game = Game::getInstance();
 	const auto map = TileMapManager::getInstance()->get(mapId);
 	const auto mapWidth = map->getMapWidth();
+	const auto mapHeight= map->getMapHeight();
 	float simonX, simonY, simonVx, simonVy;
 	getSimon()->getPosition(simonX, simonY);
 	getSimon()->getSpeed(simonVx, simonVy);
@@ -235,13 +236,18 @@ void Stage::updateCamera(const DWORD dt) const
 	float posX, posY;
 	game->getCameraPosition(posX, posY);
 
-	const auto isCanMoveArea =
+	const auto isCanMoveAreaX=
 		simonX + offset > SCREEN_WIDTH / 2 &&
 		simonX + offset + SCREEN_WIDTH / 2 < mapWidth;
 
-	if (isCanMoveArea)
+	if (isCanMoveAreaX)
 		posX = simonX + offset - SCREEN_WIDTH / 2;
 
+	/*if (simonY + offset > SCREEN_HEIGHT / 2 &&
+		simonY + offset + SCREEN_HEIGHT / 2 < mapHeight){
+		posY = simonY + offset - SCREEN_HEIGHT / 2 - HEADER_HEIGHT;
+
+	}*/
 	game->setCameraPosition(posX, posY);
 }
 

@@ -251,8 +251,8 @@ void loadResources()
 	LoadSprites(100001, L"blackboard", D3DCOLOR_XRGB(0, 0, 0));
 	LoadSprites(100002, L"HP");
 	vector<TileMapInfo> mapName;
-	mapName.push_back({ ID_SCENE_1,L"Scene1",1536,320,32,32 });
-	mapName.push_back({ ID_SCENE_2,L"Scene2",5632,352,32,32 });
+	mapName.push_back({ ID_STAGE_1,L"stage1",1536,320,32,32 });
+	mapName.push_back({ ID_STAGE_2,L"stage2",1216,736,32,32 });
 
 	auto stages = StageManager::getInstance();
 	stages->init(mapName);
