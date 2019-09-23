@@ -491,6 +491,9 @@
     <ClInclude Include="BoundaryFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectChangeStage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Castlevania.rc">

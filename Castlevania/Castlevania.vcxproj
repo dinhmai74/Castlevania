@@ -245,6 +245,7 @@
     <ClInclude Include="Library\Inc\xma2defs.h" />
     <ClInclude Include="Library\Inc\xnamath.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="ObjectChangeStage.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SmallCandle.h" />
     <ClInclude Include="StageConst.h" />

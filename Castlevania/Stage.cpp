@@ -1,6 +1,7 @@
 #include "Stage.h"
 #include "ItemFactory.h"
 #include "BoundaryFactory.h"
+#include "ObjectChangeStage.h"
 
 Stage::Stage()
 {
@@ -90,6 +91,19 @@ void Stage::loadObjectFromFiles()
 			fs >> type >> itemContainType >> itemNx;
 			const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, { x, y }, getGrid());
 			auto unit = new Unit(getGrid(), candle, x, y);
+			break;
+		}
+
+		case obChangeStage:
+		{
+			float width, height;
+			int nextStage;
+			fs >> width >> height >> nextStage;
+			auto obj = new ObjectChangeStage();
+			obj->setWidthHeight(width, height);
+			obj->setPosition(x, y);
+			obj->setEnable();
+			auto unit = new Unit(getGrid(), obj, x, y);
 			break;
 		}
 
@@ -215,7 +229,6 @@ void Stage::loadListObjFromGrid()
 	}
 }
 
-
 void Stage::updateCamera(const DWORD dt) const
 {
 	auto game = Game::getInstance();
@@ -239,7 +252,6 @@ void Stage::updateCamera(const DWORD dt) const
 
 	game->setCameraPosition(posX, posY);
 }
-
 
 void Stage::onKeyDown(const int keyCode)
 {

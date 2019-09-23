@@ -59,7 +59,8 @@ enum ObjectType
 	canHitObjs,
 	subWeapon,
 	whip,
-	simon
+	simon,
+	obChangeStage,
 };
 
 enum BoundaryType {
