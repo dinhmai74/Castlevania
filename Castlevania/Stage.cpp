@@ -50,6 +50,7 @@ void Stage::loadObjectFromFiles()
 		{
 		case ObjectType::simon:
 			float camX, camY;
+			DebugOut(L"simon\n");
 			fs >> camX >> camY;
 			simon = new Simon();
 			simon->setPosition(x, y);
@@ -93,6 +94,7 @@ void Stage::loadObjectFromFiles()
 				obj->setWidthHeight(width, height);
 				obj->setPosition(x, y);
 				obj->setEnable();
+				obj->setNextStage(nextStage);
 				auto unit = new Unit(getGrid(), obj, x, y);
 				break;
 			}

@@ -1,6 +1,7 @@
 #include "Simon.h"
 #include "StageManager.h"
 #include "SubWeaponDagger.h"
+#include "ObjectChangeStage.h"
 
 auto subWeaponFactory = SubWeaponFactory::getInstance();
 
@@ -22,8 +23,8 @@ void Simon::init()
 	isReleaseSitButton = true;
 	Simon::initAnim();
 	animId = ANIM_IDLE;
-	// gravity = 0;
-	gravity = 0.0015f;
+	//gravity = 0;
+	gravity = SIMON_GRAVITY;
 	type = simon;
 }
 
@@ -57,8 +58,11 @@ void Simon::render()
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 {
 	GameObject::update(dt);
+
+	/*----------------- change stage  -----------------*/
 	updateRGB();
 	updateAutoWalk();
+	updateChangingStageEffect();
 
 	checkCollision(dt, maps);
 	updateAnimId();
@@ -84,7 +88,19 @@ void Simon::updateRGB()
 
 void Simon::updateAutoWalk()
 {
-	if (isAutoWalking()) vx = faceSide * SIMON_AUTO_WALK_VX;
+	if (isAutoWalking()) vx = faceSide * SIM_AUTO_WALK_VX;
+}
+
+void Simon::updateChangingStageEffect()
+{
+	if (isChangingStage()) {
+		vx = faceSide * SIM_AUTO_WALK_VX;
+		startedChangeStage = true;
+	}
+	else
+	{
+		if (startedChangeStage)StageManager::getInstance()->nextStage(stageWillChangeTo);
+	}
 }
 
 void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
@@ -99,14 +115,30 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 			break;
 		case canHitObjs: updateWeaponAction(dt, map.objs);
 			break;
-		case obChangeStage: doChangeStageEffect(dt, map.objs);
+		case obChangeStage: checkCollisionWithObChangeStage(dt, map.objs);
 			break;
 		default: DebugOut(L"[WARNING] unknown obj to check collision with id %d!\n", map.id);
 		}
 	}
 }
-void Simon::doChangeStageEffect(DWORD dt, vector<GameObject*>* objs)
+void Simon::checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs)
 {
+	for (auto i = 0; i < objs->size(); i++)
+	{
+		auto e = objs->at(i);
+		auto objectChangeStage = dynamic_cast<ObjectChangeStage*>(e);
+		if (isColliding(getBoundingBox(), e->getBoundingBox())) {
+			stageWillChangeTo = objectChangeStage->NextStage();
+			doChangeStageEffect();
+		}
+		break;
+	}
+}
+
+void Simon::doChangeStageEffect()
+{
+	if (isChangingStage())return;
+	timerChangeStage->start();
 }
 
 void Simon::doAutoWalk()
@@ -248,7 +280,7 @@ void Simon::processCollisionWithBoundaryByX(float minTx, float ny, Boundary* bou
 
 void Simon::updateAnimId()
 {
-	if (isAutoWalking())
+	if (isAutoWalking() || isChangingStage())
 	{
 		animId = ANIM_WALK;
 		return;
@@ -473,7 +505,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 
 bool Simon::isDoingImportantAnim()
 {
-	return isHitting || isThrowing || isPowering() || isAutoWalking();
+	return isHitting || isThrowing || isPowering() || isAutoWalking() || isChangingStage();
 }
 
 void Simon::handleOnKeyDown(int keyCode)
