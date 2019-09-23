@@ -16,11 +16,13 @@ void Simon::init()
 	energy = 5;
 	hp = 10;
 	whip->setPosition(x, y);
+	doAutoWalk();
 
 	isInGround = false;
 	isReleaseSitButton = true;
 	Simon::initAnim();
 	animId = ANIM_IDLE;
+	// gravity = 0;
 	gravity = 0.0015f;
 	type = simon;
 }
@@ -36,13 +38,13 @@ void Simon::initAnim()
 
 void Simon::render()
 {
-	if (isHitting && timerPowering->IsTimeUp())
+	if (isHitting && timerPowering->isTimeUp())
 	{
 		whip->setSide(faceSide);
 		whip->render();
 	}
 
-	if (!timerPowering->IsTimeUp())
+	if (!timerPowering->isTimeUp())
 	{
 		animations[animId]->render(faceSide, x, y, currentFrame, alpha, r, g, b);
 	}
@@ -54,8 +56,9 @@ void Simon::render()
 
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 {
-	updateRGB();
 	GameObject::update(dt);
+	updateRGB();
+	updateAutoWalk();
 
 	checkCollision(dt, maps);
 	updateAnimId();
@@ -65,7 +68,7 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 
 void Simon::updateRGB()
 {
-	if (!timerPowering->IsTimeUp())
+	if (!timerPowering->isTimeUp())
 	{
 		r = g + 80;
 		g = 100 + rand() % 150;
@@ -75,8 +78,13 @@ void Simon::updateRGB()
 	{
 		r = g = b = 255;
 		isCollectingWhip = false;
-		timerPowering->Stop();
+		timerPowering->stop();
 	}
+}
+
+void Simon::updateAutoWalk()
+{
+	if (isAutoWalking()) vx = faceSide * SIMON_AUTO_WALK_VX;
 }
 
 void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
@@ -103,6 +111,8 @@ void Simon::doChangeStageEffect(DWORD dt, vector<GameObject*>* objs)
 
 void Simon::doAutoWalk()
 {
+	if (isAutoWalking()) return;
+	timerAutoWalk->start();
 }
 
 void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries)
@@ -114,18 +124,7 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 	calcPotentialCollisions(boundaries, coEvents);
 
 	// no collison
-	if (coEvents.empty())
-	{
-		for (UINT i = 0; i < boundaries->size(); i++)
-		{
-			auto obj = boundaries->at(i);
-
-			// auto bound = dynamic_cast<Boundary*>(obj);
-			// if (isColliding(getBoundingBox(), bound->getBoundingBox()))
-			// 	doChangeStageEffect();
-		}
-		updatePosWhenNotCollide();
-	}
+	if (coEvents.empty()) updatePosWhenNotCollide();
 	else
 	{
 		float minTx;
@@ -203,7 +202,7 @@ void Simon::powerUpWhip(bool upgrade)
 	if (isHitting) return;
 
 	if (isPowering()) return;
-	timerPowering->Start();
+	timerPowering->start();
 	vx = 0;
 }
 
@@ -234,7 +233,6 @@ void Simon::processCollisionWithItem(Item* item)
 	item->setActive(false);
 }
 
-
 void Simon::processCollisionWithGround(float minTy, float ny)
 {
 	vy = 0;
@@ -250,6 +248,11 @@ void Simon::processCollisionWithBoundaryByX(float minTx, float ny, Boundary* bou
 
 void Simon::updateAnimId()
 {
+	if (isAutoWalking())
+	{
+		animId = ANIM_WALK;
+		return;
+	}
 	int frame;
 	switch (currentState)
 	{
@@ -376,7 +379,7 @@ void Simon::hitWhenSitting()
 bool Simon::canThrow()
 {
 	const auto isHaveEnoughEnergy = energy > 0;
-	return isHaveEnoughEnergy && isHaveSubWeapon() && timerThrowing->IsTimeUp();
+	return isHaveEnoughEnergy && isHaveSubWeapon() && timerThrowing->isTimeUp();
 }
 
 void Simon::throwing()
@@ -401,7 +404,7 @@ void Simon::throwSubWeapon()
 		generateSubWeapon();
 	else
 	{
-		if (!isHaveSubWeapon() || subWeapon->IsActive() || subWeapon->IsEnable() || !timerThrowing->IsTimeUp()) return;
+		if (!isHaveSubWeapon() || subWeapon->IsActive() || subWeapon->IsEnable() || !timerThrowing->isTimeUp()) return;
 		generateSubWeapon();
 	}
 }
@@ -417,7 +420,7 @@ void Simon::generateSubWeapon()
 	subWeapon->setPosition(subX, subY);
 	subWeapon->setEnable();
 	StageManager::getInstance()->add(subWeapon);
-	timerThrowing->Start();
+	timerThrowing->start();
 }
 
 void Simon::resetState()
@@ -470,7 +473,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 
 bool Simon::isDoingImportantAnim()
 {
-	return isHitting || isThrowing || isPowering();
+	return isHitting || isThrowing || isPowering() || isAutoWalking();
 }
 
 void Simon::handleOnKeyDown(int keyCode)
@@ -491,17 +494,20 @@ void Simon::handleOnKeyDown(int keyCode)
 	case DIK_A:
 		isReleaseSitButton ? throwing() : throwingWhenSitting();
 		break;
+	case DIK_F:
+		doAutoWalk();
+		break;
 	case DIK_DOWN:
 		if (isInGround
 			&& currentState != sitting
 			&& currentState != jumping
-		)
+			)
 		{
 			isReleaseSitButton = false;
 			sit();
 		}
 		break;
-	default: ;
+	default:;
 	}
 }
 

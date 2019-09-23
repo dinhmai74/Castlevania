@@ -25,7 +25,6 @@ void StageManager::nextStage(int id)
 	setStage(newStage);
 }
 
-
 void StageManager::loadTileMaps()
 {
 	for (auto&& map : tileMapsInfo)
@@ -40,9 +39,9 @@ void StageManager::onKeyDown(int keyCode)
 	getCurrentStage()->onKeyDown(keyCode);
 	switch (keyCode)
 	{
-	case DIK_N: nextStage();break;
 	case DIK_Q: nextStage(0); break;
 	case DIK_W: nextStage(1); break;
+	case DIK_R: nextStage(getCurrentStage()->getId() - 1); break;
 
 	default:
 		break;

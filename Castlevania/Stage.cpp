@@ -23,23 +23,7 @@ void Stage::init(int mapId, wstring mapName)
 void Stage::loadContent()
 {
 	// simon is special one load in game;
-	simon = new Simon();
-	getSimon()->setState(idle);
-	initSimonPos();
-
 	loadObjectFromFiles();
-}
-
-void Stage::initSimonPos()
-{
-	auto game = Game::getInstance();
-	switch (mapId)
-	{
-	case ID_SCENE_1:
-		game->setCameraPosition(0, 0);
-		getSimon()->setPosition(10, 280);
-		break;
-	}
 }
 
 void Stage::loadObjectFromFiles()
@@ -64,7 +48,13 @@ void Stage::loadObjectFromFiles()
 		fs >> id >> x >> y;
 		switch (id)
 		{
-			// boundary
+		case ObjectType::simon:
+			float camX, camY;
+			fs >> camX >> camY;
+			simon = new Simon();
+			simon->setPosition(x, y);
+			Game::getInstance()->setCameraPosition(0, 0);
+			break;
 		case boundary:
 			{
 				float width, height;
@@ -260,10 +250,6 @@ void Stage::onKeyDown(const int keyCode)
 		this->renderBoundingBox = !this->renderBoundingBox;
 	else if (keyCode == DIK_U) getSimon()->powerUpWhip();
 	else if (keyCode == DIK_D) getSimon()->powerUpWhip(false);
-	else if (keyCode == DIK_R)
-	{
-		init(mapId, mapName);
-	}
 }
 
 void Stage::onKeyUp(const int keyCode) const

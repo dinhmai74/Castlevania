@@ -47,6 +47,7 @@ private:
 	bool isCollectingWhip;
 	Timer* timerPowering = new Timer(SIM_POWERING_DURATION);
 	Timer* timerThrowing = new Timer(SIM_DELTA_TRHOWING_TIME);
+	Timer* timerAutoWalk = new Timer(1000);
 	bool isReleaseSitButton;
 	Whip* whip;
 	SubWeapon* subWeapon;
@@ -54,6 +55,9 @@ private:
 	bool isInGround;
 	int forceRenderFrame;
 	int energy;
+	bool isTimerRunning(Timer* timer) { return timer->isRunning(); }
+	bool isPowering() { return isTimerRunning(timerPowering); };
+	bool isAutoWalking() { return isTimerRunning(timerAutoWalk); };
 
 	/*----------------- simon actions -----------------*/
 	void move(int side);
@@ -74,7 +78,6 @@ private:
 	bool isHaveSubWeapon() const { return subWeaponType != -1; };
 
 	/*----------------- special effect  -----------------*/
-	bool isPowering() const { return !timerPowering->IsTimeUp(); };
 	void doChangeStageEffect(DWORD dt, vector<GameObject*>* objs);
 	void doAutoWalk();
 
@@ -89,6 +92,7 @@ private:
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
 
 	void processCollisionWithItem(Item* item);
+	void updateAutoWalk();
 };
 
 
