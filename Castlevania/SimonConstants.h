@@ -22,7 +22,9 @@ constexpr auto SIMON_FALL = 180;
 //di binh thuong
 constexpr auto SIMON_VX = 0.10f;
 constexpr auto SIM_AUTO_WALK_VX = 0.03f;
-constexpr auto MAX_ENERGY= 15;
+constexpr auto SIM_MAX_ENERGY= 15;
+constexpr auto SIM_MAX_LIFE= 15;
+constexpr auto SIM_MAX_HP= 15;
 //len xuong cau thang
 #define SIMON_VX_STAIR 43	
 #define SIMON_VY_STAIR 43
@@ -37,3 +39,4 @@ constexpr auto ANIM_SIT = 2;
 constexpr auto ANIM_HITTING = 3;
 constexpr auto ANIM_HITTING_WHEN_SIT = 4;
 constexpr auto ANIM_DEFLECT= 5;
+constexpr auto ANIM_DEATH= -1;

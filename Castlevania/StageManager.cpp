@@ -33,8 +33,7 @@ void StageManager::loadTileMaps()
 	}
 }
 
-
-void StageManager::onKeyDown(int keyCode) 
+void StageManager::onKeyDown(int keyCode)
 {
 	getCurrentStage()->onKeyDown(keyCode);
 	switch (keyCode)
@@ -52,4 +51,19 @@ void StageManager::add(GameObject* ob) const
 {
 	auto pos = ob->getPosition();
 	auto unit = new Unit(getCurrentStage()->getGrid(), ob, pos.x, pos.y);
+}
+
+void StageManager::descreaseLife()
+{
+	auto simon = currentStage->getSimon();
+	const auto result = simon->updateLife(-1);
+	if (result) {
+		simon->updateHP(SIM_MAX_HP);
+		currentStage->reset();
+	}
+	else
+	{
+		// TODO: add end game screen
+		DebugOut(L"\n end game is real");
+	}
 }

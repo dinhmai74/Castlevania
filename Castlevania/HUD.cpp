@@ -48,7 +48,7 @@ void HUD::update(DWORD dt, bool stopwatch)
 	string energyStr = to_string(simon->getEnergy());
 	while (energyStr.length() < 2) energyStr = "0" + energyStr;
 
-	string lifeStr = to_string(5);
+	string lifeStr = to_string(simon->Life());
 	while (lifeStr.length() < 2) lifeStr = "0" + lifeStr;
 
 	info = "SCORE-" + scoreStr + " TIME " + timeStr + " STAGE " + stageStr + "\n";
@@ -76,14 +76,14 @@ void HUD::showHud()
 	for (int i = 0; i < simonHP; i++)
 		playerHP[i]->draw(105 + i * 9, 31);
 
-	for (int i = simonHP; i < 16; i++)
+	for (int i = simonHP; i < SIM_MAX_HP; i++)
 		loseHP[i]->draw(105 + i * 9, 31);
 
 	// enemy HP
 	for (int i = 0; i < 15; i++)
 		enemyHP[i]->draw(105 + i * 9, 47);
 
-	for (int i = 15; i < 16; i++)
+	for (int i = 15; i < SIM_MAX_HP; i++)
 		loseHP[i]->draw(105 + i * 9, 47);
 
 	auto subtype = simon->getSubWeaponType();

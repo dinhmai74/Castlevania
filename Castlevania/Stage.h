@@ -16,6 +16,7 @@ public:
 	~Stage();
 
 	void init(int mapId, wstring mapName);
+	void reset();
 	void render();
 	void update(DWORD dt);
 	void onKeyDown(int keyCode);
@@ -29,6 +30,7 @@ private:
 	int mapId;
 	Grid* grid;
 	wstring mapName;
+	D3DXVECTOR2 initCam;
 	vector<GameObject*> listBoundary;
 	vector<GameObject*> listItems;
 	vector<GameObject*> listCanHitObjects;

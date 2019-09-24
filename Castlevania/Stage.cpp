@@ -18,6 +18,15 @@ void Stage::init(int mapId, wstring mapName)
 	const auto map = TileMapManager::getInstance()->get(mapId);
 	this->grid = new Grid(map->getMapWidth(), map->getMapHeight());
 	loadContent();
+	simon->doAutoWalk();
+}
+
+void Stage::reset()
+{
+	loadContent();
+	simon->reset();
+	simon->doUntouchable();
+	Game::getInstance()->setCameraPosition(initCam.x, initCam.y);
 }
 
 void Stage::loadContent()
@@ -54,50 +63,52 @@ void Stage::loadObjectFromFiles()
 			fs >> camX >> camY;
 			simon = new Simon();
 			simon->setPosition(x, y);
-			Game::getInstance()->setCameraPosition(0, 0);
+			simon->setInitPos({ x, y });
+			Game::getInstance()->setCameraPosition(camX, camY);
+			initCam = { camX,camY };
 			break;
 		case boundary:
-			{
-				float width, height;
-				int type;
-				fs >> width >> height >> type;
-				auto boundary = BoundaryFactory::getInstance()->getBoundary(type);
-				boundary->setWidhtHeight(width, height);
-				boundary->setPosition(x, y);
-				boundary->setEnable();
-				listBoundary.push_back(boundary);
-				break;
-			}
+		{
+			float width, height;
+			int type;
+			fs >> width >> height >> type;
+			auto boundary = BoundaryFactory::getInstance()->getBoundary(type);
+			boundary->setWidhtHeight(width, height);
+			boundary->setPosition(x, y);
+			boundary->setEnable();
+			listBoundary.push_back(boundary);
+			break;
+		}
 		case item:
-			{
-				int type;
-				fs >> type;
-				auto item = ItemFactory::Get()->getItem(type, {x, y});
-				auto unit = new Unit(getGrid(), item, x, y);
-				break;
-			}
+		{
+			int type;
+			fs >> type;
+			auto item = ItemFactory::Get()->getItem(type, { x, y });
+			auto unit = new Unit(getGrid(), item, x, y);
+			break;
+		}
 		case candle:
-			{
-				int type, itemContainType, itemNx;
-				fs >> type >> itemContainType >> itemNx;
-				const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, {x, y}, getGrid());
-				auto unit = new Unit(getGrid(), candle, x, y);
-				break;
-			}
+		{
+			int type, itemContainType, itemNx;
+			fs >> type >> itemContainType >> itemNx;
+			const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, { x, y }, getGrid());
+			auto unit = new Unit(getGrid(), candle, x, y);
+			break;
+		}
 
 		case obChangeStage:
-			{
-				float width, height;
-				int nextStage;
-				fs >> width >> height >> nextStage;
-				auto obj = new ObjectChangeStage();
-				obj->setWidthHeight(width, height);
-				obj->setPosition(x, y);
-				obj->setEnable();
-				obj->setNextStage(nextStage);
-				auto unit = new Unit(getGrid(), obj, x, y);
-				break;
-			}
+		{
+			float width, height;
+			int nextStage;
+			fs >> width >> height >> nextStage;
+			auto obj = new ObjectChangeStage();
+			obj->setWidthHeight(width, height);
+			obj->setPosition(x, y);
+			obj->setEnable();
+			obj->setNextStage(nextStage);
+			auto unit = new Unit(getGrid(), obj, x, y);
+			break;
+		}
 
 		default: break;
 		}
@@ -150,10 +161,10 @@ void Stage::update(DWORD dt)
 vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 {
 	vector<MapGameObjects> map;
-	map.push_back({boundary, &listBoundary});
-	map.push_back({item, &listItems});
-	map.push_back({canHitObjs, &listCanHitObjects});
-	map.push_back({obChangeStage, &listObjectChangeStage});
+	map.push_back({ boundary, &listBoundary });
+	map.push_back({ item, &listItems });
+	map.push_back({ canHitObjs, &listCanHitObjects });
+	map.push_back({ obChangeStage, &listObjectChangeStage });
 	return map;
 }
 
@@ -178,7 +189,7 @@ bool Stage::isInViewport(GameObject* object)
 	const auto camPosition = Game::getInstance()->getCameraPosition();
 
 	return isColliding(object->getBoundingBox(),
-	                   {camPosition.x, camPosition.y, camPosition.x + SCREEN_WIDTH, camPosition.y + SCREEN_HEIGHT});
+		{ camPosition.x, camPosition.y, camPosition.x + SCREEN_WIDTH, camPosition.y + SCREEN_HEIGHT });
 }
 
 void Stage::updateGrid()
@@ -216,7 +227,7 @@ void Stage::loadListObjFromGrid()
 			break;
 		case candle: listCanHitObjects.push_back(obj);
 			break;
-		default: ;
+		default:;
 		}
 	}
 }
@@ -264,7 +275,9 @@ void Stage::onKeyDown(const int keyCode)
 		break;
 	case DIK_X: simon->getHurt();
 		break;
-	default: ;
+	case DIK_C: simon->getHurt(1, 1, 88);
+		break;
+	default:;
 	}
 }
 

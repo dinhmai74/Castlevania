@@ -31,6 +31,7 @@ public:
 	void keyState(BYTE *states) const { getCurrentStage()->keyState(states); }
 	void add(GameObject* ob) const;
 	Stage* getCurrentStage() const { return currentStage; }
+	void descreaseLife();
 private:
 	void loadTileMaps();
 };

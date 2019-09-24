@@ -42,7 +42,7 @@ enum State
 	throwing = 7,
 	throwingWhenSitting = 8,
 	deflect = 99,
-	dead = -1,
+	death = -1,
 	normal = 1,
 };
 

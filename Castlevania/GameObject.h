@@ -53,7 +53,7 @@ protected:
 
 	LPDIRECT3DTEXTURE9 texture;
 	Animation* burnEffect;
-	Timer* timerDead;
+	Timer* timerDeath;
 	Timer* timerDeflect;
 	Timer* timerUntouchable;
 	int untouchableDuration;
@@ -61,6 +61,9 @@ protected:
 	float vyDeflect;
 	int nxDeflect;
 	int deflectTimeDuration;
+	bool startDying;
+	bool startDeflect;
+	int deathTimeDuration;
 public:
 	GameObject();
 
@@ -81,6 +84,7 @@ public:
 	void processUntouchableEffect();
 	void createBlowUpEffectAndSetRespawnTimer();
 	void processWhenBurnedEffectDone();
+	void doUntouchable();
 
 
 	/*----------------- collide  -----------------*/
@@ -98,7 +102,8 @@ public:
 	/*----------------- update  -----------------*/
 
 	virtual void update(DWORD dt, vector<GameObject*>* coObjects = nullptr);
-	void processDeflectEffect();
+	virtual void processDeflectEffect();
+	void processDeathEffect();
 	void updateGravity(float gravity);
 	void updatePosWhenNotCollide();
 	void updatePosInTheMomentCollide(float minTx, float minTy, float nx,
@@ -147,9 +152,8 @@ public:
 	bool isTimerRunning(Timer* timer) { return timer->isRunning(); }
 	bool isDeflecting() { return isTimerRunning(timerDeflect); }
 	bool isUntouching() { return isTimerRunning(timerUntouchable); }
+	bool isDying() { return isTimerRunning(timerDeath); };
 
-private:
-	bool startDeflect;
 };
 
 inline Box GameObject::getBoundingBox(float width, float height)

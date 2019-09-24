@@ -7,14 +7,19 @@ void GameObject::processWhenBurnedEffectDone()
 	if (burnEffect && burnEffect->isOver(BURNED_DURATION))
 	{
 		burnEffect = nullptr;
-		if (state == dead)setActive(false);
+		if (state == death)setActive(false);
 	}
+}
+
+void GameObject::doUntouchable()
+{
+	timerUntouchable->start();
 }
 
 GameObject::GameObject()
 {
 	x = y = 0;
-	initPos = { 0, 0 };
+	initPos = {0, 0};
 	vx = vy = 0;
 	alpha = r = b = g = 255;
 	setFaceSide(right); // right side
@@ -28,11 +33,13 @@ GameObject::GameObject()
 	hp = 1;
 	untouchableDuration = 2000;
 	deflectTimeDuration = 400;
-	vxDeflect = 0.15f;
-	setVyDeflect(0.06f);
-	setNxDeflect(-1);
+	deathTimeDuration = 1000;
 	timerUntouchable = new Timer(untouchableDuration);
 	timerDeflect = new Timer(deflectTimeDuration);
+	timerDeath = new Timer(deathTimeDuration);
+	vxDeflect = 0.15f;
+	vyDeflect = 0.06f;
+	nxDeflect = -1;
 }
 
 GameObject::~GameObject()
@@ -42,9 +49,15 @@ GameObject::~GameObject()
 
 void GameObject::updateAnimId()
 {
-	if (state == deflect)
+	switch (state)
 	{
+	case deflect:
 		if (animations[ANIM_DEFLECT]) animId = ANIM_DEFLECT;
+		break;
+	case death:
+		if (animations[ANIM_DEATH]) animId = ANIM_DEATH;
+		break;
+	default: ;
 	}
 }
 
@@ -62,7 +75,8 @@ void GameObject::render()
 
 void GameObject::getSpeed(float& vx, float& vy) const
 {
-	vx = this->vx; vy = this->vy;
+	vx = this->vx;
+	vy = this->vy;
 }
 
 void GameObject::getPosition(float& x, float& y) const
@@ -97,12 +111,11 @@ void GameObject::getHurt(int nx, int ny, int hpLose)
 	if (isUntouching() || isDeflecting()) return;
 	if (this->hp <= hpLose)
 	{
-		setState(dead);
+		setState(death);
 		this->hp = 0;
+		timerDeath->start();
 	}
 	else setStatusWhenStillHaveEnoughHP(nx, hpLose);
-
-	this->faceSide = nx;
 }
 
 void GameObject::loseHp(int hpLose)
@@ -116,7 +129,7 @@ void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose)
 {
 	loseHp(hpLose);
 	setState(deflect);
-	setNxDeflect(1);
+	setNxDeflect(-nx);
 	timerDeflect->start();
 }
 
@@ -187,8 +200,8 @@ void GameObject::calcPotentialCollisionsAABB(vector<LPGAMEOBJECT>* coObjects, ve
 
 void GameObject::filterCollision
 (vector<LPCollisionEvent>& coEvents,
-	vector<LPCollisionEvent>& coEventsResult,
-	float& min_tx, float& min_ty, float& nx, float& ny)
+ vector<LPCollisionEvent>& coEventsResult,
+ float& min_tx, float& min_ty, float& nx, float& ny)
 {
 	min_tx = 1.0f;
 	min_ty = 1.0f;
@@ -229,10 +242,23 @@ void GameObject::update(const DWORD dt, vector<GameObject*>* coObject)
 	this->dt = dt;
 	createBlowUpEffectAndSetRespawnTimer();
 	processWhenBurnedEffectDone();
-	processDeflectEffect();
 	processUntouchableEffect();
 	dx = vx * dt;
 	dy = vy * dt;
+}
+
+void GameObject::processDeathEffect()
+{
+	if (isDying())
+	{
+		animId = ANIM_DEATH;
+		setEnable(false);
+		startDying = true;
+	}
+	else if (startDying)
+	{
+		startDying = false;
+	}
 }
 
 void GameObject::processUntouchableEffect()
@@ -248,8 +274,9 @@ void GameObject::processDeflectEffect()
 		vx = vxDeflect * nxDeflect;
 		vy = -vyDeflect;
 		startDeflect = true;
-		faceSide =-nxDeflect;
-	}else if(startDeflect)
+		faceSide = -nxDeflect;
+	}
+	else if (startDeflect)
 	{
 		timerUntouchable->start();
 		startDeflect = false;
@@ -259,7 +286,7 @@ void GameObject::processDeflectEffect()
 
 void GameObject::createBlowUpEffectAndSetRespawnTimer()
 {
-	if (state == dead)
+	if (state == death)
 	{
 		if (!burnEffect)
 		{
@@ -359,5 +386,5 @@ D3DXVECTOR2 GameObject::getOffsetFromBoundingBox()
 	// spriteFrame is usually larger than the spriteBoundary so we need to take account of the offset
 	auto offsetX = spriteBoundary.l - spriteFrame.l;
 	auto offsetY = spriteBoundary.t - spriteFrame.t;
-	return { offsetX, offsetY };
+	return {offsetX, offsetY};
 }

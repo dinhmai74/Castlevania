@@ -15,10 +15,7 @@ class Simon :
 {
 public:
 	Simon();
-	bool flip;
-
 	void init();
-
 	~Simon();
 
 	void handleOnKeyPress(BYTE* states);
@@ -37,12 +34,20 @@ public:
 	void initAnim() override;
 	void update(DWORD dt, const vector<MapGameObjects>& maps);
 
+	bool updateLife(int val);
+	bool updateHP(int val);
+	void doAutoWalk();
+
+	/*----------------- get set  -----------------*/
 	SubWeapon* getSubWeapon() const { return subWeapon; }
 	int  getSubWeaponType() const { return subWeaponType; }
 	void powerUpWhip(bool upgrade = true);
 	Whip* getWhip() { return whip; }
 	int getHp() { return hp; };
 	int getEnergy() { return energy; };
+	int Life() const { return life; }
+	void setLife(int val) { life = val; }
+	void reset();
 private:
 	bool isHitting;
 	bool isThrowing;
@@ -59,6 +64,7 @@ private:
 	bool isInGround;
 	int forceRenderFrame;
 	int energy;
+	int life;
 	bool isPowering() { return isTimerRunning(timerPowering); };
 	bool isAutoWalking() { return isTimerRunning(timerAutoWalk); };
 	bool isChangingStage() { return isTimerRunning(timerChangeStage); };
@@ -77,13 +83,13 @@ private:
 	void throwingWhenSitting();
 	void throwSubWeapon();
 	void loseEnergy() { energy--; energy = energy < 0 ? 0 : energy; };
-	void addEnergy() { energy++; energy = energy > MAX_ENERGY ? MAX_ENERGY : energy; };
+	void addEnergy() { energy++; energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy; };
 	void generateSubWeapon();
 	bool isHaveSubWeapon() const { return subWeaponType != -1; };
 
 	/*----------------- special effect  -----------------*/
 	void checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs);
-	void doAutoWalk();
+	void processDeflectEffect();
 
 	/*----------------- check collision -----------------*/
 	void processCollisionWithGround(float minTy, float ny);

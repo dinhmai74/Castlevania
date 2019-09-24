@@ -16,8 +16,8 @@ void Simon::init()
 	subWeaponType = -1;
 	energy = 5;
 	hp = 10;
+	setLife(3);
 	whip->setPosition(x, y);
-	doAutoWalk();
 
 	isInGround = false;
 	isReleaseSitButton = true;
@@ -36,6 +36,7 @@ void Simon::initAnim()
 	addAnimation(ANIM_HITTING, "simon_hitstand_ani");
 	addAnimation(ANIM_HITTING_WHEN_SIT, "simon_hitsit_ani");
 	addAnimation(ANIM_DEFLECT, "simon_deflect");
+	addAnimation(ANIM_DEATH, "simon_death");
 }
 
 void Simon::render()
@@ -74,11 +75,35 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 	updateRGB();
 	updateAutoWalk();
 	updateChangingStageEffect();
+	processDeflectEffect();
 
 	checkCollision(dt, maps);
 	updateAnimId();
 	// simple fall down
 	updateGravity(gravity);
+}
+
+bool Simon::updateLife(int val)
+{
+	life += val;
+	if (life <= 0) {
+		life = 0;
+		return false;
+	}
+	return true;
+}
+
+bool Simon::updateHP(int val)
+{
+	hp += val;
+	if (hp <= 0) {
+		hp = 0;
+		return false;
+	}
+
+	if (hp > SIM_MAX_HP) hp = SIM_MAX_HP;
+	return true;
+
 }
 
 void Simon::updateRGB()
@@ -155,10 +180,25 @@ void Simon::doChangeStageEffect()
 	timerChangeStage->start();
 }
 
+
 void Simon::doAutoWalk()
 {
 	if (isAutoWalking()) return;
 	timerAutoWalk->start();
+}
+
+void Simon::processDeflectEffect()
+{
+	if (isDying())
+	{
+		vx = 0;
+		startDying = true;
+	}
+	else if (startDying)
+	{
+		StageManager::getInstance()->descreaseLife();
+		startDying = false;
+	}
 }
 
 void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries)
@@ -252,6 +292,13 @@ void Simon::powerUpWhip(bool upgrade)
 	vx = 0;
 }
 
+void Simon::reset()
+{
+	resetState();
+	x = initPos.x;
+	y = initPos.y;
+}
+
 void Simon::updateWeaponAction(DWORD dt, vector<GameObject*>* objs)
 {
 	whip->update(dt, x, y, objs, state);
@@ -294,7 +341,7 @@ void Simon::processCollisionWithBoundaryByX(float minTx, float ny, Boundary* bou
 
 void Simon::updateAnimId()
 {
-	if (isAutoWalking() || isChangingStage())
+	if (isAutoWalking() || isChangingStage() || isDying())
 	{
 		animId = ANIM_WALK;
 		GameObject::updateAnimId();
@@ -521,7 +568,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 
 bool Simon::isDoingImportantAnim()
 {
-	return isHitting || isThrowing || isPowering() || isAutoWalking() || isChangingStage() || isDeflecting();
+	return isHitting || isThrowing || isPowering() || isAutoWalking() || isChangingStage() || isDeflecting() || isDying();
 }
 
 void Simon::handleOnKeyDown(int keyCode)
