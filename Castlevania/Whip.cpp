@@ -71,7 +71,7 @@ void Whip::refreshAnim()
 
 Box Whip::getBoundingBox()
 {
-	if (currentState != STATE_WHIP_HITTING) return { 0,0,0,0, };
+	if (state != STATE_WHIP_HITTING) return { 0,0,0,0, };
 
 	float left;
 	const auto top = y + 15;

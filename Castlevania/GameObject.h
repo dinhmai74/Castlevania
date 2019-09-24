@@ -5,6 +5,7 @@
 #include "SweptAABB.h"
 #include <Windows.h>
 #include "Library/Inc/D3DX10math.h"
+#include "Timer.h"
 using namespace std;
 
 constexpr auto FACE_TO_RIGHT = 1;
@@ -42,7 +43,7 @@ protected:
 
 	int faceSide;
 
-	int currentState;
+	int state;
 	int previousState;
 	unordered_map<int, Animation*> animations;
 	int preAnimId;
@@ -52,50 +53,37 @@ protected:
 
 	LPDIRECT3DTEXTURE9 texture;
 	Animation* burnEffect;
-
-	void createBlowUpEffectAndSetRespawnTimer();
-	void processWhenBurnedEffectDone();
+	Timer* timerDead;
+	Timer* timerDeflect;
+	Timer* timerUntouchable;
+	int untouchableDuration;
+	float vxDeflect;
+	float vyDeflect;
+	int nxDeflect;
+	int deflectTimeDuration;
 public:
 	GameObject();
 
 	virtual ~GameObject();
 
-	virtual void initAnim() = 0;
+	/*----------------- general  -----------------*/
+	virtual void initAnim()=0;
 	virtual void render();
-
-	void setType(int type) { this->type = type; }
-	void setId(int id) { this->id = id; }
-	void setPosition(float x, float y) { this->x = x; this->y = y; }
-	void setState(int state)
-	{
-		this->previousState = this->currentState; this->currentState = state;
-	}
-	void setSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
-	void setBoundingGame(float x, float y) { this->boundingGameX = x; this->boundingGameY = y; }
-
-	int getId() const { return id; }
-	int getType() const { return type; }
-	int getPreviousState() const { return previousState; }
-	int getState() const { return currentState; }
-	void getSpeed(float& vx, float& vy) const
-	{
-		vx = this->vx; vy = this->vy;
-	}
-	void getPosition(float& x, float& y) const
-	{
-		x = this->x;
-		y = this->y;
-	}
-
-	D3DXVECTOR2 getPosition() { return{ x,y }; }
-
+	virtual void updateAnimId();
 	virtual void renderBoundingBox();
-	virtual void getHurt(int nx = 1, int hpLose = 1);
+	void addAnimation(int id, string animTexId);
+
+	/*----------------- hurt and death -----------------*/
+	virtual void getHurt(int nx = -1, int hpLose = 1);
 	virtual void getHurt(int nx ,int ny, int hpLose );
 	void loseHp(int hpLose = 1);
-	void setStatusWhenStillHaveEnoughHP(int hpLose);
+	void setStatusWhenStillHaveEnoughHP(int nx, int hpLose);
+	void processUntouchableEffect();
+	void createBlowUpEffectAndSetRespawnTimer();
+	void processWhenBurnedEffectDone();
 
-	void addAnimation(int id, string animTexId);
+
+	/*----------------- collide  -----------------*/
 
 	LPCollisionEvent sweptAABBEx(LPGAMEOBJECT coO);
 	void calcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCollisionEvent>& coEvents);
@@ -107,19 +95,42 @@ public:
 		float& minTy,
 		float& nx,
 		float& ny);
+	/*----------------- update  -----------------*/
 
 	virtual void update(DWORD dt, vector<GameObject*>* coObjects = nullptr);
+	void processDeflectEffect();
 	void updateGravity(float gravity);
 	void updatePosWhenNotCollide();
 	void updatePosInTheMomentCollide(float minTx, float minTy, float nx,
 		float ny);
 	void checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* coObjects);
 
+	/*----------------- bounding box  -----------------*/
 	Box getBoundingBoxBaseOnFile();
 	Box getBoundingBoxBaseOnFileAndPassWidth(float width);
 	virtual Box getBoundingBox(float width, float height);
 	virtual Box getBoundingBox() { return getBoundingBox(-1, -1); };
 	D3DXVECTOR2 getOffsetFromBoundingBox();
+
+
+	/*----------------- get set   -----------------*/
+	void setType(int type) { this->type = type; }
+	void setId(int id) { this->id = id; }
+	void setPosition(float x, float y) { this->x = x; this->y = y; }
+	void setState(int state)
+	{
+		this->previousState = this->state; this->state = state;
+	}
+	void setSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
+	void setBoundingGame(float x, float y) { this->boundingGameX = x; this->boundingGameY = y; }
+	int getId() const { return id; }
+	int getType() const { return type; }
+	int getPreviousState() const { return previousState; }
+	int getState() const { return state; }
+	void getSpeed(float& vx, float& vy) const;
+	void getPosition(float& x, float& y) const;
+	D3DXVECTOR2 getPosition() { return{ x,y }; }
+
 	bool IsActive() const { return isActive; }
 	void setActive(bool val = true) { isActive = val; }
 	bool IsEnable() const { return isEnable; }
@@ -127,6 +138,18 @@ public:
 	D3DXVECTOR2 getInitPos() const { return initPos; }
 	void setInitPos(D3DXVECTOR2 val) { initPos = val; }
 	void setFaceSide(int val) { faceSide = val; }
+	int NxDeflect() const { return nxDeflect; }
+	void setNxDeflect(int val) { nxDeflect = val; }
+	float VyDeflect() const { return vyDeflect; }
+	void setVyDeflect(float val) { vyDeflect = val; }
+	int DeflectTimeDuration() const { return deflectTimeDuration; }
+	void setDeflectTimeDuration(int val) { deflectTimeDuration = val; }
+	bool isTimerRunning(Timer* timer) { return timer->isRunning(); }
+	bool isDeflecting() { return isTimerRunning(timerDeflect); }
+	bool isUntouching() { return isTimerRunning(timerUntouchable); }
+
+private:
+	bool startDeflect;
 };
 
 inline Box GameObject::getBoundingBox(float width, float height)

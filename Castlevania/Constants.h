@@ -41,6 +41,7 @@ enum State
 	hittingWhenSitting = 6,
 	throwing = 7,
 	throwingWhenSitting = 8,
+	deflect = 99,
 	dead = -1,
 	normal = 1,
 };
@@ -95,8 +96,8 @@ auto constexpr CANDLE_DESTROYED_TIME = 300;
 	texture constants
 */
 constexpr auto ID_TEX_BBOX = -101; //
-constexpr auto ID_TEX_BLACK_BOARD= 1000001; //
+constexpr auto ID_TEX_BLACK_BOARD = 1000001; //
 
 /*----------------- normal anim -----------------*/
 auto constexpr ANIM_BURNED = "burned_effect_default_ani";
-auto constexpr BURNED_DURATION= 400;
+auto constexpr BURNED_DURATION = 400;

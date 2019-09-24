@@ -25,8 +25,11 @@ public:
 		return !isTimeUp() && isRun;
 	}
 
+	int getTimeRunAlr() { return GetTickCount() - startTime; }
+
 	int getStartTime() { return startTime; }
 	int getLimitedTime() { return limitedTime; }
+	void setLimitedTime(int val) { limitedTime = val; }
 	bool runAlready() const { return isRun; }
 };
 

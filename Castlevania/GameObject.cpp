@@ -2,26 +2,12 @@
 #include <algorithm>
 
 
-void GameObject::createBlowUpEffectAndSetRespawnTimer()
-{
-	if (currentState == dead)
-	{
-		if (!burnEffect)
-		{
-			const auto now = GetTickCount();
-			burnEffect = AnimationManager::getInstance()->get(ANIM_BURNED);
-			burnEffect->setAniStartTime(now);
-			setEnable(false);
-		}
-	}
-}
-
 void GameObject::processWhenBurnedEffectDone()
 {
 	if (burnEffect && burnEffect->isOver(BURNED_DURATION))
 	{
 		burnEffect = nullptr;
-		if (currentState == dead)setActive(false);
+		if (state == dead)setActive(false);
 	}
 }
 
@@ -31,20 +17,35 @@ GameObject::GameObject()
 	initPos = { 0, 0 };
 	vx = vy = 0;
 	alpha = r = b = g = 255;
-	setFaceSide(FaceSide::right); // right side
+	setFaceSide(right); // right side
 	preAnimId = -1;
 	previousAnimIsOneTimeAnim = false;
 	boundingGameX = 0;
 	boundingGameY = 0;
-	currentState = State::normal;
+	state = normal;
 	isActive = true;
 	gravity = 0;
 	hp = 1;
+	untouchableDuration = 2000;
+	deflectTimeDuration = 400;
+	vxDeflect = 0.15f;
+	setVyDeflect(0.06f);
+	setNxDeflect(-1);
+	timerUntouchable = new Timer(untouchableDuration);
+	timerDeflect = new Timer(deflectTimeDuration);
 }
 
 GameObject::~GameObject()
 {
 	if (texture != nullptr) texture->Release();
+}
+
+void GameObject::updateAnimId()
+{
+	if (state == deflect)
+	{
+		if (animations[ANIM_DEFLECT]) animId = ANIM_DEFLECT;
+	}
 }
 
 void GameObject::render()
@@ -59,6 +60,16 @@ void GameObject::render()
 	animations[animId]->render(faceSide, x, y, alpha);
 }
 
+void GameObject::getSpeed(float& vx, float& vy) const
+{
+	vx = this->vx; vy = this->vy;
+}
+
+void GameObject::getPosition(float& x, float& y) const
+{
+	x = this->x;
+	y = this->y;
+}
 
 void GameObject::renderBoundingBox()
 {
@@ -78,18 +89,20 @@ void GameObject::addAnimation(int id, string animTexId)
 
 void GameObject::getHurt(int nx, int hpLose)
 {
-	loseHp(hpLose);
-	if (this->hp <= 0)
-	{
-		setState(dead);
-		this->hp = 0;
-	}
-	this->faceSide = nx;
+	GameObject::getHurt(nx, 1, hpLose);
 }
 
 void GameObject::getHurt(int nx, int ny, int hpLose)
 {
-	GameObject::getHurt(nx, hpLose);
+	if (isUntouching() || isDeflecting()) return;
+	if (this->hp <= hpLose)
+	{
+		setState(dead);
+		this->hp = 0;
+	}
+	else setStatusWhenStillHaveEnoughHP(nx, hpLose);
+
+	this->faceSide = nx;
 }
 
 void GameObject::loseHp(int hpLose)
@@ -99,10 +112,12 @@ void GameObject::loseHp(int hpLose)
 		hp = 0;
 }
 
-
-void GameObject::setStatusWhenStillHaveEnoughHP(int hpLose)
+void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose)
 {
 	loseHp(hpLose);
+	setState(deflect);
+	setNxDeflect(1);
+	timerDeflect->start();
 }
 
 LPCollisionEvent GameObject::sweptAABBEx(LPGAMEOBJECT coO)
@@ -158,7 +173,6 @@ void GameObject::calcPotentialCollisions
 
 void GameObject::calcPotentialCollisionsAABB(vector<LPGAMEOBJECT>* coObjects, vector<LPCollisionEvent>& coEvents)
 {
-
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		auto ob = coObjects->at(i);
@@ -190,12 +204,18 @@ void GameObject::filterCollision
 	{
 		auto c = coEvents[i];
 
-		if (c->t < min_tx && c->nx != 0) {
-			min_tx = c->t; nx = c->nx; min_ix = i;
+		if (c->t < min_tx && c->nx != 0)
+		{
+			min_tx = c->t;
+			nx = c->nx;
+			min_ix = i;
 		}
 
-		if (c->t < min_ty && c->ny != 0) {
-			min_ty = c->t; ny = c->ny; min_iy = i;
+		if (c->t < min_ty && c->ny != 0)
+		{
+			min_ty = c->t;
+			ny = c->ny;
+			min_iy = i;
 		}
 	}
 
@@ -207,12 +227,49 @@ void GameObject::filterCollision
 void GameObject::update(const DWORD dt, vector<GameObject*>* coObject)
 {
 	this->dt = dt;
-	dx = vx * dt;
-	dy = vy * dt;
 	createBlowUpEffectAndSetRespawnTimer();
 	processWhenBurnedEffectDone();
+	processDeflectEffect();
+	processUntouchableEffect();
+	dx = vx * dt;
+	dy = vy * dt;
 }
 
+void GameObject::processUntouchableEffect()
+{
+	if (isUntouching()) alpha = rand() % 255;
+	else alpha = 255;
+}
+
+void GameObject::processDeflectEffect()
+{
+	if (isDeflecting())
+	{
+		vx = vxDeflect * nxDeflect;
+		vy = -vyDeflect;
+		startDeflect = true;
+		faceSide =-nxDeflect;
+	}else if(startDeflect)
+	{
+		timerUntouchable->start();
+		startDeflect = false;
+		x -= nxDeflect * 0.01f; // case that collide boundary need more space
+	}
+}
+
+void GameObject::createBlowUpEffectAndSetRespawnTimer()
+{
+	if (state == dead)
+	{
+		if (!burnEffect)
+		{
+			const auto now = GetTickCount();
+			burnEffect = AnimationManager::getInstance()->get(ANIM_BURNED);
+			burnEffect->setAniStartTime(now);
+			setEnable(false);
+		}
+	}
+}
 
 void GameObject::checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* coObjects)
 {
@@ -260,7 +317,6 @@ void GameObject::updatePosInTheMomentCollide(float minTx, float minTy, float nx,
 	if (ny != 0) vy = 0;
 }
 
-
 Box GameObject::getBoundingBoxBaseOnFile()
 {
 	float r, l;
@@ -268,7 +324,7 @@ Box GameObject::getBoundingBoxBaseOnFile()
 	auto spriteBoundary = animations[animId]->getFrameBoundingBox();
 	auto offset = getOffsetFromBoundingBox();
 
-	if (faceSide == FaceSide::right)
+	if (faceSide == right)
 	{
 		r = x + (spriteFrame.r - spriteFrame.l) - offset.x;
 		l = r - (spriteBoundary.r - spriteBoundary.l);
@@ -295,7 +351,6 @@ Box GameObject::getBoundingBoxBaseOnFileAndPassWidth(float width)
 	return Box(l, box.t, r, box.b);
 }
 
-
 D3DXVECTOR2 GameObject::getOffsetFromBoundingBox()
 {
 	auto spriteFrame = animations[animId]->getFrameSprite();
@@ -303,6 +358,6 @@ D3DXVECTOR2 GameObject::getOffsetFromBoundingBox()
 
 	// spriteFrame is usually larger than the spriteBoundary so we need to take account of the offset
 	auto offsetX = spriteBoundary.l - spriteFrame.l;
-	auto  offsetY = spriteBoundary.t - spriteFrame.t;
+	auto offsetY = spriteBoundary.t - spriteFrame.t;
 	return { offsetX, offsetY };
 }

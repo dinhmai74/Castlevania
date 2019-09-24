@@ -35,10 +35,21 @@ void Simon::initAnim()
 	addAnimation(ANIM_SIT, "simon_sit_ani");
 	addAnimation(ANIM_HITTING, "simon_hitstand_ani");
 	addAnimation(ANIM_HITTING_WHEN_SIT, "simon_hitsit_ani");
+	addAnimation(ANIM_DEFLECT, "simon_deflect");
 }
 
 void Simon::render()
 {
+	//if(flip)
+	//{
+	//	flip = !flip;
+	//	faceSide = -faceSide;
+	//}else
+	//{
+	//	flip = flip;
+	//	faceSide = -faceSide;
+	//	
+	//}
 	if (isHitting && timerPowering->isTimeUp())
 	{
 		whip->setSide(faceSide);
@@ -95,6 +106,9 @@ void Simon::updateChangingStageEffect()
 {
 	if (isChangingStage()) {
 		vx = faceSide * SIM_AUTO_WALK_VX;
+		auto timeRunAlr = timerChangeStage->getTimeRunAlr();
+		auto limedTime = timerChangeStage->getLimitedTime();
+		if (limedTime - timeRunAlr <= 600) { alpha = 0; } // make simon invi
 		startedChangeStage = true;
 	}
 	else
@@ -240,7 +254,7 @@ void Simon::powerUpWhip(bool upgrade)
 
 void Simon::updateWeaponAction(DWORD dt, vector<GameObject*>* objs)
 {
-	whip->update(dt, x, y, objs, currentState);
+	whip->update(dt, x, y, objs, state);
 }
 
 void Simon::processCollisionWithItem(Item* item)
@@ -269,7 +283,7 @@ void Simon::processCollisionWithGround(float minTy, float ny)
 {
 	vy = 0;
 	isInGround = true;
-	if (currentState == jumping)
+	if (state == jumping)
 		standUp();
 }
 
@@ -283,10 +297,11 @@ void Simon::updateAnimId()
 	if (isAutoWalking() || isChangingStage())
 	{
 		animId = ANIM_WALK;
+		GameObject::updateAnimId();
 		return;
 	}
 	int frame;
-	switch (currentState)
+	switch (state)
 	{
 	case walking: animId = ANIM_WALK;
 		break;
@@ -344,6 +359,7 @@ void Simon::updateAnimId()
 	default:
 		animId = ANIM_IDLE;
 	}
+	GameObject::updateAnimId();
 }
 
 void Simon::setState(int state)
@@ -388,7 +404,7 @@ void Simon::standUp()
 
 void Simon::stopMoveWhenHitting()
 {
-	if (currentState == jumping) return;
+	if (state == jumping) return;
 	vx = 0;
 }
 
@@ -481,8 +497,8 @@ void Simon::handleOnKeyPress(BYTE* states)
 	auto game = Game::getInstance();
 
 	if (isDoingImportantAnim()) return;
-	if (currentState == sitting) return;
-	if (currentState == jumping) return;
+	if (state == sitting) return;
+	if (state == jumping) return;
 
 
 	if (game->isKeyDown(DIK_RIGHT))
@@ -505,7 +521,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 
 bool Simon::isDoingImportantAnim()
 {
-	return isHitting || isThrowing || isPowering() || isAutoWalking() || isChangingStage();
+	return isHitting || isThrowing || isPowering() || isAutoWalking() || isChangingStage() || isDeflecting();
 }
 
 void Simon::handleOnKeyDown(int keyCode)
@@ -520,19 +536,17 @@ void Simon::handleOnKeyDown(int keyCode)
 			jump();
 		break;
 	case DIK_LCONTROL:
-		if (currentState == jumping) isJumpingHit = true;
+		if (state == jumping) isJumpingHit = true;
 		(isReleaseSitButton || isJumpingHit) ? hit() : hitWhenSitting();
 		break;
 	case DIK_A:
 		isReleaseSitButton ? throwing() : throwingWhenSitting();
 		break;
-	case DIK_F:
-		doAutoWalk();
-		break;
+
 	case DIK_DOWN:
 		if (isInGround
-			&& currentState != sitting
-			&& currentState != jumping
+			&& state != sitting
+			&& state != jumping
 			)
 		{
 			isReleaseSitButton = false;
@@ -542,6 +556,16 @@ void Simon::handleOnKeyDown(int keyCode)
 	default:;
 	}
 }
+
+Box Simon::getBoundingBox()
+{
+	auto box = GameObject::getBoundingBoxBaseOnFile();
+	// offset from rect sprite and bbox
+	box.l = x + 10;
+	box.r = box.l + SIM_WIDTH;
+	return box;
+}
+
 
 Simon::~Simon()
 = default;

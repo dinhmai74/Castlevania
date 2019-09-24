@@ -226,7 +226,7 @@ void Stage::updateCamera(const DWORD dt) const
 	auto game = Game::getInstance();
 	const auto map = TileMapManager::getInstance()->get(mapId);
 	const auto mapWidth = map->getMapWidth();
-	const auto mapHeight= map->getMapHeight();
+	const auto mapHeight = map->getMapHeight();
 	float simonX, simonY, simonVx, simonVy;
 	getSimon()->getPosition(simonX, simonY);
 	getSimon()->getSpeed(simonVx, simonVy);
@@ -236,7 +236,7 @@ void Stage::updateCamera(const DWORD dt) const
 	float posX, posY;
 	game->getCameraPosition(posX, posY);
 
-	const auto isCanMoveAreaX=
+	const auto isCanMoveAreaX =
 		simonX + offset > SCREEN_WIDTH / 2 &&
 		simonX + offset + SCREEN_WIDTH / 2 < mapWidth;
 
@@ -254,10 +254,18 @@ void Stage::updateCamera(const DWORD dt) const
 void Stage::onKeyDown(const int keyCode)
 {
 	getSimon()->handleOnKeyDown(keyCode);
-	if (keyCode == DIK_B)
-		this->renderBoundingBox = !this->renderBoundingBox;
-	else if (keyCode == DIK_U) getSimon()->powerUpWhip();
-	else if (keyCode == DIK_D) getSimon()->powerUpWhip(false);
+	switch (keyCode)
+	{
+	case DIK_B: renderBoundingBox = !renderBoundingBox;
+		break;
+	case DIK_U: simon->powerUpWhip();
+		break;
+	case DIK_D: simon->powerUpWhip(false);
+		break;
+	case DIK_X: simon->getHurt();
+		break;
+	default: ;
+	}
 }
 
 void Stage::onKeyUp(const int keyCode) const

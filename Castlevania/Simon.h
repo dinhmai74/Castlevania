@@ -15,6 +15,7 @@ class Simon :
 {
 public:
 	Simon();
+	bool flip;
 
 	void init();
 
@@ -23,6 +24,7 @@ public:
 	void handleOnKeyPress(BYTE* states);
 	bool isDoingImportantAnim();
 	void handleOnKeyDown(int KeyCode);
+	Box getBoundingBox() override;
 	void handleOnKeyRelease(int KeyCode);
 
 	void resetState();
@@ -57,7 +59,6 @@ private:
 	bool isInGround;
 	int forceRenderFrame;
 	int energy;
-	bool isTimerRunning(Timer* timer) { return timer->isRunning(); }
 	bool isPowering() { return isTimerRunning(timerPowering); };
 	bool isAutoWalking() { return isTimerRunning(timerAutoWalk); };
 	bool isChangingStage() { return isTimerRunning(timerChangeStage); };
