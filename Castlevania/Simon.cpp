@@ -41,16 +41,6 @@ void Simon::initAnim()
 
 void Simon::render()
 {
-	//if(flip)
-	//{
-	//	flip = !flip;
-	//	faceSide = -faceSide;
-	//}else
-	//{
-	//	flip = flip;
-	//	faceSide = -faceSide;
-	//	
-	//}
 	if (isHitting && timerPowering->isTimeUp())
 	{
 		whip->setSide(faceSide);
@@ -71,11 +61,11 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 {
 	GameObject::update(dt);
 
-	/*----------------- change stage  -----------------*/
 	updateRGB();
 	updateAutoWalk();
 	updateChangingStageEffect();
 	processDeflectEffect();
+	processDeathEffect();
 
 	checkCollision(dt, maps);
 	updateAnimId();
@@ -187,7 +177,7 @@ void Simon::doAutoWalk()
 	timerAutoWalk->start();
 }
 
-void Simon::processDeflectEffect()
+void Simon::processDeathEffect()
 {
 	if (isDying())
 	{

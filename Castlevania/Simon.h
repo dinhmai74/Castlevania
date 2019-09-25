@@ -89,7 +89,7 @@ private:
 
 	/*----------------- special effect  -----------------*/
 	void checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs);
-	void processDeflectEffect();
+	void processDeathEffect();
 
 	/*----------------- check collision -----------------*/
 	void processCollisionWithGround(float minTy, float ny);
