@@ -4,7 +4,6 @@
 #include "TextureManager.h"
 #include "SweptAABB.h"
 #include <Windows.h>
-#include "Library/Inc/D3DX10math.h"
 #include "Timer.h"
 using namespace std;
 
