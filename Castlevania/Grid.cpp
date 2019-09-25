@@ -77,6 +77,8 @@ void Grid::UnlinkUnit(Unit* unit, int oldRow, int oldCol)
 
 	if (unit->next != nullptr)
 		unit->next->prev = unit->prev;
+	oldCol = limitRange(oldCol, totalCols);
+	oldRow= limitRange(oldRow, totalRows);
 
 	if (cells[oldRow][oldCol] == unit)
 		cells[oldRow][oldCol] = unit->next;
@@ -120,7 +122,7 @@ void Grid::remove(Unit* unit, float oldRow, float oldCol)
 	if (oldCol == -1) oldCol = cell.col;
 	if (oldRow == -1) oldRow = cell.row;
 	// unlink the old cell contain unit
-	UnlinkUnit(unit, oldRow, oldCol);
+	UnlinkUnit(unit, static_cast<int>(oldRow), static_cast<int>(oldCol));
 }
 
 void Grid::get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
