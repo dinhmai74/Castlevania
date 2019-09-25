@@ -14,7 +14,7 @@ void StageManager::init(vector<TileMapInfo> tileMapsInfo)
 
 	loadTileMaps();
 	currentStage = new Stage();
-	getCurrentStage()->init(tileMapsInfo[0].id, tileMapsInfo[0].mapName);
+	currentStage->init(tileMapsInfo[0].id, tileMapsInfo[0].mapName);
 }
 
 void StageManager::nextStage(int id)
@@ -22,7 +22,8 @@ void StageManager::nextStage(int id)
 	auto newStage = new Stage();
 	// cause map id from =1 so next one id from tileMapsInfo is this
 	auto nextId = id == -1 ? currentStage->getId() : id;
-	newStage->init(tileMapsInfo[nextId].id, tileMapsInfo[nextId].mapName);
+	if (nextId > tileMapsInfo.size() - 1) nextId = 0;
+	newStage->init(tileMapsInfo[nextId].id, tileMapsInfo[nextId].mapName,currentStage->getSimon());
 	setStage(newStage);
 }
 
@@ -42,6 +43,7 @@ void StageManager::onKeyDown(int keyCode)
 	case DIK_Q: nextStage(0); break;
 	case DIK_W: nextStage(1); break;
 	case DIK_E: nextStage(2); break;
+	case DIK_N: nextStage(); break;
 	case DIK_R: nextStage(getCurrentStage()->getId() - 1); break;
 
 	default:

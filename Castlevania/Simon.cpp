@@ -14,6 +14,7 @@ void Simon::init()
 {
 	whip = new Whip();
 	subWeaponType = -1;
+	stairStatus = stairNull;
 	whip->setPosition(x, y);
 
 	isInGround = false;
@@ -34,6 +35,7 @@ void Simon::initAnim()
 	addAnimation(ANIM_HITTING_WHEN_SIT, "simon_hitsit_ani");
 	addAnimation(ANIM_DEFLECT, "simon_deflect");
 	addAnimation(ANIM_DEATH, "simon_death");
+	addAnimation(ANIM_UP_STAIR, "simon_up_stair");
 }
 
 void Simon::render()
@@ -154,6 +156,7 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 		}
 	}
 }
+
 void Simon::checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs)
 {
 	for (auto i = 0; i < objs->size(); i++)
@@ -358,6 +361,9 @@ void Simon::updateAnimId()
 	int frame;
 	switch (state)
 	{
+	case staring:
+		animId = stairStatus == stairDown ? ANIM_UP_STAIR : ANIM_UP_STAIR;
+		break;
 	case walking: animId = ANIM_WALK;
 		break;
 	case sitting:
@@ -455,6 +461,18 @@ void Simon::standUp()
 	resetState();
 	vx = 0;
 	setState(idle);
+}
+
+void Simon::upStair()
+{
+	setState(staring);
+	stairStatus = stairUp;
+}
+
+void Simon::downStair()
+{
+	setState(staring);
+	stairStatus = stairDown;
 }
 
 void Simon::stopMoveWhenHitting()
@@ -557,9 +575,15 @@ void Simon::handleOnKeyPress(BYTE* states)
 
 
 	if (game->isKeyDown(DIK_RIGHT))
-		move(FaceSide::right);
+	{
+		if (state == staring) upStair();
+		else move(FaceSide::right);
+	}
 	else if (game->isKeyDown(DIK_LEFT))
+	{
+		if (state == staring) downStair();
 		move(FaceSide::left);
+	}
 	else if (game->isKeyDown(DIK_DOWN))
 	{
 		if (isInGround)
@@ -568,16 +592,16 @@ void Simon::handleOnKeyPress(BYTE* states)
 			sit();
 		}
 	}
+	else if (game->isKeyDown(DIK_UPARROW))
+	{
+		DebugOut(L"up\n");
+	}
 	else
 	{
 		stand();
 	}
 }
 
-bool Simon::isDoingImportantAnim()
-{
-	return forceDead || isHitting || isThrowing || isPowering() || isAutoWalking() || isChangingStage() || isDeflecting() || isDying();
-}
 
 void Simon::handleOnKeyDown(int keyCode)
 {
@@ -611,6 +635,12 @@ void Simon::handleOnKeyDown(int keyCode)
 	default:;
 	}
 }
+
+bool Simon::isDoingImportantAnim()
+{
+	return forceDead || isHitting || isThrowing || isPowering() || isAutoWalking() || isChangingStage() || isDeflecting() || isDying();
+}
+
 
 Box Simon::getBoundingBox()
 {

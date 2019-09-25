@@ -39,4 +39,12 @@ constexpr auto ANIM_SIT = 2;
 constexpr auto ANIM_HITTING = 3;
 constexpr auto ANIM_HITTING_WHEN_SIT = 4;
 constexpr auto ANIM_DEFLECT= 5;
+constexpr auto ANIM_UP_STAIR= 6;
 constexpr auto ANIM_DEATH= -1;
+
+enum StairingState
+{
+	stairNull= 0,
+	stairUp= -1,
+	stairDown= 1,
+};

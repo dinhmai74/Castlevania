@@ -51,6 +51,10 @@ public:
 	void setHp(int val);
 	void setEnegery(int val);
 	void ForceDead();
+	void setSubWeapon(int type)
+	{
+		subWeaponType = type;
+	};
 private:
 	bool isHitting;
 	bool isThrowing;
@@ -65,9 +69,9 @@ private:
 	bool startedChangeStage;
 	int subWeaponType;
 	bool isInGround;
-	int forceRenderFrame;
 	int energy;
 	int life;
+	int stairStatus;
 	bool isPowering() { return isTimerRunning(timerPowering); };
 	bool isAutoWalking() { return isTimerRunning(timerAutoWalk); };
 	bool isChangingStage() { return isTimerRunning(timerChangeStage); };
@@ -78,6 +82,8 @@ private:
 	void sit();
 	void stand();
 	void standUp();
+	void upStair();
+	void downStair();
 	void stopMoveWhenHitting();
 	void hit();
 	void hitWhenSitting();
@@ -88,7 +94,10 @@ private:
 	void loseEnergy() { energy--; energy = energy < 0 ? 0 : energy; };
 	void addEnergy() { energy++; energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy; };
 	void generateSubWeapon();
-	bool isHaveSubWeapon() const { return subWeaponType != -1; };
+	bool isHaveSubWeapon() const
+	{
+		return subWeaponType != -1;
+	};
 
 	/*----------------- special effect  -----------------*/
 	void checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs);

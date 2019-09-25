@@ -12,8 +12,6 @@ void HUD::Init()
 	stage = StageManager::getInstance()->getCurrentStage();
 	blackboard = spriteManager->get("blackboard_default_0");
 	font = game->getFont();
-	subWeapons.push_back(spriteManager->get("empty_default_ani_0"));
-	subWeapons.push_back(spriteManager->get("empty_default_ani_0"));
 	subWeapons.push_back(spriteManager->get("item_dagger"));
 
 	for (int i = 0; i < 16; i++)

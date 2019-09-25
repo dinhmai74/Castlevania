@@ -18,6 +18,14 @@ void Stage::init(int mapId, wstring mapName)
 	loadContent();
 }
 
+void Stage::init(int mapId, wstring mapName, Simon* simon)
+{
+	this->renderBoundingBox = false;
+	this->simon = simon;
+	initMap(mapId, mapName);
+	loadContent();
+}
+
 void Stage::initMap(int mapId, wstring mapName)
 {
 	this->mapId = mapId;
@@ -288,6 +296,7 @@ void Stage::onKeyDown(const int keyCode)
 		break;
 	case DIK_C: simon->getHurt(1, 1, 88);
 		break;
+	case DIK_1: simon->setSubWeapon(itemDagger);
 	default:;
 	}
 }

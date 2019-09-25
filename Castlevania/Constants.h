@@ -41,6 +41,7 @@ enum State
 	hittingWhenSitting = 6,
 	throwing = 7,
 	throwingWhenSitting = 8,
+	staring=9,
 	deflect = 99,
 	death = -1,
 	normal = 1,
@@ -76,15 +77,15 @@ auto constexpr G_HEART_SMALL = 0.0001f;
 
 enum ItemType
 {
-	itemSmallHeart,
-	itemBigHeart,
 	itemDagger,
-	itemWhip,
+	itemAxe,
 	itemRedMoneyBag,
 	itemWhiteMoneyBag,
 	itemBlueMoneyBag,
 	itemCross,
-	itemAxe,
+	itemWhip=102,
+	itemBigHeart=100,
+	itemSmallHeart=101,
 };
 
 #pragma endregion
