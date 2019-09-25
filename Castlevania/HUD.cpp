@@ -13,6 +13,7 @@ void HUD::Init()
 	blackboard = spriteManager->get("blackboard_default_0");
 	font = game->getFont();
 	subWeapons.push_back(spriteManager->get("item_dagger"));
+	subWeapons.push_back(spriteManager->get("item_axe"));
 
 	for (int i = 0; i < 16; i++)
 	{

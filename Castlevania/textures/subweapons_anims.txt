@@ -1,1 +1,3 @@
 subweapons_dagger_ani	subweapons_dagger_ani_0	100
+subweapons_axe_ani	subweapons_axe_ani_0	100	subweapons_axe_ani_1	100	subweapons_axe_ani_2	100	subweapons_axe_ani_3	100
+subweapons_cross_ani	subweapons_cross_ani_0	100	subweapons_cross_ani_1	100	subweapons_cross_ani_2	100

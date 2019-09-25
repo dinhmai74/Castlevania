@@ -15,8 +15,9 @@ public:
 
 	int getDmg(int type);
 	SubWeapon* getSubWeapon(int type);
+	D3DXVECTOR2 getInitVelocity(int type, float faceSide);
+	D3DXVECTOR2 getVelocity(int type, float faceSide);
 	SubWeapon* getSubWeapon(int type, int faceSide);
-	D3DXVECTOR2 getVelocity(int type);
 
 
 private:
