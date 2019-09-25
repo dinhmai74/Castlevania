@@ -14,9 +14,6 @@ void Simon::init()
 {
 	whip = new Whip();
 	subWeaponType = -1;
-	energy = 5;
-	hp = 10;
-	setLife(3);
 	whip->setPosition(x, y);
 
 	isInGround = false;
@@ -41,6 +38,11 @@ void Simon::initAnim()
 
 void Simon::render()
 {
+	if (forceDead)
+	{
+		animations[ANIM_DEATH]->render(faceSide, x, y);
+		return;
+	}
 	if (isHitting && timerPowering->isTimeUp())
 	{
 		whip->setSide(faceSide);
@@ -52,14 +54,16 @@ void Simon::render()
 		animations[animId]->render(faceSide, x, y, currentFrame, alpha, r, g, b);
 	}
 	else animations[animId]->render(faceSide, x, y, alpha, r, g, b);
-	currentFrame = animations[animId]->getCurrentFrame();
 
+	currentFrame = animations[animId]->getCurrentFrame();
 	preAnimId = animId;
 }
 
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 {
+	if (forceDead) return;
 	GameObject::update(dt);
+
 
 	updateRGB();
 	updateAutoWalk();
@@ -170,7 +174,6 @@ void Simon::doChangeStageEffect()
 	timerChangeStage->start();
 }
 
-
 void Simon::doAutoWalk()
 {
 	if (isAutoWalking()) return;
@@ -186,8 +189,8 @@ void Simon::processDeathEffect()
 	}
 	else if (startDying)
 	{
-		StageManager::getInstance()->descreaseLife();
 		startDying = false;
+		StageManager::getInstance()->descreaseLife();
 	}
 }
 
@@ -287,6 +290,21 @@ void Simon::reset()
 	resetState();
 	x = initPos.x;
 	y = initPos.y;
+}
+
+void Simon::setHp(int val)
+{
+	hp = val;
+}
+
+void Simon::setEnegery(int val)
+{
+	energy = val;
+}
+
+void Simon::ForceDead()
+{
+	forceDead = true;
 }
 
 void Simon::updateWeaponAction(DWORD dt, vector<GameObject*>* objs)
@@ -558,7 +576,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 
 bool Simon::isDoingImportantAnim()
 {
-	return isHitting || isThrowing || isPowering() || isAutoWalking() || isChangingStage() || isDeflecting() || isDying();
+	return forceDead || isHitting || isThrowing || isPowering() || isAutoWalking() || isChangingStage() || isDeflecting() || isDying();
 }
 
 void Simon::handleOnKeyDown(int keyCode)
@@ -602,7 +620,6 @@ Box Simon::getBoundingBox()
 	box.r = box.l + SIM_WIDTH;
 	return box;
 }
-
 
 Simon::~Simon()
 = default;

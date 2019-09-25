@@ -1,4 +1,5 @@
 #include "StageManager.h"
+#include "HUD.h"
 
 StageManager* StageManager::instance = nullptr;
 
@@ -56,15 +57,17 @@ void StageManager::add(GameObject* ob) const
 
 void StageManager::descreaseLife()
 {
+	DebugOut(L"descrease\n");
 	auto simon = currentStage->getSimon();
 	const auto result = simon->updateLife(-1);
 	if (result) {
-		simon->updateHP(SIM_MAX_HP);
 		currentStage->reset();
+		simon->setHp(SIM_MAX_HP);
+		HUD::getInstance()->setTime(0);
 	}
 	else
 	{
 		// TODO: add end game screen
-		DebugOut(L"\n end game is real");
+		simon->ForceDead();
 	}
 }

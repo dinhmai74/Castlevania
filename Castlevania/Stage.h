@@ -16,6 +16,8 @@ public:
 	~Stage();
 
 	void init(int mapId, wstring mapName);
+	void initMap(int mapId, wstring mapName);
+	void initSimon();
 	void reset();
 	void render();
 	void update(DWORD dt);

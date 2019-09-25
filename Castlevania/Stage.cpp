@@ -12,13 +12,27 @@ Stage::~Stage()
 
 void Stage::init(int mapId, wstring mapName)
 {
+	this->renderBoundingBox = false;
+	initMap(mapId, mapName);
+	initSimon();
+	loadContent();
+}
+
+void Stage::initMap(int mapId, wstring mapName)
+{
 	this->mapId = mapId;
 	this->mapName = std::move(mapName);
-	this->renderBoundingBox = false;
 	const auto map = TileMapManager::getInstance()->get(mapId);
 	this->grid = new Grid(map->getMapWidth(), map->getMapHeight());
-	loadContent();
+}
+
+void Stage::initSimon()
+{
+	simon = new Simon();
 	simon->doAutoWalk();
+	simon->setLife(3);
+	simon->setEnegery(5);
+	simon->setHp(SIM_MAX_HP);
 }
 
 void Stage::reset()
@@ -31,7 +45,6 @@ void Stage::reset()
 
 void Stage::loadContent()
 {
-	// simon is special one load in game;
 	loadObjectFromFiles();
 }
 
@@ -59,9 +72,7 @@ void Stage::loadObjectFromFiles()
 		{
 		case ObjectType::simon:
 			float camX, camY;
-			DebugOut(L"simon\n");
 			fs >> camX >> camY;
-			simon = new Simon();
 			simon->setPosition(x, y);
 			simon->setInitPos({ x, y });
 			Game::getInstance()->setCameraPosition(camX, camY);

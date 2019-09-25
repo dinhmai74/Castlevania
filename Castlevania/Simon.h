@@ -48,6 +48,9 @@ public:
 	int Life() const { return life; }
 	void setLife(int val) { life = val; }
 	void reset();
+	void setHp(int val);
+	void setEnegery(int val);
+	void ForceDead();
 private:
 	bool isHitting;
 	bool isThrowing;
@@ -106,6 +109,7 @@ private:
 	void updateChangingStageEffect();
 	void doChangeStageEffect();
 	int stageWillChangeTo;
+	bool forceDead;
 };
 
 

@@ -10,7 +10,6 @@ void HUD::Init()
 	score = 0;
 
 	stage = StageManager::getInstance()->getCurrentStage();
-	simon = stage->getSimon();
 	blackboard = spriteManager->get("blackboard_default_0");
 	font = game->getFont();
 	subWeapons.push_back(spriteManager->get("empty_default_ani_0"));
@@ -35,6 +34,8 @@ void HUD::update(DWORD dt, bool stopwatch)
 	{
 		remainTime = 0;
 	}
+
+	simon = stage->getSimon();
 
 	string scoreStr = to_string(score);
 	while (scoreStr.length() < 6) scoreStr = "0" + scoreStr;

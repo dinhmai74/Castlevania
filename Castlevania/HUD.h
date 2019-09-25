@@ -25,6 +25,7 @@ public:
 	void showInfo();
 	// hiển thị thông tin máu, Exit ở góc trái màn hình
 	void showHud();
+	void setTime(int val) { time = val; }
 private:
 	HUD() = default;
 	static HUD* instance;
