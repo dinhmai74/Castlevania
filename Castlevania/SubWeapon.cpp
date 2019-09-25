@@ -16,7 +16,7 @@ void SubWeapon::initAnim()
 {
 	addAnimation(itemDagger, "subweapons_dagger_ani");
 	addAnimation(itemAxe, "subweapons_axe_ani");
-	addAnimation(itemCross, "subweapons_cross_ani");
+	addAnimation(itemBumerang, "subweapons_cross_ani");
 }
 
 void SubWeapon::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, vector<GameObject*>* coObjects)

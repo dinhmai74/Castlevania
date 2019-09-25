@@ -79,10 +79,10 @@ enum ItemType
 {
 	itemDagger,
 	itemAxe,
+	itemBumerang,
 	itemRedMoneyBag,
 	itemWhiteMoneyBag,
 	itemBlueMoneyBag,
-	itemCross,
 	itemWhip=102,
 	itemBigHeart=100,
 	itemSmallHeart=101,

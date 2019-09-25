@@ -30,15 +30,19 @@ void Weapon::checkCollision(DWORD dt, vector<GameObject*>* coObjs)
 		float nx = 0;
 		float ny;
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
-
-		updatePosInTheMomentCollide(minTx, minTy, nx, ny);
+		updatePosWhenNotCollide();
 
 		for (auto& i : coEventsResult)
 		{
 			const auto object = (i->obj);
 			processWithCandle(object, nx, ny);
 		}
-		disableWeapon();
+
+		if (remainHit != -1)
+		{
+			remainHit--;
+			if (remainHit <= 0) disableWeapon();
+		}
 	}
 
 	for (auto& coEvent : coEvents) delete coEvent;

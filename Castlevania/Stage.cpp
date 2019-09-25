@@ -300,6 +300,8 @@ void Stage::onKeyDown(const int keyCode)
 		break;
 	case DIK_2: simon->setSubWeapon(itemAxe);
 		break;
+	case DIK_3: simon->setSubWeapon(itemBumerang);
+		break;
 	default:;
 	}
 }

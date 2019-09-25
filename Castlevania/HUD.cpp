@@ -14,6 +14,7 @@ void HUD::Init()
 	font = game->getFont();
 	subWeapons.push_back(spriteManager->get("item_dagger"));
 	subWeapons.push_back(spriteManager->get("item_axe"));
+	subWeapons.push_back(spriteManager->get("item_boomerang"));
 
 	for (int i = 0; i < 16; i++)
 	{

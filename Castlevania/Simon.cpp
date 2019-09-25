@@ -538,6 +538,7 @@ void Simon::generateSubWeapon()
 	const auto subX = faceSide == FaceSide::left ? x - width + 10 : x + width;
 	const auto subY = y;
 
+	subWeapon->setInitPos({ subX, subY });
 	subWeapon->setPosition(subX, subY);
 	subWeapon->setEnable();
 	StageManager::getInstance()->add(subWeapon);
