@@ -42,7 +42,7 @@ void HUD::update(DWORD dt, bool stopwatch)
 	string timeStr = to_string(remainTime);
 	while (timeStr.length() < 4) timeStr = "0" + timeStr;
 
-	string stageStr = to_string(stage->getId());
+	auto stageStr = StageManager::getInstance()->getCurrentMapDisplayName();
 	while (stageStr.length() < 2) stageStr = "0" + stageStr;
 
 	string energyStr = to_string(simon->getEnergy());

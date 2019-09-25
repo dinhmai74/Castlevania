@@ -40,6 +40,7 @@ void StageManager::onKeyDown(int keyCode)
 	{
 	case DIK_Q: nextStage(0); break;
 	case DIK_W: nextStage(1); break;
+	case DIK_E: nextStage(2); break;
 	case DIK_R: nextStage(getCurrentStage()->getId() - 1); break;
 
 	default:

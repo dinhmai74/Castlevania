@@ -4,7 +4,7 @@
 
 class StageManager
 {
-	
+
 	static StageManager* instance;
 	Stage* currentStage = nullptr;
 	Stage* preStage = nullptr;
@@ -18,17 +18,18 @@ public:
 	~StageManager();
 
 	Stage* getCurrentState() const { return getCurrentStage(); }
+	string getCurrentMapDisplayName() const { return tileMapsInfo[currentStage->getId() - 1].mapDisplayName; }
 	void init(vector<TileMapInfo> tileMapsInfo);
-	void nextStage(int stageId=-1);
+	void nextStage(int stageId = -1);
 	void setStage(Stage* newStage) { preStage = getCurrentStage(); currentStage = newStage; }
 	void render() const
 	{
 		getCurrentStage()->render();
 	}
 	void update(const DWORD dt) const { getCurrentStage()->update(dt); }
-	void onKeyDown(int keyCode) ;
+	void onKeyDown(int keyCode);
 	void onKeyUp(int keyCode) const { getCurrentStage()->onKeyUp(keyCode); }
-	void keyState(BYTE *states) const { getCurrentStage()->keyState(states); }
+	void keyState(BYTE* states) const { getCurrentStage()->keyState(states); }
 	void add(GameObject* ob) const;
 	Stage* getCurrentStage() const { return currentStage; }
 	void descreaseLife();

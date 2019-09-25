@@ -17,7 +17,7 @@ void TileMap::loadResources()
 
 
 	// thực hiện lưu danh sách các tile vô sprites theo thứ tự id_sprite
-	auto idSprite = 0;
+	auto idSprite = 1;
 
 	for (UINT i = 0; i < totalTextureRow; i++)
 	{
@@ -100,7 +100,7 @@ void TileMap::draw()
 			const auto x = tileWidth * (j - startColToDraw) + camPosition.x - (int)camPosition.x % tileWidth;
 			const auto y = tileHeight * (i - startRowToDraw) + camPosition.y - (int)camPosition.y % tileHeight;
 
-			sprites->get(stringMatrix[i][j])->draw(1, x, y + HEADER_HEIGHT);
+			sprites->get(stringMatrix[i][j])->draw(-1, x, y + HEADER_HEIGHT);
 		}
 	}
 }
