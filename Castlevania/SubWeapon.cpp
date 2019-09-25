@@ -21,18 +21,8 @@ void SubWeapon::initAnim()
 
 void SubWeapon::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, vector<GameObject*>* coObjects)
 {
+	updateGravity(gravity);
 	Weapon::update(dt, simonPos, simonState, coObjects);
-	if (!fired)
-	{
-		vx = initFireVelocity.x;
-		vy = initFireVelocity.y;
-		fired = true;
-		DebugOut(L"init\n");
-	}
-	else {
-		vx += acceleration.x;
-		vy += acceleration.y - gravity;
-	}
 }
 
 void SubWeapon::setAcceleration(const D3DXVECTOR2 velocity)

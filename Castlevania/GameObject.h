@@ -118,6 +118,7 @@ public:
 
 
 	/*----------------- get set   -----------------*/
+	void setGravity(float val) { gravity = val; }
 	void setType(int type) { this->type = type; }
 	void setId(int id) { this->id = id; }
 	void setPosition(float x, float y) { this->x = x; this->y = y; }

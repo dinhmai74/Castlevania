@@ -22,7 +22,7 @@ void Simon::init()
 	Simon::initAnim();
 	animId = ANIM_IDLE;
 	//gravity = 0;
-	//gravity = SIMON_GRAVITY;
+	gravity = SIMON_GRAVITY;
 	type = simon;
 }
 
