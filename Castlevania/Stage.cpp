@@ -294,9 +294,12 @@ void Stage::onKeyDown(const int keyCode)
 		break;
 	case DIK_X: simon->getHurt();
 		break;
-	case DIK_C: simon->getHurt(1, 1, 88);
+	case DIK_C: simon->getHurt(1, 1, 666);
 		break;
 	case DIK_1: simon->setSubWeapon(itemDagger);
+		break;
+	case DIK_2: simon->setSubWeapon(itemAxe);
+		break;
 	default:;
 	}
 }

@@ -1,1 +1,8 @@
 subweapons_dagger_ani_0	204	0	238	64	204	16	238	34
+subweapons_axe_ani_0	84	0	114	64	84	16	114	44
+subweapons_axe_ani_1	114	0	144	64	114	16	144	44
+subweapons_axe_ani_2	144	0	174	64	144	16	174	44
+subweapons_axe_ani_3	174	0	204	64	174	16	204	44
+subweapons_cross_ani_0	0	0	28	64	0	18	28	44
+subweapons_cross_ani_1	28	0	56	64	28	18	56	44
+subweapons_cross_ani_2	56	0	84	64	56	18	84	44
