@@ -6,6 +6,7 @@ class Whip : public Weapon
 {
 	int lv;
 	bool rendered;
+	vector<bool> hitting;
 public:
 	Whip();
 	~Whip();

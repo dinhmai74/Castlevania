@@ -3,6 +3,7 @@
 #include "BoundaryFactory.h"
 #include "SubWeaponHolyWater.h"
 #include "ObjectChangeStage.h"
+#include "EnemyFactory.h"
 
 Stage::Stage()
 {
@@ -130,6 +131,15 @@ void Stage::loadObjectFromFiles()
 			break;
 		}
 
+		case enemy:
+		{
+			auto obj = EnemyFactory::getInstance()->getEnemy(enemGhouls);
+			obj->setInitPos({ x,y });
+			obj->setPosition(x, y);
+			obj->setEnable();
+			auto unit = new Unit(getGrid(), obj, x, y);
+			break;
+		}
 		default: break;
 		}
 	}
@@ -196,6 +206,7 @@ vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 	map.push_back({ item, &listItems });
 	map.push_back({ canHitObjs, &listCanHitObjects });
 	map.push_back({ obChangeStage, &listObjectChangeStage });
+	map.push_back({ enemy, &listEnemy });
 	return map;
 }
 
@@ -241,6 +252,7 @@ void Stage::loadListObjFromGrid()
 	listRenderObj.clear();
 	listItems.clear();
 	listCanHitObjects.clear();
+	listEnemy.clear();
 	listRenderObj = listBoundary;
 	getGrid()->get(Game::getInstance()->getCameraPosition(), listUnit);
 
@@ -257,6 +269,8 @@ void Stage::loadListObjFromGrid()
 		case obChangeStage: listObjectChangeStage.push_back(obj);
 			break;
 		case candle: listCanHitObjects.push_back(obj);
+			break;
+		case enemy: listEnemy.push_back(obj);
 			break;
 		default:;
 		}

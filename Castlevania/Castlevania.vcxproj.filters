@@ -111,17 +111,11 @@
     <ClCompile Include="SubWeaponFactory.cpp">
       <Filter>Source Files\Object\SubWeapon</Filter>
     </ClCompile>
-    <ClCompile Include="HUD.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Source Files\Object</Filter>
     </ClCompile>
     <ClCompile Include="Boundary.cpp">
       <Filter>Source Files\Object\boundary</Filter>
-    </ClCompile>
-    <ClCompile Include="BoundaryFactory.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SubWeaponAxe.cpp">
       <Filter>Source Files\Object\SubWeapon</Filter>
@@ -129,10 +123,25 @@
     <ClCompile Include="SubWeaponBoomerang.cpp">
       <Filter>Source Files\Object\SubWeapon</Filter>
     </ClCompile>
-    <ClCompile Include="SubWeaponHolyWater.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="BoundaryFactory.cpp">
+      <Filter>Source Files\Object\boundary</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
+      <Filter>Source Files\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="SubWeaponHolyWater.cpp">
+      <Filter>Source Files\Object\SubWeapon</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Source Files\GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGhouls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -285,6 +294,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGhouls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

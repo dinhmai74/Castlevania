@@ -39,6 +39,7 @@ private:
 	vector<GameObject*> listCanHitObjects;
 	vector<GameObject*> listRenderObj;
 	vector<GameObject*> listObjectChangeStage;
+	vector<GameObject*> listEnemy;
 	vector<Unit*> listUnit;
 
 	void loadObjectFromFiles();

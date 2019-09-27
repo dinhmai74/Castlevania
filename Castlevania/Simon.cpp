@@ -2,6 +2,7 @@
 #include "StageManager.h"
 #include "SubWeaponDagger.h"
 #include "ObjectChangeStage.h"
+#include "Enemy.h"
 
 auto subWeaponFactory = SubWeaponFactory::getInstance();
 
@@ -150,6 +151,10 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 			break;
 		case obChangeStage: checkCollisionWithObChangeStage(dt, map.objs);
 			break;
+		case enemy:
+			checkCollisionWithEnemy(dt, map.objs);
+			updateWeaponAction(dt, map.objs);
+			break;
 		default: DebugOut(L"[WARNING] unknown obj to check collision with id %d!\n", map.id);
 		}
 	}
@@ -269,6 +274,37 @@ void Simon::checkCollisionWithItems(DWORD dt, vector<GameObject*>* items)
 				auto coBox = item->getBoundingBox();
 				if (isColliding(getBoundingBox(), coBox))
 					processCollisionWithItem(item);
+			}
+		}
+	}
+
+	for (auto& coEvent : coEvents) delete coEvent;
+}
+
+void Simon::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs)
+{
+	vector<LPCollisionEvent> coEvents;
+	vector<LPCollisionEvent> coEventsResult;
+	coEvents.clear();
+
+	calcPotentialCollisions(objs, coEvents);
+
+	// no collison => check case inside
+	if (!coEvents.empty())
+	{
+		float minTx;
+		float minTy;
+		float nx = 0;
+		float ny;
+		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
+
+		for (auto& i : coEventsResult)
+		{
+			const auto object = (i->obj);
+			const auto enemy = dynamic_cast<Enemy*>(object);
+			if (enemy)
+			{
+				getHurt(nx, 1);
 			}
 		}
 	}

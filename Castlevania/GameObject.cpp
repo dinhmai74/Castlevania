@@ -276,7 +276,7 @@ void GameObject::processDeflectEffect()
 	}
 	else if (startDeflect)
 	{
-		timerUntouchable->start();
+		doUntouchable();
 		startDeflect = false;
 		x -= nxDeflect * 0.01f; // case that collide boundary need more space
 	}
@@ -314,9 +314,6 @@ void GameObject::checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* co
 		float ny;
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
 		updatePosInTheMomentCollide(minTx, minTy, nx, ny);
-
-		if (ny != 0) vy = 0;
-		if (nx != 0) vx = 0;
 	}
 
 	for (auto& coEvent : coEvents) delete coEvent;

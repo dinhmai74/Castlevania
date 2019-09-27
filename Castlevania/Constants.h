@@ -63,6 +63,7 @@ enum ObjectType
 	whip,
 	simon,
 	obChangeStage,
+	enemy,
 };
 
 enum BoundaryType {
@@ -89,6 +90,11 @@ enum ItemType
 	itemHolyWaterEffect = 103,
 };
 
+enum EnemType
+{
+	enemGhouls,
+};
+
 #pragma endregion
 
 /*----------------- candle -----------------*/
@@ -108,3 +114,7 @@ auto constexpr BURNED_DURATION = 400;
 auto constexpr TIMER_ITEM_DURATION = 5000;
 auto constexpr TIMER_ITEM_UNTOUCHABLE_DURATION = 2000;
 auto constexpr TIMER_HOLY_BURN_DURATION = 2000;
+
+
+/*----------------- gravity  -----------------*/
+auto constexpr E_GRAVITY = 0.0015f;

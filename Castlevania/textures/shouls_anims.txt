@@ -1,0 +1,1 @@
+shouls_walk_ani	shouls_walk_1	150	shouls_walk_2	150

@@ -19,11 +19,9 @@ void Whip::checkEnemyCollisions(vector<LPGAMEOBJECT> coObjects)
 {
 	for (auto& coObject : coObjects)
 	{
-		if (isColliding(getBoundingBox(), coObject->getBoundingBox()) && !rendered)
+		if (isColliding(getBoundingBox(), coObject->getBoundingBox()))
 		{
-			auto candle = dynamic_cast<Candle*>(coObject);
-			candle->getHurt(1, 1, getDmg());
-			rendered = true;
+			coObject->getHurt(1, 1, getDmg());
 		}
 	}
 }

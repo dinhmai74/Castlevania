@@ -33,6 +33,7 @@ protected:
 	float dy;	// dy = vy*dt
 	float vx;
 	float vy;
+	D3DXVECTOR2 initSpeed;
 	int hp;
 	float boundingGameX; // gioi han man hinh game x
 	float boundingGameY; // gioi han man hinh game y
@@ -104,6 +105,7 @@ public:
 	virtual void processDeflectEffect();
 	void processDeathEffect();
 	void updateGravity(float gravity);
+	void updateGravity() { updateGravity(this->gravity); };
 	void updatePosWhenNotCollide();
 	void updatePosInTheMomentCollide(float minTx, float minTy, float nx,
 		float ny);
@@ -152,7 +154,10 @@ public:
 	bool isDeflecting() { return isTimerRunning(timerDeflect); }
 	bool isUntouching() { return isTimerRunning(timerUntouchable); }
 	bool isDying() { return isTimerRunning(timerDeath); };
+	D3DXVECTOR2 getInitSpeed() const { return initSpeed; }
+	void setInitSpeed(D3DXVECTOR2 val) { initSpeed = val; }
 };
+
 
 inline Box GameObject::getBoundingBox(float width, float height)
 {	// return width height default by file;

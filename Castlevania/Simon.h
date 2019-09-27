@@ -108,6 +108,7 @@ private:
 	void processCollisionWithBoundaryByX(float minTx, float ny, Boundary* boundary);
 	void checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries);
 	void checkCollisionWithItems(DWORD dt, vector<GameObject*>* items);
+	void checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs);
 	void upgradeWhipLv(bool up = true) const;
 	void updateWeaponAction(DWORD dt, vector<GameObject*>* objs);
 	void updateRGB();
