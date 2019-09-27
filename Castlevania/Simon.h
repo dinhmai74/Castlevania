@@ -55,6 +55,9 @@ public:
 	{
 		subWeaponType = type;
 	};
+
+	void getHurt(int nx, int ny, int hpLose) override;
+
 private:
 	bool isHitting;
 	bool isThrowing;

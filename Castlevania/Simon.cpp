@@ -64,6 +64,7 @@ void Simon::render()
 
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 {
+	DebugOut(L"state %d\n", state);
 	if (forceDead) return;
 	GameObject::update(dt);
 
@@ -304,7 +305,7 @@ void Simon::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs)
 			const auto enemy = dynamic_cast<Enemy*>(object);
 			if (enemy)
 			{
-				getHurt(nx, 1);
+				getHurt(nx, ny, 1);
 			}
 		}
 	}
@@ -342,6 +343,15 @@ void Simon::setEnegery(int val)
 void Simon::ForceDead()
 {
 	forceDead = true;
+}
+
+void Simon::getHurt(int nx, int ny, int hpLose)
+{
+	GameObject::getHurt(nx, ny, hpLose);
+	whip->refreshState();
+	whip->refreshAnim();
+	animations[ANIM_HITTING]->refresh();
+	animations[ANIM_HITTING_WHEN_SIT]->refresh();
 }
 
 void Simon::updateWeaponAction(DWORD dt, vector<GameObject*>* objs)

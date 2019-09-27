@@ -96,7 +96,6 @@ void Stage::loadObjectFromFiles()
 			auto boundary = BoundaryFactory::getInstance()->getBoundary(type);
 			boundary->setWidhtHeight(width, height);
 			boundary->setPosition(x, y);
-			boundary->setEnable();
 			listBoundary.push_back(boundary);
 			break;
 		}
@@ -125,7 +124,6 @@ void Stage::loadObjectFromFiles()
 			auto obj = new ObjectChangeStage();
 			obj->setWidthHeight(width, height);
 			obj->setPosition(x, y);
-			obj->setEnable();
 			obj->setNextStage(nextStage);
 			auto unit = new Unit(getGrid(), obj, x, y);
 			break;
@@ -136,7 +134,6 @@ void Stage::loadObjectFromFiles()
 			auto obj = EnemyFactory::getInstance()->getEnemy(enemGhouls);
 			obj->setInitPos({ x,y });
 			obj->setPosition(x, y);
-			obj->setEnable();
 			auto unit = new Unit(getGrid(), obj, x, y);
 			break;
 		}
@@ -170,33 +167,53 @@ void Stage::update(DWORD dt)
 	loadListObjFromGrid();
 
 	const auto map = getMapSimonCanCollisionObjects();
+	respawnEnemies();
+
 	getSimon()->update(dt, map);
 	for (auto obj : listRenderObj)
 	{
 		auto subWeapon = dynamic_cast<SubWeapon*>(obj);
 		if (subWeapon)
 		{
-			auto simonPos = getSimon()->getPosition();
-			auto holyWater = dynamic_cast<SubWeaponHolyWater*>(subWeapon);
-			if (holyWater)
-			{
-				vector <GameObject*> temp;
-				temp.insert(temp.end(), listBoundary.begin(), listBoundary.end());
-				temp.insert(temp.end(), listCanHitObjects.begin(), listCanHitObjects.end());
-				subWeapon->update(dt, simonPos, simon->getState(), &temp);
-			}
-			else
-			{
-				subWeapon->update(dt, simonPos, simon->getState(), &listCanHitObjects);
-			}
+			updateSubWeapon(subWeapon, dt);
 			continue;
 		}
+
+
 
 		obj->update(dt, &listBoundary);
 	}
 	updateCamera(dt);
 	updateInActiveUnit();
 	updateGrid();
+}
+
+void Stage::updateSubWeapon(SubWeapon* subWeapon, DWORD dt)
+{
+	auto simonPos = getSimon()->getPosition();
+	auto holyWater = dynamic_cast<SubWeaponHolyWater*>(subWeapon);
+	if (holyWater)
+	{
+		vector<GameObject*> temp;
+		temp.insert(temp.end(), listBoundary.begin(), listBoundary.end());
+		temp.insert(temp.end(), listCanHitObjects.begin(), listCanHitObjects.end());
+		subWeapon->update(dt, simonPos, simon->getState(), &temp);
+	}
+	else
+	{
+		subWeapon->update(dt, simonPos, simon->getState(), &listCanHitObjects);
+	}
+}
+
+void Stage::respawnEnemies()
+{
+	for (auto obj : listEnemy)
+	{
+		float playerX, playerY;
+		simon->getPosition(playerX, playerY);
+		auto enemy = dynamic_cast<Enemy*>(obj);
+		if (enemy) enemy->respawn(playerX, playerY);
+	}
 }
 
 vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
@@ -317,7 +334,7 @@ void Stage::onKeyDown(const int keyCode)
 		break;
 	case DIK_D: simon->powerUpWhip(false);
 		break;
-	case DIK_X: simon->getHurt();
+	case DIK_X: simon->getHurt(1,1,1);
 		break;
 	case DIK_C: simon->getHurt(1, 1, 666);
 		break;

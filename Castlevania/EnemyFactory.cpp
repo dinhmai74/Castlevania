@@ -23,6 +23,7 @@ Enemy* EnemyFactory::getEnemy(int type)
 	enemy->setInitSpeed({ vx, vy });
 	enemy->setSpeed(faceSide * vx, vy);
 	enemy->setDmg(dmg);
+	enemy->setEnable(false);
 	return enemy;
 }
 

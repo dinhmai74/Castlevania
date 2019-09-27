@@ -17,6 +17,9 @@ void Enemy::init()
 	hp = 1;
 	setDmg(1);
 	setType(enemy);
+	respawnTime = 3000;
+	timerRespawn = new Timer(respawnTime);
+	timerRespawn->start();
 }
 
 
@@ -41,7 +44,7 @@ void Enemy::update(DWORD dt, vector<GameObject*>* coObjects /*= nullptr*/)
 {
 	GameObject::update(dt);
 	if (!isEnable) return;
-	checkCollisionAndChangeDirectX(dt,coObjects);
+	checkCollisionAndChangeDirectX(dt, coObjects);
 	updateGravity();
 }
 
@@ -71,14 +74,50 @@ void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*>* coObje
 
 void Enemy::changeDirection(const vector<CollisionEvent*>& vector, float nx, float ny)
 {
-	if (nx != 0 && ny ==0 )
+	if (nx != 0 && ny == 0)
 	{
 		faceSide *= -1;
-		initSpeed.x = faceSide* initSpeed.x ;
-		this->vx = initSpeed.x ;
+		initSpeed.x = faceSide * initSpeed.x;
+		this->vx = initSpeed.x;
 	}
 	else if (ny == -1.0f)
 	{
 		vy = 0;
+	}
+}
+
+void Enemy::respawn(float playerX, float playerY)
+{
+	if (canRespawn())
+	{
+		reset();
+		setNewEnemy();
+	}
+}
+
+bool Enemy::canRespawn()
+{
+	return timerRespawn->isTimeUpAndRunAlr();
+}
+
+void Enemy::setNewEnemy(bool val /*= true*/)
+{
+	timerRespawn->stop();
+	setEnable();
+}
+
+void Enemy::getHurt(int nx, int ny, int hpLose)
+{
+	GameObject::getHurt(nx, ny, hpLose);
+}
+
+void Enemy::processWhenBurnedEffectDone()
+{
+	if (burnEffect && burnEffect->isOver(BURNED_DURATION))
+	{
+		burnEffect = nullptr;
+		setEnable(false);
+		timerRespawn->start();
+		isExist = false;
 	}
 }

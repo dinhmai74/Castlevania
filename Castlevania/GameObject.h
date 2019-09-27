@@ -56,6 +56,7 @@ protected:
 	Timer* timerDeath;
 	Timer* timerDeflect;
 	Timer* timerUntouchable;
+	Timer* timerBurnEffect;
 	int untouchableDuration;
 	float vxDeflect;
 	float vyDeflect;
@@ -84,7 +85,7 @@ public:
 	void setStatusWhenStillHaveEnoughHP(int nx, int hpLose);
 	void processUntouchableEffect();
 	void createBlowUpEffectAndSetRespawnTimer();
-	void processWhenBurnedEffectDone();
+	virtual void processWhenBurnedEffectDone();
 	void doUntouchable();
 
 	/*----------------- collide  -----------------*/
@@ -115,7 +116,11 @@ public:
 	Box getBoundingBoxBaseOnFile();
 	Box getBoundingBoxBaseOnFileAndPassWidth(float width);
 	virtual Box getBoundingBox(float width, float height);
-	virtual Box getBoundingBox() { return getBoundingBox(-1, -1); };
+	virtual Box getBoundingBox()
+	{
+		if (!isEnable) return { 0,0,0,0 };
+		return getBoundingBox(-1, -1);
+	};
 	D3DXVECTOR2 getOffsetFromBoundingBox();
 
 	/*----------------- get set   -----------------*/
@@ -138,7 +143,7 @@ public:
 	D3DXVECTOR2 getPosition() { return{ x,y }; }
 
 	bool IsActive() const { return isActive; }
-	void setActive(bool val = true) { isActive = val; }
+	virtual void setActive(bool val = true) { isActive = val; }
 	bool IsEnable() const { return isEnable; }
 	void setEnable(bool val = true) { isEnable = val; }
 	D3DXVECTOR2 getInitPos() const { return initPos; }

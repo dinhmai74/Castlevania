@@ -3,10 +3,11 @@
 
 void GameObject::processWhenBurnedEffectDone()
 {
-	if (burnEffect && burnEffect->isOver(BURNED_DURATION))
+	if(timerBurnEffect->isTimeUpAndRunAlr())
 	{
 		burnEffect = nullptr;
-		if (state == death)setActive(false);
+		if (state == death) setActive(false);
+		timerBurnEffect->stop();
 	}
 }
 
@@ -36,6 +37,7 @@ GameObject::GameObject()
 	timerUntouchable = new Timer(untouchableDuration);
 	timerDeflect = new Timer(deflectTimeDuration);
 	timerDeath = new Timer(deathTimeDuration);
+	timerBurnEffect = new Timer(BURNED_DURATION);
 	vxDeflect = 0.15f;
 	vyDeflect = 0.06f;
 	nxDeflect = -1;
@@ -240,8 +242,8 @@ void GameObject::update(const DWORD dt, vector<GameObject*>* coObject)
 {
 	this->dt = dt;
 	createBlowUpEffectAndSetRespawnTimer();
-	processWhenBurnedEffectDone();
 	processUntouchableEffect();
+	processWhenBurnedEffectDone();
 	dx = vx * dt;
 	dy = vy * dt;
 }
@@ -287,12 +289,13 @@ void GameObject::createBlowUpEffectAndSetRespawnTimer()
 {
 	if (state == death)
 	{
-		if (!burnEffect)
+		if (!burnEffect && !timerBurnEffect->runAlready())
 		{
 			const auto now = GetTickCount();
 			burnEffect = AnimationManager::getInstance()->get(ANIM_BURNED);
 			burnEffect->setAniStartTime(now);
 			setEnable(false);
+			timerBurnEffect->start();
 		}
 	}
 }

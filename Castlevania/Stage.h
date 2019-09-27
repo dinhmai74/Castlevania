@@ -22,6 +22,9 @@ public:
 	void reset();
 	void render();
 	void update(DWORD dt);
+
+	void updateSubWeapon(SubWeapon* subWeapon, DWORD dt);
+
 	void onKeyDown(int keyCode);
 	void onKeyUp(int keyCode) const;
 	void keyState(BYTE* states) const;
@@ -45,6 +48,7 @@ private:
 	void loadObjectFromFiles();
 	void loadContent();
 	void initSimonPos();
+	void respawnEnemies();
 	void loadListObjFromGrid();
 	vector<MapGameObjects> getMapSimonCanCollisionObjects();
 	void updateCamera(DWORD dt) const;
