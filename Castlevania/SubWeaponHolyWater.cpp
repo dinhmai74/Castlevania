@@ -6,7 +6,7 @@ SubWeaponHolyWater::SubWeaponHolyWater()
 	setWeaponType(itemHolyWater);
 	animId = itemHolyWater;
 	setState(itemHolyWater);
-	timerEffect = new Timer(1000);
+	timerEffect = new Timer(TIMER_HOLY_BURN_DURATION);
 }
 
 void SubWeaponHolyWater::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, vector<GameObject*>* coObjects)

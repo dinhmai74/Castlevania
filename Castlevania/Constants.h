@@ -105,3 +105,6 @@ auto constexpr ANIM_BURNED = "burned_effect_default_ani";
 auto constexpr BURNED_DURATION = 400;
 
 /*----------------- Timer  -----------------*/
+auto constexpr TIMER_ITEM_DURATION = 5000;
+auto constexpr TIMER_ITEM_UNTOUCHABLE_DURATION = 2000;
+auto constexpr TIMER_HOLY_BURN_DURATION = 2000;

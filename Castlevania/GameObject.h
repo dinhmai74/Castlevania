@@ -74,6 +74,7 @@ public:
 	virtual void updateAnimId();
 	virtual void renderBoundingBox();
 	void addAnimation(int id, string animTexId);
+	void setDisable() { isActive = false; isEnable = false; }
 
 	/*----------------- hurt and death -----------------*/
 	virtual void getHurt(int nx = -1, int hpLose = 1);
