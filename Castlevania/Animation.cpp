@@ -32,7 +32,6 @@ void Animation::render(int nx, float x, float y, int alpha, int r, int g, int b)
 		}
 	}
 	frames[currentFrame]->getSprite()->draw(nx, x, y, alpha, r, b, g);
-
 }
 
 void Animation::render(int nx, float x, float y, int frame, int alpha, int r, int g, int b)
@@ -45,10 +44,8 @@ bool Animation::isDone()
 	return currentFrame == frames.size() - 1 || forceDone;
 }
 
-
 Box Animation::getFrameSprite()
 {
-
 	if (currentFrame == -1)
 		return frames[0]->getSprite()->getSpriteRect();
 

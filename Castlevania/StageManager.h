@@ -4,7 +4,6 @@
 
 class StageManager
 {
-
 	static StageManager* instance;
 	Stage* currentStage = nullptr;
 	Stage* preStage = nullptr;
@@ -36,4 +35,3 @@ public:
 private:
 	void loadTileMaps();
 };
-

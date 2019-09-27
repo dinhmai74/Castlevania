@@ -7,7 +7,6 @@
 #include <dinput.h>
 #include <vector>
 
-
 #include "KeyboardHandler.h"
 #include "Box.h"
 
@@ -26,7 +25,6 @@ constexpr auto MAX_FRAME_RATE = 90;
 //#define BACKGROUND_COLOR D3DCOLOR_XRGB(255,255,255) //white
 //#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
 
-
 class Game
 {
 private:
@@ -37,11 +35,11 @@ private:
 	LPDIRECT3DDEVICE9 d3ddv = NULL;// Direct 3d device object
 
 	LPDIRECT3DSURFACE9 backBuffer = NULL;
-	LPD3DXSPRITE spriteHandler = NULL;  	// Sprite helper library to help us draw 2D image on the screen 
+	LPD3DXSPRITE spriteHandler = NULL;  	// Sprite helper library to help us draw 2D image on the screen
 
-	LPDIRECTINPUT8       di;		// The DirectInput object         
-	LPDIRECTINPUTDEVICE8 didv;		// The keyboard device 
-	BYTE  keyStates[256];			// DirectInput keyboard state buffer 
+	LPDIRECTINPUT8       di;		// The DirectInput object
+	LPDIRECTINPUTDEVICE8 didv;		// The keyboard device
+	BYTE  keyStates[256];			// DirectInput keyboard state buffer
 	DIDEVICEOBJECTDATA keyEvents[KEYBOARD_BUFFER_SIZE];		// Buffered keyboard data
 	KeyboardHandler* keyHandler;
 
@@ -52,14 +50,14 @@ private:
 public:
 	void init(HWND hWnd);
 	void draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect, int alpha, int r = 255, int g = 255, int b = 255);
-	void draw(int accordingCam,int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect, int alpha, int r = 255, int g = 255, int b = 255);
+	void draw(int accordingCam, int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect, int alpha, int r = 255, int g = 255, int b = 255);
 
 	static Game* getInstance() {
 		if (instance == NULL) instance = new Game();
 		return instance;
 	};
 
-	// handle direct x 
+	// handle direct x
 	LPDIRECT3DDEVICE9 getDirect3DDevice() const { return this->d3ddv; }
 	LPDIRECT3DSURFACE9 getBackBuffer() const { return backBuffer; }
 	LPD3DXSPRITE getSpriteHandler() const { return this->spriteHandler; }
@@ -75,4 +73,3 @@ public:
 
 	~Game();
 };
-

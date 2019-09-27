@@ -16,12 +16,11 @@ void SubWeaponBoomerang::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, 
 		const auto distance = fabs(x - initPos.x);
 		if (distance >= territory.left)
 		{
-			vx = -1* vx;
-			faceSide= -1* faceSide;
+			vx = -1 * vx;
+			faceSide = -1 * faceSide;
 			changedDirection = true;
 		}
 	}
-
 }
 
 void SubWeaponBoomerang::checkCollision(DWORD dt, vector<GameObject*>* coObjs)

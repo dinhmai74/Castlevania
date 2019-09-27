@@ -41,7 +41,7 @@ enum State
 	hittingWhenSitting = 6,
 	throwing = 7,
 	throwingWhenSitting = 8,
-	staring=9,
+	staring = 9,
 	deflect = 99,
 	death = -1,
 	normal = 1,
@@ -69,7 +69,6 @@ enum BoundaryType {
 	boundaryNormal,
 };
 
-
 /*----------------- item regions -----------------*/
 #pragma region Items
 
@@ -84,10 +83,10 @@ enum ItemType
 	itemRedMoneyBag,
 	itemWhiteMoneyBag,
 	itemBlueMoneyBag,
-	itemWhip=102,
-	itemBigHeart=100,
-	itemSmallHeart=101,
-	itemHolyWaterEffect=103,
+	itemWhip = 102,
+	itemBigHeart = 100,
+	itemSmallHeart = 101,
+	itemHolyWaterEffect = 103,
 };
 
 #pragma endregion
@@ -104,3 +103,5 @@ constexpr auto ID_TEX_BLACK_BOARD = 1000001; //
 /*----------------- normal anim -----------------*/
 auto constexpr ANIM_BURNED = "burned_effect_default_ani";
 auto constexpr BURNED_DURATION = 400;
+
+/*----------------- Timer  -----------------*/

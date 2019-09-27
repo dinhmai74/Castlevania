@@ -50,7 +50,6 @@ void SubWeaponHolyWater::checkCollision(DWORD dt, vector<GameObject*>* coObjs)
 				updatePosWhenNotCollide();
 			}
 		}
-
 	}
 
 	for (auto& coEvent : coEvents) delete coEvent;
@@ -79,7 +78,6 @@ void SubWeaponHolyWater::checkCollisionWithBoundary(DWORD dt, vector<GameObject*
 			const auto object = (i->obj);
 			processWithBoundary(object, nx, ny);
 		}
-
 	}
 
 	for (auto& coEvent : coEvents) delete coEvent;

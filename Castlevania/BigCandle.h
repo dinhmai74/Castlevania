@@ -14,4 +14,3 @@ inline BigCandle::BigCandle()
 	setCandleType(candleBig);
 	animId = candleBig;
 }
-

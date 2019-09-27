@@ -2,8 +2,6 @@
 #include "Animation.h"
 using namespace std;
 
-
-
 class AnimationManager {
 private:
 	static AnimationManager* instance;
@@ -16,7 +14,5 @@ public:
 		return animations[id];
 	}
 
-
 	static AnimationManager* getInstance();
 };
-

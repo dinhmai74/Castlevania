@@ -177,7 +177,6 @@ void Stage::update(DWORD dt)
 			}
 			else
 			{
-
 				subWeapon->update(dt, simonPos, simon->getState(), &listCanHitObjects);
 			}
 			continue;
@@ -289,7 +288,6 @@ void Stage::updateCamera(const DWORD dt) const
 	/*if (simonY + offset > SCREEN_HEIGHT / 2 &&
 		simonY + offset + SCREEN_HEIGHT / 2 < mapHeight){
 		posY = simonY + offset - SCREEN_HEIGHT / 2 - HEADER_HEIGHT;
-
 	}*/
 	game->setCameraPosition(posX, posY);
 }

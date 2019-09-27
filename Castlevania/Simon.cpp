@@ -66,7 +66,6 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 	if (forceDead) return;
 	GameObject::update(dt);
 
-
 	updateRGB();
 	updateAutoWalk();
 	updateChangingStageEffect();
@@ -99,7 +98,6 @@ bool Simon::updateHP(int val)
 
 	if (hp > SIM_MAX_HP) hp = SIM_MAX_HP;
 	return true;
-
 }
 
 void Simon::updateRGB()
@@ -215,7 +213,7 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 		float ny;
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
 
-		// block 
+		// block
 		updatePosInTheMomentCollide(minTx, minTy, nx, ny);
 
 		for (auto& i : coEventsResult)
@@ -574,7 +572,6 @@ void Simon::handleOnKeyPress(BYTE* states)
 	if (state == sitting) return;
 	if (state == jumping) return;
 
-
 	if (game->isKeyDown(DIK_RIGHT))
 	{
 		if (state == staring) upStair();
@@ -602,7 +599,6 @@ void Simon::handleOnKeyPress(BYTE* states)
 		stand();
 	}
 }
-
 
 void Simon::handleOnKeyDown(int keyCode)
 {
@@ -641,7 +637,6 @@ bool Simon::isDoingImportantAnim()
 {
 	return forceDead || isHitting || isThrowing || isPowering() || isAutoWalking() || isChangingStage() || isDeflecting() || isDying();
 }
-
 
 Box Simon::getBoundingBox()
 {

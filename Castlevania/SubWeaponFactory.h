@@ -6,7 +6,7 @@ class SubWeaponFactory
 public:
 	~SubWeaponFactory() { instance = nullptr; }
 
-	static SubWeaponFactory* getInstance() 
+	static SubWeaponFactory* getInstance()
 	{
 		if (instance == nullptr)
 			instance = new SubWeaponFactory;
@@ -20,4 +20,3 @@ private:
 	SubWeaponFactory();
 	static SubWeaponFactory* instance;
 };
-

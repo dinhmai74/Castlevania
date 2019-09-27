@@ -17,4 +17,3 @@ public:
 	DWORD getTime() { return time; }
 	Sprite* getSprite() { return sprite; }
 };
-

@@ -23,4 +23,3 @@ public:
 	Box getBbox() const { return bbox; }
 	void setBbox(Box val) { bbox = val; }
 };
-

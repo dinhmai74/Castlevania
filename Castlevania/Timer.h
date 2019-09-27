@@ -31,10 +31,8 @@ public:
 
 	bool isTimeUpAndRunAlr()
 	{
-		
 		return isTimeUp() && isRun;
 	}
-
 
 	int getTimeRunAlr() { return GetTickCount() - startTime; }
 
@@ -43,4 +41,3 @@ public:
 	void setLimitedTime(int val) { limitedTime = val; }
 	bool runAlready() const { return isRun; }
 };
-

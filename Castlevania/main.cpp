@@ -7,7 +7,7 @@
 Game* game;
 SampleKeyHander* keyHandler;
 TextureManager* textureManager = TextureManager::getInstance();
-HUD* hud=HUD::getInstance();
+HUD* hud = HUD::getInstance();
 
 //Create keyboard handler for main program
 
@@ -15,7 +15,7 @@ void SampleKeyHander::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	StageManager::getInstance()->onKeyDown(KeyCode);
-	if(KeyCode ==DIK_R)
+	if (KeyCode == DIK_R)
 	{
 		hud->Init();
 	}
@@ -259,7 +259,6 @@ void loadResources()
 	auto stages = StageManager::getInstance();
 	stages->init(mapName);
 	hud->Init();
-
 }
 
 void update(DWORD dt)

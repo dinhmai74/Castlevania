@@ -69,7 +69,7 @@ public:
 	virtual ~GameObject();
 
 	/*----------------- general  -----------------*/
-	virtual void initAnim()=0;
+	virtual void initAnim() = 0;
 	virtual void render();
 	virtual void updateAnimId();
 	virtual void renderBoundingBox();
@@ -77,14 +77,13 @@ public:
 
 	/*----------------- hurt and death -----------------*/
 	virtual void getHurt(int nx = -1, int hpLose = 1);
-	virtual void getHurt(int nx ,int ny, int hpLose );
+	virtual void getHurt(int nx, int ny, int hpLose);
 	void loseHp(int hpLose = 1);
 	void setStatusWhenStillHaveEnoughHP(int nx, int hpLose);
 	void processUntouchableEffect();
 	void createBlowUpEffectAndSetRespawnTimer();
 	void processWhenBurnedEffectDone();
 	void doUntouchable();
-
 
 	/*----------------- collide  -----------------*/
 
@@ -115,7 +114,6 @@ public:
 	virtual Box getBoundingBox(float width, float height);
 	virtual Box getBoundingBox() { return getBoundingBox(-1, -1); };
 	D3DXVECTOR2 getOffsetFromBoundingBox();
-
 
 	/*----------------- get set   -----------------*/
 	void setGravity(float val) { gravity = val; }
@@ -153,7 +151,6 @@ public:
 	bool isDeflecting() { return isTimerRunning(timerDeflect); }
 	bool isUntouching() { return isTimerRunning(timerUntouchable); }
 	bool isDying() { return isTimerRunning(timerDeath); };
-
 };
 
 inline Box GameObject::getBoundingBox(float width, float height)

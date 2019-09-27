@@ -3,7 +3,6 @@
 
 StageManager* StageManager::instance = nullptr;
 
-
 StageManager::~StageManager()
 {
 }
@@ -23,7 +22,7 @@ void StageManager::nextStage(int id)
 	// cause map id from =1 so next one id from tileMapsInfo is this
 	auto nextId = id == -1 ? currentStage->getId() : id;
 	if (nextId > tileMapsInfo.size() - 1) nextId = 0;
-	newStage->init(tileMapsInfo[nextId].id, tileMapsInfo[nextId].mapName,currentStage->getSimon());
+	newStage->init(tileMapsInfo[nextId].id, tileMapsInfo[nextId].mapName, currentStage->getSimon());
 	setStage(newStage);
 }
 

@@ -11,7 +11,7 @@ class HUD
 public:
 	~HUD() { instance = nullptr; }
 
-	static HUD* getInstance() 
+	static HUD* getInstance()
 	{
 		if (instance == nullptr)
 			instance = new HUD;

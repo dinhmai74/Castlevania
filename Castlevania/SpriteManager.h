@@ -4,11 +4,10 @@
 #include <Windows.h>
 #include "Sprite.h"
 
-
 class SpriteManager
 {
 private:
-	static SpriteManager * instance;
+	static SpriteManager* instance;
 
 	std::unordered_map<string, Sprite* > sprites;
 
@@ -20,11 +19,10 @@ public:
 	}
 
 	void add(const string id, float left, float top, float right, float bottom, float boxleft, float boxtop,
-	        float boxright, float boxbottom, LPDIRECT3DTEXTURE9 texture);
+		float boxright, float boxbottom, LPDIRECT3DTEXTURE9 texture);
 
-	static SpriteManager * getInstance() {
+	static SpriteManager* getInstance() {
 		if (instance == NULL) instance = new SpriteManager();
 		return instance;
 	}
 };
-

@@ -4,7 +4,6 @@
 
 class SubWeaponBoomerang final : public SubWeapon
 {
-
 	Territory territory;
 	bool changedDirection;
 public:

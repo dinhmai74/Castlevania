@@ -23,12 +23,10 @@ void HUD::Init()
 		loseHP.push_back(spriteManager->get("HP_lose"));
 		enemyHP.push_back(spriteManager->get("HP_enemy"));
 	}
-
 }
 
 void HUD::update(DWORD dt, bool stopwatch)
 {
-
 	if (!stopwatch) time += dt;
 	int remainTime = defaultTime - time / CLOCKS_PER_SEC;
 	if (remainTime <= 0)
@@ -89,7 +87,7 @@ void HUD::showHud()
 		loseHP[i]->draw(105 + i * 9, 47);
 
 	auto subtype = simon->getSubWeaponType();
-	if (subtype!= -1)
+	if (subtype != -1)
 	{
 		subWeapons[subtype]->draw(1, 320, 38, 255, 255, 255, 255, 0);
 	}

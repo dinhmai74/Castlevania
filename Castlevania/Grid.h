@@ -56,7 +56,7 @@ class Grid
 
 	vector<vector<Unit*>> cells;
 	void UnlinkUnit(Unit* unit, int oldRow, int oldCol);
-	Cell getCellBaseOnPos(float x, float y) ;
+	Cell getCellBaseOnPos(float x, float y);
 	int limitRange(int current, int total);
 public:
 	Grid(int mapWidth, int mapHeight, int cellWidth = DEFAULT_CELL_WIDTH, int cellHeight = DEFAULT_CELL_HEIGHT);
@@ -64,8 +64,6 @@ public:
 
 	void add(Unit* unit);
 	void move(Unit* unit, float x, float y); // x, y is new unit pos, => base on new pos find out the grid[row][col] that will contain unit
-	void remove(Unit* unit, float oldRow=-1, float oldCol =-1);
+	void remove(Unit* unit, float oldRow = -1, float oldCol = -1);
 	void get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits); // get all the unit in viewport base on camera pos
-
 };
-

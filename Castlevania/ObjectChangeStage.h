@@ -40,5 +40,3 @@ inline Box ObjectChangeStage::getBoundingBox()
 inline void ObjectChangeStage::initAnim()
 {
 }
-
-

@@ -1,6 +1,5 @@
 ﻿#include "TileMap.h"
 
-
 void TileMap::loadResources()
 {
 	auto const texManager = TextureManager::getInstance();
@@ -14,7 +13,6 @@ void TileMap::loadResources()
 
 	const int totalTextureRow = surfaceDesc.Height / tileHeight;
 	const int totalTextureCol = surfaceDesc.Width / tileWidth;
-
 
 	// thực hiện lưu danh sách các tile vô sprites theo thứ tự id_sprite
 	auto idSprite = 1;
@@ -34,7 +32,6 @@ void TileMap::loadResources()
 	}
 }
 
-
 void TileMap::loadMap()
 {
 	static int c = 0;
@@ -49,7 +46,6 @@ void TileMap::loadMap()
 	}
 
 	string line;
-
 
 	while (!fs.eof())
 	{
@@ -77,9 +73,8 @@ void TileMap::loadMap()
 
 void TileMap::draw()
 {
-	D3DXVECTOR2 camPosition = {0, 0};
+	D3DXVECTOR2 camPosition = { 0, 0 };
 	Game::getInstance()->getCameraPosition(camPosition.x, camPosition.y);
-
 
 	int startRowToDraw = (int)camPosition.y / tileHeight;
 	int endRowToDraw = startRowToDraw + SCREEN_HEIGHT / tileHeight;
@@ -104,7 +99,6 @@ void TileMap::draw()
 		}
 	}
 }
-
 
 TileMap::~TileMap()
 = default;

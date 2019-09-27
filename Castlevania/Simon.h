@@ -62,7 +62,7 @@ private:
 	Timer* timerPowering = new Timer(SIM_POWERING_DURATION);
 	Timer* timerThrowing = new Timer(SIM_DELTA_TRHOWING_TIME);
 	Timer* timerAutoWalk = new Timer(SIM_AUTO_WALK_DURATION);
-	Timer* timerChangeStage= new Timer(SIM_CHANGING_STAGE_DURATION);
+	Timer* timerChangeStage = new Timer(SIM_CHANGING_STAGE_DURATION);
 	bool isReleaseSitButton;
 	Whip* whip;
 	SubWeapon* subWeapon;
@@ -120,5 +120,3 @@ private:
 	int stageWillChangeTo;
 	bool forceDead;
 };
-
-

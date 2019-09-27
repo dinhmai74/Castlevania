@@ -3,7 +3,7 @@
  *
  * \date September 2019
  *
- * 
+ *
  */
 
 #include <windows.h>

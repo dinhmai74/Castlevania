@@ -1,7 +1,6 @@
 ﻿#include "GameObject.h"
 #include <algorithm>
 
-
 void GameObject::processWhenBurnedEffectDone()
 {
 	if (burnEffect && burnEffect->isOver(BURNED_DURATION))
@@ -19,7 +18,7 @@ void GameObject::doUntouchable()
 GameObject::GameObject()
 {
 	x = y = 0;
-	initPos = {0, 0};
+	initPos = { 0, 0 };
 	vx = vy = 0;
 	alpha = r = b = g = 255;
 	setFaceSide(right); // right side
@@ -57,7 +56,7 @@ void GameObject::updateAnimId()
 	case death:
 		if (animations[ANIM_DEATH]) animId = ANIM_DEATH;
 		break;
-	default: ;
+	default:;
 	}
 }
 
@@ -200,8 +199,8 @@ void GameObject::calcPotentialCollisionsAABB(vector<LPGAMEOBJECT>* coObjects, ve
 
 void GameObject::filterCollision
 (vector<LPCollisionEvent>& coEvents,
- vector<LPCollisionEvent>& coEventsResult,
- float& min_tx, float& min_ty, float& nx, float& ny)
+	vector<LPCollisionEvent>& coEventsResult,
+	float& min_tx, float& min_ty, float& nx, float& ny)
 {
 	min_tx = 1.0f;
 	min_ty = 1.0f;
@@ -235,7 +234,6 @@ void GameObject::filterCollision
 	if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
 	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
 }
-
 
 void GameObject::update(const DWORD dt, vector<GameObject*>* coObject)
 {
@@ -386,5 +384,5 @@ D3DXVECTOR2 GameObject::getOffsetFromBoundingBox()
 	// spriteFrame is usually larger than the spriteBoundary so we need to take account of the offset
 	auto offsetX = spriteBoundary.l - spriteFrame.l;
 	auto offsetY = spriteBoundary.t - spriteFrame.t;
-	return {offsetX, offsetY};
+	return { offsetX, offsetY };
 }

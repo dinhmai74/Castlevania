@@ -7,7 +7,6 @@ class ItemWhip :
 public:
 	ItemWhip();
 	~ItemWhip() = default;
-
 };
 
 inline ItemWhip::ItemWhip()
@@ -16,4 +15,3 @@ inline ItemWhip::ItemWhip()
 	gravity = 0.001;
 	animId = itemWhip;
 }
-
