@@ -6,3 +6,6 @@ subweapons_axe_ani_3	174	0	204	64	174	16	204	44
 subweapons_cross_ani_0	0	0	28	64	0	18	28	44
 subweapons_cross_ani_1	28	0	56	64	28	18	56	44
 subweapons_cross_ani_2	56	0	84	64	56	18	84	44
+subweapons_holy_water_ani_0	276	0	292	64	276	15	292	42
+subweapons_holy_water_effect_ani_0	300	0	332	64	300	15	332	42
+subweapons_holy_water_effect_ani_1	332	0	364	64	332	15	364	42

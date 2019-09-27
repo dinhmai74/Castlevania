@@ -2,8 +2,8 @@
 
 SubWeaponBoomerang::SubWeaponBoomerang()
 {
-	setWeaponType(itemBumerang);
-	animId = itemBumerang;
+	setWeaponType(itemBoomerang);
+	animId = itemBoomerang;
 	territory = { 130,130 };
 }
 

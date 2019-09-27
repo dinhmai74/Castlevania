@@ -1,8 +1,8 @@
 #include "SubWeaponFactory.h"
 #include "SubWeaponDagger.h"
 #include "SubWeaponAxe.h"
-#include <stdexcept>
 #include "SubWeaponBoomerang.h"
+#include "SubWeaponHolyWater.h"
 
 SubWeaponFactory* SubWeaponFactory::instance = nullptr;
 
@@ -22,17 +22,22 @@ SubWeapon* SubWeaponFactory::getSubWeapon(int type, int faceSide)
 	{
 	case itemDagger:
 		subWeapon = new SubWeaponDagger();
-		velocity = { 0.4f * faceSide, 0 };
+		velocity = { faceSide * 0.4f, 0 };
 		break;
 	case itemAxe:
 		subWeapon = new SubWeaponAxe();
-		velocity = { 0.13f * faceSide, -0.4f };
+		velocity = { faceSide * 0.13f, -0.4f };
 		gravity = 0.0009f;
 		break;
-	case itemBumerang:
+	case itemBoomerang:
 		subWeapon = new SubWeaponBoomerang();
-		velocity = { 0.3f * faceSide, 0 };
+		velocity = { faceSide * 0.3f, 0 };
 		hits = -1;
+		break;
+	case itemHolyWater:
+		subWeapon = new SubWeaponHolyWater();
+		velocity = { faceSide * 0.2f, -0.2f };
+		gravity = 0.0009f;
 		break;
 	default: break;
 	}

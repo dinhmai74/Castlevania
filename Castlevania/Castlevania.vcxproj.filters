@@ -129,6 +129,9 @@
     <ClCompile Include="SubWeaponBoomerang.cpp">
       <Filter>Source Files\Object\SubWeapon</Filter>
     </ClCompile>
+    <ClCompile Include="SubWeaponHolyWater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -276,6 +279,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Territory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubWeaponHolyWater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

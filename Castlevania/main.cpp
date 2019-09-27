@@ -248,6 +248,7 @@ void loadResources()
 	LoadSprites(1004, L"subweapons");
 	LoadSprites(1005, L"empty");
 	LoadSprites(1006, L"burned_effect");
+	LoadSprites(1007, L"Effect");
 	LoadSprites(100001, L"blackboard", D3DCOLOR_XRGB(0, 0, 0));
 	LoadSprites(100002, L"HP");
 	vector<TileMapInfo> mapName;

@@ -2,7 +2,7 @@
 #include "Weapon.h"
 
 class SubWeapon :
-	public Weapon 
+	public Weapon
 {
 public:
 	SubWeapon();
@@ -16,6 +16,7 @@ public:
 	D3DXVECTOR2 getInitFireVelocity() const { return initFireVelocity; }
 	void setInitFireVelocity(D3DXVECTOR2 val) { initFireVelocity = val; }
 	void setAcceleration(const  D3DXVECTOR2 velocity);
+	int getWeaponType() { return weaponType; }
 	D3DXVECTOR2 acceleration;
 
 	virtual void update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, vector<GameObject*>* coObjects) override;

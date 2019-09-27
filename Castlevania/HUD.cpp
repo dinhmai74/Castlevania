@@ -15,6 +15,7 @@ void HUD::Init()
 	subWeapons.push_back(spriteManager->get("item_dagger"));
 	subWeapons.push_back(spriteManager->get("item_axe"));
 	subWeapons.push_back(spriteManager->get("item_boomerang"));
+	subWeapons.push_back(spriteManager->get("item_holywater"));
 
 	for (int i = 0; i < 16; i++)
 	{
@@ -90,6 +91,6 @@ void HUD::showHud()
 	auto subtype = simon->getSubWeaponType();
 	if (subtype!= -1)
 	{
-		subWeapons[subtype]->draw(1, 320, 35, 255, 255, 255, 255, 0);
+		subWeapons[subtype]->draw(1, 320, 38, 255, 255, 255, 255, 0);
 	}
 }

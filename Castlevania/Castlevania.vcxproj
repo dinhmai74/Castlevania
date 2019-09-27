@@ -143,6 +143,7 @@
     <ClCompile Include="SubWeaponAxe.cpp" />
     <ClCompile Include="SubWeaponBoomerang.cpp" />
     <ClCompile Include="SubWeaponFactory.cpp" />
+    <ClCompile Include="SubWeaponHolyWater.cpp" />
     <ClCompile Include="SweptAABB.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TileMap.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="SubWeaponBoomerang.h" />
     <ClInclude Include="SubWeaponDagger.h" />
     <ClInclude Include="SubWeaponFactory.h" />
+    <ClInclude Include="SubWeaponHolyWater.h" />
     <ClInclude Include="SweptAABB.h" />
     <ClInclude Include="Territory.h" />
     <ClInclude Include="TextureManager.h" />

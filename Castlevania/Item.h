@@ -27,7 +27,7 @@ inline void Item::initAnim()
 	addAnimation(itemWhip, "item_chain_ani");
 	addAnimation(itemDagger, "item_dagger_ani");
 	addAnimation(itemAxe, "item_axe_ani");
-	addAnimation(itemBumerang, "item_cross_ani");
+	addAnimation(itemBoomerang, "item_cross_ani");
 	addAnimation(itemBlueMoneyBag, "item_blue_ani");
 	addAnimation(itemWhiteMoneyBag, "item_white_ani");
 	addAnimation(itemRedMoneyBag, "item_red_ani");

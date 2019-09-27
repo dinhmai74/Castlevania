@@ -8,14 +8,18 @@ class Timer
 	int limitedTime;
 	bool isRun;
 public:
-	Timer(int limitedTime) { this->limitedTime = limitedTime; startTime = 0; isRun = false; }
+	Timer() { init(1000); }
+	Timer(int limitedTime) { init(limitedTime); }
+	void init(int limitedTime)
+	{
+		this->limitedTime = limitedTime; startTime = 0; isRun = false;
+	}
 
 	void start() { startTime = GetTickCount(); isRun = true; }
 	void stop() { startTime = 0; isRun = false; }
 	bool isTimeUp()
 	{
 		if (GetTickCount() - startTime >= limitedTime) {
-			if (runAlready()) isRun = false;
 			return true;
 		}
 		return false;
@@ -24,6 +28,13 @@ public:
 	{
 		return !isTimeUp() && isRun;
 	}
+
+	bool isTimeUpAndRunAlr()
+	{
+		
+		return isTimeUp() && isRun;
+	}
+
 
 	int getTimeRunAlr() { return GetTickCount() - startTime; }
 

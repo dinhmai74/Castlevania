@@ -1,6 +1,7 @@
 #include "Stage.h"
 #include "ItemFactory.h"
 #include "BoundaryFactory.h"
+#include "SubWeaponHolyWater.h"
 #include "ObjectChangeStage.h"
 
 Stage::Stage()
@@ -18,7 +19,7 @@ void Stage::init(int mapId, wstring mapName)
 	loadContent();
 }
 
-void Stage::init(int mapId, wstring mapName, Simon* simon)
+void Stage::init(int mapId, wstring mapName, Simon * simon)
 {
 	this->renderBoundingBox = false;
 	this->simon = simon;
@@ -166,7 +167,19 @@ void Stage::update(DWORD dt)
 		if (subWeapon)
 		{
 			auto simonPos = getSimon()->getPosition();
-			subWeapon->update(dt, simonPos, getSimon()->getState(), &listCanHitObjects);
+			auto holyWater = dynamic_cast<SubWeaponHolyWater*>(subWeapon);
+			if (holyWater)
+			{
+				vector <GameObject*> temp;
+				temp.insert(temp.end(), listBoundary.begin(), listBoundary.end());
+				temp.insert(temp.end(), listCanHitObjects.begin(), listCanHitObjects.end());
+				subWeapon->update(dt, simonPos, simon->getState(), &temp);
+			}
+			else
+			{
+
+				subWeapon->update(dt, simonPos, simon->getState(), &listCanHitObjects);
+			}
 			continue;
 		}
 
@@ -203,7 +216,7 @@ void Stage::updateInActiveUnit()
 	}
 }
 
-bool Stage::isInViewport(GameObject* object)
+bool Stage::isInViewport(GameObject * object)
 {
 	const auto camPosition = Game::getInstance()->getCameraPosition();
 
@@ -300,7 +313,9 @@ void Stage::onKeyDown(const int keyCode)
 		break;
 	case DIK_2: simon->setSubWeapon(itemAxe);
 		break;
-	case DIK_3: simon->setSubWeapon(itemBumerang);
+	case DIK_3: simon->setSubWeapon(itemBoomerang);
+		break;
+	case DIK_4: simon->setSubWeapon(itemHolyWater);
 		break;
 	default:;
 	}
@@ -311,7 +326,7 @@ void Stage::onKeyUp(const int keyCode) const
 	getSimon()->handleOnKeyRelease(keyCode);
 }
 
-void Stage::keyState(BYTE* states) const
+void Stage::keyState(BYTE * states) const
 {
 	getSimon()->handleOnKeyPress(states);
 }
