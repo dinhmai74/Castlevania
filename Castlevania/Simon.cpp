@@ -64,7 +64,6 @@ void Simon::render()
 
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 {
-	DebugOut(L"state %d\n", state);
 	if (forceDead) return;
 	GameObject::update(dt);
 
@@ -347,11 +346,9 @@ void Simon::ForceDead()
 
 void Simon::getHurt(int nx, int ny, int hpLose)
 {
+	if (isUntouching() || isDeflecting()) return;
+	resetState();
 	GameObject::getHurt(nx, ny, hpLose);
-	whip->refreshState();
-	whip->refreshAnim();
-	animations[ANIM_HITTING]->refresh();
-	animations[ANIM_HITTING_WHEN_SIT]->refresh();
 }
 
 void Simon::updateWeaponAction(DWORD dt, vector<GameObject*>* objs)
@@ -593,6 +590,10 @@ void Simon::resetState()
 {
 	isHitting = false;
 	isThrowing = false;
+	whip->refreshAnim();
+	whip->refreshState();
+	animations[ANIM_HITTING]->refresh();
+	animations[ANIM_HITTING_WHEN_SIT]->refresh();
 }
 
 void Simon::upgradeWhipLv(bool up) const

@@ -63,7 +63,7 @@ protected:
 	int nxDeflect;
 	int deflectTimeDuration;
 	bool startDying;
-	bool startDeflect;
+	bool startUntouch;
 	int deathTimeDuration;
 public:
 	GameObject();

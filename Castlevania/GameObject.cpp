@@ -270,18 +270,20 @@ void GameObject::processUntouchableEffect()
 
 void GameObject::processDeflectEffect()
 {
-	if (isDeflecting())
+	if(timerDeflect->isTimeUpAndRunAlr())
+	{
+		vx = 0;
+		setState(idle);
+		timerDeflect->stop();
+		doUntouchable();
+		x -= nxDeflect * 0.01f; // case that collide boundary need more space
+	}
+	else if (isDeflecting())
 	{
 		vx = vxDeflect * nxDeflect;
 		vy = -vyDeflect;
-		startDeflect = true;
+		startUntouch = true;
 		faceSide = -nxDeflect;
-	}
-	else if (startDeflect)
-	{
-		doUntouchable();
-		startDeflect = false;
-		x -= nxDeflect * 0.01f; // case that collide boundary need more space
 	}
 }
 
