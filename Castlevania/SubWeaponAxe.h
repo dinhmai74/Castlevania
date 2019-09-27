@@ -3,8 +3,7 @@
 
 class SubWeaponAxe final : public SubWeapon
 {
-	
 public:
 	SubWeaponAxe();
-	~SubWeaponAxe()= default;
+	~SubWeaponAxe() = default;
 };

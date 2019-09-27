@@ -18,4 +18,3 @@ private:
 	BoundaryFactory() = default;
 	static BoundaryFactory* instance;
 };
-

@@ -1,6 +1,5 @@
 #include "Boundary.h"
 
-
 Boundary::Boundary()
 {
 	init();

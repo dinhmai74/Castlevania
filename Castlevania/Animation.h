@@ -39,5 +39,5 @@ public:
 	bool isOver(DWORD dt) const { return GetTickCount() - animStartTime >= dt; }
 	Box getFrameSprite();
 	Box getFrameBoundingBox();
-	void setForceDone(bool val=true) { forceDone = val; }
+	void setForceDone(bool val = true) { forceDone = val; }
 };

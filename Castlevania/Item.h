@@ -19,6 +19,7 @@ public:
 private:
 	void initAnim() override;
 	void checkCollision(DWORD dt, vector<GameObject*>* boundary);
+	Timer* appearTimer;
 };
 inline void Item::initAnim()
 {
@@ -37,6 +38,7 @@ inline void Item::init()
 {
 	type = item;
 	setFaceSide(FaceSide::right);
+	appearTimer = new Timer();
 	initAnim();
 }
 
@@ -48,18 +50,17 @@ inline Item::Item()
 inline Item::~Item()
 = default;
 
-inline void Item::checkCollision(DWORD dt, vector<GameObject*>* boundary)
+inline void Item::checkCollision(DWORD dt, vector<GameObject*> * boundary)
 {
 	GameObject::checkCollisionAndStopMovement(dt, boundary);
 }
 
-inline void Item::update(DWORD dt, vector<GameObject*>* boundary)
+inline void Item::update(DWORD dt, vector<GameObject*> * boundary)
 {
 	GameObject::update(dt);
 	checkCollision(dt, boundary);
 	updateGravity(gravity);
 }
-
 
 inline void Item::setItemType(const int type)
 {

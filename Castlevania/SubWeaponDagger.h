@@ -13,4 +13,3 @@ public:
 
 	~SubWeaponDagger() = default;
 };
-

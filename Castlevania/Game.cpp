@@ -1,7 +1,6 @@
 ﻿#include "Game.h"
 Game* Game::instance = NULL;
 
-
 void Game::init(HWND hWnd)
 {
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
@@ -18,7 +17,7 @@ void Game::init(HWND hWnd)
 	d3dpp.BackBufferCount = 1;
 
 	RECT r;
-	GetClientRect(hWnd, &r);	// retrieve Window width & height 
+	GetClientRect(hWnd, &r);	// retrieve Window width & height
 
 	d3dpp.BackBufferHeight = r.bottom + 1;
 	d3dpp.BackBufferWidth = r.right + 1;
@@ -129,7 +128,7 @@ void Game::processKeyboard()
 			return;
 		}
 	}
-	if (keyHandler != nullptr) keyHandler->KeyState((BYTE*)& keyStates);
+	if (keyHandler != nullptr) keyHandler->KeyState((BYTE*)&keyStates);
 	// Collect all buffered events
 	DWORD dwElements = KEYBOARD_BUFFER_SIZE;
 	hr = didv->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), keyEvents, &dwElements, 0);
@@ -180,7 +179,7 @@ void Game::initKeyboard(KeyboardHandler* handler)
 		(
 		(HINSTANCE)GetWindowLong(hWnd, GWL_HINSTANCE),
 			DIRECTINPUT_VERSION,
-			IID_IDirectInput8, (VOID * *)& di, NULL
+			IID_IDirectInput8, (VOID**)&di, NULL
 		);
 
 	if (hr != DI_OK)
@@ -214,7 +213,6 @@ void Game::initKeyboard(KeyboardHandler* handler)
 
 	this->keyHandler = handler;
 }
-
 
 Game::~Game()
 {

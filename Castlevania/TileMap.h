@@ -27,7 +27,7 @@ class TileMap
 	int totalCol;
 	vector<vector<Sprite*>> matrix;
 	vector<vector<string>> stringMatrix;
-	SpriteManager * sprites;
+	SpriteManager* sprites;
 public:
 	TileMap(int id, LPCWSTR texPath, LPCWSTR dataPath, int mapWidth, int mapHeight, int tileWidth, int tileHeight)
 		: id(id),
@@ -39,18 +39,16 @@ public:
 		tileHeight(tileHeight)
 	{
 		sprites = SpriteManager::getInstance();
-		totalCol= (mapWidth / tileWidth);
-		totalRow= (mapHeight / tileHeight);
+		totalCol = (mapWidth / tileWidth);
+		totalRow = (mapHeight / tileHeight);
 		init();
 	}
-
 
 	void loadResources();
 
 	void loadMap();
 
 	void draw();
-
 
 	~TileMap();
 	// for update camera base on map
@@ -61,4 +59,3 @@ public:
 private:
 	void init();
 };
-

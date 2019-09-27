@@ -3,8 +3,6 @@
 #include "Constants.h"
 using namespace std;
 
-
-
 class TextureManager
 {
 private:
@@ -14,7 +12,7 @@ public:
 	TextureManager();
 	~TextureManager();
 
-	void add(int id, LPCWSTR filePath, D3DCOLOR transparentColor= D3DCOLOR_XRGB(0, 128, 128));
+	void add(int id, LPCWSTR filePath, D3DCOLOR transparentColor = D3DCOLOR_XRGB(0, 128, 128));
 
 	LPDIRECT3DTEXTURE9 get(int i) {
 		return textures[i];
@@ -25,4 +23,3 @@ public:
 		return instance;
 	}
 };
-

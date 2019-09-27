@@ -6,7 +6,6 @@ TextureManager::TextureManager()
 {
 }
 
-
 TextureManager::~TextureManager()
 {
 }

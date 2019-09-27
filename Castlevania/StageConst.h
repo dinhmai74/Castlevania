@@ -9,5 +9,5 @@ auto constexpr STAGE_MAP_PATH = L"_map.txt";
 
 #pragma region object id from file
 auto constexpr BOUNDARY = 0;
-auto constexpr ITEM= 1;
+auto constexpr ITEM = 1;
 #pragma endregion object id from file

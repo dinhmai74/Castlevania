@@ -78,7 +78,7 @@ void Grid::UnlinkUnit(Unit* unit, int oldRow, int oldCol)
 	if (unit->next != nullptr)
 		unit->next->prev = unit->prev;
 	oldCol = limitRange(oldCol, totalCols);
-	oldRow= limitRange(oldRow, totalRows);
+	oldRow = limitRange(oldRow, totalRows);
 
 	if (cells[oldRow][oldCol] == unit)
 		cells[oldRow][oldCol] = unit->next;

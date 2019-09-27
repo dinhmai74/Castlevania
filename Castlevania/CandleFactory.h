@@ -22,4 +22,3 @@ private:
 	CandleFactory() = default;
 	static CandleFactory* instance;
 };
-

@@ -22,5 +22,3 @@ private:
 	ItemFactory() = default;
 	static ItemFactory* instance;
 };
-
-

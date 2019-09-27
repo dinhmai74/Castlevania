@@ -13,9 +13,9 @@ bool isColliding(const Box box1, const Box box2)
 }
 
 void sweptAABB(
-	float ml, // move left 
+	float ml, // move left
 	float mt, // move top
-	float mr, // move right 
+	float mr, // move right
 	float mb, // move bottom
 	float sl, // static left
 	float st,
@@ -34,7 +34,7 @@ void sweptAABB(
 	nx = ny = 0;
 
 	//
-	// Broad-phase test 
+	// Broad-phase test
 	//
 
 	float bl = dx > 0 ? ml : ml + dx;
@@ -43,7 +43,6 @@ void sweptAABB(
 	float bb = dy > 0 ? mb + dy : mb;
 
 	if (br < sl || bl > sr || bb < st || bt > sb) return;
-
 
 	if (dx == 0 && dy == 0) return; // moving object is not moving > obvious no collision
 
@@ -57,7 +56,6 @@ void sweptAABB(
 		dx_entry = sr - ml;
 		dx_exit = sl - mr;
 	}
-
 
 	if (dy > 0)
 	{
@@ -92,12 +90,10 @@ void sweptAABB(
 		ty_exit = dy_exit / dy;
 	}
 
-
 	if ((tx_entry < 0.0f && ty_entry < 0.0f) || tx_entry > 1.0f || ty_entry > 1.0f) return;
 
 	t_entry = max(tx_entry, ty_entry);
 	t_exit = min(tx_exit, ty_exit);
-
 
 	if (t_entry > t_exit) return;
 

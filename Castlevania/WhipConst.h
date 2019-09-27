@@ -1,5 +1,4 @@
-﻿
-#pragma once
+﻿#pragma once
 constexpr auto STATE_WHIP_READY_HIT = 0;
 constexpr auto STATE_WHIP_START_HIT = 1;
 constexpr auto STATE_WHIP_HITTING = 2;

@@ -9,7 +9,7 @@ class TileMapManager
 public:
 	~TileMapManager() { instance = nullptr; }
 
-	static TileMapManager* getInstance() 
+	static TileMapManager* getInstance()
 	{
 		if (instance == nullptr)
 			instance = new TileMapManager;
@@ -23,6 +23,4 @@ private:
 	std::unordered_map<int, TileMap*> tilemaps;
 	TileMapManager() = default;
 	static TileMapManager* instance;
-
 };
-

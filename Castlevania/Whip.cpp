@@ -3,7 +3,6 @@
 #include "Simon.h"
 #include "Candle.h"
 
-
 Whip::Whip()
 {
 	Whip::initAnim();
@@ -12,7 +11,6 @@ Whip::Whip()
 	type = whip;
 	setDmg(1);
 }
-
 
 Whip::~Whip()
 = default;
@@ -24,7 +22,7 @@ void Whip::checkEnemyCollisions(vector<LPGAMEOBJECT> coObjects)
 		if (isColliding(getBoundingBox(), coObject->getBoundingBox()) && !rendered)
 		{
 			auto candle = dynamic_cast<Candle*>(coObject);
-			candle->getHurt(1,1,getDmg());
+			candle->getHurt(1, 1, getDmg());
 			rendered = true;
 		}
 	}
@@ -44,8 +42,7 @@ void Whip::render()
 	else setState(STATE_WHIP_DISAPPEAR);
 }
 
-
-void Whip::update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT>* coObject, int simonState)
+void Whip::update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT> * coObject, int simonState)
 {
 	GameObject::update(dt);
 	updatePos(simonX, simonY, simonState);
@@ -55,7 +52,6 @@ void Whip::update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT>* co
 	{
 		checkEnemyCollisions(*coObject);
 	}
-
 }
 
 void Whip::setSide(int side)
@@ -96,7 +92,6 @@ void Whip::updatePos(float simonX, float simonY, int simonState)
 		simonY += 15;
 	setPosition(simonX - 90, simonY);
 }
-
 
 void Whip::upgradeWhipLv(bool up)
 {
