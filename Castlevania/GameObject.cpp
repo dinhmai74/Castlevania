@@ -128,7 +128,8 @@ void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose)
 {
 	loseHp(hpLose);
 	setState(deflect);
-	setNxDeflect(-nx);
+	if (nx == 0) nx = 1;
+	setNxDeflect(nx);
 	timerDeflect->start();
 }
 

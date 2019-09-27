@@ -6,7 +6,7 @@ Enemy* EnemyFactory::getEnemy(int type)
 	Enemy* enemy;
 	auto faceSide = -1;
 	auto gravity = E_GRAVITY;
-	auto vx = 0.1f;
+	auto vx = 0.13f;
 	auto vy = 0.0f;
 	auto dmg = 1;
 

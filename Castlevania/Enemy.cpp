@@ -74,7 +74,7 @@ void Enemy::changeDirection(const vector<CollisionEvent*>& vector, float nx, flo
 	if (nx != 0 && ny ==0 )
 	{
 		faceSide *= -1;
-		initSpeed.x = initSpeed.x * faceSide;
+		initSpeed.x = faceSide* initSpeed.x ;
 		this->vx = initSpeed.x ;
 	}
 	else if (ny == -1.0f)
