@@ -8,7 +8,7 @@
 #include <d3dx9.h>
 using namespace std;
 
-enum FaceSide
+enum Side
 {
 	left = -1,
 	right = 1

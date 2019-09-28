@@ -7,6 +7,10 @@ class Item :
 {
 protected:
 	int itemType;
+	bool isCollideGround;
+	void checkDurationToDisapear();
+	Timer* appearTimer;
+	Timer* untouchableTimer;
 public:
 	void init();
 	Item();
@@ -16,10 +20,7 @@ public:
 	void setItemType(const int type);
 	int getItemType() const;
 	Box getBoundingBox() override;
+	virtual void checkCollision(DWORD dt, vector<GameObject*>* boundary);
 private:
 	void initAnim() override;
-	void checkCollision(DWORD dt, vector<GameObject*>* boundary);
-	Timer* appearTimer;
-	Timer* untouchableTimer;
-	void checkDurationToDisapear();
 };

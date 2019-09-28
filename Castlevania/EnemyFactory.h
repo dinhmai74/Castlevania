@@ -16,5 +16,7 @@ public:
 private:
 	EnemyFactory() = default;
 	static EnemyFactory* instance;
+public:
+	static int getHp(int enemyType);
 };
 

@@ -3,7 +3,7 @@
 
 void EnemyGhouls::initAnim()
 {
-	addAnimation(walking, "shouls_walk_ani");
+	addAnimation(ANIM_WALK, "shouls_walk_ani");
 }
 
 EnemyGhouls::EnemyGhouls()
@@ -17,5 +17,6 @@ void EnemyGhouls::init()
 {
 	setEnemyType(enemGhouls);
 	initAnim();
-	animId = walking;
+	setState(walking);
+	animId = ANIM_WALK;
 }

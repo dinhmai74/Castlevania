@@ -3,7 +3,7 @@
 
 void GameObject::processWhenBurnedEffectDone()
 {
-	if(timerBurnEffect->isTimeUpAndRunAlr())
+	if (timerBurnEffect->isTimeUpAndRunAlr())
 	{
 		burnEffect = nullptr;
 		if (state == death) setActive(false);
@@ -72,6 +72,7 @@ void GameObject::render()
 	}
 	if (!IsEnable()) return;
 	animations[animId]->render(faceSide, x, y, alpha);
+	currentFrame = animations[animId]->getCurrentFrame();
 }
 
 void GameObject::getSpeed(float& vx, float& vy) const
@@ -84,6 +85,16 @@ void GameObject::getPosition(float& x, float& y) const
 {
 	x = this->x;
 	y = this->y;
+}
+
+void GameObject::doBurnedEffect()
+{
+	timerBurnEffect->start();
+	const auto now = GetTickCount();
+	burnEffect = AnimationManager::getInstance()->get(ANIM_BURNED);
+	burnEffect->setAniStartTime(now);
+	setEnable(false);
+
 }
 
 void GameObject::renderBoundingBox()
@@ -111,12 +122,16 @@ void GameObject::getHurt(int nx, int ny, int hpLose)
 {
 	if (isUntouching() || isDeflecting()) return;
 	if (this->hp <= hpLose)
-	{
-		setState(death);
-		this->hp = 0;
-		timerDeath->start();
-	}
+		doDeathAnim();
 	else setStatusWhenStillHaveEnoughHP(nx, hpLose);
+}
+
+void GameObject::doDeathAnim()
+{
+	setState(death);
+	this->hp = 0;
+	if (animations[ANIM_DEATH]) timerDeath->start();
+	else doBurnedEffect();
 }
 
 void GameObject::loseHp(int hpLose)
@@ -125,10 +140,15 @@ void GameObject::loseHp(int hpLose)
 	if (hp <= 0)
 		hp = 0;
 }
-
 void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose)
 {
 	loseHp(hpLose);
+	if (animations[ANIM_DEFLECT])doDeflect(nx);
+	else doUntouchable();
+}
+
+void GameObject::doDeflect(int nx)
+{
 	setState(deflect);
 	if (nx == 0) nx = 1;
 	setNxDeflect(nx);
@@ -270,7 +290,7 @@ void GameObject::processUntouchableEffect()
 
 void GameObject::processDeflectEffect()
 {
-	if(timerDeflect->isTimeUpAndRunAlr())
+	if (timerDeflect->isTimeUpAndRunAlr())
 	{
 		vx = 0;
 		setState(idle);
@@ -289,16 +309,10 @@ void GameObject::processDeflectEffect()
 
 void GameObject::createBlowUpEffectAndSetRespawnTimer()
 {
-	if (state == death)
+	if (timerBurnEffect->isTimeUpAndRunAlr())
 	{
-		if (!burnEffect && !timerBurnEffect->runAlready())
-		{
-			const auto now = GetTickCount();
-			burnEffect = AnimationManager::getInstance()->get(ANIM_BURNED);
-			burnEffect->setAniStartTime(now);
-			setEnable(false);
-			timerBurnEffect->start();
-		}
+		timerBurnEffect->stop();
+		burnEffect = nullptr;
 	}
 }
 
@@ -319,7 +333,7 @@ void GameObject::checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* co
 		float nx = 0;
 		float ny;
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
-		updatePosInTheMomentCollide(minTx, minTy, nx, ny);
+		updatePosInTheMomentCollideAndRemoveVelocity(minTx, minTy, nx, ny);
 	}
 
 	for (auto& coEvent : coEvents) delete coEvent;
@@ -337,12 +351,17 @@ void GameObject::updateGravity(float gravity)
 	this->gravity = gravity;
 }
 
-void GameObject::updatePosInTheMomentCollide(float minTx, float minTy, float nx, float ny)
+void GameObject::updatePosInTheMomentCollideAndRemoveVelocity(float minTx, float minTy, float nx, float ny)
 {
-	x += minTx * dx + nx * 0.4f;
-	y += minTy * dy + ny * 0.4f;
+	updatePosInTheMomentCollide(minTx, minTy, nx, ny);
 	if (nx != 0) vx = 0;
 	if (ny != 0) vy = 0;
+}
+
+void GameObject::updatePosInTheMomentCollide(float minTx, float minTy, float nx, float ny)
+{
+	x += minTx * dx + nx * 0.2f;
+	y += minTy * dy + ny * 0.2f;
 }
 
 Box GameObject::getBoundingBoxBaseOnFile()

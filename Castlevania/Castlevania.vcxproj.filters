@@ -43,6 +43,9 @@
     <Filter Include="Source Files\Object\boundary">
       <UniqueIdentifier>{83ede9b2-1b52-47df-8a2f-db8e2ce394f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Enemy">
+      <UniqueIdentifier>{b13ae898-6db1-4321-ae77-8a88dbe7ba0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -136,12 +139,15 @@
       <Filter>Source Files\GameManager</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyGhouls.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyFactory.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGhouls.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemHeart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

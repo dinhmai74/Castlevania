@@ -1,4 +1,5 @@
 ﻿#include "Grid.h"
+#include "Enemy.h"
 
 Unit::Unit(Grid* grid, LPGAMEOBJECT obj, float x, float y)
 {

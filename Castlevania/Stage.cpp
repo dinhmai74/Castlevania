@@ -24,6 +24,7 @@ void Stage::init(int mapId, wstring mapName, Simon * simon)
 {
 	this->renderBoundingBox = false;
 	this->simon = simon;
+	simon->reset();
 	initMap(mapId, mapName);
 	loadContent();
 }
@@ -131,9 +132,15 @@ void Stage::loadObjectFromFiles()
 
 		case enemy:
 		{
-			auto obj = EnemyFactory::getInstance()->getEnemy(enemGhouls);
+			int type, faceSide;
+			float min, max;
+			fs >> faceSide >> type >> min >> max;
+			auto obj = EnemyFactory::getInstance()->getEnemy(type);
+			obj->setRespawnArea({ min,max });
 			obj->setInitPos({ x,y });
 			obj->setPosition(x, y);
+			obj->setInitFaceSide(faceSide);
+			obj->setFaceSide(faceSide);
 			auto unit = new Unit(getGrid(), obj, x, y);
 			break;
 		}
@@ -179,7 +186,9 @@ void Stage::update(DWORD dt)
 			continue;
 		}
 
-
+		auto enem = dynamic_cast<Enemy*>(obj);
+		if (enem)
+			enem->setIsStopAllAction(stopEnemyAction);
 
 		obj->update(dt, &listBoundary);
 	}
@@ -188,7 +197,7 @@ void Stage::update(DWORD dt)
 	updateGrid();
 }
 
-void Stage::updateSubWeapon(SubWeapon* subWeapon, DWORD dt)
+void Stage::updateSubWeapon(SubWeapon * subWeapon, DWORD dt)
 {
 	auto simonPos = getSimon()->getPosition();
 	auto holyWater = dynamic_cast<SubWeaponHolyWater*>(subWeapon);
@@ -229,15 +238,21 @@ vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 
 void Stage::updateInActiveUnit()
 {
-	for (auto object : listRenderObj)
+	for (auto ob : listRenderObj)
 	{
-		if (!isInViewport(object))
+		if (!isInViewport(ob))
 		{
-			auto subWeapon = dynamic_cast<SubWeapon*>(object);
-			if (subWeapon)
+			auto type = ob->getType();
+			switch (type)
 			{
-				subWeapon->setActive(false);
-				subWeapon->setEnable(false);
+			case ObjectType::subWeapon:
+				ob->setActive(false);
+				ob->setEnable(false);
+				break;
+			case enemy:
+				ob->setActive();
+				ob->setEnable(false);
+			default:;
 			}
 		}
 	}
@@ -334,7 +349,9 @@ void Stage::onKeyDown(const int keyCode)
 		break;
 	case DIK_D: simon->powerUpWhip(false);
 		break;
-	case DIK_X: simon->getHurt(1,1,1);
+	case DIK_S: stopEnemyAction = !stopEnemyAction;
+		break;
+	case DIK_X: simon->getHurt(1, 1, 1);
 		break;
 	case DIK_C: simon->getHurt(1, 1, 666);
 		break;

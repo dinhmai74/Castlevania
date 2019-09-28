@@ -71,7 +71,7 @@ void SubWeaponHolyWater::checkCollisionWithBoundary(DWORD dt, vector<GameObject*
 		float nx = 0;
 		float ny;
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
-		updatePosInTheMomentCollide(minTx, minTy, nx, ny);
+		updatePosInTheMomentCollideAndRemoveVelocity(minTx, minTy, nx, ny);
 
 		for (auto& i : coEventsResult)
 		{

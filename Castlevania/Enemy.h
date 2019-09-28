@@ -1,5 +1,12 @@
 ﻿#pragma once
 #include "GameObject.h"
+#include "Territory.h"
+
+struct RespawnArea
+{
+	float min;
+	float max;
+};
 
 class Enemy: public GameObject
 {
@@ -13,10 +20,8 @@ public:
 	void update(DWORD dt, vector<GameObject*>* coObjects = nullptr) override;
 	void checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*>* coObjects);
 	void changeDirection(const vector<CollisionEvent*>& vector, float nx, float ny);
+	bool canRespawn(D3DXVECTOR2 simPos);
 	void respawn(float playerX, float playerY);
-
-	bool canRespawn();
-
 
 	void setNewEnemy(bool val = true) ;
 	void getHurt(int nx, int ny, int hpLose) override;
@@ -30,11 +35,24 @@ public:
 	int getInitFaceSide() const { return initFaceSide; }
 	void setInitFaceSide(int val) { initFaceSide = val; }
 
+	RespawnArea getRespawnArea() const { return respawnArea; }
+	void setRespawnArea(RespawnArea val) { respawnArea = val; }
+
+	virtual void setEnable(bool val = true) override;
+
+	bool getIsStopAllAction() const { return isStopAllAction; }
+	void setIsStopAllAction(bool val) { isStopAllAction = val; }
+
+	virtual void render() override;
+
 private:
 	int enemyType;
 	int dmg;
 	int initFaceSide;
 	bool isExist;
+	bool isStopAllAction;
 	DWORD respawnTime;
 	Timer* timerRespawn;
+	RespawnArea respawnArea;
+
 };

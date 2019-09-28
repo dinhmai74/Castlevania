@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Item.h"
+#include "Territory.h"
 
 class ItemHeart final : public Item
 {
@@ -7,22 +8,12 @@ class ItemHeart final : public Item
 public:
 	ItemHeart();
 	explicit ItemHeart(int type);
-	~ItemHeart() = default;
-	int getEnergy() const { return energy; }
+	~ItemHeart();
+	int getEnergy() const;
+
+	void update(DWORD dt, vector<GameObject*>* boundary) override;
+	void checkOutOfBoundary();
+
+	virtual void checkCollision(DWORD dt, vector<GameObject*>* boundary) override;
+
 };
-
-inline ItemHeart::ItemHeart()
-{
-	itemType = itemSmallHeart;
-	gravity = 0.0002;
-	animId = itemSmallHeart;
-	energy = 1;
-}
-
-inline ItemHeart::ItemHeart(int type)
-{
-	itemType = type;
-	gravity = 0.0002;
-	energy = 5;
-	animId = type;
-}

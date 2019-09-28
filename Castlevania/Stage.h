@@ -56,4 +56,5 @@ private:
 	void updateInActiveUnit();
 	void updateGrid();
 	bool renderBoundingBox;
+	bool stopEnemyAction;
 };

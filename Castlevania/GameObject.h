@@ -81,7 +81,11 @@ public:
 	/*----------------- hurt and death -----------------*/
 	virtual void getHurt(int nx = -1, int hpLose = 1);
 	virtual void getHurt(int nx, int ny, int hpLose);
+
+	void doDeathAnim();
+
 	void loseHp(int hpLose = 1);
+	void doDeflect(int nx);
 	void setStatusWhenStillHaveEnoughHP(int nx, int hpLose);
 	void processUntouchableEffect();
 	void createBlowUpEffectAndSetRespawnTimer();
@@ -104,10 +108,12 @@ public:
 
 	virtual void update(DWORD dt, vector<GameObject*>* coObjects = nullptr);
 	virtual void processDeflectEffect();
-	void processDeathEffect();
+	virtual void processDeathEffect();
 	void updateGravity(float gravity);
 	void updateGravity() { updateGravity(this->gravity); };
 	void updatePosWhenNotCollide();
+	void updatePosInTheMomentCollideAndRemoveVelocity(float minTx, float minTy, float nx,
+		float ny);
 	void updatePosInTheMomentCollide(float minTx, float minTy, float nx,
 		float ny);
 	void checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* coObjects);
@@ -145,7 +151,7 @@ public:
 	bool IsActive() const { return isActive; }
 	virtual void setActive(bool val = true) { isActive = val; }
 	bool IsEnable() const { return isEnable; }
-	void setEnable(bool val = true) { isEnable = val; }
+	virtual void setEnable(bool val = true) { isEnable = val; }
 	D3DXVECTOR2 getInitPos() const { return initPos; }
 	void setInitPos(D3DXVECTOR2 val) { initPos = val; }
 	void setFaceSide(int val) { faceSide = val; }
@@ -161,6 +167,8 @@ public:
 	bool isDying() { return isTimerRunning(timerDeath); };
 	D3DXVECTOR2 getInitSpeed() const { return initSpeed; }
 	void setInitSpeed(D3DXVECTOR2 val) { initSpeed = val; }
+private:
+	void doBurnedEffect();
 };
 
 

@@ -1,5 +1,6 @@
 #include "Enemy.h"
-
+#include <stdexcept>
+#include "EnemyFactory.h"
 
 
 Enemy::Enemy()
@@ -14,7 +15,7 @@ Enemy::~Enemy()
 
 void Enemy::init()
 {
-	hp = 1;
+	resetHP();
 	setDmg(1);
 	setType(enemy);
 	respawnTime = 3000;
@@ -22,16 +23,19 @@ void Enemy::init()
 	timerRespawn->start();
 }
 
-
 void Enemy::reset()
 {
 	resetHP();
 	resetPos();
+	setState(walking);
+	animId = ANIM_WALK;
+	setFaceSide(initFaceSide);
+	vx = initSpeed.x * initFaceSide;
 }
 
 void Enemy::resetHP()
 {
-	hp = 1;
+	hp = EnemyFactory::getHp(enemyType);
 }
 
 void Enemy::resetPos()
@@ -42,6 +46,7 @@ void Enemy::resetPos()
 
 void Enemy::update(DWORD dt, vector<GameObject*>* coObjects /*= nullptr*/)
 {
+	if (getIsStopAllAction()) return;
 	GameObject::update(dt);
 	if (!isEnable) return;
 	checkCollisionAndChangeDirectX(dt, coObjects);
@@ -65,7 +70,8 @@ void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*>* coObje
 		float nx = 0;
 		float ny;
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
-		updatePosInTheMomentCollide(minTx, minTy, nx, ny);
+		x += minTx * dx + nx * 0.1f;
+		y += minTy * dy + ny * 0.1f;
 		changeDirection(coEventsResult, nx, ny);
 	}
 
@@ -74,11 +80,10 @@ void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*>* coObje
 
 void Enemy::changeDirection(const vector<CollisionEvent*>& vector, float nx, float ny)
 {
-	if (nx != 0 && ny == 0)
+	if (nx != 0)
 	{
 		faceSide *= -1;
-		initSpeed.x = faceSide * initSpeed.x;
-		this->vx = initSpeed.x;
+		this->vx *= -1;
 	}
 	else if (ny == -1.0f)
 	{
@@ -86,18 +91,23 @@ void Enemy::changeDirection(const vector<CollisionEvent*>& vector, float nx, flo
 	}
 }
 
+
 void Enemy::respawn(float playerX, float playerY)
 {
-	if (canRespawn())
+	if (canRespawn({playerX,playerY}))
 	{
 		reset();
 		setNewEnemy();
 	}
 }
 
-bool Enemy::canRespawn()
+bool Enemy::canRespawn(D3DXVECTOR2 simPos)
 {
-	return timerRespawn->isTimeUpAndRunAlr();
+	const auto isEnoughTime=timerRespawn->isTimeUpAndRunAlr();
+	const auto distance = fabs(x - simPos.x);
+	const auto isInRegion = distance >= respawnArea.min && distance <= respawnArea.max;
+
+	return isEnoughTime && isInRegion && !isEnable;
 }
 
 void Enemy::setNewEnemy(bool val /*= true*/)
@@ -117,7 +127,33 @@ void Enemy::processWhenBurnedEffectDone()
 	{
 		burnEffect = nullptr;
 		setEnable(false);
-		timerRespawn->start();
-		isExist = false;
+		reset();
 	}
+}
+
+void Enemy::setEnable(bool val /*= true*/)
+{
+	GameObject:: setEnable(val);
+	if (!val) {
+		timerRespawn->start();
+	}
+}
+
+void Enemy::render()
+{
+	if (burnEffect)
+	{
+		const auto blowX = x;
+		const auto blowY = y;
+		burnEffect->render(1, blowX, blowY);
+	}
+	if (!isEnable) return;
+	if (isStopAllAction && currentFrame)
+	{
+		animations[animId]->render(faceSide, x, y, currentFrame, alpha, r, g, b);
+	}
+	else animations[animId]->render(faceSide, x, y, alpha);
+
+	currentFrame = animations[animId]->getCurrentFrame();
+
 }

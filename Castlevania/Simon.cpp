@@ -133,7 +133,10 @@ void Simon::updateChangingStageEffect()
 	}
 	else
 	{
-		if (startedChangeStage)StageManager::getInstance()->nextStage(stageWillChangeTo);
+		if (startedChangeStage) {
+			StageManager::getInstance()->nextStage(stageWillChangeTo);
+			startedChangeStage = false;
+		}
 	}
 }
 
@@ -166,7 +169,7 @@ void Simon::checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs)
 	{
 		auto e = objs->at(i);
 		auto objectChangeStage = dynamic_cast<ObjectChangeStage*>(e);
-		if (isColliding(getBoundingBox(), e->getBoundingBox())) {
+		if (isColliding(getBoundingBox(), e->getBoundingBox()) && !isChangingStage()) {
 			stageWillChangeTo = objectChangeStage->NextStage();
 			doChangeStageEffect();
 		}
@@ -219,7 +222,7 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
 
 		// block
-		updatePosInTheMomentCollide(minTx, minTy, nx, ny);
+		updatePosInTheMomentCollideAndRemoveVelocity(minTx, minTy, nx, ny);
 
 		for (auto& i : coEventsResult)
 		{
@@ -304,7 +307,7 @@ void Simon::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs)
 			const auto enemy = dynamic_cast<Enemy*>(object);
 			if (enemy)
 			{
-				getHurt(nx, ny, 1);
+				getHurt(nx, ny, enemy->getDmg());
 			}
 		}
 	}
@@ -327,6 +330,12 @@ void Simon::reset()
 	resetState();
 	x = initPos.x;
 	y = initPos.y;
+	timerPowering->stop();
+	timerDeflect->stop();
+	timerChangeStage->stop();
+	timerThrowing->stop();
+	timerUntouchable->stop();
+	timerAutoWalk->stop();
 }
 
 void Simon::setHp(int val)
@@ -576,7 +585,7 @@ void Simon::generateSubWeapon()
 	loseEnergy();
 	subWeapon = subWeaponFactory->getSubWeapon(subWeaponType, faceSide);
 	const auto width = getBoundingBox().r - getBoundingBox().l;
-	const auto subX = faceSide == FaceSide::left ? x - width + 10 : x + width;
+	const auto subX = faceSide == Side::left ? x - width + 10 : x + width;
 	const auto subY = y;
 
 	subWeapon->setInitPos({ subX, subY });
@@ -622,12 +631,12 @@ void Simon::handleOnKeyPress(BYTE* states)
 	if (game->isKeyDown(DIK_RIGHT))
 	{
 		if (state == staring) upStair();
-		else move(FaceSide::right);
+		else move(Side::right);
 	}
 	else if (game->isKeyDown(DIK_LEFT))
 	{
 		if (state == staring) downStair();
-		move(FaceSide::left);
+		move(Side::left);
 	}
 	else if (game->isKeyDown(DIK_DOWN))
 	{
