@@ -21,6 +21,8 @@ constexpr auto SIM_CHANGING_STAGE_DURATION = 2000;
 constexpr auto SIMON_FALL = 180;
 //di binh thuong
 constexpr auto SIMON_VX = 0.10f;
+#define SIMON_STAIR_SPEED_X			0.079f
+#define SIMON_STAIR_SPEED_Y			0.079f
 constexpr auto SIM_AUTO_WALK_VX = 0.03f;
 constexpr auto SIM_MAX_ENERGY = 15;
 constexpr auto SIM_MAX_LIFE = 15;
@@ -43,9 +45,9 @@ constexpr auto ANIM_DEATH = -1;
 
 enum StaringDirect
 {
-	stairNull = 0,
-	stairUp = -1,
-	stairDown = 1,
+	stairNull,
+	stairUp=-1,
+	stairDown=1,
 };
 
 enum StaringStatus

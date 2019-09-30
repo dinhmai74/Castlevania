@@ -34,7 +34,7 @@ public:
 	void render(int nx, float x, float y, int frame, int alpha, int r, int g, int b);
 	void refresh();
 	bool isDone();
-	void setAniStartTime(DWORD t) { animStartTime = t; }
+	void setAniStartTime(DWORD t = GetTickCount()) { animStartTime = t; }
 	void setRenderFrame(int frame) { currentFrame = frame; }
 	bool isOver(DWORD dt) const { return GetTickCount() - animStartTime >= dt; }
 	Box getFrameSprite();

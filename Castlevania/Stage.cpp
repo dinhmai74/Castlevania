@@ -98,6 +98,7 @@ void Stage::loadObjectFromFiles()
 			boundary->setWidhtHeight(width, height);
 			boundary->setPosition(x, y);
 			if (type == boundaryGround || type == boundaryNormal) listBoundary.push_back(boundary);
+			else if (type == boundaryStair) listStairs.push_back(boundary);
 			break;
 		}
 		case item:
@@ -287,6 +288,7 @@ void Stage::loadListObjFromGrid()
 	listCanHitObjects.clear();
 	listEnemy.clear();
 	listRenderObj = listBoundary;
+	listRenderObj.insert(listRenderObj.begin(), listStairs.begin(), listStairs.end());
 	getGrid()->get(Game::getInstance()->getCameraPosition(), listUnit);
 
 	for (auto unit : listUnit)

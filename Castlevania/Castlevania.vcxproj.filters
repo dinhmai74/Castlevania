@@ -150,6 +150,9 @@
     <ClCompile Include="ItemHeart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Stair.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -306,6 +309,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EnemyFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

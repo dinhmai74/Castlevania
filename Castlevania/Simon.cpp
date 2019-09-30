@@ -71,8 +71,6 @@ bool Simon::forceRenderStaringAnimStand()
 		{
 			return true;
 		}
-		x += 1 * faceSide;
-		y -= 1;
 	}
 
 	return false;
@@ -136,6 +134,7 @@ void Simon::updateRGB()
 void Simon::updateAutoWalk()
 {
 	if (isAutoWalking()) vx = faceSide * SIM_AUTO_WALK_VX;
+	else vx = 0;
 }
 
 void Simon::updateChangingStageEffect()
@@ -174,6 +173,9 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 			checkCollisionWithEnemy(dt, map.objs);
 			updateWeaponAction(dt, map.objs);
 			break;
+		case stair:
+			listStairs = map.objs;
+			break;
 		default: DebugOut(L"[WARNING] unknown obj to check collision with id %d!\n", map.id);
 		}
 	}
@@ -197,6 +199,19 @@ void Simon::doChangeStageEffect()
 {
 	if (isChangingStage())return;
 	timerChangeStage->start();
+}
+
+void Simon::checkCollisionWithStair(vector<GameObject*>* objs)
+{
+	collidedStair = nullptr;
+	for (auto obj : *objs)
+	{
+		const auto stair = dynamic_cast<Stair*>(obj);
+		auto box = getBoundingBox();
+		box.t = box.t + 50;
+		box.b = box.b + 5;
+		if (isColliding(box, obj->getBoundingBox()) && stair) collidedStair = stair;
+	}
 }
 
 void Simon::doAutoWalk()
@@ -305,6 +320,7 @@ void Simon::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs)
 	coEvents.clear();
 
 	calcPotentialCollisions(objs, coEvents);
+	calcPotentialCollisionsAABB(objs, coEvents);
 
 	// no collison => check case inside
 	if (!coEvents.empty())
@@ -492,6 +508,17 @@ void Simon::setState(int state)
 	GameObject::setState(state);
 }
 
+bool Simon::canClimbStair()
+{
+	collidedStair = nullptr;
+	checkCollisionWithStair(listStairs);
+	if (collidedStair)
+	{
+		return true;
+	}
+	return false;
+}
+
 void Simon::move(int side)
 {
 	setFaceSide(side);
@@ -527,12 +554,21 @@ void Simon::standUp()
 	setState(idle);
 }
 
-void Simon::upStair()
+void Simon::climbStair(int direction)
 {
+	if (!canClimbStair()) {
+		vx = 0;
+		vy = 0;
+		staringStatus = pause;
+		return;
+	}
 	setState(staring);
 	staringStatus = onGoing;
 	stairDirect = stairUp;
-
+	gravity = 0;
+	vx = faceSide * SIMON_STAIR_SPEED_X;
+	vy = direction * SIMON_STAIR_SPEED_Y;
+	animations[ANIM_UP_STAIR]->setAniStartTime();
 }
 
 void Simon::downStair()
@@ -646,7 +682,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 
 	if (game->isKeyDown(DIK_RIGHT))
 	{
-		if (state == staring) upStair();
+		if (state == staring) climbStair(stairUp);
 		else move(Side::right);
 	}
 	else if (game->isKeyDown(DIK_LEFT))
@@ -664,11 +700,17 @@ void Simon::handleOnKeyPress(BYTE* states)
 	}
 	else if (game->isKeyDown(DIK_UPARROW))
 	{
-		upStair();
+		climbStair(stairUp);
+	}
+	else if (game->isKeyDown(DIK_DOWNARROW))
+	{
+		climbStair(stairDown);
 	}
 	else if (state == staring)
 	{
 		staringStatus = pause;
+		vx = 0;
+		vy = 0;
 	}
 	else
 	{

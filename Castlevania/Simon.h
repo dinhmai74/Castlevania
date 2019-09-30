@@ -9,6 +9,7 @@
 #include "SubWeapon.h"
 #include "Boundary.h"
 #include "Timer.h"
+#include "Stair.h"
 
 class Simon :
 	public GameObject
@@ -76,9 +77,12 @@ private:
 	int energy;
 	int life;
 	int stairDirect;
+	Stair* collidedStair;
+
 	bool isPowering() { return isTimerRunning(timerPowering); };
 	bool isAutoWalking() { return isTimerRunning(timerAutoWalk); };
 	bool isChangingStage() { return isTimerRunning(timerChangeStage); };
+	bool canClimbStair();
 
 	/*----------------- simon actions -----------------*/
 	void move(int side);
@@ -86,7 +90,7 @@ private:
 	void sit();
 	void stand();
 	void standUp();
-	void upStair();
+	void climbStair(int direction);
 	void downStair();
 	void stopMoveWhenHitting();
 	void hit();
@@ -126,4 +130,6 @@ private:
 	bool forceDead;
 	int staringStatus;
 	void processAnimStaring();
+	void checkCollisionWithStair(vector<GameObject*>* objs);
+	vector<GameObject*>* listStairs;
 };
