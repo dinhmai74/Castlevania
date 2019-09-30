@@ -44,6 +44,7 @@ private:
 	vector<GameObject*> listObjectChangeStage;
 	vector<GameObject*> listEnemy;
 	vector<Unit*> listUnit;
+	vector<GameObject*> listStairs;
 
 	void loadObjectFromFiles();
 	void loadContent();

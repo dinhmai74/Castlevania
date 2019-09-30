@@ -41,9 +41,15 @@ constexpr auto ANIM_DEFLECT = 5;
 constexpr auto ANIM_UP_STAIR = 6;
 constexpr auto ANIM_DEATH = -1;
 
-enum StairingState
+enum StaringDirect
 {
 	stairNull = 0,
 	stairUp = -1,
 	stairDown = 1,
+};
+
+enum StaringStatus
+{
+	pause,
+	onGoing
 };

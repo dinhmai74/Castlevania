@@ -15,7 +15,7 @@ void Simon::init()
 {
 	whip = new Whip();
 	subWeaponType = -1;
-	stairStatus = stairNull;
+	stairDirect = stairNull;
 	whip->setPosition(x, y);
 
 	isInGround = false;
@@ -52,14 +52,30 @@ void Simon::render()
 		whip->render();
 	}
 
-	if (!timerPowering->isTimeUp())
-	{
+	auto forceRenderFrame = !timerPowering->isTimeUp() || forceRenderStaringAnimStand();
+
+
+	if (forceRenderFrame)
 		animations[animId]->render(faceSide, x, y, currentFrame, alpha, r, g, b);
-	}
 	else animations[animId]->render(faceSide, x, y, alpha, r, g, b);
 
 	currentFrame = animations[animId]->getCurrentFrame();
 	preAnimId = animId;
+}
+
+bool Simon::forceRenderStaringAnimStand()
+{
+	if (state == staring)
+	{
+		if (staringStatus == pause && animations[ANIM_UP_STAIR]->isDone())
+		{
+			return true;
+		}
+		x += 1 * faceSide;
+		y -= 1;
+	}
+
+	return false;
 }
 
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
@@ -228,12 +244,10 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 		{
 			const auto object = (i->obj);
 			const auto boundary = dynamic_cast<Boundary*>(object);
-			if (nx != 0)
+			if (boundary->getBoundaryType() == boundaryNormal)
 				processCollisionWithBoundaryByX(minTx, nx, boundary);
-			if (ny != 0)
-			{
+			if (boundary->getBoundaryType() == boundaryGround)
 				processCollisionWithGround(minTy, ny);
-			}
 		}
 	}
 
@@ -412,7 +426,7 @@ void Simon::updateAnimId()
 	switch (state)
 	{
 	case staring:
-		animId = stairStatus == stairDown ? ANIM_UP_STAIR : ANIM_UP_STAIR;
+		animId = stairDirect == stairDown ? ANIM_UP_STAIR : ANIM_UP_STAIR;
 		break;
 	case walking: animId = ANIM_WALK;
 		break;
@@ -516,13 +530,15 @@ void Simon::standUp()
 void Simon::upStair()
 {
 	setState(staring);
-	stairStatus = stairUp;
+	staringStatus = onGoing;
+	stairDirect = stairUp;
+
 }
 
 void Simon::downStair()
 {
 	setState(staring);
-	stairStatus = stairDown;
+	stairDirect = stairDown;
 }
 
 void Simon::stopMoveWhenHitting()
@@ -648,7 +664,11 @@ void Simon::handleOnKeyPress(BYTE* states)
 	}
 	else if (game->isKeyDown(DIK_UPARROW))
 	{
-		DebugOut(L"up\n");
+		upStair();
+	}
+	else if (state == staring)
+	{
+		staringStatus = pause;
 	}
 	else
 	{

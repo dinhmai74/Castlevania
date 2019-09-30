@@ -20,6 +20,7 @@ public:
 	string getCurrentMapDisplayName() const { return tileMapsInfo[currentStage->getId() - 1].mapDisplayName; }
 	void init(vector<TileMapInfo> tileMapsInfo);
 	void nextStage(int stageId = -1);
+	void reset(int id =-1);
 	void setStage(Stage* newStage) { preStage = getCurrentStage(); currentStage = newStage; }
 	void render() const
 	{

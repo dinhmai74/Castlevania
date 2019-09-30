@@ -18,7 +18,6 @@ Enemy* EnemyFactory::getEnemy(int type)
 		break;
 	default: enemy = new EnemyGhouls();
 	}
-	enemy = new EnemyGhouls();
 	enemy->setGravity(gravity);
 	enemy->setFaceSide(faceSide);
 	enemy->setInitSpeed({ vx, vy });

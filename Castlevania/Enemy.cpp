@@ -41,7 +41,7 @@ void Enemy::resetHP()
 void Enemy::resetPos()
 {
 	x = initPos.x;
-	x = initPos.y;
+	y = initPos.y;
 }
 
 void Enemy::update(DWORD dt, vector<GameObject*>* coObjects /*= nullptr*/)
@@ -107,7 +107,7 @@ bool Enemy::canRespawn(D3DXVECTOR2 simPos)
 	const auto distance = fabs(x - simPos.x);
 	const auto isInRegion = distance >= respawnArea.min && distance <= respawnArea.max;
 
-	return isEnoughTime && isInRegion && !isEnable;
+	return isEnoughTime && true && !isEnable;
 }
 
 void Enemy::setNewEnemy(bool val /*= true*/)

@@ -97,7 +97,7 @@ void Stage::loadObjectFromFiles()
 			auto boundary = BoundaryFactory::getInstance()->getBoundary(type);
 			boundary->setWidhtHeight(width, height);
 			boundary->setPosition(x, y);
-			listBoundary.push_back(boundary);
+			if (type == boundaryGround || type == boundaryNormal) listBoundary.push_back(boundary);
 			break;
 		}
 		case item:
@@ -229,6 +229,7 @@ vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 {
 	vector<MapGameObjects> map;
 	map.push_back({ boundary, &listBoundary });
+	map.push_back({ stair, &listStairs});
 	map.push_back({ item, &listItems });
 	map.push_back({ canHitObjs, &listCanHitObjects });
 	map.push_back({ obChangeStage, &listObjectChangeStage });

@@ -64,10 +64,13 @@ enum ObjectType
 	simon,
 	obChangeStage,
 	enemy,
+	stair
 };
 
 enum BoundaryType {
 	boundaryNormal,
+	boundaryGround,
+	boundaryStair
 };
 
 /*----------------- item regions -----------------*/

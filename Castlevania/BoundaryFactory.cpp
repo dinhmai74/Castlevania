@@ -4,11 +4,15 @@ BoundaryFactory* BoundaryFactory::instance = nullptr;
 
 Boundary* BoundaryFactory::getBoundary(int type)
 {
+	Boundary* boundary;
 	switch (type)
 	{
 	case boundaryNormal:
-		return new Boundary();
+		boundary = new Boundary();
+		break;
 	default:
-		return new Boundary();
+		boundary = new Boundary();
 	}
+	boundary->setBoundaryType(type);
+	return boundary;
 }

@@ -29,8 +29,9 @@ public:
 	// Inherited via GameObject
 	void setState(int state);
 
-	virtual void render() override;
-	void updateAnimId();
+	void render() override;
+	bool forceRenderStaringAnimStand();
+	virtual void updateAnimId();
 	void initAnim() override;
 	void update(DWORD dt, const vector<MapGameObjects>& maps);
 
@@ -74,7 +75,7 @@ private:
 	bool isInGround;
 	int energy;
 	int life;
-	int stairStatus;
+	int stairDirect;
 	bool isPowering() { return isTimerRunning(timerPowering); };
 	bool isAutoWalking() { return isTimerRunning(timerAutoWalk); };
 	bool isChangingStage() { return isTimerRunning(timerChangeStage); };
@@ -123,4 +124,6 @@ private:
 	void doChangeStageEffect();
 	int stageWillChangeTo;
 	bool forceDead;
+	int staringStatus;
+	void processAnimStaring();
 };
