@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Castlevania"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="msvc8"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 all"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Castlevania">
+				<Option output="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio/Castlevania.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania"/>
+					<Add directory="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Lib/x86"/>
+					<Add directory="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.23.28105\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 Castlevania"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Castlevania/fast">
+				<Option output="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio/Castlevania.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania"/>
+					<Add directory="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Lib/x86"/>
+					<Add directory="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.23.28105\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 Castlevania/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 edit_cache"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Animation.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Animation.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationFrame.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationFrame.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationManager.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationManager.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/BigCandle.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Boundary.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Boundary.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/BoundaryFactory.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/BoundaryFactory.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Box.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Candle.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/CandleFactory.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/CandleFactory.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Constants.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Enemy.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Enemy.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/EnemyFactory.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/EnemyFactory.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/EnemyGhouls.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/EnemyGhouls.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Game.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Game.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/GameObject.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/GameObject.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Grid.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Grid.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/HUD.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/HUD.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Item.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Item.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/ItemDagger.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/ItemFactory.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/ItemFactory.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/ItemHeart.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/ItemHeart.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/ItemWhip.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/KeyboardHandler.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D2D1.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D2D1Helper.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D2DBaseTypes.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D2Derr.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3D10.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3D10_1.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3D10_1shader.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3D10effect.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3D10shader.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3D11.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3D11SDKLayers.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3D11Shader.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3DCSX.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3DX10.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3DX10core.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3DX10math.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3DX10math.inl">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3DX10mesh.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3DX10tex.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3DX11.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3DX11async.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3DX11core.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3DX11tex.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3DX_DXGIFormatConvert.inl">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3Dcommon.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/D3Dcompiler.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/DWrite.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/DXGI.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/DXGIFormat.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/DXGIType.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/Dcommon.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/DxErr.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/PIXPlugin.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/X3DAudio.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/XAPO.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/XAPOBase.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/XAPOFX.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/XAudio2.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/XAudio2fx.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/XDSP.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/XInput.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/audiodefs.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/comdecl.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3d10misc.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3d10sdklayers.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3d9.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3d9caps.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3d9types.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3dx10async.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3dx9.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3dx9anim.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3dx9core.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3dx9effect.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3dx9math.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3dx9math.inl">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3dx9mesh.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3dx9shader.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3dx9shape.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3dx9tex.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/d3dx9xof.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/dinput.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/dinputd.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/dsconf.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/dsetup.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/dsound.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/dxdiag.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/dxfile.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/dxsdkver.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/gameux.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/rmxfguid.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/rmxftmpl.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/rpcsal.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/xact3.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/xact3d3.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/xact3wb.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/xma2defs.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/xnamath.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/xnamathconvert.inl">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/xnamathmatrix.inl">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/xnamathmisc.inl">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc/xnamathvector.inl">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/ObjectChangeStage.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SetTimeOut.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SetTimeOut.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Simon.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Simon.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SimonConstants.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SmallCandle.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Sprite.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Sprite.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SpriteManager.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SpriteManager.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Stage.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Stage.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/StageConst.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/StageManager.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/StageManager.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Stair.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Stair.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeapon.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeapon.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponAxe.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponAxe.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponBoomerang.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponBoomerang.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponDagger.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponFactory.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponFactory.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponHolyWater.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponHolyWater.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SweptAABB.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SweptAABB.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Territory.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/TextureManager.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/TextureManager.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/TileConst.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/TileMap.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/TileMap.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/TilemapManager.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/TilemapManager.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Timer.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Weapon.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Weapon.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Whip.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Whip.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/WhipConst.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/WhipItem.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/debug.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/debug.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/main.cpp">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/main.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/resource.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/tileMapInfo.h">
+			<Option target="Castlevania"/>
+		</Unit>
+		<Unit filename="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

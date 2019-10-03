@@ -1,0 +1,3 @@
+C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir
+C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio/CMakeFiles/edit_cache.dir
+C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio/CMakeFiles/rebuild_cache.dir
