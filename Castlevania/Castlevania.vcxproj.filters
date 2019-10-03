@@ -147,11 +147,11 @@
     <ClCompile Include="EnemyGhouls.cpp">
       <Filter>Source Files\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="ItemHeart.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Stair.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemHeart.cpp">
+      <Filter>Source Files\Object\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
