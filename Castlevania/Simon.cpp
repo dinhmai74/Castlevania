@@ -67,8 +67,8 @@ bool Simon::forceRenderStaringAnimStand()
 {
 	if (state == staring)
 	{
-		if (staringStatus == pause && animations[ANIM_UP_STAIR]->isDone())
-		{
+		if (staringStatus == pause && !isAutoClimbing()) {
+			currentFrame = 0;
 			return true;
 		}
 	}
@@ -80,6 +80,7 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 {
 	if (forceDead) return;
 	updateAutoWalk();
+	updateAutoClimb(dt);
 	GameObject::update(dt);
 
 	updateRGB();
@@ -212,6 +213,25 @@ void Simon::checkCollisionWithStair(vector<GameObject*>* objs)
 		box.t = box.t + 50;
 		box.b = box.b + 5;
 		if (isColliding(box, obj->getBoundingBox()) && stair) collidedStair = stair;
+	}
+}
+
+bool Simon::isAutoClimbing()
+{
+	return stairDxRemain > 0 && stairDyRemain > 0;
+}
+
+void Simon::updateAutoClimb(DWORD dt)
+{
+	if (!isAutoClimbing())
+		return;
+	if (state == staring)
+	{
+		auto climbSpeed = 0.075f;
+		vx = climbSpeed;
+		vy = -climbSpeed;
+		stairDxRemain -= climbSpeed * dt;
+		stairDyRemain -= climbSpeed * dt;
 	}
 }
 
@@ -556,18 +576,26 @@ void Simon::standUp()
 
 void Simon::climbStair(int direction)
 {
-	if (!canClimbStair()) {
+	if (!canClimbStair() || timerClimbStair->isTimeUp()) {
 		vx = 0;
 		vy = 0;
 		staringStatus = pause;
+		timerClimbStair->stop();
 		return;
 	}
+	if (state != staring)
+	{
+		auto collidePos = collidedStair->getPosition();
+		auto frameBox = animations[animId]->getFrameSprite();
+		x = collidePos.x - (getBoundingBox().l - x) - 10;
+	}
+	timerClimbStair->start();
+	stairDxRemain = 34;
+	stairDyRemain = 29;
 	setState(staring);
 	staringStatus = onGoing;
-	stairDirect = stairUp;
+	stairDirect = direction;
 	gravity = 0;
-	vx = faceSide * SIMON_STAIR_SPEED_X;
-	vy = direction * SIMON_STAIR_SPEED_Y;
 	animations[ANIM_UP_STAIR]->setAniStartTime();
 }
 

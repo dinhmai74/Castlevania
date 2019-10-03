@@ -137,4 +137,5 @@ private:
 	void checkCollisionWithStair(vector<GameObject*>* objs);
 	vector<GameObject*>* listStairs;
 	bool isAutoClimbing();
+	void updateAutoClimb(DWORD dt);
 };

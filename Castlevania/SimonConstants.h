@@ -3,8 +3,7 @@
 constexpr auto SIMON_DEAD_TIME = 3000;
 //nhay
 constexpr auto SIMON_VJUMP = 0.5f;
-// Simon's width when moving
-constexpr auto SIM_WIDTH = 34;
+constexpr auto SIM_WIDTH = 32;
 constexpr auto SIM_VY_READY_TO_LAND = 0.15f;
 
 /*----------------- time  -----------------*/

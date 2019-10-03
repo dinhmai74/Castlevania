@@ -1,7 +1,7 @@
 #pragma once
 #include"main.h"
 #include "StageManager.h"
-#include "TileMapManager.h"
+#include "TilemapManager.h"
 #include "HUD.h"
 
 Game* game;
@@ -10,10 +10,9 @@ TextureManager* textureManager = TextureManager::getInstance();
 HUD* hud = HUD::getInstance();
 
 //Create keyboard handler for main program
-
 void SampleKeyHander::OnKeyDown(int KeyCode)
 {
-	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+    //DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	StageManager::getInstance()->onKeyDown(KeyCode);
 	if (KeyCode == DIK_R)
 	{
