@@ -68,6 +68,7 @@ private:
 	Timer* timerThrowing = new Timer(SIM_DELTA_TRHOWING_TIME);
 	Timer* timerAutoWalk = new Timer(SIM_AUTO_WALK_DURATION);
 	Timer* timerChangeStage = new Timer(SIM_CHANGING_STAGE_DURATION);
+	Timer* timerClimbStair = new Timer(1000000);
 	bool isReleaseSitButton;
 	Whip* whip;
 	SubWeapon* subWeapon;
@@ -77,6 +78,8 @@ private:
 	int energy;
 	int life;
 	int stairDirect;
+	int stairDxRemain;
+	int stairDyRemain;
 	Stair* collidedStair;
 
 	bool isPowering() { return isTimerRunning(timerPowering); };
@@ -110,6 +113,7 @@ private:
 	/*----------------- special effect  -----------------*/
 	void checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs);
 	void processDeathEffect();
+	void autoClimbTheStair(DWORD dt);
 
 	/*----------------- check collision -----------------*/
 	void processCollisionWithGround(float minTy, float ny);
@@ -132,4 +136,5 @@ private:
 	void processAnimStaring();
 	void checkCollisionWithStair(vector<GameObject*>* objs);
 	vector<GameObject*>* listStairs;
+	bool isAutoClimbing();
 };
