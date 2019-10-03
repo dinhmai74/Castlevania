@@ -22,8 +22,6 @@ void Simon::init()
 	isReleaseSitButton = true;
 	Simon::initAnim();
 	animId = ANIM_IDLE;
-	stairDyRemain = -1;
-	stairDxRemain = -1;
 	//gravity = 0;
 	gravity = SIMON_GRAVITY;
 	type = simon;
@@ -69,15 +67,11 @@ bool Simon::forceRenderStaringAnimStand()
 {
 	if (state == staring)
 	{
-		if (staringStatus == pause && !isAutoClimbing())
+		if (staringStatus == pause && animations[ANIM_UP_STAIR]->isDone())
 		{
-			currentFrame = 0;
 			return true;
 		}
-		return false;
 	}
-
-	stand();
 
 	return false;
 }
@@ -85,11 +79,10 @@ bool Simon::forceRenderStaringAnimStand()
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 {
 	if (forceDead) return;
-	autoClimbTheStair(dt);
+	updateAutoWalk();
 	GameObject::update(dt);
 
 	updateRGB();
-	updateAutoWalk();
 	updateChangingStageEffect();
 	processDeflectEffect();
 	processDeathEffect();
@@ -140,8 +133,9 @@ void Simon::updateRGB()
 
 void Simon::updateAutoWalk()
 {
-	if (isAutoWalking()) vx = faceSide * SIM_AUTO_WALK_VX;
-	else vx = 0;
+	if (isAutoWalking()) {
+		vx = faceSide * SIM_AUTO_WALK_VX;
+	}
 }
 
 void Simon::updateChangingStageEffect()
@@ -221,11 +215,6 @@ void Simon::checkCollisionWithStair(vector<GameObject*>* objs)
 	}
 }
 
-bool Simon::isAutoClimbing()
-{
-	return stairDxRemain > 0 && stairDyRemain > 0;
-}
-
 void Simon::doAutoWalk()
 {
 	if (isAutoWalking()) return;
@@ -243,20 +232,6 @@ void Simon::processDeathEffect()
 	{
 		startDying = false;
 		StageManager::getInstance()->descreaseLife();
-	}
-}
-
-void Simon::autoClimbTheStair(DWORD dt)
-{
-	if (!isAutoClimbing())
-		return;
-	if (state == staring)
-	{
-		auto climbSpeed = 0.075f;
-		vx = climbSpeed;
-		vy = -climbSpeed;
-		stairDxRemain -= climbSpeed * dt;
-		stairDyRemain -= climbSpeed * dt;
 	}
 }
 
@@ -446,6 +421,7 @@ void Simon::processCollisionWithItem(Item* item)
 void Simon::processCollisionWithGround(float minTy, float ny)
 {
 	vy = 0;
+	vx = 0;
 	isInGround = true;
 	if (state == jumping)
 		standUp();
@@ -570,38 +546,28 @@ void Simon::stand()
 {
 	resetState();
 	setState(idle);
-	vx = 0;
 }
 
 void Simon::standUp()
 {
 	resetState();
-	vx = 0;
 	setState(idle);
 }
 
 void Simon::climbStair(int direction)
 {
-	if (!canClimbStair() || timerClimbStair->isTimeUp()) {
+	if (!canClimbStair()) {
 		vx = 0;
 		vy = 0;
 		staringStatus = pause;
-		timerClimbStair->stop();
 		return;
 	}
-	if (state != staring)
-	{
-		auto collidePos = collidedStair->getPosition();
-		auto frameBox = animations[animId]->getFrameSprite();
-		x = collidePos.x - (getBoundingBox().l - x) - 10;
-	}
-	timerClimbStair->start();
-	stairDxRemain = 34;
-	stairDyRemain = 29;
 	setState(staring);
 	staringStatus = onGoing;
-	stairDirect = direction;
+	stairDirect = stairUp;
 	gravity = 0;
+	vx = faceSide * SIMON_STAIR_SPEED_X;
+	vy = direction * SIMON_STAIR_SPEED_Y;
 	animations[ANIM_UP_STAIR]->setAniStartTime();
 }
 
@@ -726,11 +692,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 	}
 	else if (game->isKeyDown(DIK_DOWN))
 	{
-		if (canClimbStair())
-		{
-			climbStair(stairDown);
-		}
-		else if (isInGround)
+		if (isInGround)
 		{
 			isReleaseSitButton = false;
 			sit();
@@ -738,10 +700,11 @@ void Simon::handleOnKeyPress(BYTE* states)
 	}
 	else if (game->isKeyDown(DIK_UPARROW))
 	{
-		if (canClimbStair())
-		{
-			climbStair(stairUp);
-		}
+		climbStair(stairUp);
+	}
+	else if (game->isKeyDown(DIK_DOWNARROW))
+	{
+		climbStair(stairDown);
 	}
 	else if (state == staring)
 	{
