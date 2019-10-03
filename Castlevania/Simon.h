@@ -61,26 +61,26 @@ public:
 	void getHurt(int nx, int ny, int hpLose) override;
 
 private:
-	bool isHitting;
-	bool isThrowing;
-	bool isCollectingWhip;
+	bool isHitting{};
+	bool isThrowing{};
+	bool isCollectingWhip{};
 	Timer* timerPowering = new Timer(SIM_POWERING_DURATION);
 	Timer* timerThrowing = new Timer(SIM_DELTA_TRHOWING_TIME);
 	Timer* timerAutoWalk = new Timer(SIM_AUTO_WALK_DURATION);
 	Timer* timerChangeStage = new Timer(SIM_CHANGING_STAGE_DURATION);
 	Timer* timerClimbStair = new Timer(1000000);
-	bool isReleaseSitButton;
-	Whip* whip;
-	SubWeapon* subWeapon;
-	bool startedChangeStage;
-	int subWeaponType;
-	bool isInGround;
-	int energy;
-	int life;
-	int stairDirect;
-	int stairDxRemain;
-	int stairDyRemain;
-	Stair* collidedStair;
+	bool isReleaseSitButton{};
+	Whip* whip{};
+	SubWeapon* subWeapon{};
+	bool startedChangeStage{};
+	int subWeaponType{};
+	bool isInGround{};
+	int energy{};
+	int life{};
+	int stairDirect{};
+	float stairDxRemain{};
+	float stairDyRemain{};
+	Stair* collidedStair{};
 
 	bool isPowering() { return isTimerRunning(timerPowering); };
 	bool isAutoWalking() { return isTimerRunning(timerAutoWalk); };
@@ -130,12 +130,12 @@ private:
 	void updateAutoWalk();
 	void updateChangingStageEffect();
 	void doChangeStageEffect();
-	int stageWillChangeTo;
-	bool forceDead;
-	int staringStatus;
+	int stageWillChangeTo{};
+	bool forceDead{};
+	int staringStatus{};
 	void processAnimStaring();
 	void checkCollisionWithStair(vector<GameObject*>* objs);
-	vector<GameObject*>* listStairs;
+	vector<GameObject*>* listStairs{};
 	bool isAutoClimbing();
 	void updateAutoClimb(DWORD dt);
 };

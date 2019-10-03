@@ -240,6 +240,21 @@ CMakeFiles/Castlevania.dir/Castlevania/Grid.cpp.obj
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/WhipConst.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/debug.h
 CMakeFiles/Castlevania.dir/Castlevania/HUD.cpp.obj
+ ../Castlevania/Library/Inc/d3d9.h
+ ../Castlevania/Library/Inc/d3d9caps.h
+ ../Castlevania/Library/Inc/d3d9types.h
+ ../Castlevania/Library/Inc/d3dx9.h
+ ../Castlevania/Library/Inc/d3dx9anim.h
+ ../Castlevania/Library/Inc/d3dx9core.h
+ ../Castlevania/Library/Inc/d3dx9effect.h
+ ../Castlevania/Library/Inc/d3dx9math.h
+ ../Castlevania/Library/Inc/d3dx9math.inl
+ ../Castlevania/Library/Inc/d3dx9mesh.h
+ ../Castlevania/Library/Inc/d3dx9shader.h
+ ../Castlevania/Library/Inc/d3dx9shape.h
+ ../Castlevania/Library/Inc/d3dx9tex.h
+ ../Castlevania/Library/Inc/d3dx9xof.h
+ ../Castlevania/Library/Inc/dinput.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Animation.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationFrame.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationManager.h
@@ -358,6 +373,21 @@ CMakeFiles/Castlevania.dir/Castlevania/SetTimeOut.cpp.obj
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SetTimeOut.cpp
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SetTimeOut.h
 CMakeFiles/Castlevania.dir/Castlevania/Simon.cpp.obj
+ ../Castlevania/Library/Inc/d3d9.h
+ ../Castlevania/Library/Inc/d3d9caps.h
+ ../Castlevania/Library/Inc/d3d9types.h
+ ../Castlevania/Library/Inc/d3dx9.h
+ ../Castlevania/Library/Inc/d3dx9anim.h
+ ../Castlevania/Library/Inc/d3dx9core.h
+ ../Castlevania/Library/Inc/d3dx9effect.h
+ ../Castlevania/Library/Inc/d3dx9math.h
+ ../Castlevania/Library/Inc/d3dx9math.inl
+ ../Castlevania/Library/Inc/d3dx9mesh.h
+ ../Castlevania/Library/Inc/d3dx9shader.h
+ ../Castlevania/Library/Inc/d3dx9shape.h
+ ../Castlevania/Library/Inc/d3dx9tex.h
+ ../Castlevania/Library/Inc/d3dx9xof.h
+ ../Castlevania/Library/Inc/dinput.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Animation.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationFrame.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationManager.h
@@ -430,6 +460,21 @@ CMakeFiles/Castlevania.dir/Castlevania/SpriteManager.cpp.obj
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/WhipConst.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/debug.h
 CMakeFiles/Castlevania.dir/Castlevania/Stage.cpp.obj
+ ../Castlevania/Library/Inc/d3d9.h
+ ../Castlevania/Library/Inc/d3d9caps.h
+ ../Castlevania/Library/Inc/d3d9types.h
+ ../Castlevania/Library/Inc/d3dx9.h
+ ../Castlevania/Library/Inc/d3dx9anim.h
+ ../Castlevania/Library/Inc/d3dx9core.h
+ ../Castlevania/Library/Inc/d3dx9effect.h
+ ../Castlevania/Library/Inc/d3dx9math.h
+ ../Castlevania/Library/Inc/d3dx9math.inl
+ ../Castlevania/Library/Inc/d3dx9mesh.h
+ ../Castlevania/Library/Inc/d3dx9shader.h
+ ../Castlevania/Library/Inc/d3dx9shape.h
+ ../Castlevania/Library/Inc/d3dx9tex.h
+ ../Castlevania/Library/Inc/d3dx9xof.h
+ ../Castlevania/Library/Inc/dinput.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Animation.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationFrame.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationManager.h
@@ -478,6 +523,21 @@ CMakeFiles/Castlevania.dir/Castlevania/Stage.cpp.obj
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/debug.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/tileMapInfo.h
 CMakeFiles/Castlevania.dir/Castlevania/StageManager.cpp.obj
+ ../Castlevania/Library/Inc/d3d9.h
+ ../Castlevania/Library/Inc/d3d9caps.h
+ ../Castlevania/Library/Inc/d3d9types.h
+ ../Castlevania/Library/Inc/d3dx9.h
+ ../Castlevania/Library/Inc/d3dx9anim.h
+ ../Castlevania/Library/Inc/d3dx9core.h
+ ../Castlevania/Library/Inc/d3dx9effect.h
+ ../Castlevania/Library/Inc/d3dx9math.h
+ ../Castlevania/Library/Inc/d3dx9math.inl
+ ../Castlevania/Library/Inc/d3dx9mesh.h
+ ../Castlevania/Library/Inc/d3dx9shader.h
+ ../Castlevania/Library/Inc/d3dx9shape.h
+ ../Castlevania/Library/Inc/d3dx9tex.h
+ ../Castlevania/Library/Inc/d3dx9xof.h
+ ../Castlevania/Library/Inc/dinput.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Animation.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationFrame.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationManager.h
@@ -781,6 +841,21 @@ CMakeFiles/Castlevania.dir/Castlevania/Weapon.cpp.obj
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/WhipConst.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/debug.h
 CMakeFiles/Castlevania.dir/Castlevania/Whip.cpp.obj
+ ../Castlevania/Library/Inc/d3d9.h
+ ../Castlevania/Library/Inc/d3d9caps.h
+ ../Castlevania/Library/Inc/d3d9types.h
+ ../Castlevania/Library/Inc/d3dx9.h
+ ../Castlevania/Library/Inc/d3dx9anim.h
+ ../Castlevania/Library/Inc/d3dx9core.h
+ ../Castlevania/Library/Inc/d3dx9effect.h
+ ../Castlevania/Library/Inc/d3dx9math.h
+ ../Castlevania/Library/Inc/d3dx9math.inl
+ ../Castlevania/Library/Inc/d3dx9mesh.h
+ ../Castlevania/Library/Inc/d3dx9shader.h
+ ../Castlevania/Library/Inc/d3dx9shape.h
+ ../Castlevania/Library/Inc/d3dx9tex.h
+ ../Castlevania/Library/Inc/d3dx9xof.h
+ ../Castlevania/Library/Inc/dinput.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Animation.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationFrame.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationManager.h
@@ -820,6 +895,21 @@ CMakeFiles/Castlevania.dir/Castlevania/debug.cpp.obj
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/debug.cpp
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/debug.h
 CMakeFiles/Castlevania.dir/Castlevania/main.cpp.obj
+ ../Castlevania/Library/Inc/d3d9.h
+ ../Castlevania/Library/Inc/d3d9caps.h
+ ../Castlevania/Library/Inc/d3d9types.h
+ ../Castlevania/Library/Inc/d3dx9.h
+ ../Castlevania/Library/Inc/d3dx9anim.h
+ ../Castlevania/Library/Inc/d3dx9core.h
+ ../Castlevania/Library/Inc/d3dx9effect.h
+ ../Castlevania/Library/Inc/d3dx9math.h
+ ../Castlevania/Library/Inc/d3dx9math.inl
+ ../Castlevania/Library/Inc/d3dx9mesh.h
+ ../Castlevania/Library/Inc/d3dx9shader.h
+ ../Castlevania/Library/Inc/d3dx9shape.h
+ ../Castlevania/Library/Inc/d3dx9tex.h
+ ../Castlevania/Library/Inc/d3dx9xof.h
+ ../Castlevania/Library/Inc/dinput.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Animation.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationFrame.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationManager.h

@@ -12,8 +12,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2727d32f-e29f-4aff-a945-34d65d5cbe93" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Castlevania.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Castlevania.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Castlevania/Simon.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/Simon.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Castlevania/Simon.h" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/Simon.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/depend.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/vc140.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/vc140.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Progress/1" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +59,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="CMake Application.Unnamed">
+  <component name="RunManager" selected="CMake Application.Castlevania">
     <configuration name="Castlevania" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Castlevania" TARGET_NAME="Castlevania" CONFIG_NAME="Debug-Visual Studio" RUN_TARGET_PROJECT_NAME="Castlevania" RUN_TARGET_NAME="Castlevania">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -83,6 +89,7 @@
       <workItem from="1570119102154" duration="80000" />
       <workItem from="1570119184021" duration="450000" />
       <workItem from="1570119691367" duration="485000" />
+      <workItem from="1570120182492" duration="921000" />
     </task>
     <servers />
   </component>
