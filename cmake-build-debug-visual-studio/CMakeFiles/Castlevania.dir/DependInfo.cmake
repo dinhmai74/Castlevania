@@ -46,8 +46,8 @@ set(CMAKE_CXX_COMPILER_ID "MSVC")
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../Castlevania"
-  "../Castlevania/Library/Lib/x86"
   "../Castlevania/Library/Inc"
+  "C:/Program Files (x86)/Microsoft DirectX SDK (June 2019)/Lib/x86"
   )
 
 # Targets to which this target links.

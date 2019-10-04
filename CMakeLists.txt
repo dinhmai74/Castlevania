@@ -4,10 +4,10 @@ project(Castlevania)
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(Castlevania)
-include_directories(Castlevania/Library/Lib/x86)
 include_directories(Castlevania/Library/Inc)
 
-add_executable(Castlevania
+
+add_executable(Castlevania WIN32
         Castlevania/Library/Inc/audiodefs.h
         Castlevania/Library/Inc/comdecl.h
         Castlevania/Library/Inc/D2D1.h
@@ -180,3 +180,11 @@ add_executable(Castlevania
         Castlevania/Whip.h
         Castlevania/WhipConst.h
         Castlevania/WhipItem.h)
+
+include_directories("C:/Program Files (x86)/Microsoft DirectX SDK (June 2019)/Lib/x86")
+target_link_libraries(Castlevania "C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Lib\\x86\\*")
+target_link_libraries(Castlevania "C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Lib\\x86\\d3dx9.lib")
+target_link_libraries(Castlevania "C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Lib\\x86\\d3d9.lib")
+target_link_libraries(Castlevania "C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Lib\\x86\\dxguid.lib")
+target_link_libraries(Castlevania "C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Lib\\x86\\dxerr.lib")
+target_link_libraries(Castlevania "C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Lib\\x86\\dinput8.lib")

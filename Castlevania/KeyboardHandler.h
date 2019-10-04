@@ -1,5 +1,5 @@
 #pragma once
-#include <windows.h>
+#include <Windows.h>
 #include <d3d9.h>
 #include <dinput.h>
 

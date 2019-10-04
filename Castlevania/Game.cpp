@@ -32,7 +32,7 @@ void Game::init(HWND hWnd)
 
 	if (d3ddv == NULL)
 	{
-		OutputDebugString(L"[ERROR] CreateDevice failed\n");
+		OutputDebugStringW(L"[ERROR] CreateDevice failed\n");
 		return;
 	}
 
@@ -42,14 +42,14 @@ void Game::init(HWND hWnd)
 	D3DXCreateSprite(d3ddv, &spriteHandler);
 	// Font
 	font = NULL;
-	AddFontResourceEx(L"Font\\prstart.ttf", FR_PRIVATE, NULL);
+	AddFontResourceExW(L"Font\\prstart.ttf", FR_PRIVATE, NULL);
 
-	HRESULT hr = D3DXCreateFont(
+	HRESULT hr = D3DXCreateFontW(
 		getDirect3DDevice(), 16, 0, FW_NORMAL, 1, false,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
 		ANTIALIASED_QUALITY, FF_DONTCARE, L"Press Start", &font);
 
-	OutputDebugString(L"[INFO] InitGame done;\n");
+	OutputDebugStringW(L"[INFO] InitGame done;\n");
 }
 
 void Game::draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, Box frameRect, Box boundaryRect, int alpha, int r, int g, int b)

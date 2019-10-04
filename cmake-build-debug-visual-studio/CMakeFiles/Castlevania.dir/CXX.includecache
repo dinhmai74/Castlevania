@@ -118,10 +118,6 @@ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Boundary.h
 GameObject.h
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/GameObject.h
 
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/BoundaryFactory.h
-Boundary.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Boundary.h
-
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Box.h
 
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Candle.h
@@ -160,15 +156,9 @@ d3d9.h
 d3dx9.h
 -
 
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Enemy.h
-GameObject.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/GameObject.h
-Territory.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Territory.h
-
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/EnemyFactory.h
-Enemy.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Enemy.h
+C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Game.cpp
+Game.h
+C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Game.h
 
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Game.h
 Windows.h
@@ -210,10 +200,6 @@ vector
 GameObject.h
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/GameObject.h
 
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/HUD.cpp
-HUD.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/HUD.h
-
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/HUD.h
 vector
 -
@@ -253,34 +239,18 @@ Item.h
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Item.h
 
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/KeyboardHandler.h
-windows.h
+Windows.h
 -
 d3d9.h
 -
 dinput.h
 -
 
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/ObjectChangeStage.h
-GameObject.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/GameObject.h
-
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SetTimeOut.h
 windows.h
 -
 future
 -
-
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Simon.cpp
-Simon.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Simon.h
-StageManager.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/StageManager.h
-SubWeaponDagger.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponDagger.h
-ObjectChangeStage.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/ObjectChangeStage.h
-Enemy.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Enemy.h
 
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Simon.h
 GameObject.h
@@ -328,20 +298,6 @@ Windows.h
 Sprite.h
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Sprite.h
 
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Stage.cpp
-Stage.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Stage.h
-ItemFactory.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/ItemFactory.h
-BoundaryFactory.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/BoundaryFactory.h
-SubWeaponHolyWater.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponHolyWater.h
-ObjectChangeStage.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/ObjectChangeStage.h
-EnemyFactory.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/EnemyFactory.h
-
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Stage.h
 Windows.h
 -
@@ -362,12 +318,6 @@ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/CandleFactory.h
 
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/StageConst.h
 
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/StageManager.cpp
-StageManager.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/StageManager.h
-HUD.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/HUD.h
-
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/StageManager.h
 Stage.h
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Stage.h
@@ -382,15 +332,7 @@ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeapon.h
 Weapon.h
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Weapon.h
 
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponDagger.h
-SubWeapon.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeapon.h
-
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponFactory.h
-SubWeapon.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeapon.h
-
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeaponHolyWater.h
 SubWeapon.h
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SubWeapon.h
 
@@ -453,14 +395,6 @@ Windows.h
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Weapon.h
 GameObject.h
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/GameObject.h
-Candle.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Candle.h
-
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Whip.cpp
-Whip.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Whip.h
-Simon.h
-C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Simon.h
 Candle.h
 C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Candle.h
 

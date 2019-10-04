@@ -76,7 +76,7 @@ void loadEnvVariables()
 HWND createGameWindow(HINSTANCE hInstance, int nCmdShow,
 	int screenWidth, int screenHeight)
 {
-	WNDCLASSEX wc;
+	WNDCLASSEXW wc;
 	wc.cbSize = sizeof(WNDCLASSEX);
 
 	wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -95,7 +95,7 @@ HWND createGameWindow(HINSTANCE hInstance, int nCmdShow,
 	RegisterClassEx(&wc);
 
 	HWND hWnd =
-		CreateWindow(
+		CreateWindowW(
 			WINDOW_CLASS_NAME,
 			MAIN_WINDOW_TITLE,
 			WS_OVERLAPPEDWINDOW, // WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,

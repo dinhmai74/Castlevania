@@ -6,6 +6,7 @@
  *  Content:    DirectInput include file
  *
  ****************************************************************************/
+#define DIRECTINPUT_VERSION 0x0800
 
 #ifndef __DINPUT_INCLUDED__
 #define __DINPUT_INCLUDED__

@@ -14,14 +14,14 @@ void TextureManager::add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 {
 	D3DXIMAGE_INFO imageInfo;
 
-	auto result = D3DXGetImageInfoFromFile(filePath, &imageInfo);
+	auto result = D3DXGetImageInfoFromFileW(filePath, &imageInfo);
 
 	if (result != D3D_OK) return;
 
 	auto d3ddv = Game::getInstance()->getDirect3DDevice();
 	LPDIRECT3DTEXTURE9 texture;
 
-	result = D3DXCreateTextureFromFileEx(
+	result = D3DXCreateTextureFromFileExW(
 		d3ddv,								// Pointer to Direct3D device object
 		filePath,							// Path to the image to load
 		imageInfo.Width,							// Texture width

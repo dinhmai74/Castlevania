@@ -21,12 +21,12 @@
 				<Option output="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio/Castlevania.exe" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio"/>
 				<Option object_output="./"/>
-				<Option type="1"/>
+				<Option type="0"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
 					<Add directory="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania"/>
-					<Add directory="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Lib/x86"/>
 					<Add directory="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc"/>
+					<Add directory="C:/Program Files (x86)/Microsoft DirectX SDK (June 2019)/Lib/x86"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.23.28105\include"/>
 					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
@@ -46,12 +46,12 @@
 				<Option output="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio/Castlevania.exe" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio"/>
 				<Option object_output="./"/>
-				<Option type="1"/>
+				<Option type="0"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
 					<Add directory="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania"/>
-					<Add directory="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Lib/x86"/>
 					<Add directory="C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Library/Inc"/>
+					<Add directory="C:/Program Files (x86)/Microsoft DirectX SDK (June 2019)/Lib/x86"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.23.28105\ATLMFC\include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.23.28105\include"/>
 					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
