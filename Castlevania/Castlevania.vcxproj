@@ -143,6 +143,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="stage1_castle.cpp" />
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="Stair.cpp" />
     <ClCompile Include="SubWeapon.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="BigCandle.h" />
     <ClInclude Include="Boundary.h" />
     <ClInclude Include="BoundaryFactory.h" />
+    <ClInclude Include="stage1_castle.h" />
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Candle.h" />

@@ -41,6 +41,7 @@ private:
 	vector<GameObject*> listItems;
 	vector<GameObject*> listCanHitObjects;
 	vector<GameObject*> listRenderObj;
+	vector<GameObject*> listRenderOverrideSim;
 	vector<GameObject*> listObjectChangeStage;
 	vector<GameObject*> listEnemy;
 	vector<Unit*> listUnit;
@@ -48,6 +49,7 @@ private:
 
 	void loadObjectFromFiles();
 	void loadContent();
+	void loadBoundaryCase(fstream &fs, float x, float y);
 	void initSimonPos();
 	void respawnEnemies();
 	void loadListObjFromGrid();

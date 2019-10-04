@@ -1,0 +1,1 @@
+stage1_castle_default_ani	stage1_castle_default_ani_0	100

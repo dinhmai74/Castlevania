@@ -82,11 +82,12 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 	updateAutoWalk(dt);
 	updateAutoClimb(dt);
 
-	updateRGB();
-	updateChangingStageEffect();
 	processDeflectEffect();
-	processDeathEffect();
+	updateChangingStageEffect();
 	GameObject::update(dt);
+
+	updateRGB();
+	processDeathEffect();
 	checkCollision(dt, maps);
 	updateAnimId();
 	// simple fall down
@@ -160,9 +161,6 @@ void Simon::updateChangingStageEffect()
 	if (isChangingStage())
 	{
 		vx = getFaceSide() * SIM_AUTO_WALK_VX;
-		auto const timeRunAlr = timerChangeStage->getTimeRunAlr();
-		auto const limedTime = timerChangeStage->getLimitedTime();
-		if (limedTime - timeRunAlr <= 600) { alpha = 0; } // make simon invi
 		startedChangeStage = true;
 	}
 	else
@@ -260,7 +258,8 @@ void Simon::updateAutoClimb(DWORD dt)
 	if (state == staring)
 	{
 		auto climbSpeed = 0.075f;
-		auto stairSide = collidedStair->getFaceSide();
+		auto stairSide = 1;
+		if (collidedStair) stairSide = collidedStair->getFaceSide();
 		vx = climbSpeed * -stairDirect * stairSide;
 		vy = -climbSpeed * -stairDirect * stairSide;
 		stairDxRemain -= climbSpeed * dt;
@@ -619,7 +618,6 @@ void Simon::climbStair(int direction)
 		vx = 0;
 		vy = 0;
 		staringStatus = pause;
-		timerClimbStair->stop();
 		return;
 	}
 	if (staringStatus == ready || stairDxRemain > 0 || stairDyRemain > 0) return;

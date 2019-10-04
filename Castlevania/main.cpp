@@ -249,6 +249,7 @@ void loadResources()
 	LoadSprites(1006, L"burned_effect");
 	LoadSprites(1007, L"Effect");
 	LoadSprites(1008, L"shouls");
+	LoadSprites(1009, L"stage1_castle");
 	LoadSprites(100001, L"blackboard", D3DCOLOR_XRGB(0, 0, 0));
 	LoadSprites(100002, L"HP");
 	vector<TileMapInfo> mapName;

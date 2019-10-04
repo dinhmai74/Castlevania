@@ -70,7 +70,8 @@ enum ObjectType
 enum BoundaryType {
 	BoundaryNormal,
 	BoundaryGround,
-	BoundaryStair
+	BoundaryStair,
+	BoundaryCastle
 };
 
 /*----------------- item regions -----------------*/

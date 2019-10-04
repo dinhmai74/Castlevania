@@ -69,7 +69,6 @@ private:
 	Timer* timerThrowing = new Timer(SIM_DELTA_TRHOWING_TIME);
 	Timer* timerAutoWalk = new Timer(SIM_AUTO_WALK_DURATION);
 	Timer* timerChangeStage = new Timer(SIM_CHANGING_STAGE_DURATION);
-	Timer* timerClimbStair = new Timer(1000000);
 	float autoWalkDistance;
 	bool isReleaseSitButton{};
 	Whip* whip{};

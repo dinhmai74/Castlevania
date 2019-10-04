@@ -153,6 +153,9 @@
     <ClCompile Include="Stair.cpp">
       <Filter>Source Files\Object\boundary</Filter>
     </ClCompile>
+    <ClCompile Include="stage1_castle.cpp">
+      <Filter>Source Files\Object\boundary</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -312,6 +315,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Stair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stage1_castle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
