@@ -49,8 +49,6 @@ void Enemy::update(DWORD dt, vector<GameObject*>* coObjects /*= nullptr*/)
 	if (getIsStopAllAction()) return;
 	GameObject::update(dt);
 	if (!isEnable) return;
-	checkCollisionAndChangeDirectX(dt, coObjects);
-	updateGravity();
 }
 
 void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*>* coObjects)
@@ -94,7 +92,7 @@ void Enemy::changeDirection(const vector<CollisionEvent*>& vector, float nx, flo
 
 void Enemy::respawn(float playerX, float playerY)
 {
-	if (canRespawn({playerX,playerY}))
+	if (canRespawn({ playerX,playerY }))
 	{
 		reset();
 		setNewEnemy();
@@ -103,11 +101,11 @@ void Enemy::respawn(float playerX, float playerY)
 
 bool Enemy::canRespawn(D3DXVECTOR2 simPos)
 {
-	const auto isEnoughTime=timerRespawn->isTimeUpAndRunAlr();
+	const auto isEnoughTime = timerRespawn->isTimeUpAndRunAlr();
 	const auto distance = fabs(x - simPos.x);
 	const auto isInRegion = distance >= respawnArea.min && distance <= respawnArea.max;
 
-	return isEnoughTime && true && !isEnable;
+	return isEnoughTime && isInRegion && !isEnable;
 }
 
 void Enemy::setNewEnemy(bool val /*= true*/)
@@ -133,7 +131,7 @@ void Enemy::processWhenBurnedEffectDone()
 
 void Enemy::setEnable(bool val /*= true*/)
 {
-	GameObject:: setEnable(val);
+	GameObject::setEnable(val);
 	if (!val) {
 		timerRespawn->start();
 	}
