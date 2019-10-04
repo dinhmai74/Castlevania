@@ -10,8 +10,8 @@ using namespace std;
 
 enum Side
 {
-	left = -1,
-	right = 1
+	SideLeft = -1,
+	SideRight = 1
 };
 
 /*----------------- general  -----------------*/
@@ -68,9 +68,9 @@ enum ObjectType
 };
 
 enum BoundaryType {
-	boundaryNormal,
-	boundaryGround,
-	boundaryStair
+	BoundaryNormal,
+	BoundaryGround,
+	BoundaryStair
 };
 
 /*----------------- item regions -----------------*/

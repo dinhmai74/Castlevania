@@ -8,10 +8,10 @@ Boundary* BoundaryFactory::getBoundary(int type)
 	Boundary* boundary;
 	switch (type)
 	{
-	case boundaryNormal:
+	case BoundaryNormal:
 		boundary = new Boundary();
 		break;
-	case boundaryStair:
+	case BoundaryStair:
 		boundary = new Stair();
 		break;
 	default:

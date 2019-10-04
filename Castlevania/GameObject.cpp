@@ -22,7 +22,7 @@ GameObject::GameObject()
 	initPos = { 0, 0 };
 	vx = vy = 0;
 	alpha = r = b = g = 255;
-	setFaceSide(right); // right side
+	setFaceSide(SideRight); // right side
 	preAnimId = -1;
 	previousAnimIsOneTimeAnim = false;
 	boundingGameX = 0;
@@ -371,7 +371,7 @@ Box GameObject::getBoundingBoxBaseOnFile()
 	auto spriteBoundary = animations[animId]->getFrameBoundingBox();
 	auto offset = getOffsetFromBoundingBox();
 
-	if (getFaceSide() == right)
+	if (getFaceSide() == SideRight)
 	{
 		r = x + (spriteFrame.r - spriteFrame.l) - offset.x;
 		l = r - (spriteBoundary.r - spriteBoundary.l);

@@ -97,8 +97,8 @@ void Stage::loadObjectFromFiles()
 			auto boundary = BoundaryFactory::getInstance()->getBoundary(type);
 			boundary->setWidhtHeight(width, height);
 			boundary->setPosition(x, y);
-			if (type == boundaryGround || type == boundaryNormal) listBoundary.push_back(boundary);
-			else if (type == boundaryStair)
+			if (type == BoundaryGround || type == BoundaryNormal) listBoundary.push_back(boundary);
+			else if (type == BoundaryStair)
 			{
 				float stairType, faceSide, nextX, nextY;
 				fs >> stairType >> faceSide >> nextX >> nextY;

@@ -4,6 +4,8 @@
 enum StairType
 {
 	StairStart,
+	StairMiddle,
+	StairEnd
 };
 
 class Stair: public Boundary

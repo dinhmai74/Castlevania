@@ -12,7 +12,7 @@ D3DXVECTOR2 Stair::getCanStandPos()
 
 Stair::Stair()
 {
-	setBoundaryType(boundaryStair);
+	setBoundaryType(BoundaryStair);
 }
 
 Stair::~Stair()

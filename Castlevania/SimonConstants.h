@@ -52,5 +52,6 @@ enum StaringDirect
 enum StaringStatus
 {
 	pause,
+	ready,
 	onGoing
 };

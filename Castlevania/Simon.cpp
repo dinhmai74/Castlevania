@@ -16,6 +16,7 @@ void Simon::init()
 	whip = new Whip();
 	subWeaponType = -1;
 	stairDirect = stairNull;
+	staringStatus = pause;
 	whip->setPosition(x, y);
 
 	isInGround = false;
@@ -53,8 +54,6 @@ void Simon::render()
 	}
 
 	auto forceRenderFrame = !timerPowering->isTimeUp() || forceRenderStaringAnimStand();
-
-
 	if (forceRenderFrame)
 		animations[animId]->render(getFaceSide(), x, y, currentFrame, alpha, r, g, b);
 	else animations[animId]->render(getFaceSide(), x, y, alpha, r, g, b);
@@ -142,10 +141,18 @@ void Simon::updateAutoWalk(DWORD dt)
 		vx = SIM_AUTO_WALK_VX * faceSide;
 	}
 
-	if(canAutoWalkWithDistance())
+	if (canAutoWalkWithDistance())
 	{
-		vx = SIM_AUTO_WALK_VX * faceSide;
-		autoWalkDistance -= vx * dt;
+		auto SIM_AUTO_WALK_DISTANCE_VX = 0.15f;
+		vx = SIM_AUTO_WALK_DISTANCE_VX * faceSide;
+		autoWalkDistance -= SIM_AUTO_WALK_DISTANCE_VX * dt;
+	}
+	else
+	{
+		if (staringStatus == ready)
+		{
+			setClimbStairInfo();
+		}
 	}
 }
 
@@ -175,7 +182,9 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 	{
 		switch (map.id)
 		{
-		case boundary: checkCollisionWithBoundary(dt, map.objs);
+		case boundary:
+			if (state != staring)checkCollisionWithBoundary(dt, map.objs);
+			else updatePosWhenNotCollide();
 			break;
 		case item: checkCollisionWithItems(dt, map.objs);
 			break;
@@ -189,6 +198,7 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 			break;
 		case stair:
 			listStairs = map.objs;
+			checkCollisionWithStair(listStairs);
 			break;
 		default: DebugOut(L"[WARNING] unknown obj to check collision with id %d!\n", map.id);
 		}
@@ -231,6 +241,11 @@ void Simon::checkCollisionWithStair(vector<GameObject*>* objs)
 		box.t = box.t + 50;
 		box.b = box.b + 5;
 		if (isColliding(box, obj->getBoundingBox()) && stair) collidedStair = stair;
+
+		if (collidedStair)
+		{
+			if (collidedStair->getStairType() == StairEnd && state == staring) standAfterClimbStair();
+		}
 	}
 }
 
@@ -253,10 +268,23 @@ void Simon::updateAutoClimb(DWORD dt)
 	}
 }
 
-void Simon::doAutoWalk()
+bool Simon::isAutoWalking()
 {
-	if (isAutoWalking()) return;
+	return timerAutoWalk->isRunning() || canAutoWalkWithDistance();
+}
+
+void Simon::doAutoWalk(DWORD dt)
+{
+	if (timerAutoWalk->isRunning()) return;
+	timerAutoWalk->setLimitedTime(dt);
 	timerAutoWalk->start();
+}
+
+void Simon::doAutoWalkWithDistance(float distance)
+{
+	if (distance < 0) faceSide = SideLeft;
+	else faceSide = SideRight;
+	autoWalkDistance = fabs(distance);
 }
 
 void Simon::processDeathEffect()
@@ -298,9 +326,9 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 		{
 			const auto object = (i->obj);
 			const auto boundary = dynamic_cast<Boundary*>(object);
-			if (boundary->getBoundaryType() == boundaryNormal)
+			if (boundary->getBoundaryType() == BoundaryNormal)
 				processCollisionWithBoundaryByX(minTx, nx, boundary);
-			if (boundary->getBoundaryType() == boundaryGround)
+			if (boundary->getBoundaryType() == BoundaryGround)
 				processCollisionWithGround(minTy, ny);
 		}
 	}
@@ -555,6 +583,34 @@ bool Simon::isCollidingWithStair()
 	return collidedStair != nullptr;
 }
 
+void Simon::standAfterClimbStair()
+{
+	stairDxRemain = -1;
+	stairDyRemain = -1;
+	staringStatus = pause;
+	stand();
+	vx = 0;
+	gravity = SIMON_GRAVITY;
+}
+
+void Simon::setClimbStairInfo()
+{
+	if (collidedStair->getStairType() == StairEnd)
+	{
+
+		standAfterClimbStair();
+		return;
+	}
+
+	setState(staring);
+	faceSide = collidedStair->getFaceSide();
+	const auto nextPos = collidedStair->getNextPos();
+	stairDxRemain = nextPos.x;
+	stairDyRemain = nextPos.y;
+	gravity = 0;
+	staringStatus = onGoing;
+}
+
 void Simon::climbStair(int direction)
 {
 	if (!isCollidingWithStair())
@@ -565,20 +621,19 @@ void Simon::climbStair(int direction)
 		timerClimbStair->stop();
 		return;
 	}
+	if (staringStatus == ready || stairDxRemain > 0 || stairDyRemain > 0) return;
 	if (state != staring)
 	{
 		const auto collidePos = collidedStair->getPosition();
-		x = collidePos.x - (getBoundingBox().l - x) - 9;
+		const auto finalStandPos = collidePos.x - (getBoundingBox().l - x) - 6;
+		doAutoWalkWithDistance(finalStandPos - x);
+		staringStatus = ready;
 	}
-
-	faceSide = collidedStair->getFaceSide();
-	const auto nextPos = collidedStair->getNextPos();
-	stairDxRemain = nextPos.x;
-	stairDyRemain = nextPos.y;
-	setState(staring);
-	staringStatus = onGoing;
+	else
+	{
+		setClimbStairInfo();
+	}
 	stairDirect = direction;
-	gravity = 0;
 }
 
 void Simon::move(int side)
@@ -597,6 +652,7 @@ void Simon::jump()
 
 void Simon::sit()
 {
+	if (!isInGround) return;
 	setState(sitting);
 	vx = 0;
 	vy = 0;
@@ -680,7 +736,7 @@ void Simon::generateSubWeapon()
 	loseEnergy();
 	subWeapon = subWeaponFactory->getSubWeapon(subWeaponType, getFaceSide());
 	const auto width = getBoundingBox().r - getBoundingBox().l;
-	const auto subX = getFaceSide() == Side::left ? x - width + 10 : x + width;
+	const auto subX = getFaceSide() == Side::SideLeft ? x - width + 10 : x + width;
 	const auto subY = y;
 
 	subWeapon->setInitPos({ subX, subY });
@@ -710,7 +766,7 @@ void Simon::handleOnKeyRelease(int KeyCode)
 	if (KeyCode == DIK_DOWN)
 	{
 		isReleaseSitButton = true;
-		if (isInGround && !isHitting && !isThrowing)
+		if (isInGround && !isHitting && !isThrowing && state != staring)
 			standUp();
 	}
 }
@@ -726,20 +782,18 @@ void Simon::handleOnKeyPress(BYTE* states)
 	if (game->isKeyDown(DIK_RIGHT))
 	{
 		if (state == staring) climbStair(stairUp);
-		else move(Side::right);
+		else move(Side::SideRight);
 	}
 	else if (game->isKeyDown(DIK_LEFT))
 	{
-		if (state == staring) downStair();
-		move(Side::left);
+		if (state == staring) climbStair(stairDown);
+		else move(Side::SideLeft);
 	}
 	else if (game->isKeyDown(DIK_DOWN))
 	{
-		if (isInGround)
-		{
-			isReleaseSitButton = false;
-			sit();
-		}
+		isReleaseSitButton = false;
+		if (state != staring) sit();
+		else climbStair(stairDown);
 	}
 	else if (game->isKeyDown(DIK_UPARROW))
 	{
@@ -769,7 +823,7 @@ void Simon::handleOnKeyDown(int keyCode)
 	switch (keyCode)
 	{
 	case DIK_SPACE:
-		if (previousState != jumping && isInGround && !isHitting)
+		if (previousState != jumping && isInGround && !isHitting && state != staring)
 			jump();
 		break;
 	case DIK_LCONTROL:
@@ -787,7 +841,8 @@ void Simon::handleOnKeyDown(int keyCode)
 			)
 		{
 			isReleaseSitButton = false;
-			sit();
+			if (state != staring) sit();
+			else climbStair(stairDown);
 		}
 		break;
 	default:;

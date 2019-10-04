@@ -60,7 +60,7 @@ void Item::initAnim()
 void Item::init()
 {
 	type = item;
-	setFaceSide(right);
+	setFaceSide(SideRight);
 	initAnim();
 	appearTimer = new Timer(TIMER_ITEM_DURATION);
 	untouchableTimer = new Timer(TIMER_ITEM_DURATION - TIMER_ITEM_UNTOUCHABLE_DURATION);

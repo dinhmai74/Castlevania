@@ -72,7 +72,7 @@ Box Whip::getBoundingBox()
 	const auto bottom = top + WHIP_BBOX_HEIGHT;
 	const auto normalXOffset = 50;
 	const auto longWhipXOffset = 20;
-	if (getFaceSide() == Side::left)
+	if (getFaceSide() == Side::SideLeft)
 	{
 		left = lv == 3 ? x + longWhipXOffset : x + normalXOffset;
 	}
