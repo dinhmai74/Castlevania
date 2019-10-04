@@ -167,6 +167,7 @@ public:
 	bool isDying() { return isTimerRunning(timerDeath); };
 	D3DXVECTOR2 getInitSpeed() const { return initSpeed; }
 	void setInitSpeed(D3DXVECTOR2 val) { initSpeed = val; }
+	int getFaceSide() const { return faceSide; }
 private:
 	void doBurnedEffect();
 };

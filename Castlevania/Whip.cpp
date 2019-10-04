@@ -28,7 +28,7 @@ void Whip::checkEnemyCollisions(vector<LPGAMEOBJECT> coObjects)
 
 void Whip::render()
 {
-	animations[lv]->render(faceSide, x, y);
+	animations[lv]->render(getFaceSide(), x, y);
 
 	const auto frame = animations[lv]->getCurrentFrame();
 
@@ -72,7 +72,7 @@ Box Whip::getBoundingBox()
 	const auto bottom = top + WHIP_BBOX_HEIGHT;
 	const auto normalXOffset = 50;
 	const auto longWhipXOffset = 20;
-	if (faceSide == Side::left)
+	if (getFaceSide() == Side::left)
 	{
 		left = lv == 3 ? x + longWhipXOffset : x + normalXOffset;
 	}

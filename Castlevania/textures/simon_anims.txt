@@ -5,4 +5,4 @@ simon_hitstand_ani	simon_hitstand_1	100	simon_hitstand_2	100	simon_hitstand_3	15
 simon_hitsit_ani	simon_hitsit_0	100	simon_hitsit_1	100	simon_hitsit_2	100 simon_hitsit_2	100
 simon_deflect	simon_deflect_0 100
 simon_death simon_death_0 100
-simon_up_stair	simon_stairup_1 200 simon_stairup_2 200
+simon_up_stair	simon_stairup_1 100 simon_stairup_2 100

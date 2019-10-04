@@ -69,6 +69,8 @@ private:
 	Timer* timerAutoWalk = new Timer(SIM_AUTO_WALK_DURATION);
 	Timer* timerChangeStage = new Timer(SIM_CHANGING_STAGE_DURATION);
 	Timer* timerClimbStair = new Timer(1000000);
+	float autoWalkDistance;
+	bool isWalkedToStairAlr;
 	bool isReleaseSitButton{};
 	Whip* whip{};
 	SubWeapon* subWeapon{};
@@ -83,9 +85,8 @@ private:
 	Stair* collidedStair{};
 
 	bool isPowering() { return isTimerRunning(timerPowering); };
-	bool isAutoWalking() { return isTimerRunning(timerAutoWalk); };
 	bool isChangingStage() { return isTimerRunning(timerChangeStage); };
-	bool canClimbStair();
+	bool isCollidingWithStair();
 
 	/*----------------- simon actions -----------------*/
 	void move(int side);
@@ -110,10 +111,13 @@ private:
 		return subWeaponType != -1;
 	};
 
+	bool canAutoWalkWithDistance();
+
 	/*----------------- special effect  -----------------*/
 	void checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs);
 	void processDeathEffect();
-	void autoClimbTheStair(DWORD dt);
+	void updateAutoWalk(DWORD dt);
+	void setAutoWalk(float distance) { autoWalkDistance = distance; };
 
 	/*----------------- check collision -----------------*/
 	void processCollisionWithGround(float minTy, float ny);
@@ -127,7 +131,6 @@ private:
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
 
 	void processCollisionWithItem(Item* item);
-	void updateAutoWalk();
 	void updateChangingStageEffect();
 	void doChangeStageEffect();
 	int stageWillChangeTo{};
@@ -136,6 +139,6 @@ private:
 	void processAnimStaring();
 	void checkCollisionWithStair(vector<GameObject*>* objs);
 	vector<GameObject*>* listStairs{};
-	bool isAutoClimbing();
+	bool canAutoClimb();
 	void updateAutoClimb(DWORD dt);
 };

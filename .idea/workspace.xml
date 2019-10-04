@@ -12,26 +12,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2727d32f-e29f-4aff-a945-34d65d5cbe93" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Castlevania/Castlevania.vcxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/Castlevania.vcxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Castlevania/Game.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/Game.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Castlevania/KeyboardHandler.h" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/KeyboardHandler.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Castlevania/Library/Inc/dinput.h" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/Library/Inc/dinput.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Castlevania/TextureManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/TextureManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Castlevania/debug.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/debug.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Castlevania/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/vc140.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/vc140.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Progress/7" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Progress/count.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Castlevania.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Castlevania.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Castlevania/Simon.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/Simon.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Castlevania/Simon.h" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/Simon.h" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +35,7 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Castlevania/Library/Inc" />
-    <property name="settings.editor.selected.configurable" value="CPPToolchains" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -104,7 +87,8 @@
       <workItem from="1570120182492" duration="1357000" />
       <workItem from="1570121544263" duration="52000" />
       <workItem from="1570121597334" duration="2311000" />
-      <workItem from="1570177691321" duration="2024000" />
+      <workItem from="1570177691321" duration="2286000" />
+      <workItem from="1570180002218" duration="328000" />
     </task>
     <servers />
   </component>

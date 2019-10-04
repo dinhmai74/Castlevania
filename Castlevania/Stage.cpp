@@ -98,7 +98,19 @@ void Stage::loadObjectFromFiles()
 			boundary->setWidhtHeight(width, height);
 			boundary->setPosition(x, y);
 			if (type == boundaryGround || type == boundaryNormal) listBoundary.push_back(boundary);
-			else if (type == boundaryStair) listStairs.push_back(boundary);
+			else if (type == boundaryStair)
+			{
+				float stairType, faceSide, nextX, nextY;
+				fs >> stairType >> faceSide >> nextX >> nextY;
+				auto stair = dynamic_cast<Stair*>(boundary);
+				if (stair)
+				{
+					stair->setFaceSide(faceSide);
+					stair->setStairType(stairType);
+					stair->setNextPos({ nextX,nextY });
+					listStairs.push_back(stair);
+				}
+			}
 			break;
 		}
 		case item:
@@ -230,7 +242,7 @@ vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 {
 	vector<MapGameObjects> map;
 	map.push_back({ boundary, &listBoundary });
-	map.push_back({ stair, &listStairs});
+	map.push_back({ stair, &listStairs });
 	map.push_back({ item, &listItems });
 	map.push_back({ canHitObjs, &listCanHitObjects });
 	map.push_back({ obChangeStage, &listObjectChangeStage });

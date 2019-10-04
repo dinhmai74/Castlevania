@@ -70,8 +70,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\Library\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\Library\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\Castlevania\Library\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Castlevania\Library\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

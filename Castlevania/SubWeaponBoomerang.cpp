@@ -17,7 +17,7 @@ void SubWeaponBoomerang::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, 
 		if (distance >= territory.left)
 		{
 			vx = -1 * vx;
-			faceSide = -1 * faceSide;
+			faceSide = -1 * getFaceSide();
 			changedDirection = true;
 		}
 	}

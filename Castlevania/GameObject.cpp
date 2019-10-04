@@ -71,7 +71,7 @@ void GameObject::render()
 		burnEffect->render(1, blowX, blowY);
 	}
 	if (!IsEnable()) return;
-	animations[animId]->render(faceSide, x, y, alpha);
+	animations[animId]->render(getFaceSide(), x, y, alpha);
 	currentFrame = animations[animId]->getCurrentFrame();
 }
 
@@ -104,7 +104,7 @@ void GameObject::renderBoundingBox()
 	float l, r, t, b;
 	const auto rect = getBoundingBox();
 
-	game->draw(faceSide, rect.l, rect.t, texture, rect, rect, 140);
+	game->draw(getFaceSide(), rect.l, rect.t, texture, rect, rect, 140);
 }
 
 void GameObject::addAnimation(int id, string animTexId)
@@ -371,7 +371,7 @@ Box GameObject::getBoundingBoxBaseOnFile()
 	auto spriteBoundary = animations[animId]->getFrameBoundingBox();
 	auto offset = getOffsetFromBoundingBox();
 
-	if (faceSide == right)
+	if (getFaceSide() == right)
 	{
 		r = x + (spriteFrame.r - spriteFrame.l) - offset.x;
 		l = r - (spriteBoundary.r - spriteBoundary.l);

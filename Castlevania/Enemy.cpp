@@ -82,7 +82,7 @@ void Enemy::changeDirection(const vector<CollisionEvent*>& vector, float nx, flo
 {
 	if (nx != 0)
 	{
-		faceSide *= -1;
+		faceSide = getFaceSide() * -1;
 		this->vx *= -1;
 	}
 	else if (ny == -1.0f)
@@ -150,9 +150,9 @@ void Enemy::render()
 	if (!isEnable) return;
 	if (isStopAllAction && currentFrame)
 	{
-		animations[animId]->render(faceSide, x, y, currentFrame, alpha, r, g, b);
+		animations[animId]->render(getFaceSide(), x, y, currentFrame, alpha, r, g, b);
 	}
-	else animations[animId]->render(faceSide, x, y, alpha);
+	else animations[animId]->render(getFaceSide(), x, y, alpha);
 
 	currentFrame = animations[animId]->getCurrentFrame();
 
