@@ -81,13 +81,12 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 	if (forceDead) return;
 	updateAutoWalk(dt);
 	updateAutoClimb(dt);
-	GameObject::update(dt);
 
 	updateRGB();
 	updateChangingStageEffect();
 	processDeflectEffect();
 	processDeathEffect();
-
+	GameObject::update(dt);
 	checkCollision(dt, maps);
 	updateAnimId();
 	// simple fall down
@@ -262,8 +261,8 @@ void Simon::updateAutoClimb(DWORD dt)
 	{
 		auto climbSpeed = 0.075f;
 		auto stairSide = collidedStair->getFaceSide();
-		vx = climbSpeed * -stairDirect* stairSide;
-		vy = -climbSpeed * -stairDirect* stairSide;
+		vx = climbSpeed * -stairDirect * stairSide;
+		vy = -climbSpeed * -stairDirect * stairSide;
 		stairDxRemain -= climbSpeed * dt;
 		stairDyRemain -= climbSpeed * dt;
 	}

@@ -298,7 +298,7 @@ void GameObject::processDeflectEffect()
 		doUntouchable();
 		x -= nxDeflect * 0.01f; // case that collide boundary need more space
 	}
-	else if (isDeflecting())
+	else if (timerDeflect->isRunning())
 	{
 		vx = vxDeflect * nxDeflect;
 		vy = -vyDeflect;
