@@ -261,8 +261,9 @@ void Simon::updateAutoClimb(DWORD dt)
 	if (state == staring)
 	{
 		auto climbSpeed = 0.075f;
-		vx = climbSpeed;
-		vy = -climbSpeed;
+		auto stairSide = collidedStair->getFaceSide();
+		vx = climbSpeed * -stairDirect* stairSide;
+		vy = -climbSpeed * -stairDirect* stairSide;
 		stairDxRemain -= climbSpeed * dt;
 		stairDyRemain -= climbSpeed * dt;
 	}
@@ -597,7 +598,6 @@ void Simon::setClimbStairInfo()
 {
 	if (collidedStair->getStairType() == StairEnd)
 	{
-
 		standAfterClimbStair();
 		return;
 	}
