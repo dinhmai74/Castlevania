@@ -13,8 +13,12 @@
   <component name="ChangeListManager">
     <list default="true" id="2727d32f-e29f-4aff-a945-34d65d5cbe93" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Castlevania/GameObject.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/GameObject.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Castlevania/GameObject.h" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/GameObject.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Castlevania/Simon.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/Simon.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Castlevania/Simon.h" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/Simon.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Castlevania/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Castlevania.ilk" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Castlevania.ilk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Castlevania.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Castlevania.pdb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -89,6 +93,7 @@
       <workItem from="1570121597334" duration="2311000" />
       <workItem from="1570177691321" duration="2286000" />
       <workItem from="1570180002218" duration="328000" />
+      <workItem from="1570212882212" duration="330000" />
     </task>
     <servers />
   </component>

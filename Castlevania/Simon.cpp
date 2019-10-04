@@ -486,11 +486,13 @@ void Simon::processCollisionWithItem(Item* item)
 
 void Simon::processCollisionWithGround(float minTy, float ny)
 {
-	vy = 0;
-	vx = 0;
-	isInGround = true;
-	if (state == jumping)
-		standUp();
+	if (ny == CDIR_BOTTOM) {
+		vx = 0;
+		vy = 0;
+		isInGround = true;
+		if (state == jumping)
+			standUp();
+	}
 }
 
 void Simon::processCollisionWithBoundaryByX(float minTx, float ny, Boundary* boundary)

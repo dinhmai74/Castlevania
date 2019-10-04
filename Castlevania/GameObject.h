@@ -116,6 +116,17 @@ public:
 		float ny);
 	void updatePosInTheMomentCollide(float minTx, float minTy, float nx,
 		float ny);
+
+	void blockX(float minTx, float nx)
+	{
+		x += minTx * dx + nx * 0.2f;
+	}
+
+	void blockY(float minTy, float ny)
+	{
+		y += minTy * dy + ny * 0.2f;
+	}
+
 	void checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* coObjects);
 
 	/*----------------- bounding box  -----------------*/

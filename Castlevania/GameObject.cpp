@@ -197,7 +197,7 @@ void GameObject::calcPotentialCollisions
 	{
 		auto e = sweptAABBEx(coObjects->at(i));
 
-		if (e->t > 0 && e->t <= 1.0f)
+		if (e->t >= 0 && e->t <= 1.0f)
 			coEvents.push_back(e);
 		else
 			delete e;
@@ -360,8 +360,8 @@ void GameObject::updatePosInTheMomentCollideAndRemoveVelocity(float minTx, float
 
 void GameObject::updatePosInTheMomentCollide(float minTx, float minTy, float nx, float ny)
 {
-	x += minTx * dx + nx * 0.2f;
-	y += minTy * dy + ny * 0.2f;
+	blockX(minTx, nx);
+	blockY(minTy, ny);
 }
 
 Box GameObject::getBoundingBoxBaseOnFile()

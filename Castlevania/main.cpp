@@ -92,7 +92,7 @@ HWND createGameWindow(HINSTANCE hInstance, int nCmdShow,
 	wc.lpszMenuName = NULL;
 	wc.hIconSm = NULL;
 
-	RegisterClassEx(&wc);
+	RegisterClassExW(&wc);
 
 	HWND hWnd =
 		CreateWindowW(
