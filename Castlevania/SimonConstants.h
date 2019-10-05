@@ -41,11 +41,11 @@ constexpr auto ANIM_DEFLECT = 5;
 constexpr auto ANIM_UP_STAIR = 6;
 constexpr auto ANIM_DEATH = -1;
 
-enum StaringDirect
+enum ClimbDirect
 {
-	stairNull,
-	stairUp=-1,
-	stairDown=1,
+	ClimbNull,
+	ClimbUp=1,
+	ClimbDown=-1,
 };
 
 enum StaringStatus

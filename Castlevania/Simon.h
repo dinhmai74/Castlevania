@@ -78,7 +78,7 @@ private:
 	bool isInGround{};
 	int energy{};
 	int life{};
-	int stairDirect{};
+	int climbDirection{};
 	int stageWillChangeTo{};
 	bool forceDead{};
 	int staringStatus{};
