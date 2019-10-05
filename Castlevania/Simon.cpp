@@ -81,6 +81,7 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 	if (forceDead) return;
 	updateAutoWalk(dt);
 	updateAutoClimb(dt);
+	checkIfFalling(dt);
 
 	processDeflectEffect();
 	updateChangingStageEffect();
@@ -237,6 +238,16 @@ void Simon::checkCollisionWithStair(vector<GameObject*>* objs)
 		auto box = getBoundingBox();
 		box.t = box.b - 5;
 		if (isColliding(box, obj->getBoundingBox()) && stair) collidedStair = stair;
+
+		if(state == staring && collidedStair && collidedStair->getStairType()== StairEnd)
+		{
+			setState(idle);
+			removeAllVelocity();
+
+			removeAutoclimbDistance();
+
+			animId = ANIM_IDLE;
+		}
 	}
 }
 
@@ -264,6 +275,11 @@ void Simon::updateAutoClimb(DWORD dt)
 bool Simon::isAutoWalking()
 {
 	return timerAutoWalk->isRunning() || canAutoWalkWithDistance();
+}
+
+void Simon::checkIfFalling(DWORD dt)
+{
+	if (vy != 0) isInGround = false;
 }
 
 void Simon::doAutoWalk(DWORD dt)
@@ -580,12 +596,10 @@ bool Simon::isCollidingWithStair()
 
 void Simon::standAfterClimbStair()
 {
-	stairDxRemain = -1;
-	stairDyRemain = -1;
+	removeAutoclimbDistance();
 	staringStatus = pause;
 	stand();
-	vx = 0;
-	vy = 0;
+	removeAllVelocity();
 	gravity = SIMON_GRAVITY;
 }
 
@@ -635,6 +649,7 @@ void Simon::move(int side)
 	setFaceSide(side);
 	setState(walking);
 	vx = SIMON_VX * getFaceSide();
+	gravity = SIMON_GRAVITY;
 }
 
 void Simon::jump()
@@ -642,6 +657,7 @@ void Simon::jump()
 	setState(jumping);
 	vy = -SIMON_VJUMP;
 	isInGround = false;
+	gravity = SIMON_GRAVITY;
 }
 
 void Simon::sit()
@@ -650,6 +666,7 @@ void Simon::sit()
 	setState(sitting);
 	vx = 0;
 	vy = 0;
+	gravity = SIMON_GRAVITY;
 }
 
 void Simon::stand()

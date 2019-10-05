@@ -90,7 +90,7 @@ private:
 	bool isChangingStage() { return isTimerRunning(timerChangeStage); };
 	bool isCollidingWithStair();
 	void standAfterClimbStair();
-	void setClimbStairInfo();
+	void setClimbStairInfo(int direction);
 
 	/*----------------- simon actions -----------------*/
 	void move(int side);
@@ -138,8 +138,23 @@ private:
 	void doChangeStageEffect();
 	void processAnimStaring();
 	void checkCollisionWithStair(vector<GameObject*>* objs);
+
+	void removeAutoclimbDistance()
+	{
+		stairDxRemain = -1;
+		stairDyRemain = -1;
+	}
+
+	void removeAllVelocity()
+	{
+		gravity = 0;
+		vx = 0;
+		vy = 0;
+	}
+
 	vector<GameObject*>* listStairs{};
 	bool canAutoClimb();
 	void updateAutoClimb(DWORD dt);
 	bool isAutoWalking();
+	void checkIfFalling(DWORD dt);
 };
