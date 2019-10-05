@@ -42,6 +42,7 @@ enum State
 	throwing = 7,
 	throwingWhenSitting = 8,
 	staring = 9,
+	disabled,
 	deflect = 99,
 	death = -1,
 	normal = 1,

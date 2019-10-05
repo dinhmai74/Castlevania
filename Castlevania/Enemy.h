@@ -45,6 +45,7 @@ public:
 
 	virtual void render() override;
 
+	void setRespawnTime(DWORD val) { respawnTime = val; }
 private:
 	int enemyType;
 	int dmg;

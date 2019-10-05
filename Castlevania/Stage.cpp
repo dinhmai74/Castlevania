@@ -20,7 +20,7 @@ void Stage::init(int mapId, wstring mapName)
 	loadContent();
 }
 
-void Stage::init(int mapId, wstring mapName, Simon* simon)
+void Stage::init(int mapId, wstring mapName, Simon * simon)
 {
 	this->renderBoundingBox = false;
 	this->simon = simon;
@@ -85,59 +85,60 @@ void Stage::loadObjectFromFiles()
 			float camX, camY;
 			fs >> camX >> camY;
 			simon->setPosition(x, y);
-			simon->setInitPos({x, y});
+			simon->setInitPos({ x, y });
 			Game::getInstance()->setCameraPosition(camX, camY);
-			initCam = {camX, camY};
+			initCam = { camX, camY };
 			break;
 		case boundary:
-			{
-				loadBoundaryCase(fs, x, y);
-				break;
-			}
+		{
+			loadBoundaryCase(fs, x, y);
+			break;
+		}
 		case item:
-			{
-				int type;
-				fs >> type;
-				auto item = ItemFactory::Get()->getItem(type, {x, y});
-				auto unit = new Unit(getGrid(), item, x, y);
-				break;
-			}
+		{
+			int type;
+			fs >> type;
+			auto item = ItemFactory::Get()->getItem(type, { x, y });
+			auto unit = new Unit(getGrid(), item, x, y);
+			break;
+		}
 		case candle:
-			{
-				int type, itemContainType, itemNx;
-				fs >> type >> itemContainType >> itemNx;
-				const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, {x, y}, getGrid());
-				auto unit = new Unit(getGrid(), candle, x, y);
-				break;
-			}
+		{
+			int type, itemContainType, itemNx;
+			fs >> type >> itemContainType >> itemNx;
+			const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, { x, y }, getGrid());
+			auto unit = new Unit(getGrid(), candle, x, y);
+			break;
+		}
 
 		case obChangeStage:
-			{
-				float width, height;
-				int nextStage;
-				fs >> width >> height >> nextStage;
-				auto obj = new ObjectChangeStage();
-				obj->setWidthHeight(width, height);
-				obj->setPosition(x, y);
-				obj->setNextStage(nextStage);
-				auto unit = new Unit(getGrid(), obj, x, y);
-				break;
-			}
+		{
+			float width, height;
+			int nextStage;
+			fs >> width >> height >> nextStage;
+			auto obj = new ObjectChangeStage();
+			obj->setWidthHeight(width, height);
+			obj->setPosition(x, y);
+			obj->setNextStage(nextStage);
+			auto unit = new Unit(getGrid(), obj, x, y);
+			break;
+		}
 
 		case enemy:
-			{
-				int type, faceSide;
-				float min, max;
-				fs >> faceSide >> type >> min >> max;
-				auto obj = EnemyFactory::getInstance()->getEnemy(type);
-				obj->setRespawnArea({min, max});
-				obj->setInitPos({x, y});
-				obj->setPosition(x, y);
-				obj->setInitFaceSide(faceSide);
-				obj->setFaceSide(faceSide);
-				auto unit = new Unit(getGrid(), obj, x, y);
-				break;
-			}
+		{
+			int type, faceSide , respawnTime;
+			float min, max;
+			fs >> faceSide >> type >> min >> max >> respawnTime;
+			auto obj = EnemyFactory::getInstance()->getEnemy(type);
+			obj->setRespawnTime(respawnTime);
+			obj->setRespawnArea({ min, max });
+			obj->setInitPos({ x, y });
+			obj->setPosition(x, y);
+			obj->setInitFaceSide(faceSide);
+			obj->setFaceSide(faceSide);
+			auto unit = new Unit(getGrid(), obj, x, y);
+			break;
+		}
 		default: break;
 		}
 	}
@@ -145,7 +146,7 @@ void Stage::loadObjectFromFiles()
 	fs.close();
 }
 
-void Stage::loadBoundaryCase(fstream& fs, float x, float y)
+void Stage::loadBoundaryCase(fstream & fs, float x, float y)
 {
 	float width, height;
 	int type;
@@ -156,19 +157,19 @@ void Stage::loadBoundaryCase(fstream& fs, float x, float y)
 	switch (type)
 	{
 	case BoundaryStair:
+	{
+		float stairType, faceSide, nextX, nextY;
+		fs >> stairType >> faceSide >> nextX >> nextY;
+		auto stair = dynamic_cast<Stair*>(boundary);
+		if (stair)
 		{
-			float stairType, faceSide, nextX, nextY;
-			fs >> stairType >> faceSide >> nextX >> nextY;
-			auto stair = dynamic_cast<Stair*>(boundary);
-			if (stair)
-			{
-				stair->setFaceSide(faceSide);
-				stair->setStairType(stairType);
-				stair->setNextPos({nextX, nextY});
-				listStairs.push_back(stair);
-			}
-			break;
+			stair->setFaceSide(faceSide);
+			stair->setStairType(stairType);
+			stair->setNextPos({ nextX, nextY });
+			listStairs.push_back(stair);
 		}
+		break;
+	}
 	case BoundaryNormal:
 	case BoundaryGround:
 		listBoundary.push_back(boundary);
@@ -194,7 +195,7 @@ void Stage::render()
 	}
 	getSimon()->render();
 
-	for (auto obj: listRenderOverrideSim)
+	for (auto obj : listRenderOverrideSim)
 	{
 		if (renderBoundingBox) obj->renderBoundingBox();
 		obj->render();
@@ -229,7 +230,7 @@ void Stage::update(DWORD dt)
 	updateGrid();
 }
 
-void Stage::updateSubWeapon(SubWeapon* subWeapon, DWORD dt)
+void Stage::updateSubWeapon(SubWeapon * subWeapon, DWORD dt)
 {
 	auto simonPos = getSimon()->getPosition();
 	auto holyWater = dynamic_cast<SubWeaponHolyWater*>(subWeapon);
@@ -260,12 +261,12 @@ void Stage::respawnEnemies()
 vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 {
 	vector<MapGameObjects> map;
-	map.push_back({boundary, &listBoundary});
-	map.push_back({stair, &listStairs});
-	map.push_back({item, &listItems});
-	map.push_back({canHitObjs, &listCanHitObjects});
-	map.push_back({obChangeStage, &listObjectChangeStage});
-	map.push_back({enemy, &listEnemy});
+	map.push_back({ boundary, &listBoundary });
+	map.push_back({ stair, &listStairs });
+	map.push_back({ item, &listItems });
+	map.push_back({ canHitObjs, &listCanHitObjects });
+	map.push_back({ obChangeStage, &listObjectChangeStage });
+	map.push_back({ enemy, &listEnemy });
 	return map;
 }
 
@@ -283,20 +284,26 @@ void Stage::updateInActiveUnit()
 				ob->setEnable(false);
 				break;
 			case enemy:
-				ob->setActive();
-				ob->setEnable(false);
-			default: ;
+			{
+				auto enemy = dynamic_cast<Enemy*>(ob);
+				if (enemy->IsEnable()) {
+					enemy->setEnable(false);
+					enemy->reset();
+				}
+				break;
+			}
+			default:;
 			}
 		}
 	}
 }
 
-bool Stage::isInViewport(GameObject* object)
+bool Stage::isInViewport(GameObject * object)
 {
 	const auto camPosition = Game::getInstance()->getCameraPosition();
 
 	return isColliding(object->getBoundingBox(),
-	                   {camPosition.x, camPosition.y, camPosition.x + SCREEN_WIDTH, camPosition.y + SCREEN_HEIGHT});
+		{ camPosition.x, camPosition.y, camPosition.x + SCREEN_WIDTH, camPosition.y + SCREEN_HEIGHT });
 }
 
 void Stage::updateGrid()
@@ -331,12 +338,12 @@ void Stage::loadListObjFromGrid()
 		switch (type)
 		{
 		case boundary:
-			{
-				const auto bound = dynamic_cast<Boundary*>(obj);
-				const auto boundType = bound->getBoundaryType();
-				if (boundType == BoundaryCastle) listRenderOverrideSim.push_back(bound);
-				break;
-			}
+		{
+			const auto bound = dynamic_cast<Boundary*>(obj);
+			const auto boundType = bound->getBoundaryType();
+			if (boundType == BoundaryCastle) listRenderOverrideSim.push_back(bound);
+			break;
+		}
 		case item: listItems.push_back(obj);
 			break;
 		case obChangeStage: listObjectChangeStage.push_back(obj);
@@ -345,7 +352,7 @@ void Stage::loadListObjFromGrid()
 			break;
 		case enemy: listEnemy.push_back(obj);
 			break;
-		default: ;
+		default:;
 		}
 	}
 }
@@ -404,7 +411,7 @@ void Stage::onKeyDown(const int keyCode)
 		break;
 	case DIK_4: simon->setSubWeapon(itemHolyWater);
 		break;
-	default: ;
+	default:;
 	}
 }
 
@@ -413,7 +420,7 @@ void Stage::onKeyUp(const int keyCode) const
 	getSimon()->handleOnKeyRelease(keyCode);
 }
 
-void Stage::keyState(BYTE* states) const
+void Stage::keyState(BYTE * states) const
 {
 	getSimon()->handleOnKeyPress(states);
 }

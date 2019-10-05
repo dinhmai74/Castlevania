@@ -18,7 +18,7 @@ void Enemy::init()
 	resetHP();
 	setDmg(1);
 	setType(enemy);
-	respawnTime = 3000;
+	setRespawnTime(3000);
 	timerRespawn = new Timer(respawnTime);
 	timerRespawn->start();
 }
@@ -49,6 +49,8 @@ void Enemy::update(DWORD dt, vector<GameObject*>* coObjects /*= nullptr*/)
 	if (getIsStopAllAction()) return;
 	GameObject::update(dt);
 	if (!isEnable) return;
+	checkCollisionAndChangeDirectX(dt, coObjects);
+	updateGravity();
 }
 
 void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*>* coObjects)
