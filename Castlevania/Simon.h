@@ -129,7 +129,7 @@ private:
 	void checkCollisionWithItems(DWORD dt, vector<GameObject*>* items);
 	void checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs);
 	void upgradeWhipLv(bool up = true) const;
-	void updateWeaponAction(DWORD dt, vector<GameObject*>* objs);
+	void updateWhip(DWORD dt, vector<GameObject*>* objs);
 	void updateRGB();
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
 

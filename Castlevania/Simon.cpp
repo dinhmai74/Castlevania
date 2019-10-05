@@ -185,13 +185,13 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 			break;
 		case item: checkCollisionWithItems(dt, map.objs);
 			break;
-		case canHitObjs: updateWeaponAction(dt, map.objs);
+		case canHitObjs: updateWhip(dt, map.objs);
 			break;
 		case obChangeStage: checkCollisionWithObChangeStage(dt, map.objs);
 			break;
 		case enemy:
 			checkCollisionWithEnemy(dt, map.objs);
-			updateWeaponAction(dt, map.objs);
+			updateWhip(dt, map.objs);
 			break;
 		case stair:
 			listStairs = map.objs;
@@ -235,14 +235,8 @@ void Simon::checkCollisionWithStair(vector<GameObject*>* objs)
 	{
 		const auto stair = dynamic_cast<Stair*>(obj);
 		auto box = getBoundingBox();
-		box.t = box.t + 50;
-		box.b = box.b + 5;
+		box.t = box.b - 5;
 		if (isColliding(box, obj->getBoundingBox()) && stair) collidedStair = stair;
-
-		if (collidedStair)
-		{
-			if (collidedStair->getStairType() == StairEnd && state == staring) standAfterClimbStair();
-		}
 	}
 }
 
@@ -257,7 +251,7 @@ void Simon::updateAutoClimb(DWORD dt)
 		return;
 	if (state == staring)
 	{
-		auto climbSpeed = 0.075f;
+		auto climbSpeed = SIM_CLIMB_VELOCITY;
 		auto stairSide = 1;
 		if (collidedStair) stairSide = collidedStair->getFaceSide();
 		vx = climbSpeed * -stairDirect * stairSide;
@@ -456,7 +450,7 @@ void Simon::getHurt(int nx, int ny, int hpLose)
 	GameObject::getHurt(nx, ny, hpLose);
 }
 
-void Simon::updateWeaponAction(DWORD dt, vector<GameObject*>* objs)
+void Simon::updateWhip(DWORD dt, vector<GameObject*>* objs)
 {
 	whip->update(dt, x, y, objs, state);
 }
@@ -591,6 +585,7 @@ void Simon::standAfterClimbStair()
 	staringStatus = pause;
 	stand();
 	vx = 0;
+	vy = 0;
 	gravity = SIMON_GRAVITY;
 }
 

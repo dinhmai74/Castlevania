@@ -34,7 +34,7 @@ void Stage::initMap(int mapId, wstring mapName)
 	this->mapId = mapId;
 	this->mapName = std::move(mapName);
 	const auto map = TileMapManager::getInstance()->get(mapId);
-	this->grid = new Grid(map->getMapWidth(), map->getMapHeight());
+	this->grid = new Grid(map->getMapWidth(), 480);
 }
 
 void Stage::initSimon()
@@ -318,6 +318,11 @@ void Stage::updateGrid()
 	}
 }
 
+bool sortByType(Unit* a, Unit* b)
+{
+	return a->get()->getType() < b->get()->getType();
+}
+
 void Stage::loadListObjFromGrid()
 {
 	listUnit.clear();
@@ -328,6 +333,7 @@ void Stage::loadListObjFromGrid()
 	listRenderObj = listBoundary;
 	listRenderObj.insert(listRenderObj.begin(), listStairs.begin(), listStairs.end());
 	getGrid()->get(Game::getInstance()->getCameraPosition(), listUnit);
+	sort(listUnit.begin(), listUnit.end(), sortByType);
 
 	for (auto unit : listUnit)
 	{
