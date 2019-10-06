@@ -31,6 +31,9 @@ public:
 	void setState(int state);
 
 	void render() override;
+
+	void renderWhip();
+
 	bool forceRenderStaringAnimStand();
 	virtual void updateAnimId();
 	void initAnim() override;
@@ -98,7 +101,7 @@ private:
 	void sit();
 	void stand();
 	void standUp();
-	void climbStair(int direction);
+	bool climbStair(int direction);
 	void downStair();
 	void stopMoveWhenHitting();
 	void hit();

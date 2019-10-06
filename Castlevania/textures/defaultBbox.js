@@ -55,7 +55,6 @@ inquirer.prompt(questions).then(answers => {
 	const t = Number(answers["top"]) || 0;
 	const name = answers["name"] || "default_sprites";
 	let animName = answers["animName"] || "default";
-	animName+="_ani"
 
 	const duration = Number(answers["duration"]) || 100;
 	calData(name, animName, { num, l, t, w, h, duration });
@@ -64,7 +63,7 @@ inquirer.prompt(questions).then(answers => {
 function calData(name, animName, data) {
 	const { num, w, h, l, t, duration } = data;
 	let spriteData = ``;
-	let animData = `${name + "_" + animName}\t`;
+	let animData = `${name + "_" + animName}_ani\t`;
 
 	const spriteWidht = w / num;
 

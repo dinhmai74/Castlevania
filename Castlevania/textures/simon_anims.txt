@@ -6,5 +6,5 @@ simon_hitsit_ani	simon_hitsit_0	100	simon_hitsit_1	100	simon_hitsit_2	100 simon_
 simon_deflect_ani	simon_deflect_0 100
 simon_death_ani simon_death_0 100
 simon_up_stair_ani	simon_stairup_1 100 simon_stairup_2 100
-simon_down_stair_ani simon_stairdown_1 100 simon_stairdown_2 100
+simon_down_stair_ani simon_stairdown_1 100 simon_stairup_2 100
 sim_hit_up_stair_ani simon_hitstairup_1 100 simon_hitstairup_2 100 simon_hitstairup_3 150 simon_hitstairup_3 100
