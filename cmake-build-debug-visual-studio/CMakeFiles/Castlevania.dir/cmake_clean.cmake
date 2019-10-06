@@ -35,6 +35,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Castlevania.dir/Castlevania/Whip.cpp.obj"
   "CMakeFiles/Castlevania.dir/Castlevania/debug.cpp.obj"
   "CMakeFiles/Castlevania.dir/Castlevania/main.cpp.obj"
+  "CMakeFiles/Castlevania.dir/Castlevania/stage1_castle.cpp.obj"
   "Castlevania.exe"
   "Castlevania.exe.manifest"
   "Castlevania.lib"

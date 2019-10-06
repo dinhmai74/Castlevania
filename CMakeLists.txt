@@ -4,10 +4,10 @@ project(Castlevania)
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(Castlevania)
+include_directories(Castlevania/Library)
 include_directories(Castlevania/Library/Inc)
 
-
-add_executable(Castlevania WIN32
+add_executable(Castlevania
         Castlevania/Library/Inc/audiodefs.h
         Castlevania/Library/Inc/comdecl.h
         Castlevania/Library/Inc/D2D1.h
@@ -146,6 +146,8 @@ add_executable(Castlevania WIN32
         Castlevania/SpriteManager.h
         Castlevania/Stage.cpp
         Castlevania/Stage.h
+        Castlevania/stage1_castle.cpp
+        Castlevania/stage1_castle.h
         Castlevania/StageConst.h
         Castlevania/StageManager.cpp
         Castlevania/StageManager.h

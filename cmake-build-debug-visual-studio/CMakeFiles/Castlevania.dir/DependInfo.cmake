@@ -40,12 +40,14 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Whip.cpp" "C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/Castlevania/Whip.cpp.obj"
   "C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/debug.cpp" "C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/Castlevania/debug.cpp.obj"
   "C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/main.cpp" "C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/Castlevania/main.cpp.obj"
+  "C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/stage1_castle.cpp" "C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/Castlevania/stage1_castle.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "MSVC")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../Castlevania"
+  "../Castlevania/Library"
   "../Castlevania/Library/Inc"
   "C:/Program Files (x86)/Microsoft DirectX SDK (June 2019)/Lib/x86"
   )

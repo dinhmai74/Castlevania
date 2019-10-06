@@ -6,5 +6,5 @@ CXX_FLAGS = /DWIN32 /D_WINDOWS /GR /EHsc /Zi /Ob0 /Od /RTC1 -MDd   -std:c++14
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -IC:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania -IC:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\Library\Inc -I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2019)\Lib\x86" 
+CXX_INCLUDES = -IC:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania -IC:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\Library -IC:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\Library\Inc -I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2019)\Lib\x86" 
 

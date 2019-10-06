@@ -164,6 +164,7 @@ CMakeFiles/Castlevania.dir/Castlevania/BoundaryFactory.cpp.obj
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Timer.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/WhipConst.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/debug.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/stage1_castle.h
 CMakeFiles/Castlevania.dir/Castlevania/CandleFactory.cpp.obj
  ../Castlevania/Library/Inc/d3d9.h
  ../Castlevania/Library/Inc/d3d9caps.h
@@ -1360,3 +1361,40 @@ CMakeFiles/Castlevania.dir/Castlevania/main.cpp.obj
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/main.cpp
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/main.h
  C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/tileMapInfo.h
+CMakeFiles/Castlevania.dir/Castlevania/stage1_castle.cpp.obj
+ ../Castlevania/Library/Inc/d3d9.h
+ ../Castlevania/Library/Inc/d3d9caps.h
+ ../Castlevania/Library/Inc/d3d9types.h
+ ../Castlevania/Library/Inc/d3dx9.h
+ ../Castlevania/Library/Inc/d3dx9anim.h
+ ../Castlevania/Library/Inc/d3dx9core.h
+ ../Castlevania/Library/Inc/d3dx9effect.h
+ ../Castlevania/Library/Inc/d3dx9math.h
+ ../Castlevania/Library/Inc/d3dx9math.inl
+ ../Castlevania/Library/Inc/d3dx9mesh.h
+ ../Castlevania/Library/Inc/d3dx9shader.h
+ ../Castlevania/Library/Inc/d3dx9shape.h
+ ../Castlevania/Library/Inc/d3dx9tex.h
+ ../Castlevania/Library/Inc/d3dx9xof.h
+ ../Castlevania/Library/Inc/dinput.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Animation.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationFrame.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/AnimationManager.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Boundary.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Box.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Constants.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Game.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/GameObject.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/KeyboardHandler.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SimonConstants.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Sprite.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SpriteManager.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/StageConst.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/SweptAABB.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/TextureManager.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/TileConst.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/Timer.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/WhipConst.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/debug.h
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/stage1_castle.cpp
+ C:/Users/dinhmai/source/repos/dinhmai74/Castlevania/Castlevania/stage1_castle.h

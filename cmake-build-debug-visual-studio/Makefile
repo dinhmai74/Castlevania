@@ -1096,6 +1096,33 @@ Castlevania\main.cpp.s:
 	$(MAKE) -f CMakeFiles\Castlevania.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Castlevania.dir\Castlevania\main.cpp.s
 .PHONY : Castlevania\main.cpp.s
 
+Castlevania\stage1_castle.obj: Castlevania\stage1_castle.cpp.obj
+
+.PHONY : Castlevania\stage1_castle.obj
+
+# target to build an object file
+Castlevania\stage1_castle.cpp.obj:
+	$(MAKE) -f CMakeFiles\Castlevania.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj
+.PHONY : Castlevania\stage1_castle.cpp.obj
+
+Castlevania\stage1_castle.i: Castlevania\stage1_castle.cpp.i
+
+.PHONY : Castlevania\stage1_castle.i
+
+# target to preprocess a source file
+Castlevania\stage1_castle.cpp.i:
+	$(MAKE) -f CMakeFiles\Castlevania.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.i
+.PHONY : Castlevania\stage1_castle.cpp.i
+
+Castlevania\stage1_castle.s: Castlevania\stage1_castle.cpp.s
+
+.PHONY : Castlevania\stage1_castle.s
+
+# target to generate assembly for a file
+Castlevania\stage1_castle.cpp.s:
+	$(MAKE) -f CMakeFiles\Castlevania.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.s
+.PHONY : Castlevania\stage1_castle.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -1213,6 +1240,9 @@ help:
 	@echo ... Castlevania/main.obj
 	@echo ... Castlevania/main.i
 	@echo ... Castlevania/main.s
+	@echo ... Castlevania/stage1_castle.obj
+	@echo ... Castlevania/stage1_castle.i
+	@echo ... Castlevania/stage1_castle.s
 .PHONY : help
 
 

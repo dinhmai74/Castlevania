@@ -13,12 +13,24 @@
   <component name="ChangeListManager">
     <list default="true" id="2727d32f-e29f-4aff-a945-34d65d5cbe93" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Castlevania/GameObject.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/GameObject.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Castlevania/GameObject.h" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/GameObject.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Castlevania/Simon.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/Simon.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Castlevania/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Castlevania/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Castlevania.ilk" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Castlevania.ilk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/DependInfo.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/build.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/cmake_clean.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/depend.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/objects1.rsp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/objects1.rsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/progress.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/vc140.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Castlevania.dir/vc140.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/CMakeFiles/progress.marks" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Castlevania.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Castlevania.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Castlevania.ilk" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Castlevania.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Castlevania.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug-visual-studio/Makefile" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -94,6 +106,8 @@
       <workItem from="1570177691321" duration="2286000" />
       <workItem from="1570180002218" duration="328000" />
       <workItem from="1570212882212" duration="330000" />
+      <workItem from="1570334176473" duration="134000" />
+      <workItem from="1570334313563" duration="61000" />
     </task>
     <servers />
   </component>

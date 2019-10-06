@@ -64,8 +64,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
 	run();
-
-	return 0;
 }
 
 void loadEnvVariables()

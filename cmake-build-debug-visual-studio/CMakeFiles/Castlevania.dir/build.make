@@ -495,9 +495,28 @@ CMakeFiles\Castlevania.dir\Castlevania\Stage.cpp.s: cmake_force
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Castlevania.dir\Castlevania\Stage.cpp.s /c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\Stage.cpp
 <<
 
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\stage1_castle.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/stage1_castle.cpp.obj"
+	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\stage1_castle.cpp
+<<
+
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Castlevania.dir/Castlevania/stage1_castle.cpp.i"
+	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe > CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\stage1_castle.cpp
+<<
+
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Castlevania.dir/Castlevania/stage1_castle.cpp.s"
+	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.s /c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\stage1_castle.cpp
+<<
+
 CMakeFiles\Castlevania.dir\Castlevania\StageManager.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
 CMakeFiles\Castlevania.dir\Castlevania\StageManager.cpp.obj: ..\Castlevania\StageManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/StageManager.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/StageManager.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\StageManager.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\StageManager.cpp
 <<
@@ -516,7 +535,7 @@ CMakeFiles\Castlevania.dir\Castlevania\StageManager.cpp.s: cmake_force
 
 CMakeFiles\Castlevania.dir\Castlevania\Stair.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
 CMakeFiles\Castlevania.dir\Castlevania\Stair.cpp.obj: ..\Castlevania\Stair.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/Stair.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/Stair.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\Stair.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\Stair.cpp
 <<
@@ -535,7 +554,7 @@ CMakeFiles\Castlevania.dir\Castlevania\Stair.cpp.s: cmake_force
 
 CMakeFiles\Castlevania.dir\Castlevania\SubWeapon.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
 CMakeFiles\Castlevania.dir\Castlevania\SubWeapon.cpp.obj: ..\Castlevania\SubWeapon.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/SubWeapon.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/SubWeapon.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\SubWeapon.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\SubWeapon.cpp
 <<
@@ -554,7 +573,7 @@ CMakeFiles\Castlevania.dir\Castlevania\SubWeapon.cpp.s: cmake_force
 
 CMakeFiles\Castlevania.dir\Castlevania\SubWeaponAxe.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
 CMakeFiles\Castlevania.dir\Castlevania\SubWeaponAxe.cpp.obj: ..\Castlevania\SubWeaponAxe.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/SubWeaponAxe.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/SubWeaponAxe.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\SubWeaponAxe.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\SubWeaponAxe.cpp
 <<
@@ -573,7 +592,7 @@ CMakeFiles\Castlevania.dir\Castlevania\SubWeaponAxe.cpp.s: cmake_force
 
 CMakeFiles\Castlevania.dir\Castlevania\SubWeaponBoomerang.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
 CMakeFiles\Castlevania.dir\Castlevania\SubWeaponBoomerang.cpp.obj: ..\Castlevania\SubWeaponBoomerang.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/SubWeaponBoomerang.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/SubWeaponBoomerang.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\SubWeaponBoomerang.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\SubWeaponBoomerang.cpp
 <<
@@ -592,7 +611,7 @@ CMakeFiles\Castlevania.dir\Castlevania\SubWeaponBoomerang.cpp.s: cmake_force
 
 CMakeFiles\Castlevania.dir\Castlevania\SubWeaponFactory.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
 CMakeFiles\Castlevania.dir\Castlevania\SubWeaponFactory.cpp.obj: ..\Castlevania\SubWeaponFactory.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/SubWeaponFactory.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/SubWeaponFactory.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\SubWeaponFactory.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\SubWeaponFactory.cpp
 <<
@@ -611,7 +630,7 @@ CMakeFiles\Castlevania.dir\Castlevania\SubWeaponFactory.cpp.s: cmake_force
 
 CMakeFiles\Castlevania.dir\Castlevania\SubWeaponHolyWater.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
 CMakeFiles\Castlevania.dir\Castlevania\SubWeaponHolyWater.cpp.obj: ..\Castlevania\SubWeaponHolyWater.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/SubWeaponHolyWater.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/SubWeaponHolyWater.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\SubWeaponHolyWater.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\SubWeaponHolyWater.cpp
 <<
@@ -630,7 +649,7 @@ CMakeFiles\Castlevania.dir\Castlevania\SubWeaponHolyWater.cpp.s: cmake_force
 
 CMakeFiles\Castlevania.dir\Castlevania\SweptAABB.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
 CMakeFiles\Castlevania.dir\Castlevania\SweptAABB.cpp.obj: ..\Castlevania\SweptAABB.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/SweptAABB.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/SweptAABB.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\SweptAABB.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\SweptAABB.cpp
 <<
@@ -649,7 +668,7 @@ CMakeFiles\Castlevania.dir\Castlevania\SweptAABB.cpp.s: cmake_force
 
 CMakeFiles\Castlevania.dir\Castlevania\TextureManager.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
 CMakeFiles\Castlevania.dir\Castlevania\TextureManager.cpp.obj: ..\Castlevania\TextureManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/TextureManager.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/TextureManager.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\TextureManager.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\TextureManager.cpp
 <<
@@ -668,7 +687,7 @@ CMakeFiles\Castlevania.dir\Castlevania\TextureManager.cpp.s: cmake_force
 
 CMakeFiles\Castlevania.dir\Castlevania\TileMap.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
 CMakeFiles\Castlevania.dir\Castlevania\TileMap.cpp.obj: ..\Castlevania\TileMap.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/TileMap.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/TileMap.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\TileMap.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\TileMap.cpp
 <<
@@ -687,7 +706,7 @@ CMakeFiles\Castlevania.dir\Castlevania\TileMap.cpp.s: cmake_force
 
 CMakeFiles\Castlevania.dir\Castlevania\TilemapManager.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
 CMakeFiles\Castlevania.dir\Castlevania\TilemapManager.cpp.obj: ..\Castlevania\TilemapManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/TilemapManager.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/TilemapManager.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\TilemapManager.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\TilemapManager.cpp
 <<
@@ -706,7 +725,7 @@ CMakeFiles\Castlevania.dir\Castlevania\TilemapManager.cpp.s: cmake_force
 
 CMakeFiles\Castlevania.dir\Castlevania\Weapon.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
 CMakeFiles\Castlevania.dir\Castlevania\Weapon.cpp.obj: ..\Castlevania\Weapon.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/Weapon.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/Weapon.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\Weapon.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\Weapon.cpp
 <<
@@ -725,7 +744,7 @@ CMakeFiles\Castlevania.dir\Castlevania\Weapon.cpp.s: cmake_force
 
 CMakeFiles\Castlevania.dir\Castlevania\Whip.cpp.obj: CMakeFiles\Castlevania.dir\flags.make
 CMakeFiles\Castlevania.dir\Castlevania\Whip.cpp.obj: ..\Castlevania\Whip.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/Whip.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/Castlevania.dir/Castlevania/Whip.cpp.obj"
 	C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Castlevania.dir\Castlevania\Whip.cpp.obj /FdCMakeFiles\Castlevania.dir\ /FS -c C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\Castlevania\Whip.cpp
 <<
@@ -767,6 +786,7 @@ Castlevania_OBJECTS = \
 "CMakeFiles\Castlevania.dir\Castlevania\Sprite.cpp.obj" \
 "CMakeFiles\Castlevania.dir\Castlevania\SpriteManager.cpp.obj" \
 "CMakeFiles\Castlevania.dir\Castlevania\Stage.cpp.obj" \
+"CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj" \
 "CMakeFiles\Castlevania.dir\Castlevania\StageManager.cpp.obj" \
 "CMakeFiles\Castlevania.dir\Castlevania\Stair.cpp.obj" \
 "CMakeFiles\Castlevania.dir\Castlevania\SubWeapon.cpp.obj" \
@@ -807,6 +827,7 @@ Castlevania.exe: CMakeFiles\Castlevania.dir\Castlevania\Simon.cpp.obj
 Castlevania.exe: CMakeFiles\Castlevania.dir\Castlevania\Sprite.cpp.obj
 Castlevania.exe: CMakeFiles\Castlevania.dir\Castlevania\SpriteManager.cpp.obj
 Castlevania.exe: CMakeFiles\Castlevania.dir\Castlevania\Stage.cpp.obj
+Castlevania.exe: CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj
 Castlevania.exe: CMakeFiles\Castlevania.dir\Castlevania\StageManager.cpp.obj
 Castlevania.exe: CMakeFiles\Castlevania.dir\Castlevania\Stair.cpp.obj
 Castlevania.exe: CMakeFiles\Castlevania.dir\Castlevania\SubWeapon.cpp.obj
@@ -828,9 +849,9 @@ Castlevania.exe: "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x
 Castlevania.exe: "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dxerr.lib"
 Castlevania.exe: "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dinput8.lib"
 Castlevania.exe: CMakeFiles\Castlevania.dir\objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Linking CXX executable Castlevania.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Linking CXX executable Castlevania.exe"
 	"C:\Program Files\JetBrains\CLion 2019.2.3\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\Castlevania.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\mt.exe --manifests  -- C:\PROGRA~2\MICROS~1\2019\ENTERP~1\VC\Tools\MSVC\1423~1.281\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\Castlevania.dir\objects1.rsp @<<
- /out:Castlevania.exe /implib:Castlevania.lib /pdb:C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Castlevania.pdb /version:0.0  /machine:X86 /debug /INCREMENTAL /subsystem:windows "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\*" "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\d3dx9.lib" "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\d3d9.lib" "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dxguid.lib" "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dxerr.lib" "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dinput8.lib" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib 
+ /out:Castlevania.exe /implib:Castlevania.lib /pdb:C:\Users\dinhmai\source\repos\dinhmai74\Castlevania\cmake-build-debug-visual-studio\Castlevania.pdb /version:0.0  /machine:X86 /debug /INCREMENTAL /subsystem:console "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\*" "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\d3dx9.lib" "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\d3d9.lib" "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dxguid.lib" "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dxerr.lib" "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86\dinput8.lib" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib 
 <<
 
 # Rule to build all files generated by this target.

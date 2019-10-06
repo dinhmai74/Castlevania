@@ -163,6 +163,7 @@ CMakeFiles\Castlevania.dir\Castlevania\BoundaryFactory.cpp.obj: ..\Castlevania\T
 CMakeFiles\Castlevania.dir\Castlevania\BoundaryFactory.cpp.obj: ..\Castlevania\Timer.h
 CMakeFiles\Castlevania.dir\Castlevania\BoundaryFactory.cpp.obj: ..\Castlevania\WhipConst.h
 CMakeFiles\Castlevania.dir\Castlevania\BoundaryFactory.cpp.obj: ..\Castlevania\debug.h
+CMakeFiles\Castlevania.dir\Castlevania\BoundaryFactory.cpp.obj: ..\Castlevania\stage1_castle.h
 
 CMakeFiles\Castlevania.dir\Castlevania\CandleFactory.cpp.obj: ..\Castlevania\Library\Inc\d3d9.h
 CMakeFiles\Castlevania.dir\Castlevania\CandleFactory.cpp.obj: ..\Castlevania\Library\Inc\d3d9caps.h
@@ -1359,4 +1360,41 @@ CMakeFiles\Castlevania.dir\Castlevania\main.cpp.obj: ..\Castlevania\debug.h
 CMakeFiles\Castlevania.dir\Castlevania\main.cpp.obj: ..\Castlevania\main.cpp
 CMakeFiles\Castlevania.dir\Castlevania\main.cpp.obj: ..\Castlevania\main.h
 CMakeFiles\Castlevania.dir\Castlevania\main.cpp.obj: ..\Castlevania\tileMapInfo.h
+
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3d9.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3d9caps.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3d9types.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3dx9.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3dx9anim.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3dx9core.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3dx9effect.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3dx9math.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3dx9math.inl
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3dx9mesh.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3dx9shader.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3dx9shape.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3dx9tex.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\d3dx9xof.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Library\Inc\dinput.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Animation.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\AnimationFrame.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\AnimationManager.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Boundary.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Box.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Constants.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Game.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\GameObject.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\KeyboardHandler.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\SimonConstants.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Sprite.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\SpriteManager.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\StageConst.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\SweptAABB.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\TextureManager.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\TileConst.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\Timer.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\WhipConst.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\debug.h
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\stage1_castle.cpp
+CMakeFiles\Castlevania.dir\Castlevania\stage1_castle.cpp.obj: ..\Castlevania\stage1_castle.h
 
