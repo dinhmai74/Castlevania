@@ -9,6 +9,11 @@ var questions = [
 		message: "stage name",
     },
     {
+        type: "input",
+        name: "side",
+        message: "side stair",
+    },
+    {
 		type: "input",
 		name: "left",
 		message: "left",
@@ -35,26 +40,28 @@ inquirer.prompt(questions).then(answers => {
 	const h = Number(answers["height"]);
 	const l = Number(answers["left"]) || 0;
 	const t = Number(answers["top"]) || 0;
+	const side = Number(answers["side"]) || 1;
 	const name = answers["name"] || "stage2";
 
-	calData(name, {w,h,l,t });
+	calData(name, {w,h,l,t,side });
 });
 
 function calData(name, data) {
 
-    let {w,h,l,t} = data;
+    let {w,h,l,side,t} = data;
     let b= t+h;
     let r= l+w;
     let currentX=l;
-    let currentY=b;
-    let data="\n"
+    let currentY=side ==1?b:t;
 
-    appendFile(name+"_objects",data)
-    while (currentX < r) {
-        currentY -=32;
-        data=`0 ${currentX} ${currentY} 32 32 2 1 1 16 16\n`
+    appendFile(name+"_objects","\n")
+    while (true) {
+        if(side ==1 )currentY = currentY -32 * side;
+        let data=`0 ${currentX} ${currentY} 32 32 2 1 ${side} 16 16\n`
         appendFile(name+"_objects",data)
-        currentX +=32;
+        currentX =currentX + 32 ;
+        if(side ==-1 )currentY = currentY -32 * side;
+        if( currentX > r) break;
     }
 }
 

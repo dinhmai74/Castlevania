@@ -80,7 +80,7 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 {
 	if (forceDead) return;
 	updateAutoWalk(dt);
-	updateAutoClimb(dt);
+	doAutoClimb(dt);
 	checkIfFalling(dt);
 
 	processDeflectEffect();
@@ -262,19 +262,17 @@ bool Simon::canAutoClimb()
 	return stairDxRemain > 0 && stairDyRemain > 0;
 }
 
-void Simon::updateAutoClimb(DWORD dt)
+void Simon::doAutoClimb(DWORD dt)
 {
 	if (!canAutoClimb())
 		return;
 	if (state == staring)
 	{
-		auto climbSpeed = SIM_CLIMB_VELOCITY;
-		auto stairSide = 1;
-		if (collidedStair) stairSide = collidedStair->getFaceSide();
-		vx = climbSpeed * climbDirection * stairSide;
-		vy = -climbSpeed * climbDirection * stairSide;
-		stairDxRemain -= climbSpeed * dt;
-		stairDyRemain -= climbSpeed * dt;
+		const auto climbSpeed = SIM_CLIMB_VELOCITY;
+		vx = static_cast<float>(climbDirection) * climbSpeed * faceSide;
+		vy = static_cast<float>(climbDirection) * -climbSpeed ;
+		stairDxRemain -= float(dt) * climbSpeed;
+		stairDyRemain -= float(dt)* climbSpeed;
 	}
 }
 
@@ -643,7 +641,7 @@ void Simon::climbStair(int direction)
 	if (state != staring)
 	{
 		const auto collidePos = collidedStair->getPosition();
-		const auto finalStandPos = collidePos.x - (getBoundingBox().l - x) - 6;
+		const auto finalStandPos = collidePos.x - (getBoundingBox().l - x) - 6* collidedStair->getFaceSide();
 		doAutoWalkWithDistance(finalStandPos - x);
 		staringStatus = ready;
 	}
@@ -689,12 +687,6 @@ void Simon::standUp()
 {
 	resetState();
 	setState(idle);
-}
-
-void Simon::downStair()
-{
-	setState(staring);
-	climbDirection = ClimbDown;
 }
 
 void Simon::stopMoveWhenHitting()

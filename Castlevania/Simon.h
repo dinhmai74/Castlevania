@@ -154,7 +154,7 @@ private:
 
 	vector<GameObject*>* listStairs{};
 	bool canAutoClimb();
-	void updateAutoClimb(DWORD dt);
+	void doAutoClimb(DWORD dt);
 	bool isAutoWalking();
 	void checkIfFalling(DWORD dt);
 };
