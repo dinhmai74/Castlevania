@@ -241,14 +241,18 @@ void Simon::checkCollisionWithStair(vector<GameObject*>* objs)
 			collidedStair = stair;
 		}
 
-		if (state == staring && collidedStair && collidedStair->getStairType() == StairEnd)
+		if (state == staring && collidedStair)
 		{
-			setState(idle);
-			removeAllVelocity();
+			auto isEndOfStairUp = collidedStair->getStairType() == StairEnd && climbDirection== ClimbUp;
+			auto isEndOfStairDown = collidedStair->getStairType() == StairStart && climbDirection == ClimbDown;
 
-			removeAutoclimbDistance();
-
-			animId = ANIM_IDLE;
+			if (isEndOfStairDown || isEndOfStairUp)
+			{
+				setState(idle);
+				removeAllVelocity();
+				removeAutoclimbDistance();
+				animId = ANIM_IDLE;
+			}
 		}
 	}
 }
@@ -796,7 +800,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 	{
 		if (state == staring) {
 			if (collidedStair)
-				climbStair(ClimbUp* collidedStair->getFaceSide());
+				climbStair(ClimbUp * collidedStair->getFaceSide());
 		}
 		else move(Side::SideRight);
 	}
