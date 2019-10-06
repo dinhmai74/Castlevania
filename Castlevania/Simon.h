@@ -104,11 +104,9 @@ private:
 	bool climbStair(int direction);
 	void downStair();
 	void stopMoveWhenHitting();
-	void hit();
-	void hitWhenSitting();
+	void hit(int type);
 	bool canThrow();
-	void throwing();
-	void throwingWhenSitting();
+	void throwing(int type);
 	void throwSubWeapon();
 	void loseEnergy() { energy--; energy = energy < 0 ? 0 : energy; };
 	void addEnergy() { energy++; energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy; };

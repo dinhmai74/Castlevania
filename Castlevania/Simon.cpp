@@ -71,7 +71,7 @@ void Simon::renderWhip()
 
 bool Simon::forceRenderStaringAnimStand()
 {
-	if (state == staring)
+	if (state == climbing)
 	{
 		if (staringStatus == pause && !canAutoClimb())
 		{
@@ -178,7 +178,7 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 		switch (map.id)
 		{
 		case boundary:
-			if (state != staring)checkCollisionWithBoundary(dt, map.objs);
+			if (state != climbing)checkCollisionWithBoundary(dt, map.objs);
 			else updatePosWhenNotCollide();
 			break;
 		case item: checkCollisionWithItems(dt, map.objs);
@@ -239,7 +239,7 @@ void Simon::checkCollisionWithStair(vector<GameObject*>* objs)
 			collidedStair = stair;
 		}
 
-		if (state == staring && collidedStair)
+		if (state == climbing && collidedStair)
 		{
 			auto isEndOfStairUp = collidedStair->getStairType() == StairEnd && climbDirection == ClimbUp;
 			auto isEndOfStairDown = collidedStair->getStairType() == StairStartUp && climbDirection == ClimbDown;
@@ -264,7 +264,7 @@ void Simon::doAutoClimb(DWORD dt)
 {
 	if (!canAutoClimb())
 		return;
-	if (state == staring)
+	if (state == climbing)
 	{
 		const auto climbSpeed = SIM_CLIMB_VELOCITY;
 		vx = climbSpeed * faceSide;
@@ -526,7 +526,7 @@ void Simon::updateAnimId()
 	int frame;
 	switch (state)
 	{
-	case staring:
+	case climbing:
 		animId = climbDirection == ClimbUp ? ANIM_UP_STAIR : ANIM_DOWN_STAIR;
 		break;
 	case walking: animId = ANIM_WALK;
@@ -558,6 +558,18 @@ void Simon::updateAnimId()
 			setState(sitting);
 			animations[animId]->refresh();
 			animId = ANIM_SIT;
+		}
+		break;
+
+	case hittingWhenClimbing:
+		animId = ANIM_HIT_UP_STAIR;
+		if (animations[animId]->isDone())
+		{
+			whip->refreshAnim();
+			isHitting = false;
+			setState(climbing);
+			animations[animId]->refresh();
+			animId = ANIM_UP_STAIR;
 		}
 		break;
 	case State::throwing:
@@ -617,8 +629,8 @@ void Simon::setClimbStairInfo(int direction)
 		return;
 	}
 
-	setState(staring);
-	faceSide = collidedStair->getFaceSide()* direction;
+	setState(climbing);
+	faceSide = collidedStair->getFaceSide() * direction;
 	const auto nextPos = collidedStair->getNextPos();
 	stairDxRemain = nextPos.x;
 	stairDyRemain = nextPos.y;
@@ -640,7 +652,7 @@ bool Simon::climbStair(int direction)
 	if (collidedStair->getStairType() == StairStartUp && direction != ClimbUp) return false;
 	if (collidedStair->getStairType() == StairStartDown && direction != ClimbDown) return false;
 
-	if (state != staring)
+	if (state != climbing)
 	{
 		const auto collidePos = collidedStair->getPosition();
 		const auto finalStandPos = collidePos.x - (getBoundingBox().l - x) - 6 * collidedStair->getFaceSide();
@@ -699,20 +711,12 @@ void Simon::stopMoveWhenHitting()
 	vx = 0;
 }
 
-void Simon::hit()
+void Simon::hit(int type)
 {
 	stopMoveWhenHitting();
 	isHitting = true;
 	whip->refreshAnim();
-	setState(hitting);
-}
-
-void Simon::hitWhenSitting()
-{
-	stopMoveWhenHitting();
-	isHitting = true;
-	whip->refreshAnim();
-	setState(hittingWhenSitting);
+	setState(type);
 }
 
 bool Simon::canThrow()
@@ -721,20 +725,12 @@ bool Simon::canThrow()
 	return isHaveEnoughEnergy && isHaveSubWeapon() && timerThrowing->isTimeUp();
 }
 
-void Simon::throwing()
+void Simon::throwing(int type)
 {
 	if (!canThrow()) return;
 	stopMoveWhenHitting();
 	isThrowing = true;
-	setState(State::throwing);
-}
-
-void Simon::throwingWhenSitting()
-{
-	if (!canThrow()) return;
-	stopMoveWhenHitting();
-	isThrowing = true;
-	setState(State::throwingWhenSitting);
+	setState(type);
 }
 
 void Simon::throwSubWeapon()
@@ -783,7 +779,7 @@ void Simon::handleOnKeyRelease(int KeyCode)
 	if (KeyCode == DIK_DOWN)
 	{
 		isReleaseSitButton = true;
-		if (isInGround && !isHitting && !isThrowing && state != staring)
+		if (isInGround && !isHitting && !isThrowing && state != climbing)
 			standUp();
 	}
 }
@@ -798,7 +794,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 
 	if (game->isKeyDown(DIK_RIGHT))
 	{
-		if (state == staring)
+		if (state == climbing)
 		{
 			if (collidedStair)
 				climbStair(ClimbUp * collidedStair->getFaceSide());
@@ -807,7 +803,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 	}
 	else if (game->isKeyDown(DIK_LEFT))
 	{
-		if (state == staring)
+		if (state == climbing)
 		{
 			if (collidedStair)
 				climbStair(ClimbDown * collidedStair->getFaceSide());
@@ -819,20 +815,20 @@ void Simon::handleOnKeyPress(BYTE* states)
 		isReleaseSitButton = false;
 		if (collidedStair && collidedStair->getStairType() == StairStartDown)
 			climbStair(ClimbDown);
-		else if (state != staring) sit();
+		else if (state != climbing) sit();
 		else climbStair(ClimbDown);
 	}
 	else if (game->isKeyDown(DIK_UPARROW))
 	{
-		auto result=climbStair(ClimbUp);
+		auto result = climbStair(ClimbUp);
 		if (!result) stand();
 	}
 	else if (game->isKeyDown(DIK_DOWNARROW))
 	{
-		auto result= climbStair(ClimbDown);
+		auto result = climbStair(ClimbDown);
 		if (!result) stand();
 	}
-	else if (state == staring)
+	else if (state == climbing)
 	{
 		staringStatus = pause;
 		vx = 0;
@@ -852,16 +848,25 @@ void Simon::handleOnKeyDown(int keyCode)
 	switch (keyCode)
 	{
 	case DIK_SPACE:
-		if (previousState != jumping && isInGround && !isHitting && state != staring)
+		if (previousState != jumping && isInGround && !isHitting && state != climbing)
 			jump();
 		break;
 	case DIK_LCONTROL:
-		if (state == jumping) isJumpingHit = true;
-		(isReleaseSitButton || isJumpingHit) ? hit() : hitWhenSitting();
-		break;
+		{
+			if (state == jumping) isJumpingHit = true;
+			auto hittingType = hitting;
+			if (!isReleaseSitButton && !isJumpingHit) hittingType = hittingWhenSitting;
+			else if (state == climbing) hittingType = hittingWhenClimbing;
+			hit(hittingType);
+			break;
+		}
 	case DIK_A:
-		isReleaseSitButton ? throwing() : throwingWhenSitting();
-		break;
+		{
+			auto hittingType = hitting;
+			if (!isReleaseSitButton && !isJumpingHit) hittingType = hittingWhenSitting;
+			throwing(hittingType);
+			break;
+		}
 
 	case DIK_DOWN:
 		if (isInGround
@@ -870,7 +875,7 @@ void Simon::handleOnKeyDown(int keyCode)
 		)
 		{
 			isReleaseSitButton = false;
-			if (state != staring) sit();
+			if (state != climbing) sit();
 			else climbStair(ClimbDown);
 		}
 		break;
