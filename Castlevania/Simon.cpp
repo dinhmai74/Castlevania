@@ -35,9 +35,10 @@ void Simon::initAnim()
 	addAnimation(ANIM_SIT, "simon_sit_ani");
 	addAnimation(ANIM_HITTING, "simon_hitstand_ani");
 	addAnimation(ANIM_HITTING_WHEN_SIT, "simon_hitsit_ani");
-	addAnimation(ANIM_DEFLECT, "simon_deflect");
-	addAnimation(ANIM_DEATH, "simon_death");
-	addAnimation(ANIM_UP_STAIR, "simon_up_stair");
+	addAnimation(ANIM_DEFLECT, "simon_deflect_ani");
+	addAnimation(ANIM_DEATH, "simon_death_ani");
+	addAnimation(ANIM_UP_STAIR, "simon_up_stair_ani");
+	addAnimation(ANIM_DOWN_STAIR, "simon_down_stair_ani");
 }
 
 void Simon::render()
@@ -525,7 +526,7 @@ void Simon::updateAnimId()
 	switch (state)
 	{
 	case staring:
-		animId = ANIM_UP_STAIR;
+		animId = climbDirection== ClimbUp? ANIM_UP_STAIR: ANIM_DOWN_STAIR;
 		break;
 	case walking: animId = ANIM_WALK;
 		break;
