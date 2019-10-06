@@ -140,14 +140,12 @@ void Simon::updateAutoWalk(DWORD dt)
 {
 	if (timerAutoWalk->isRunning())
 	{
-		vx = SIM_AUTO_WALK_VX * faceSide;
+		vx = vxAutoWalk * float(faceSide);
 	}
-
-	if (canAutoWalkWithDistance())
+	else if (canAutoWalkWithDistance())
 	{
-		auto SIM_AUTO_WALK_DISTANCE_VX = 0.15f;
-		vx = SIM_AUTO_WALK_DISTANCE_VX * faceSide;
-		autoWalkDistance -= SIM_AUTO_WALK_DISTANCE_VX * dt;
+		vx = vxAutoWalk * float(faceSide);
+		autoWalkDistance -= vx * dt;
 	}
 	else
 	{
@@ -270,10 +268,10 @@ void Simon::doAutoClimb(DWORD dt)
 	if (state == staring)
 	{
 		const auto climbSpeed = SIM_CLIMB_VELOCITY;
-		vx = static_cast<float>(climbDirection) * climbSpeed * faceSide;
-		vy = static_cast<float>(climbDirection) * -climbSpeed ;
+		vx = static_cast<float>(climbDirection)* climbSpeed* faceSide;
+		vy = static_cast<float>(climbDirection) * -climbSpeed;
 		stairDxRemain -= float(dt) * climbSpeed;
-		stairDyRemain -= float(dt)* climbSpeed;
+		stairDyRemain -= float(dt) * climbSpeed;
 	}
 }
 
@@ -287,17 +285,19 @@ void Simon::checkIfFalling(DWORD dt)
 	if (vy != 0) isInGround = false;
 }
 
-void Simon::doAutoWalk(DWORD dt)
+void Simon::doAutoWalk(DWORD dt, float vx)
 {
 	if (timerAutoWalk->isRunning()) return;
 	timerAutoWalk->setLimitedTime(dt);
+	vxAutoWalk = vx;
 	timerAutoWalk->start();
 }
 
-void Simon::doAutoWalkWithDistance(float distance)
+void Simon::doAutoWalkWithDistance(float distance, float vx)
 {
 	if (distance < 0) faceSide = SideLeft;
 	else faceSide = SideRight;
+	vxAutoWalk = vx;
 	autoWalkDistance = fabs(distance);
 }
 
@@ -447,6 +447,7 @@ void Simon::reset()
 	timerThrowing->stop();
 	timerUntouchable->stop();
 	timerAutoWalk->stop();
+	autoWalkDistance = -1;
 }
 
 void Simon::setHp(int val)
@@ -526,7 +527,7 @@ void Simon::updateAnimId()
 	switch (state)
 	{
 	case staring:
-		animId = climbDirection== ClimbUp? ANIM_UP_STAIR: ANIM_DOWN_STAIR;
+		animId = climbDirection == ClimbUp ? ANIM_UP_STAIR : ANIM_DOWN_STAIR;
 		break;
 	case walking: animId = ANIM_WALK;
 		break;
@@ -642,7 +643,7 @@ void Simon::climbStair(int direction)
 	if (state != staring)
 	{
 		const auto collidePos = collidedStair->getPosition();
-		const auto finalStandPos = collidePos.x - (getBoundingBox().l - x) - 6* collidedStair->getFaceSide();
+		const auto finalStandPos = collidePos.x - (getBoundingBox().l - x) - 6 * collidedStair->getFaceSide();
 		doAutoWalkWithDistance(finalStandPos - x);
 		staringStatus = ready;
 	}
@@ -812,7 +813,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 	else if (game->isKeyDown(DIK_DOWN))
 	{
 		isReleaseSitButton = false;
-		if(collidedStair && collidedStair->getStairType()==StairStartDown)
+		if (collidedStair && collidedStair->getStairType() == StairStartDown)
 			climbStair(ClimbDown);
 		else if (state != staring) sit();
 		else climbStair(ClimbDown);
