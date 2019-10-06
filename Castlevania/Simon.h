@@ -38,8 +38,8 @@ public:
 
 	bool updateLife(int val);
 	bool updateHP(int val);
-	void doAutoWalk(DWORD dt=1000);
-	void doAutoWalkWithDistance(float distance);;
+	void doAutoWalk(DWORD dt=1000, float vx= SIM_AUTO_WALK_VX);
+	void doAutoWalkWithDistance(float distance, float vx= SIM_AUTO_WALK_DISTANCE_VX);
 
 	/*----------------- get set  -----------------*/
 	SubWeapon* getSubWeapon() const { return subWeapon; }
@@ -157,4 +157,5 @@ private:
 	void doAutoClimb(DWORD dt);
 	bool isAutoWalking();
 	void checkIfFalling(DWORD dt);
+	float vxAutoWalk;
 };
