@@ -41,6 +41,8 @@ constexpr auto ANIM_HITTING_WHEN_SIT = 4;
 constexpr auto ANIM_DEFLECT = 5;
 constexpr auto ANIM_UP_STAIR = 6;
 constexpr auto ANIM_DOWN_STAIR = 7;
+constexpr auto ANIM_HIT_DOWN_STAIR = 8;
+constexpr auto ANIM_HIT_UP_STAIR = 9;
 constexpr auto ANIM_DEATH = -1;
 
 enum ClimbDirect

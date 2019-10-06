@@ -39,6 +39,7 @@ void Simon::initAnim()
 	addAnimation(ANIM_DEATH, "simon_death_ani");
 	addAnimation(ANIM_UP_STAIR, "simon_up_stair_ani");
 	addAnimation(ANIM_DOWN_STAIR, "simon_down_stair_ani");
+	addAnimation(ANIM_HIT_UP_STAIR, "simon_hit_up_stair_ani");
 }
 
 void Simon::render()
@@ -145,7 +146,7 @@ void Simon::updateAutoWalk(DWORD dt)
 	else if (canAutoWalkWithDistance())
 	{
 		vx = vxAutoWalk * float(faceSide);
-		autoWalkDistance -= vx * dt;
+		autoWalkDistance -= vxAutoWalk * dt;
 	}
 	else
 	{
