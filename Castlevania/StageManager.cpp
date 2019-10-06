@@ -79,6 +79,6 @@ void StageManager::descreaseLife()
 	else
 	{
 		// TODO: add end game screen
-		simon->ForceDead();
+		simon->setForceDead();
 	}
 }

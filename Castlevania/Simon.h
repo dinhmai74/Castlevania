@@ -52,8 +52,8 @@ public:
 	void setLife(int val) { life = val; }
 	void reset();
 	void setHp(int val);
-	void setEnegery(int val);
-	void ForceDead();
+	void setEnergy(int val);
+	void setForceDead(bool val=true);
 	void setSubWeapon(int type)
 	{
 		subWeaponType = type;

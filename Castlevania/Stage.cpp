@@ -42,7 +42,7 @@ void Stage::initSimon()
 	simon = new Simon();
 	simon->doAutoWalk();
 	simon->setLife(3);
-	simon->setEnegery(5);
+	simon->setEnergy(5);
 	simon->setHp(SIM_MAX_HP);
 }
 

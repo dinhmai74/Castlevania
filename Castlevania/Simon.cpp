@@ -243,8 +243,8 @@ void Simon::checkCollisionWithStair(vector<GameObject*>* objs)
 
 		if (state == staring && collidedStair)
 		{
-			auto isEndOfStairUp = collidedStair->getStairType() == StairEnd && climbDirection== ClimbUp;
-			auto isEndOfStairDown = collidedStair->getStairType() == StairStart && climbDirection == ClimbDown;
+			auto isEndOfStairUp = collidedStair->getStairType() == StairEnd && climbDirection == ClimbUp;
+			auto isEndOfStairDown = collidedStair->getStairType() == StairStartUp && climbDirection == ClimbDown;
 
 			if (isEndOfStairDown || isEndOfStairUp)
 			{
@@ -455,14 +455,14 @@ void Simon::setHp(int val)
 	hp = val;
 }
 
-void Simon::setEnegery(int val)
+void Simon::setEnergy(int val)
 {
 	energy = val;
 }
 
-void Simon::ForceDead()
+void Simon::setForceDead(bool val)
 {
-	forceDead = true;
+	forceDead = val;
 }
 
 void Simon::getHurt(int nx, int ny, int hpLose)
@@ -636,6 +636,10 @@ void Simon::climbStair(int direction)
 		return;
 	}
 	if (staringStatus == ready || stairDxRemain > 0 || stairDyRemain > 0) return;
+
+	if (collidedStair->getStairType() == StairStartUp && direction != ClimbUp) return;
+	if (collidedStair->getStairType() == StairStartDown && direction != ClimbDown) return;
+
 	if (state != staring)
 	{
 		const auto collidePos = collidedStair->getPosition();
@@ -815,7 +819,9 @@ void Simon::handleOnKeyPress(BYTE* states)
 	else if (game->isKeyDown(DIK_DOWN))
 	{
 		isReleaseSitButton = false;
-		if (state != staring) sit();
+		if(collidedStair && collidedStair->getStairType()==StairStartDown)
+			climbStair(ClimbDown);
+		else if (state != staring) sit();
 		else climbStair(ClimbDown);
 	}
 	else if (game->isKeyDown(DIK_UPARROW))
