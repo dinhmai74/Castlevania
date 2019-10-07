@@ -16,6 +16,6 @@ simon_hitstairup_1	300	137	360	201 300	132	360	196
 simon_hitstairup_2	360	137	420	201 360	132	420	196
 simon_hitstairup_3	420	137	480	201 420	132	480	196
 simon_stairdown_1 0	140	60	204	0	140	60	204
-simon_hit_down_stair_1	60	140	120	204	60	140	120	204
-simon_hit_down_stair_2	120	140	180	204	120	140	180	204
+simon_hit_down_stair_2	60	140	120	204	60	140	120	204
+simon_hit_down_stair_1	120	140	180	204	120	140	180	204
 simon_hit_down_stair_3	180	140	240	204	180	140	240	204

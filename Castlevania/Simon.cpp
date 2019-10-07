@@ -474,7 +474,7 @@ void Simon::getHurt(int nx, int ny, int hpLose)
 
 void Simon::updateWhip(DWORD dt, vector<GameObject*>* objs)
 {
-	whip->update(dt, x, y, objs, state);
+	whip->update(dt, x, y, objs, state, climbDirection);
 }
 
 void Simon::processCollisionWithItem(Item* item)

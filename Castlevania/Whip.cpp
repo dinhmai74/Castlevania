@@ -40,10 +40,10 @@ void Whip::render()
 	else setState(STATE_WHIP_DISAPPEAR);
 }
 
-void Whip::update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT> * coObject, int simonState)
+void Whip::update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT> * coObject, int simonState,int simClimbDirect)
 {
 	GameObject::update(dt);
-	updatePos(simonX, simonY, simonState);
+	updatePos(simonX, simonY, simonState, simClimbDirect);
 
 	auto state = getState();
 	if (state == STATE_WHIP_HITTING)
@@ -84,7 +84,7 @@ Box Whip::getBoundingBox()
 	return { left,top,right,bottom };
 }
 
-void Whip::updatePos(float simonX, float simonY, int simonState)
+void Whip::updatePos(float simonX, float simonY, int simonState, int simonClimbDirect)
 {
 	if (simonState == hittingWhenSitting)
 		simonY += 15;
