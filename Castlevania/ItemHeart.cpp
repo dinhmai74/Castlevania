@@ -16,14 +16,14 @@ ItemHeart::ItemHeart(int type)
 	itemType = type;
 	gravity = 0.0002;
 	energy = 5;
-	animId = type;
+	setAnimId(type);
 }
 
 ItemHeart::ItemHeart()
 {
 	itemType = itemSmallHeart;
 	gravity = 0.0002;
-	animId = itemSmallHeart;
+	setAnimId(itemSmallHeart);
 	energy = 1;
 	faceSide = 1;
 }

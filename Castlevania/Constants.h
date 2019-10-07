@@ -43,6 +43,7 @@ enum State
 	throwingWhenSitting = 8,
 	climbing = 9,
 	hittingWhenClimbing,
+	throwingWhenClimbing,
 	disabled,
 	deflect = 99,
 	death = -1,

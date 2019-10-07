@@ -12,5 +12,5 @@ public:
 inline BigCandle::BigCandle()
 {
 	setCandleType(candleBig);
-	animId = candleBig;
+	setAnimId(candleBig);
 }

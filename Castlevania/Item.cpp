@@ -24,7 +24,7 @@ void Item::update(DWORD dt, vector<GameObject*>* boundary)
 void Item::setItemType(const int type)
 {
 	itemType = type;
-	animId = itemType;
+	setAnimId(itemType);
 }
 
 int Item::getItemType() const

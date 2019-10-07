@@ -36,6 +36,17 @@ public:
 
 	bool forceRenderStaringAnimStand();
 	virtual void updateAnimId();
+
+	void refreshHitAnim(int stateAfterHit = idle, int animAfterHit= ANIM_IDLE)
+	{
+		whip->refreshAnim();
+		isHitting = false;
+		isThrowing = false;
+		animations[animId]->refresh();
+		setState(stateAfterHit);
+		setAnimId(animAfterHit);
+	}
+
 	void initAnim() override;
 	void update(DWORD dt, const vector<MapGameObjects>& maps);
 
@@ -106,7 +117,7 @@ private:
 	void stopMoveWhenHitting();
 	void hit(int type);
 	bool canThrow();
-	void throwing(int type);
+	void doThrow(int type);
 	void throwSubWeapon();
 	void loseEnergy() { energy--; energy = energy < 0 ? 0 : energy; };
 	void addEnergy() { energy++; energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy; };

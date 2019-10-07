@@ -28,7 +28,7 @@ void Enemy::reset()
 	resetHP();
 	resetPos();
 	setState(walking);
-	animId = ANIM_WALK;
+	setAnimId(ANIM_WALK);
 	setFaceSide(initFaceSide);
 	vx = initSpeed.x * initFaceSide;
 }

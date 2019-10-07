@@ -53,10 +53,10 @@ void GameObject::updateAnimId()
 	switch (state)
 	{
 	case deflect:
-		if (animations[ANIM_DEFLECT]) animId = ANIM_DEFLECT;
+		if (animations[ANIM_DEFLECT]) setAnimId(ANIM_DEFLECT);
 		break;
 	case death:
-		if (animations[ANIM_DEATH]) animId = ANIM_DEATH;
+		if (animations[ANIM_DEATH]) setAnimId(ANIM_DEATH);
 		break;
 	default:;
 	}
@@ -272,7 +272,7 @@ void GameObject::processDeathEffect()
 {
 	if (isDying())
 	{
-		animId = ANIM_DEATH;
+		setAnimId(ANIM_DEATH);
 		setEnable(false);
 		startDying = true;
 	}

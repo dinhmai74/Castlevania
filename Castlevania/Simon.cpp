@@ -22,7 +22,7 @@ void Simon::init()
 	isInGround = false;
 	isReleaseSitButton = true;
 	Simon::initAnim();
-	animId = ANIM_IDLE;
+	setAnimId(ANIM_IDLE);
 	//gravity = 0;
 	gravity = SIMON_GRAVITY;
 	type = simon;
@@ -40,6 +40,7 @@ void Simon::initAnim()
 	addAnimation(ANIM_UP_STAIR, "simon_up_stair_ani");
 	addAnimation(ANIM_DOWN_STAIR, "simon_down_stair_ani");
 	addAnimation(ANIM_HIT_UP_STAIR, "simon_hit_up_stair_ani");
+	addAnimation(ANIM_HIT_DOWN_STAIR, "simon_hit_down_stair_ani");
 }
 
 void Simon::render()
@@ -249,7 +250,7 @@ void Simon::checkCollisionWithStair(vector<GameObject*>* objs)
 				setState(idle);
 				removeAllVelocity();
 				removeAutoclimbDistance();
-				animId = ANIM_IDLE;
+				setAnimId(ANIM_IDLE);
 			}
 		}
 	}
@@ -519,7 +520,7 @@ void Simon::updateAnimId()
 {
 	if (isAutoWalking() || isChangingStage() || isDying())
 	{
-		animId = ANIM_WALK;
+		setAnimId(ANIM_WALK);
 		GameObject::updateAnimId();
 		return;
 	}
@@ -527,75 +528,65 @@ void Simon::updateAnimId()
 	switch (state)
 	{
 	case climbing:
-		animId = climbDirection == ClimbUp ? ANIM_UP_STAIR : ANIM_DOWN_STAIR;
+		setAnimId(climbDirection == ClimbUp ? ANIM_UP_STAIR : ANIM_DOWN_STAIR);
 		break;
-	case walking: animId = ANIM_WALK;
+	case walking: setAnimId(ANIM_WALK);
 		break;
 	case sitting:
 		if (isReleaseSitButton) standUp();
-		animId = ANIM_SIT;
+		setAnimId(ANIM_SIT);
 		break;
 	case jumping:
-		animId = (vy > SIM_VY_READY_TO_LAND) ? ANIM_IDLE : ANIM_SIT;
+		setAnimId((vy > SIM_VY_READY_TO_LAND) ? ANIM_IDLE : ANIM_SIT);
 		break;
 	case hitting:
-		animId = ANIM_HITTING;
+		setAnimId(ANIM_HITTING);
 		// check and process if animation hitting is done
 		if (animations[animId]->isDone())
 		{
-			whip->refreshAnim();
-			animations[animId]->refresh();
-			stand();
-			animId = ANIM_IDLE;
+			refreshHitAnim();
 		}
 		break;
 	case hittingWhenSitting:
-		animId = ANIM_HITTING_WHEN_SIT;
+		setAnimId(ANIM_HITTING_WHEN_SIT);
 		if (animations[animId]->isDone())
-		{
-			whip->refreshAnim();
-			isHitting = false;
-			setState(sitting);
-			animations[animId]->refresh();
-			animId = ANIM_SIT;
-		}
+			refreshHitAnim(sitting, ANIM_SIT);
 		break;
 
 	case hittingWhenClimbing:
-		animId = ANIM_HIT_UP_STAIR;
-		if (animations[animId]->isDone())
 		{
-			whip->refreshAnim();
-			isHitting = false;
-			setState(climbing);
-			animations[animId]->refresh();
-			animId = ANIM_UP_STAIR;
+			auto const anim = climbDirection == ClimbUp ? ANIM_HIT_UP_STAIR : ANIM_HIT_DOWN_STAIR;
+			setAnimId(anim);
+			if (animations[animId]->isDone())
+				refreshHitAnim(climbing, anim);
 		}
 		break;
-	case State::throwing:
-		animId = ANIM_HITTING;
+	case throwing:
+		setAnimId(ANIM_HITTING);
 		frame = animations[animId]->getCurrentFrame();
 		if (frame == 2) throwSubWeapon();
 		else if (animations[animId]->isDone())
-		{
-			animations[animId]->refresh();
-			stand();
-		}
+			refreshHitAnim();
 		break;
-	case State::throwingWhenSitting:
-		animId = ANIM_HITTING_WHEN_SIT;
+	case throwingWhenSitting:
+		setAnimId(ANIM_HITTING_WHEN_SIT);
 		frame = animations[animId]->getCurrentFrame();
 		if (frame == 2) throwSubWeapon();
 		else if (animations[animId]->isDone())
+			refreshHitAnim(sitting, ANIM_SIT);
+		break;
+	case throwingWhenClimbing:
 		{
-			animations[animId]->refresh();
-			setState(sitting);
-			isThrowing = false;
-			animId = ANIM_IDLE;
+			auto const anim = climbDirection == ClimbUp ? ANIM_HIT_UP_STAIR : ANIM_HIT_DOWN_STAIR;
+			setAnimId(anim);
+			frame = animations[animId]->getCurrentFrame();
+			if (frame == 2) throwSubWeapon();
+			else if (animations[animId]->isDone())
+				refreshHitAnim(climbing, anim);
 		}
 		break;
 	default:
-		animId = ANIM_IDLE;
+		setAnimId(ANIM_IDLE);
 	}
 	GameObject::updateAnimId();
 }
@@ -725,7 +716,7 @@ bool Simon::canThrow()
 	return isHaveEnoughEnergy && isHaveSubWeapon() && timerThrowing->isTimeUp();
 }
 
-void Simon::throwing(int type)
+void Simon::doThrow(int type)
 {
 	if (!canThrow()) return;
 	stopMoveWhenHitting();
@@ -749,7 +740,7 @@ void Simon::generateSubWeapon()
 	loseEnergy();
 	subWeapon = subWeaponFactory->getSubWeapon(subWeaponType, getFaceSide());
 	const auto width = getBoundingBox().r - getBoundingBox().l;
-	const auto subX = getFaceSide() == Side::SideLeft ? x - width + 10 : x + width;
+	const auto subX = getFaceSide() == SideLeft ? x - width + 10 : x + width;
 	const auto subY = y;
 
 	subWeapon->setInitPos({subX, subY});
@@ -799,7 +790,7 @@ void Simon::handleOnKeyPress(BYTE* states)
 			if (collidedStair)
 				climbStair(ClimbUp * collidedStair->getFaceSide());
 		}
-		else move(Side::SideRight);
+		else move(SideRight);
 	}
 	else if (game->isKeyDown(DIK_LEFT))
 	{
@@ -808,24 +799,25 @@ void Simon::handleOnKeyPress(BYTE* states)
 			if (collidedStair)
 				climbStair(ClimbDown * collidedStair->getFaceSide());
 		}
-		else move(Side::SideLeft);
+		else move(SideLeft);
 	}
 	else if (game->isKeyDown(DIK_DOWN))
 	{
 		isReleaseSitButton = false;
+		auto result = false;
 		if (collidedStair && collidedStair->getStairType() == StairStartDown)
-			climbStair(ClimbDown);
-		else if (state != climbing) sit();
-		else climbStair(ClimbDown);
+			result = climbStair(ClimbDown);
+		else if (state != climbing)
+		{
+			sit();
+			result = true;
+		}
+		else result = climbStair(ClimbDown);
+		if (!result) stand();
 	}
 	else if (game->isKeyDown(DIK_UPARROW))
 	{
 		auto result = climbStair(ClimbUp);
-		if (!result) stand();
-	}
-	else if (game->isKeyDown(DIK_DOWNARROW))
-	{
-		auto result = climbStair(ClimbDown);
 		if (!result) stand();
 	}
 	else if (state == climbing)
@@ -862,9 +854,11 @@ void Simon::handleOnKeyDown(int keyCode)
 		}
 	case DIK_A:
 		{
-			auto hittingType = hitting;
-			if (!isReleaseSitButton && !isJumpingHit) hittingType = hittingWhenSitting;
-			throwing(hittingType);
+			if (state == jumping) isJumpingHit = true;
+			auto hittingType = throwing;
+			if (!isReleaseSitButton && !isJumpingHit) hittingType = throwingWhenSitting;
+			else if (state == climbing) hittingType = throwingWhenClimbing;
+			this->doThrow(hittingType);
 			break;
 		}
 
@@ -891,7 +885,7 @@ bool Simon::isDoingImportantAnim()
 
 Box Simon::getBoundingBox()
 {
-	auto box = GameObject::getBoundingBoxBaseOnFile();
+	auto box = getBoundingBoxBaseOnFile();
 	// offset from rect sprite and bbox
 	box.l = x + 10;
 	box.r = box.l + SIM_WIDTH;

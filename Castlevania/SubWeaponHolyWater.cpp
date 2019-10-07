@@ -4,7 +4,7 @@
 SubWeaponHolyWater::SubWeaponHolyWater()
 {
 	setWeaponType(itemHolyWater);
-	animId = itemHolyWater;
+	setAnimId(itemHolyWater);
 	setState(itemHolyWater);
 	timerEffect = new Timer(TIMER_HOLY_BURN_DURATION);
 }
@@ -94,7 +94,7 @@ void SubWeaponHolyWater::updateEffect()
 
 void SubWeaponHolyWater::updateAnimId()
 {
-	animId = state;
+	setAnimId(state);
 }
 
 void SubWeaponHolyWater::processWithBoundary(GameObject* const object, float nx, float ny)

@@ -18,5 +18,5 @@ void EnemyGhouls::init()
 	setEnemyType(enemGhouls);
 	initAnim();
 	setState(walking);
-	animId = ANIM_WALK;
+	setAnimId(ANIM_WALK);
 }

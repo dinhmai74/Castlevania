@@ -41,7 +41,7 @@ inline void Candle::init()
 {
 	initAnim();
 	type = candle;
-	animId = candleBig;
+	setAnimId(candleBig);
 }
 
 inline void Candle::initAnim()

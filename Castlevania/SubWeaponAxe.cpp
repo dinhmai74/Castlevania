@@ -3,5 +3,5 @@
 SubWeaponAxe::SubWeaponAxe()
 {
 	setWeaponType(itemAxe);
-	animId = itemAxe;
+	setAnimId(itemAxe);
 }

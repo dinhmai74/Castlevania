@@ -7,7 +7,7 @@ public:
 	SubWeaponDagger()
 	{
 		setWeaponType(itemDagger);
-		animId = itemDagger;
+		setAnimId(itemDagger);
 		vx = 0.5f;
 	};
 
