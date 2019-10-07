@@ -46,7 +46,7 @@ void SubWeaponHolyWater::checkCollision(DWORD dt, vector<GameObject*>* coObjs)
 			}
 			else
 			{
-				processWithCandle(object, nx, ny);
+				processCollisionWithCandle(object, nx, ny);
 				updatePosWhenNotCollide();
 			}
 		}

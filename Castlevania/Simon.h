@@ -6,7 +6,6 @@
 #include <conio.h>
 #include "Item.h"
 #include "SubWeaponFactory.h"
-#include "SubWeapon.h"
 #include "Boundary.h"
 #include "Timer.h"
 #include "Stair.h"

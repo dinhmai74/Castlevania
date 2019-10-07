@@ -713,7 +713,9 @@ void Simon::hit(int type)
 bool Simon::canThrow()
 {
 	const auto isHaveEnoughEnergy = energy > 0;
-	return isHaveEnoughEnergy && isHaveSubWeapon() && timerThrowing->isTimeUp();
+	auto subWeaponIsReady = !subWeapon;
+	if (subWeapon && !subWeapon->IsEnable() && !subWeapon->IsActive()) subWeaponIsReady = true;
+	return isHaveEnoughEnergy && isHaveSubWeapon() && timerThrowing->isTimeUp() && subWeaponIsReady;
 }
 
 void Simon::doThrow(int type)
@@ -726,13 +728,8 @@ void Simon::doThrow(int type)
 
 void Simon::throwSubWeapon()
 {
-	if (!subWeapon && isHaveSubWeapon())
+	if(canThrow())
 		generateSubWeapon();
-	else
-	{
-		if (!isHaveSubWeapon() || subWeapon->IsActive() || subWeapon->IsEnable() || !timerThrowing->isTimeUp()) return;
-		generateSubWeapon();
-	}
 }
 
 void Simon::generateSubWeapon()
@@ -854,6 +851,7 @@ void Simon::handleOnKeyDown(int keyCode)
 		}
 	case DIK_A:
 		{
+			if (!canThrow()) break;
 			if (state == jumping) isJumpingHit = true;
 			auto hittingType = throwing;
 			if (!isReleaseSitButton && !isJumpingHit) hittingType = throwingWhenSitting;

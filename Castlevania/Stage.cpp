@@ -126,7 +126,7 @@ void Stage::loadObjectFromFiles()
 
 		case enemy:
 		{
-			int type, faceSide , respawnTime;
+			int type, faceSide, respawnTime;
 			float min, max;
 			fs >> faceSide >> type >> min >> max >> respawnTime;
 			auto obj = EnemyFactory::getInstance()->getEnemy(type);
@@ -234,16 +234,17 @@ void Stage::updateSubWeapon(SubWeapon * subWeapon, DWORD dt)
 {
 	auto simonPos = getSimon()->getPosition();
 	auto holyWater = dynamic_cast<SubWeaponHolyWater*>(subWeapon);
+	vector<GameObject*> temp = listCanHitObjects;
+	temp.push_back(simon);
+	temp.insert(temp.end(), listEnemy.begin(), listEnemy.end());
 	if (holyWater)
 	{
-		vector<GameObject*> temp;
 		temp.insert(temp.end(), listBoundary.begin(), listBoundary.end());
-		temp.insert(temp.end(), listCanHitObjects.begin(), listCanHitObjects.end());
 		subWeapon->update(dt, simonPos, simon->getState(), &temp);
 	}
 	else
 	{
-		subWeapon->update(dt, simonPos, simon->getState(), &listCanHitObjects);
+		subWeapon->update(dt, simonPos, simon->getState(), &temp);
 	}
 }
 
@@ -318,7 +319,7 @@ void Stage::updateGrid()
 	}
 }
 
-bool sortByType(Unit* a, Unit* b)
+bool sortByType(Unit * a, Unit * b)
 {
 	return a->get()->getType() < b->get()->getType();
 }

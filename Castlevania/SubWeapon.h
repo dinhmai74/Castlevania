@@ -18,8 +18,8 @@ public:
 	int getWeaponType() const { return weaponType; }
 	D3DXVECTOR2 acceleration;
 
-	virtual void update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, vector<GameObject*>* coObjects) override;
-private:
+	void update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, vector<GameObject*>* coObjects) override;
+protected:
 	bool fired;
 	int weaponType;
 	D3DXVECTOR2 initFireVelocity;

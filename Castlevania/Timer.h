@@ -24,6 +24,13 @@ public:
 		}
 		return false;
 	}
+	bool isTimeUp(DWORD delayTime)
+	{
+		if (GetTickCount() - startTime  >= limitedTime +delayTime) {
+			return true;
+		}
+		return false;
+	}
 	bool isRunning()
 	{
 		return !isTimeUp() && isRun;

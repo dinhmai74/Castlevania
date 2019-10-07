@@ -1,4 +1,5 @@
 #include "SubWeaponBoomerang.h"
+#include "Simon.h"
 
 SubWeaponBoomerang::SubWeaponBoomerang()
 {
@@ -21,6 +22,8 @@ void SubWeaponBoomerang::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, 
 			changedDirection = true;
 		}
 	}
+
+	firedDistance += fabs(dx);
 }
 
 void SubWeaponBoomerang::checkCollision(DWORD dt, vector<GameObject*>* coObjs)
@@ -43,10 +46,22 @@ void SubWeaponBoomerang::checkCollision(DWORD dt, vector<GameObject*>* coObjs)
 		for (auto& i : coEventsResult)
 		{
 			const auto object = (i->obj);
-			processWithCandle(object, nx, ny);
+			processCollisionWithCandle(object, nx, ny);
+			processCollisionWithEnemy(object, nx, ny);
+			processCollisionWithSimon(object, nx, ny);
 		}
 	}
 
 	updatePosWhenNotCollide();
 	for (auto& coEvent : coEvents) delete coEvent;
+}
+
+void SubWeaponBoomerang::processCollisionWithSimon(GameObject* object, float nx, float ny)
+{
+	auto simon = dynamic_cast<Simon*>(object);
+
+	if (simon && firedDistance >= 100)
+	{
+		setDisable();
+	}
 }
