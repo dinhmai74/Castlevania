@@ -762,7 +762,7 @@ void Simon::generateSubWeapon()
 	subWeapon = subWeaponFactory->getSubWeapon(subWeaponType, getFaceSide());
 	const auto width = getBoundingBox().r - getBoundingBox().l;
 	const auto subX = getFaceSide() == SideLeft ? x - width + 10 : x + width;
-	const auto subY = y;
+	const auto subY = state == throwingWhenSitting ? y + 15: y;
 
 	subWeapon->setInitPos({subX, subY});
 	subWeapon->setPosition(subX, subY);
