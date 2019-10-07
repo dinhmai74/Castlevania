@@ -112,7 +112,6 @@ void Simon::updateGeneralThingBaseOnState(DWORD dt)
 
 }
 
-
 bool Simon::updateLife(int val)
 {
 	life += val;
@@ -345,18 +344,23 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 		float ny;
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
 
+		auto isCollideX = false;
+		auto isCollideY = false;
 		// block
-		updatePosInTheMomentCollideAndRemoveVelocity(minTx, minTy, nx, ny);
 
 		for (auto& i : coEventsResult)
 		{
 			const auto object = (i->obj);
 			const auto boundary = dynamic_cast<Boundary*>(object);
 			if (boundary->getBoundaryType() == BoundaryNormal)
-				processCollisionWithBoundaryByX(minTx, nx, boundary);
+				isCollideX=processCollisionWithBoundaryByX(minTx, nx, boundary);
 			if (boundary->getBoundaryType() == BoundaryGround)
-				processCollisionWithGround(minTy, ny);
+				isCollideY= processCollisionWithGround(minTy, ny);
 		}
+
+		if (isCollideX || isCollideY)
+			updatePosInTheMomentCollideAndRemoveVelocity(minTx, minTy, nx, ny);
+		else updatePosWhenNotCollide();
 	}
 
 	for (auto& coEvent : coEvents) delete coEvent;
@@ -513,7 +517,7 @@ void Simon::processCollisionWithItem(Item* item)
 	item->setActive(false);
 }
 
-void Simon::processCollisionWithGround(float minTy, float ny)
+bool Simon::processCollisionWithGround(float minTy, float ny)
 {
 	if (ny == CDIR_BOTTOM)
 	{
@@ -522,12 +526,16 @@ void Simon::processCollisionWithGround(float minTy, float ny)
 		isInGround = true;
 		if (state == jumping)
 			standUp();
+		return true;
 	}
+
+	return false;
 }
 
-void Simon::processCollisionWithBoundaryByX(float minTx, float ny, Boundary* boundary)
+bool Simon::processCollisionWithBoundaryByX(float minTx, float nx, Boundary* boundary)
 {
-	auto type = boundary->getBoundaryType();
+	if (nx == 0) return false;
+	return true;
 }
 
 void Simon::updateAnimId()

@@ -58,10 +58,8 @@ void TileMap::loadMap()
 		while (ss >> n)
 		{
 			string idTile = "map_" + to_string(id) + "_tile_" + to_string(n);
-			spriteline.push_back(sprites->get(idTile));
 			stringLine.push_back(idTile);
 		}
-		matrix.push_back(spriteline);
 		stringMatrix.push_back(stringLine);
 	}
 

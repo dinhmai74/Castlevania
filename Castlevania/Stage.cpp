@@ -374,14 +374,14 @@ void Stage::updateCamera(const DWORD dt) const
 	getSimon()->getPosition(simonX, simonY);
 	getSimon()->getSpeed(simonVx, simonVy);
 
-	const int offset = 60;
+	const int offset = simonVx*dt+ 30;
 
 	float posX, posY;
 	game->getCameraPosition(posX, posY);
 
 	const auto isCanMoveAreaX =
 		simonX + offset > SCREEN_WIDTH / 2 &&
-		simonX + offset + SCREEN_WIDTH / 2 < mapWidth;
+		simonX + offset-20 + SCREEN_WIDTH / 2 < mapWidth;
 
 	if (isCanMoveAreaX)
 		posX = simonX + offset - SCREEN_WIDTH / 2;

@@ -126,8 +126,8 @@ private:
 	void updateAutoWalk(DWORD dt);
 
 	/*----------------- check collision -----------------*/
-	void processCollisionWithGround(float minTy, float ny);
-	void processCollisionWithBoundaryByX(float minTx, float ny, Boundary* boundary);
+	bool processCollisionWithGround(float minTy, float ny);
+	bool processCollisionWithBoundaryByX(float minTx, float ny, Boundary* boundary);
 	void checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries);
 	void checkCollisionWithItems(DWORD dt, vector<GameObject*>* items);
 	void checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs);
