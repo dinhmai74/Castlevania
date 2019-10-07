@@ -36,15 +36,7 @@ public:
 	bool forceRenderStaringAnimStand();
 	virtual void updateAnimId();
 
-	void refreshHitAnim(int stateAfterHit = idle, int animAfterHit= ANIM_IDLE)
-	{
-		whip->refreshAnim();
-		isHitting = false;
-		isThrowing = false;
-		animations[animId]->refresh();
-		setState(stateAfterHit);
-		setAnimId(animAfterHit);
-	}
+	void refreshHitAnim(int stateAfterHit = idle, int animAfterHit = ANIM_IDLE);
 
 	void initAnim() override;
 	void update(DWORD dt, const vector<MapGameObjects>& maps);
@@ -156,17 +148,11 @@ private:
 		stairDyRemain = -1;
 	}
 
-	void removeAllVelocity()
-	{
-		gravity = 0;
-		vx = 0;
-		vy = 0;
-	}
-
 	vector<GameObject*>* listStairs{};
 	bool canAutoClimb();
 	void doAutoClimb(DWORD dt);
 	bool isAutoWalking();
 	void checkIfFalling(DWORD dt);
 	float vxAutoWalk;
+	void updateGeneralThingBaseOnState(DWORD dt);
 };

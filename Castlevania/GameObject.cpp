@@ -129,6 +129,8 @@ void GameObject::getHurt(int nx, int ny, int hpLose)
 void GameObject::doDeathAnim()
 {
 	setState(death);
+	vx = 0;
+	vy = 0;
 	this->hp = 0;
 	if (animations[ANIM_DEATH]) timerDeath->start();
 	else doBurnedEffect();
@@ -143,7 +145,7 @@ void GameObject::loseHp(int hpLose)
 void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose)
 {
 	loseHp(hpLose);
-	if (animations[ANIM_DEFLECT])doDeflect(nx);
+	if (animations[ANIM_DEFLECT] && canDeflect)doDeflect(nx);
 	else doUntouchable();
 }
 

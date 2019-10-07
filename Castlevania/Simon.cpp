@@ -87,13 +87,15 @@ bool Simon::forceRenderStaringAnimStand()
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 {
 	if (forceDead) return;
+
+	updateGeneralThingBaseOnState(dt);
 	updateAutoWalk(dt);
 	doAutoClimb(dt);
-	checkIfFalling(dt);
 
+	checkIfFalling(dt);
 	processDeflectEffect();
 	updateChangingStageEffect();
-	GameObject::update(dt);
+	GameObject::update(dt); 
 
 	updateRGB();
 	processDeathEffect();
@@ -102,6 +104,14 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 	// simple fall down
 	updateGravity(gravity);
 }
+
+void Simon::updateGeneralThingBaseOnState(DWORD dt)
+{
+	if (state == climbing) canDeflect = false;
+	else canDeflect = true;
+
+}
+
 
 bool Simon::updateLife(int val)
 {
@@ -264,7 +274,9 @@ bool Simon::canAutoClimb()
 void Simon::doAutoClimb(DWORD dt)
 {
 	if (!canAutoClimb())
+	{
 		return;
+	}
 	if (state == climbing)
 	{
 		const auto climbSpeed = SIM_CLIMB_VELOCITY;
@@ -441,6 +453,7 @@ void Simon::reset()
 	resetState();
 	x = initPos.x;
 	y = initPos.y;
+	gravity = SIMON_GRAVITY;
 	timerPowering->stop();
 	timerDeflect->stop();
 	timerChangeStage->stop();
@@ -448,6 +461,7 @@ void Simon::reset()
 	timerUntouchable->stop();
 	timerAutoWalk->stop();
 	autoWalkDistance = -1;
+	climbDirection = 0;
 }
 
 void Simon::setHp(int val)
@@ -589,6 +603,16 @@ void Simon::updateAnimId()
 		setAnimId(ANIM_IDLE);
 	}
 	GameObject::updateAnimId();
+}
+
+void Simon::refreshHitAnim(int stateAfterHit, int animAfterHit)
+{
+	whip->refreshAnim();
+	isHitting = false;
+	isThrowing = false;
+	animations[animId]->refresh();
+	setState(stateAfterHit);
+	setAnimId(animAfterHit);
 }
 
 void Simon::setState(int state)

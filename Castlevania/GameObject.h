@@ -65,6 +65,7 @@ protected:
 	bool startDying;
 	bool startUntouch;
 	int deathTimeDuration;
+	bool canDeflect;
 public:
 	GameObject();
 
@@ -77,6 +78,12 @@ public:
 	virtual void renderBoundingBox();
 	void addAnimation(int id, string animTexId);
 	void setDisable() { isActive = false; isEnable = false; }
+	void removeAllVelocity()
+	{
+		gravity = 0;
+		vx = 0;
+		vy = 0;
+	}
 
 	/*----------------- hurt and death -----------------*/
 	virtual void getHurt(int nx = -1, int hpLose = 1);
