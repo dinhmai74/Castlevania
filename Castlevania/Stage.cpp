@@ -34,7 +34,7 @@ void Stage::initMap(int mapId, wstring mapName)
 	this->mapId = mapId;
 	this->mapName = std::move(mapName);
 	const auto map = TileMapManager::getInstance()->get(mapId);
-	this->grid = new Grid(map->getMapWidth(), 480);
+	this->grid = new Grid(map->getMapWidth(), 480, map->getTileWidth());
 }
 
 void Stage::initSimon()

@@ -56,6 +56,8 @@ public:
 	void setMapWidth(int val) { mapWidth = val; }
 	int getMapHeight() const { return mapHeight; }
 	void setMapHeight(int val) { mapHeight = val; }
+	int getTileWidth() const { return tileWidth; }
+	void setTileWidth(int val) { tileWidth = val; }
 private:
 	void init();
 };
