@@ -15,6 +15,7 @@ Stage::~Stage()
 void Stage::init(int mapId, wstring mapName)
 {
 	this->renderBoundingBox = false;
+	game->getCamera()->reset();
 	initMap(mapId, mapName);
 	initSimon();
 	loadContent();
@@ -23,18 +24,21 @@ void Stage::init(int mapId, wstring mapName)
 void Stage::init(int mapId, wstring mapName, Simon * simon)
 {
 	this->renderBoundingBox = false;
+	game->getCamera()->reset();
 	this->simon = simon;
-	simon->reset();
+	this->simon->reset();
 	initMap(mapId, mapName);
 	loadContent();
 }
 
 void Stage::initMap(int mapId, wstring mapName)
 {
+	game = Game::getInstance();
 	this->mapId = mapId;
 	this->mapName = std::move(mapName);
 	const auto map = TileMapManager::getInstance()->get(mapId);
-	this->grid = new Grid(map->getMapWidth(), 480, map->getTileWidth());
+	this->grid = new Grid(map->getMapWidth(), 480, map->getTileWidth()*8);
+	game->setLimitCamX({ 0, static_cast<float>(map->getMapWidth())});
 }
 
 void Stage::initSimon()
@@ -48,10 +52,11 @@ void Stage::initSimon()
 
 void Stage::reset()
 {
+	resetAllList();
 	loadContent();
 	simon->reset();
 	simon->doUntouchable();
-	Game::getInstance()->setCameraPosition(initCam.x, initCam.y);
+	game->setCameraPosition(initCam.x, initCam.y);
 }
 
 void Stage::loadContent()
@@ -81,20 +86,20 @@ void Stage::loadObjectFromFiles()
 		fs >> id >> x >> y;
 		switch (id)
 		{
-		case ObjectType::simon:
-			float camX, camY;
-			fs >> camX >> camY;
+		case ObjectType::OBSimon:
+			float max, min;
+			fs >> min>> max;
 			simon->setPosition(x, y);
 			simon->setInitPos({ x, y });
-			Game::getInstance()->setCameraPosition(camX, camY);
-			initCam = { camX, camY };
+			game->setLimitCamX({ min,max });
+			initCam = { x, y};
 			break;
-		case boundary:
+		case OBBoundary:
 		{
 			loadBoundaryCase(fs, x, y);
 			break;
 		}
-		case item:
+		case OBItem:
 		{
 			int type;
 			fs >> type;
@@ -102,7 +107,7 @@ void Stage::loadObjectFromFiles()
 			auto unit = new Unit(getGrid(), item, x, y);
 			break;
 		}
-		case candle:
+		case OBCandle:
 		{
 			int type, itemContainType, itemNx;
 			fs >> type >> itemContainType >> itemNx;
@@ -111,7 +116,7 @@ void Stage::loadObjectFromFiles()
 			break;
 		}
 
-		case obChangeStage:
+		case OBChangeStage:
 		{
 			float width, height;
 			int nextStage;
@@ -124,7 +129,7 @@ void Stage::loadObjectFromFiles()
 			break;
 		}
 
-		case enemy:
+		case OBEnemy:
 		{
 			int type, faceSide, respawnTime;
 			float min, max;
@@ -262,12 +267,12 @@ void Stage::respawnEnemies()
 vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 {
 	vector<MapGameObjects> map;
-	map.push_back({ boundary, &listBoundary });
-	map.push_back({ stair, &listStairs });
-	map.push_back({ item, &listItems });
-	map.push_back({ canHitObjs, &listCanHitObjects });
-	map.push_back({ obChangeStage, &listObjectChangeStage });
-	map.push_back({ enemy, &listEnemy });
+	map.push_back({ OBBoundary, &listBoundary });
+	map.push_back({ OBStair, &listStairs });
+	map.push_back({ OBItem, &listItems });
+	map.push_back({ OBCanHitObjs, &listCanHitObjects });
+	map.push_back({ OBChangeStage, &listObjectChangeStage });
+	map.push_back({ OBEnemy, &listEnemy });
 	return map;
 }
 
@@ -280,11 +285,11 @@ void Stage::updateInActiveUnit()
 			auto type = ob->getType();
 			switch (type)
 			{
-			case ObjectType::subWeapon:
+			case ObjectType::OBSubWeapon:
 				ob->setActive(false);
 				ob->setEnable(false);
 				break;
-			case enemy:
+			case OBEnemy:
 			{
 				auto enemy = dynamic_cast<Enemy*>(ob);
 				if (enemy->IsEnable()) {
@@ -326,11 +331,7 @@ bool sortByType(Unit * a, Unit * b)
 
 void Stage::loadListObjFromGrid()
 {
-	listUnit.clear();
-	listRenderObj.clear();
-	listItems.clear();
-	listCanHitObjects.clear();
-	listEnemy.clear();
+	resetAllList();
 	listRenderObj = listBoundary;
 	listRenderObj.insert(listRenderObj.begin(), listStairs.begin(), listStairs.end());
 	getGrid()->get(Game::getInstance()->getCameraPosition(), listUnit);
@@ -344,20 +345,20 @@ void Stage::loadListObjFromGrid()
 		const auto type = obj->getType();
 		switch (type)
 		{
-		case boundary:
+		case OBBoundary:
 		{
 			const auto bound = dynamic_cast<Boundary*>(obj);
 			const auto boundType = bound->getBoundaryType();
 			if (boundType == BoundaryCastle) listRenderOverrideSim.push_back(bound);
 			break;
 		}
-		case item: listItems.push_back(obj);
+		case OBItem: listItems.push_back(obj);
 			break;
-		case obChangeStage: listObjectChangeStage.push_back(obj);
+		case OBChangeStage: listObjectChangeStage.push_back(obj);
 			break;
-		case candle: listCanHitObjects.push_back(obj);
+		case OBCandle: listCanHitObjects.push_back(obj);
 			break;
-		case enemy: listEnemy.push_back(obj);
+		case OBEnemy: listEnemy.push_back(obj);
 			break;
 		default:;
 		}
@@ -366,31 +367,31 @@ void Stage::loadListObjFromGrid()
 
 void Stage::updateCamera(const DWORD dt) const
 {
-	auto game = Game::getInstance();
-	const auto map = TileMapManager::getInstance()->get(mapId);
-	const auto mapWidth = map->getMapWidth();
-	const auto mapHeight = map->getMapHeight();
+	auto res = game->getCamera()->update(dt);
+	if (res) return;
 	float simonX, simonY, simonVx, simonVy;
 	getSimon()->getPosition(simonX, simonY);
 	getSimon()->getSpeed(simonVx, simonVy);
 
-	const int offset = simonVx*dt+ 30;
+	const int offset = 60;
 
 	float posX, posY;
 	game->getCameraPosition(posX, posY);
+	auto newX= posX;
+	auto newY= posY;
 
 	const auto isCanMoveAreaX =
-		simonX + offset > SCREEN_WIDTH / 2 &&
-		simonX + offset-20 + SCREEN_WIDTH / 2 < mapWidth;
+		simonX + offset > SCREEN_WIDTH / 2 > game->getLimitCamX().min &&
+		simonX + offset-20 + SCREEN_WIDTH / 2 < game->getLimitCamX().max;
 
 	if (isCanMoveAreaX)
-		posX = simonX + offset - SCREEN_WIDTH / 2;
+		newX= simonX + offset - SCREEN_WIDTH / 2;
 
 	/*if (simonY + offset > SCREEN_HEIGHT / 2 &&
 		simonY + offset + SCREEN_HEIGHT / 2 < mapHeight){
 		posY = simonY + offset - SCREEN_HEIGHT / 2 - HEADER_HEIGHT;
 	}*/
-	game->setCameraPosition(posX, posY);
+	game->setCameraPosition(newX, newY);
 }
 
 void Stage::onKeyDown(const int keyCode)
@@ -417,6 +418,8 @@ void Stage::onKeyDown(const int keyCode)
 	case DIK_3: simon->setSubWeapon(itemBoomerang);
 		break;
 	case DIK_4: simon->setSubWeapon(itemHolyWater);
+		break;
+	case DIK_F: game->getCamera()->move(200);
 		break;
 	default:;
 	}

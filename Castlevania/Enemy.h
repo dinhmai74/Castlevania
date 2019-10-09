@@ -2,11 +2,6 @@
 #include "GameObject.h"
 #include "Territory.h"
 
-struct RespawnArea
-{
-	float min;
-	float max;
-};
 
 class Enemy: public GameObject
 {
@@ -35,8 +30,8 @@ public:
 	int getInitFaceSide() const { return initFaceSide; }
 	void setInitFaceSide(int val) { initFaceSide = val; }
 
-	RespawnArea getRespawnArea() const { return respawnArea; }
-	void setRespawnArea(RespawnArea val) { respawnArea = val; }
+	Region getRespawnArea() const { return respawnArea; }
+	void setRespawnArea(Region val) { respawnArea = val; }
 
 	virtual void setEnable(bool val = true) override;
 
@@ -54,6 +49,6 @@ private:
 	bool isStopAllAction;
 	DWORD respawnTime;
 	Timer* timerRespawn;
-	RespawnArea respawnArea;
+	Region respawnArea;
 
 };

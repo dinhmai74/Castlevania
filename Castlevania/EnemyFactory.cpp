@@ -12,7 +12,7 @@ Enemy* EnemyFactory::getEnemy(int type)
 
 	switch (type)
 	{
-	case enemGhouls:
+	case EnemGhouls:
 		enemy = new EnemyGhouls();
 		dmg = 2;
 		break;
@@ -33,7 +33,7 @@ int EnemyFactory::getHp(int enemyType)
 {
 	switch (enemyType)
 	{
-	case enemGhouls: return 1;
+	case EnemGhouls: return 1;
 	default: return 1;
 	}
 }

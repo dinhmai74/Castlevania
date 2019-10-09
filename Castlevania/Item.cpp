@@ -59,7 +59,7 @@ void Item::initAnim()
 
 void Item::init()
 {
-	type = item;
+	type = OBItem;
 	setFaceSide(SideRight);
 	initAnim();
 	appearTimer = new Timer(TIMER_ITEM_DURATION);

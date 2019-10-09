@@ -8,17 +8,12 @@ SubWeapon::SubWeapon()
 
 void SubWeapon::init()
 {
-	type = subWeapon;
+	type = OBSubWeapon;
 	initAnim();
 }
 
 void SubWeapon::initAnim()
 {
-	addAnimation(itemDagger, "subweapons_dagger_ani");
-	addAnimation(itemAxe, "subweapons_axe_ani");
-	addAnimation(itemBoomerang, "subweapons_cross_ani");
-	addAnimation(itemHolyWater, "subweapons_holy_water_ani");
-	addAnimation(itemHolyWaterEffect, "subweapons_holy_water_effect_ani");
 }
 
 void SubWeapon::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, vector<GameObject*>* coObjects)

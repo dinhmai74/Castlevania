@@ -40,7 +40,7 @@ private:
 inline void Candle::init()
 {
 	initAnim();
-	type = candle;
+	type = OBCandle;
 	setAnimId(candleBig);
 }
 

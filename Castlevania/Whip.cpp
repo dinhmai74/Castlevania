@@ -8,7 +8,7 @@ Whip::Whip()
 	Whip::initAnim();
 	lv = 1;
 	setAnimId(-1);
-	type = whip;
+	type = OBwhip;
 	setDmg(1);
 }
 

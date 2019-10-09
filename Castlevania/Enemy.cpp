@@ -17,7 +17,7 @@ void Enemy::init()
 {
 	resetHP();
 	setDmg(1);
-	setType(enemy);
+	setType(OBEnemy);
 	setRespawnTime(3000);
 	timerRespawn = new Timer(respawnTime);
 	timerRespawn->start();

@@ -3,6 +3,8 @@
 
 SubWeaponHolyWater::SubWeaponHolyWater()
 {
+	addAnimation(itemHolyWater, "subweapons_holy_water_ani");
+	addAnimation(itemHolyWaterEffect, "subweapons_holy_water_effect_ani");
 	setWeaponType(itemHolyWater);
 	setAnimId(itemHolyWater);
 	setState(itemHolyWater);

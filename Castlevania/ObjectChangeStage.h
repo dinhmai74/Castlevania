@@ -21,7 +21,7 @@ private:
 
 inline ObjectChangeStage::ObjectChangeStage()
 {
-	type = obChangeStage;
+	type = OBChangeStage;
 	setEnable();
 }
 

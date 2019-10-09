@@ -15,7 +15,7 @@ EnemyGhouls::~EnemyGhouls() = default;
 
 void EnemyGhouls::init()
 {
-	setEnemyType(enemGhouls);
+	setEnemyType(EnemGhouls);
 	initAnim();
 	setState(walking);
 	setAnimId(ANIM_WALK);

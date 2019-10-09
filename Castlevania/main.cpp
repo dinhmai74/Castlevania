@@ -250,7 +250,7 @@ void loadResources()
 	LoadSprites(100002, L"HP");
 	vector<TileMapInfo> mapName;
 	mapName.push_back({ ID_STAGE_1,L"stage1","1",1536,320,32,32 });
-	mapName.push_back({ ID_STAGE_2,L"stage2","2",3072,352,32,32 });
+	mapName.push_back({ ID_STAGE_2,L"stage2","2",5632,352,32,32 });
 	mapName.push_back({ ID_STAGE_3,L"stage3","2",1024,352,32,32 });
 
 	auto stages = StageManager::getInstance();

@@ -25,7 +25,7 @@ void Simon::init()
 	setAnimId(ANIM_IDLE);
 	//gravity = 0;
 	gravity = SIMON_GRAVITY;
-	type = simon;
+	type = OBSimon;
 }
 
 void Simon::initAnim()
@@ -187,21 +187,21 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 	{
 		switch (map.id)
 		{
-		case boundary:
+		case OBBoundary:
 			if (state != climbing)checkCollisionWithBoundary(dt, map.objs);
 			else updatePosWhenNotCollide();
 			break;
-		case item: checkCollisionWithItems(dt, map.objs);
+		case OBItem: checkCollisionWithItems(dt, map.objs);
 			break;
-		case canHitObjs: updateWhip(dt, map.objs);
+		case OBCanHitObjs: updateWhip(dt, map.objs);
 			break;
-		case obChangeStage: checkCollisionWithObChangeStage(dt, map.objs);
+		case OBChangeStage: checkCollisionWithObChangeStage(dt, map.objs);
 			break;
-		case enemy:
+		case OBEnemy:
 			checkCollisionWithEnemy(dt, map.objs);
 			updateWhip(dt, map.objs);
 			break;
-		case stair:
+		case OBStair:
 			listStairs = map.objs;
 			checkCollisionWithStair(listStairs);
 			break;

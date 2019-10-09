@@ -3,6 +3,7 @@
 
 SubWeaponBoomerang::SubWeaponBoomerang()
 {
+	addAnimation(itemBoomerang, "subweapons_cross_ani");
 	setWeaponType(itemBoomerang);
 	setAnimId(itemBoomerang);
 	territory = { 130,130 };

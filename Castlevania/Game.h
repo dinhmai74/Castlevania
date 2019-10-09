@@ -6,9 +6,9 @@
 #include"debug.h"
 #include <dinput.h>
 #include <vector>
-
 #include "KeyboardHandler.h"
 #include "Box.h"
+#include "Camera.h"
 
 #define KEYBOARD_BUFFER_SIZE 1024
 #define DIRECTINPUT_VERSION 0x0800
@@ -24,6 +24,7 @@ constexpr auto MAX_FRAME_RATE = 90;
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0) //black
 //#define BACKGROUND_COLOR D3DCOLOR_XRGB(255,255,255) //white
 //#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 255, 200)
+
 
 class Game
 {
@@ -43,8 +44,8 @@ private:
 	DIDEVICEOBJECTDATA keyEvents[KEYBOARD_BUFFER_SIZE];		// Buffered keyboard data
 	KeyboardHandler* keyHandler;
 
-	float xCamera;
-	float yCamera;
+	Camera* camera;
+	
 	ID3DXFont* font;
 
 public:
@@ -68,8 +69,11 @@ public:
 	void processKeyboard();
 	void setCameraPosition(float x, float y);
 	void getCameraPosition(float& x, float& y);
-	D3DXVECTOR2 getCameraPosition() const { return { xCamera,yCamera }; }
+	D3DXVECTOR2 getCameraPosition() const { return { getCamera()->getX() ,getCamera()->getY()}; }
 	ID3DXFont* getFont() const { return this->font; }
+	Region getLimitCamX() const { return getCamera()->getLimitX(); }
+	void setLimitCamX(Region val) { getCamera()->setLimitX(val); }
 
 	~Game();
+	Camera* getCamera() const { return Camera::getInstance(); }
 };

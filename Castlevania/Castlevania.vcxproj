@@ -126,8 +126,10 @@
     <ClCompile Include="AnimationManager.cpp" />
     <ClCompile Include="Boundary.cpp" />
     <ClCompile Include="BoundaryFactory.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CandleFactory.cpp" />
     <ClCompile Include="debug.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyGhouls.cpp" />
@@ -165,6 +167,8 @@
     <ClInclude Include="BigCandle.h" />
     <ClInclude Include="Boundary.h" />
     <ClInclude Include="BoundaryFactory.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="stage1_castle.h" />
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Box.h" />

@@ -35,6 +35,7 @@ private:
 	Simon* simon;
 	int mapId;
 	Grid* grid;
+	Game* game;
 	wstring mapName;
 	D3DXVECTOR2 initCam;
 	vector<GameObject*> listBoundary;
@@ -53,6 +54,16 @@ private:
 	void initSimonPos();
 	void respawnEnemies();
 	void loadListObjFromGrid();
+
+	void resetAllList()
+	{
+		listUnit.clear();
+		listRenderObj.clear();
+		listItems.clear();
+		listCanHitObjects.clear();
+		listEnemy.clear();
+	}
+
 	vector<MapGameObjects> getMapSimonCanCollisionObjects();
 	void updateCamera(DWORD dt) const;
 	bool isInViewport(GameObject* object);

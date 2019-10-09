@@ -58,16 +58,17 @@ enum CandleType
 
 enum ObjectType
 {
-	boundary,
-	item,
-	candle,
-	canHitObjs,
-	subWeapon,
-	whip,
-	simon,
-	obChangeStage,
-	enemy,
-	stair
+	OBBoundary,
+	OBItem,
+	OBCandle,
+	OBCanHitObjs,
+	OBSubWeapon,
+	OBwhip,
+	OBSimon,
+	OBChangeStage,
+	OBEnemy,
+	OBStair,
+	OBDoor
 };
 
 enum BoundaryType {
@@ -99,7 +100,7 @@ enum ItemType
 
 enum EnemType
 {
-	enemGhouls,
+	EnemGhouls,
 };
 
 #pragma endregion
@@ -125,3 +126,4 @@ auto constexpr TIMER_HOLY_BURN_DURATION = 2000;
 
 /*----------------- gravity  -----------------*/
 auto constexpr E_GRAVITY = 0.0015f;
+

@@ -49,6 +49,8 @@ void Game::init(HWND hWnd)
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS,
 		ANTIALIASED_QUALITY, FF_DONTCARE, L"Press Start", &font);
 
+	camera = Camera::getInstance();
+
 	OutputDebugStringW(L"[INFO] InitGame done;\n");
 }
 
@@ -67,7 +69,7 @@ void Game::draw(int accordingCam, int nx, float x, float y, LPDIRECT3DTEXTURE9 t
 	};
 	// calculation position of object in game
 	// if according =0 => don't move base on cam
-	D3DXVECTOR3 p(floor(x - xCamera * accordingCam), floor(y - yCamera * accordingCam), 0);
+	D3DXVECTOR3 p(floor(x - getCamera()->getX()* accordingCam), floor(y - getCamera()->getY()* accordingCam), 0);
 
 	// flip sprite, using nx parameter
 	D3DXMATRIX oldTransform;
@@ -152,14 +154,13 @@ void Game::processKeyboard()
 
 void Game::setCameraPosition(float x, float y)
 {
-	xCamera = x;
-	yCamera = y;
+	getCamera()->setPos({x,y});
 }
 
 void Game::getCameraPosition(float& x, float& y)
 {
-	x = xCamera;
-	y = yCamera;
+	x = getCamera()->getX();
+	y = getCamera()->getY();
 }
 
 int Game::isKeyDown(int keyCode)
