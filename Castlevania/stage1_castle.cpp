@@ -3,6 +3,7 @@
 Stage1Castle::Stage1Castle()
 {
 	addAnimation(normal, "stage1_castle_default_ani");
+	setType(OBCastle);
 }
 
 void Stage1Castle::render()

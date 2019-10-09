@@ -10,6 +10,8 @@
 #include "Timer.h"
 #include "Stair.h"
 
+class Door;
+
 class Simon :
 	public GameObject
 {
@@ -19,7 +21,7 @@ public:
 	~Simon();
 
 	void handleOnKeyPress(BYTE* states);
-	bool isDoingImportantAnim();
+	bool shouldKeyboardDisable();
 	void handleOnKeyDown(int KeyCode);
 	Box getBoundingBox() override;
 	void handleOnKeyRelease(int KeyCode);
@@ -90,6 +92,7 @@ private:
 	float stairDxRemain{};
 	float stairDyRemain{};
 	Stair* collidedStair{};
+	int goThroughDoorStatus;
 
 	bool isPowering() { return isTimerRunning(timerPowering); };
 	bool isChangingStage() { return isTimerRunning(timerChangeStage); };
@@ -124,6 +127,7 @@ private:
 	void checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs);
 	void processDeathEffect();
 	void updateAutoWalk(DWORD dt);
+	void moveCam(float distance=235);
 
 	/*----------------- check collision -----------------*/
 	bool processCollisionWithGround(float minTy, float ny);
@@ -138,7 +142,7 @@ private:
 
 	void processCollisionWithItem(Item* item);
 	void updateChangingStageEffect();
-	void doChangeStageEffect();
+	void doChangeStageEffect(DWORD changingDuration= SIM_CHANGING_STAGE_DURATION);
 	void processAnimStaring();
 	void checkCollisionWithStair(vector<GameObject*>* objs);
 
@@ -154,5 +158,12 @@ private:
 	bool isAutoWalking();
 	void checkIfFalling(DWORD dt);
 	float vxAutoWalk;
-	void updateGeneralThingBaseOnState(DWORD dt);
+	void updateCameraWhenGoThroughDoor(DWORD dt);
+
+
+
+	bool processCollisionWithDoor(float minTx, float nx, Door* door);
+	Door* collidedDoor;
+	bool forceDisable;
+	void checkBoundary();
 };

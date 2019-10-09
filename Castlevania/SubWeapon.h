@@ -14,7 +14,6 @@ public:
 	void setWeaponType(int val) { weaponType = val; }
 	D3DXVECTOR2 getInitFireVelocity() const { return initFireVelocity; }
 	void setInitFireVelocity(D3DXVECTOR2 val) { initFireVelocity = val; }
-	void setAcceleration(const  D3DXVECTOR2 velocity);
 	int getWeaponType() const { return weaponType; }
 	D3DXVECTOR2 acceleration;
 

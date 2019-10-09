@@ -28,9 +28,9 @@ public:
 	void onKeyDown(int keyCode);
 	void onKeyUp(int keyCode) const;
 	void keyState(BYTE* states) const;
-	Grid* getGrid() const { return grid; }
-	Simon* getSimon() const { return simon; }
-	int getId() { return mapId; };
+	Grid* getGrid() const;
+	Simon* getSimon() const;
+	int getId();;
 private:
 	Simon* simon;
 	int mapId;
@@ -42,9 +42,10 @@ private:
 	vector<GameObject*> listItems;
 	vector<GameObject*> listCanHitObjects;
 	vector<GameObject*> listRenderObj;
-	vector<GameObject*> listRenderOverrideSim;
 	vector<GameObject*> listObjectChangeStage;
 	vector<GameObject*> listEnemy;
+	vector<GameObject*> listDoor;
+	vector<GameObject*> listStopSimObjs;
 	vector<Unit*> listUnit;
 	vector<GameObject*> listStairs;
 
@@ -55,14 +56,7 @@ private:
 	void respawnEnemies();
 	void loadListObjFromGrid();
 
-	void resetAllList()
-	{
-		listUnit.clear();
-		listRenderObj.clear();
-		listItems.clear();
-		listCanHitObjects.clear();
-		listEnemy.clear();
-	}
+	void resetAllList();
 
 	vector<MapGameObjects> getMapSimonCanCollisionObjects();
 	void updateCamera(DWORD dt) const;

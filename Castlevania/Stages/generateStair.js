@@ -84,7 +84,6 @@ function appendFile(name, data) {
 			console.log("error: ", err);
 		} else {
 			// done
-			console.log("insert success!");
 		}
 	});
 }

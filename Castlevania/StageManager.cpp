@@ -18,6 +18,7 @@ void StageManager::init(vector<TileMapInfo> tileMapsInfo)
 
 void StageManager::nextStage(int id)
 {
+	if (id == -2) return;
 	auto newStage = new Stage();
 	// cause map id from =1 so next one id from tileMapsInfo is this
 	auto nextId = id == -1 ? currentStage->getId() : id;

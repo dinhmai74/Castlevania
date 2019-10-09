@@ -42,7 +42,7 @@ void SubWeaponHolyWater::checkCollision(DWORD dt, vector<GameObject*>* coObjs)
 		{
 			const auto object = (i->obj);
 			auto boundary = dynamic_cast<Boundary*>(object);
-			if (boundary)
+			if (boundary && boundary->getBoundaryType()== BoundaryGround)
 			{
 				processWithBoundary(object, nx, ny);
 			}

@@ -141,6 +141,7 @@
     <ClCompile Include="ItemFactory.cpp" />
     <ClCompile Include="ItemHeart.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="BoundaryFactory.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="stage1_castle.h" />
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Box.h" />

@@ -4,6 +4,8 @@
 #include "SubWeaponHolyWater.h"
 #include "ObjectChangeStage.h"
 #include "EnemyFactory.h"
+#include "ObjectFactory.h"
+#include "Door.h"
 
 Stage::Stage()
 {
@@ -37,8 +39,8 @@ void Stage::initMap(int mapId, wstring mapName)
 	this->mapId = mapId;
 	this->mapName = std::move(mapName);
 	const auto map = TileMapManager::getInstance()->get(mapId);
-	this->grid = new Grid(map->getMapWidth(), 480, map->getTileWidth()*8);
-	game->setLimitCamX({ 0, static_cast<float>(map->getMapWidth())});
+	this->grid = new Grid(map->getMapWidth(), 480, map->getTileWidth() * 4);
+	game->setLimitCamX({ 0, static_cast<float>(map->getMapWidth()) });
 }
 
 void Stage::initSimon()
@@ -86,17 +88,22 @@ void Stage::loadObjectFromFiles()
 		fs >> id >> x >> y;
 		switch (id)
 		{
-		case ObjectType::OBSimon:
-			float max, min;
-			fs >> min>> max;
+		case OBSimon:
+		{
+			float max, min, camX, camY;
+			fs >> min >> max >> camX >> camY;
 			simon->setPosition(x, y);
 			simon->setInitPos({ x, y });
-			game->setLimitCamX({ min,max });
-			initCam = { x, y};
+			game->setLimitCamX({ min, max });
+			initCam = { camX, camY };
+			game->setCameraPosition(camX, camY);
+			DebugOut(L"\n load simon");
 			break;
+		}
 		case OBBoundary:
 		{
 			loadBoundaryCase(fs, x, y);
+			DebugOut(L"\n load oboundary");
 			break;
 		}
 		case OBItem:
@@ -105,6 +112,7 @@ void Stage::loadObjectFromFiles()
 			fs >> type;
 			auto item = ItemFactory::Get()->getItem(type, { x, y });
 			auto unit = new Unit(getGrid(), item, x, y);
+			DebugOut(L"\n load item");
 			break;
 		}
 		case OBCandle:
@@ -113,6 +121,7 @@ void Stage::loadObjectFromFiles()
 			fs >> type >> itemContainType >> itemNx;
 			const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, { x, y }, getGrid());
 			auto unit = new Unit(getGrid(), candle, x, y);
+			DebugOut(L"\n load candle");
 			break;
 		}
 
@@ -126,6 +135,7 @@ void Stage::loadObjectFromFiles()
 			obj->setPosition(x, y);
 			obj->setNextStage(nextStage);
 			auto unit = new Unit(getGrid(), obj, x, y);
+			DebugOut(L"\n load obChangeStage");
 			break;
 		}
 
@@ -142,16 +152,32 @@ void Stage::loadObjectFromFiles()
 			obj->setInitFaceSide(faceSide);
 			obj->setFaceSide(faceSide);
 			auto unit = new Unit(getGrid(), obj, x, y);
+			DebugOut(L"\n load enemy");
 			break;
 		}
-		default: break;
+		case OBDoor:
+		{
+			int nx;
+			float min, max, moveCam;
+			fs >> nx >> min >> max >> moveCam;
+			auto obj = new Door();
+			obj->setInitPos({ x, y });
+			obj->setPosition(x, y);
+			obj->setFaceSide(nx);
+			obj->setNextCameraLimit({ min, max });
+			obj->setMoveCamDistance(moveCam);
+			auto unit = new Unit(getGrid(), obj, x, y);
+			break;
+		}
+		default:
+			break;
 		}
 	}
 
 	fs.close();
 }
 
-void Stage::loadBoundaryCase(fstream & fs, float x, float y)
+void Stage::loadBoundaryCase(fstream& fs, float x, float y)
 {
 	float width, height;
 	int type;
@@ -190,21 +216,12 @@ void Stage::render()
 	for (auto object : listRenderObj)
 	{
 		if (renderBoundingBox) object->renderBoundingBox();
+
 		object->render();
 	}
 
 	if (renderBoundingBox)
-	{
-		getSimon()->renderBoundingBox();
 		getSimon()->getWhip()->renderBoundingBox();
-	}
-	getSimon()->render();
-
-	for (auto obj : listRenderOverrideSim)
-	{
-		if (renderBoundingBox) obj->renderBoundingBox();
-		obj->render();
-	}
 }
 
 void Stage::update(DWORD dt)
@@ -217,6 +234,7 @@ void Stage::update(DWORD dt)
 	getSimon()->update(dt, map);
 	for (auto obj : listRenderObj)
 	{
+		if (obj->getType() == OBSimon) continue;
 		auto subWeapon = dynamic_cast<SubWeapon*>(obj);
 		if (subWeapon)
 		{
@@ -231,11 +249,11 @@ void Stage::update(DWORD dt)
 		obj->update(dt, &listBoundary);
 	}
 	updateCamera(dt);
-	updateInActiveUnit();
 	updateGrid();
+	updateInActiveUnit();
 }
 
-void Stage::updateSubWeapon(SubWeapon * subWeapon, DWORD dt)
+void Stage::updateSubWeapon(SubWeapon* subWeapon, DWORD dt)
 {
 	auto simonPos = getSimon()->getPosition();
 	auto holyWater = dynamic_cast<SubWeaponHolyWater*>(subWeapon);
@@ -267,12 +285,12 @@ void Stage::respawnEnemies()
 vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 {
 	vector<MapGameObjects> map;
-	map.push_back({ OBBoundary, &listBoundary });
 	map.push_back({ OBStair, &listStairs });
 	map.push_back({ OBItem, &listItems });
 	map.push_back({ OBCanHitObjs, &listCanHitObjects });
 	map.push_back({ OBChangeStage, &listObjectChangeStage });
 	map.push_back({ OBEnemy, &listEnemy });
+	map.push_back({ OBBoundary, &listStopSimObjs });
 	return map;
 }
 
@@ -280,19 +298,21 @@ void Stage::updateInActiveUnit()
 {
 	for (auto ob : listRenderObj)
 	{
+		auto wepon = dynamic_cast<SubWeapon*>(ob);
 		if (!isInViewport(ob))
 		{
 			auto type = ob->getType();
 			switch (type)
 			{
-			case ObjectType::OBSubWeapon:
+			case OBSubWeapon:
 				ob->setActive(false);
 				ob->setEnable(false);
 				break;
 			case OBEnemy:
 			{
 				auto enemy = dynamic_cast<Enemy*>(ob);
-				if (enemy->IsEnable()) {
+				if (enemy->IsEnable())
+				{
 					enemy->setEnable(false);
 					enemy->reset();
 				}
@@ -304,12 +324,18 @@ void Stage::updateInActiveUnit()
 	}
 }
 
-bool Stage::isInViewport(GameObject * object)
+bool Stage::isInViewport(GameObject* object)
 {
 	const auto camPosition = Game::getInstance()->getCameraPosition();
 
-	return isColliding(object->getBoundingBox(),
-		{ camPosition.x, camPosition.y, camPosition.x + SCREEN_WIDTH, camPosition.y + SCREEN_HEIGHT });
+	auto isInView = isColliding(object->getBoundingBox(),
+		{
+			camPosition.x, camPosition.y, camPosition.x + SCREEN_WIDTH,
+			camPosition.y + SCREEN_HEIGHT
+		});
+
+
+	return isInView;
 }
 
 void Stage::updateGrid()
@@ -324,18 +350,19 @@ void Stage::updateGrid()
 	}
 }
 
-bool sortByType(Unit * a, Unit * b)
+bool sortByType(GameObject* a, GameObject* b)
 {
-	return a->get()->getType() < b->get()->getType();
+	return a->getType() < b->getType();
 }
 
 void Stage::loadListObjFromGrid()
 {
 	resetAllList();
 	listRenderObj = listBoundary;
+	listStopSimObjs = listBoundary;
+	listRenderObj.push_back(simon);
 	listRenderObj.insert(listRenderObj.begin(), listStairs.begin(), listStairs.end());
 	getGrid()->get(Game::getInstance()->getCameraPosition(), listUnit);
-	sort(listUnit.begin(), listUnit.end(), sortByType);
 
 	for (auto unit : listUnit)
 	{
@@ -345,13 +372,6 @@ void Stage::loadListObjFromGrid()
 		const auto type = obj->getType();
 		switch (type)
 		{
-		case OBBoundary:
-		{
-			const auto bound = dynamic_cast<Boundary*>(obj);
-			const auto boundType = bound->getBoundaryType();
-			if (boundType == BoundaryCastle) listRenderOverrideSim.push_back(bound);
-			break;
-		}
 		case OBItem: listItems.push_back(obj);
 			break;
 		case OBChangeStage: listObjectChangeStage.push_back(obj);
@@ -360,9 +380,24 @@ void Stage::loadListObjFromGrid()
 			break;
 		case OBEnemy: listEnemy.push_back(obj);
 			break;
+		case OBDoor: listDoor.push_back(obj);
+			listStopSimObjs.push_back(obj);
+			break;
 		default:;
 		}
 	}
+	sort(listRenderObj.begin(), listRenderObj.end(), sortByType);
+}
+
+void Stage::resetAllList()
+{
+	listUnit.clear();
+	listRenderObj.clear();
+	listItems.clear();
+	listCanHitObjects.clear();
+	listEnemy.clear();
+	listDoor.clear();
+	listStopSimObjs.clear();
 }
 
 void Stage::updateCamera(const DWORD dt) const
@@ -377,15 +412,15 @@ void Stage::updateCamera(const DWORD dt) const
 
 	float posX, posY;
 	game->getCameraPosition(posX, posY);
-	auto newX= posX;
-	auto newY= posY;
+	auto newX = posX;
+	auto newY = posY;
 
 	const auto isCanMoveAreaX =
-		simonX + offset > SCREEN_WIDTH / 2 > game->getLimitCamX().min &&
-		simonX + offset-20 + SCREEN_WIDTH / 2 < game->getLimitCamX().max;
+		simonX + offset > SCREEN_WIDTH / 2 + game->getLimitCamX().min&&
+		simonX + offset - 20 + SCREEN_WIDTH / 2 < game->getLimitCamX().max;
 
 	if (isCanMoveAreaX)
-		newX= simonX + offset - SCREEN_WIDTH / 2;
+		newX = simonX + offset - SCREEN_WIDTH / 2;
 
 	/*if (simonY + offset > SCREEN_HEIGHT / 2 &&
 		simonY + offset + SCREEN_HEIGHT / 2 < mapHeight){
@@ -430,7 +465,22 @@ void Stage::onKeyUp(const int keyCode) const
 	getSimon()->handleOnKeyRelease(keyCode);
 }
 
-void Stage::keyState(BYTE * states) const
+void Stage::keyState(BYTE* states) const
 {
 	getSimon()->handleOnKeyPress(states);
+}
+
+Grid* Stage::getGrid() const
+{
+	return grid;
+}
+
+Simon* Stage::getSimon() const
+{
+	return simon;
+}
+
+int Stage::getId()
+{
+	return mapId;
 }

@@ -58,3 +58,16 @@ enum StaringStatus
 	ready,
 	onGoing
 };
+
+enum ThroughDoorStatus
+{
+	nope,
+	ThroughDoorStarted,
+	ThroughDoorOpening,
+	ThroughStartWalk,
+	ThroughWalkDone,
+	ThroughDoorStartClose,
+	ThroughDoorClosing,
+	ThroughDoorClosed,
+	ThroughDone
+};

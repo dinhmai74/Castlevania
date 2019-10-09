@@ -1,0 +1,4 @@
+door_close_idle_ani	door_idle	700
+door_open_idle_ani	door_open_1	700
+door_open_ani	door_open_0	700	door_open_1	700
+door_close_ani	door_open_2	700	door_idle 700

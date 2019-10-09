@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include <stdexcept>
 #include "EnemyFactory.h"
+#include "SimonConstants.h"
 
 
 Enemy::Enemy()

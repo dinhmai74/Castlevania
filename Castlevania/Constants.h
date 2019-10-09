@@ -1,5 +1,4 @@
 #pragma once
-#include "SimonConstants.h"
 #include "StageConst.h"
 #include "WhipConst.h"
 #include "TileConst.h"
@@ -62,13 +61,16 @@ enum ObjectType
 	OBItem,
 	OBCandle,
 	OBCanHitObjs,
-	OBSubWeapon,
+	temp1,
 	OBwhip,
-	OBSimon,
+	temp0,
 	OBChangeStage,
 	OBEnemy,
 	OBStair,
-	OBDoor
+	OBDoor,
+	OBSimon = 50,
+	OBCastle = 51,
+	OBSubWeapon = 52
 };
 
 enum BoundaryType {

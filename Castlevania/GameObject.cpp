@@ -1,5 +1,6 @@
 ﻿#include "GameObject.h"
 #include <algorithm>
+#include "SimonConstants.h"
 
 void GameObject::processWhenBurnedEffectDone()
 {
@@ -23,6 +24,7 @@ GameObject::GameObject()
 	vx = vy = 0;
 	alpha = r = b = g = 255;
 	setFaceSide(SideRight); // right side
+	isEnable= true;
 	preAnimId = -1;
 	previousAnimIsOneTimeAnim = false;
 	boundingGameX = 0;

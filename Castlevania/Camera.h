@@ -25,6 +25,7 @@ public:
 	void setX(float val) { x = val; }
 	Region getLimitX() const { return limitX; }
 	void setLimitX(Region val) { limitX = val; }
+	void setLimitXMax(float val){ limitX.max = val; }
 	void setPos(D3DXVECTOR2 pos);
 	D3DXVECTOR2 getPos();
 	bool update(DWORD dt);
