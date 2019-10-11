@@ -367,7 +367,7 @@ void Simon::checkCollisionWithStair(vector<GameObject*>* objs)
 			auto isEndOfStairUp = collidedStair->getStairType() == StairEnd && climbDirection == ClimbUp;
 			auto isEndOfStairDown = collidedStair->getStairType() == StairStartUp && climbDirection == ClimbDown;
 
-			if (isEndOfStairDown) collidedStair = nullptr;
+			if (isEndOfStairDown) forceStopClimb(ClimbDown);
 			if (isEndOfStairUp) forceStopClimb(ClimbUp);
 		}
 	}

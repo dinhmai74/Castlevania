@@ -186,10 +186,6 @@ void Stage::loadObjectFromFiles()
 				break;
 			}
 		default:
-			auto obj = ObjectFactory::getInstance()->getObj(id);
-			obj->setInitPos({x, y});
-			obj->setPosition(x, y);
-			auto unit = new Unit(getGrid(), obj, x, y);
 			break;
 		}
 	}
