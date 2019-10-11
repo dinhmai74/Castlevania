@@ -6,6 +6,7 @@
 #include "EnemyFactory.h"
 #include "ObjectFactory.h"
 #include "Door.h"
+#include "ForceIdleSim.h"
 
 Stage::Stage()
 {
@@ -23,7 +24,7 @@ void Stage::init(int mapId, wstring mapName)
 	loadContent();
 }
 
-void Stage::init(int mapId, wstring mapName, Simon * simon)
+void Stage::init(int mapId, wstring mapName, Simon* simon)
 {
 	this->renderBoundingBox = false;
 	game->getCamera()->reset();
@@ -40,7 +41,7 @@ void Stage::initMap(int mapId, wstring mapName)
 	this->mapName = std::move(mapName);
 	const auto map = TileMapManager::getInstance()->get(mapId);
 	this->grid = new Grid(map->getMapWidth(), 480, map->getTileWidth() * 4);
-	game->setLimitCamX({ 0, static_cast<float>(map->getMapWidth()) });
+	game->setLimitCamX({0, static_cast<float>(map->getMapWidth())});
 }
 
 void Stage::initSimon()
@@ -89,87 +90,106 @@ void Stage::loadObjectFromFiles()
 		switch (id)
 		{
 		case OBSimon:
-		{
-			float max, min, camX, camY;
-			fs >> min >> max >> camX >> camY;
-			simon->setPosition(x, y);
-			simon->setInitPos({ x, y });
-			game->setLimitCamX({ min, max });
-			initCam = { camX, camY };
-			game->setCameraPosition(camX, camY);
-			DebugOut(L"\n load simon");
-			break;
-		}
+			{
+				float max, min, camX, camY;
+				fs >> min >> max >> camX >> camY;
+				simon->setPosition(x, y);
+				simon->setInitPos({x, y});
+				game->setLimitCamX({min, max});
+				initCam = {camX, camY};
+				game->setCameraPosition(camX, camY);
+				DebugOut(L"\n load simon");
+				break;
+			}
 		case OBBoundary:
-		{
-			loadBoundaryCase(fs, x, y);
-			DebugOut(L"\n load oboundary");
-			break;
-		}
+			{
+				loadBoundaryCase(fs, x, y);
+				break;
+			}
 		case OBItem:
-		{
-			int type;
-			fs >> type;
-			auto item = ItemFactory::Get()->getItem(type, { x, y });
-			auto unit = new Unit(getGrid(), item, x, y);
-			DebugOut(L"\n load item");
-			break;
-		}
+			{
+				int type;
+				fs >> type;
+				auto item = ItemFactory::Get()->getItem(type, {x, y});
+				auto unit = new Unit(getGrid(), item, x, y);
+				DebugOut(L"\n load item");
+				break;
+			}
 		case OBCandle:
-		{
-			int type, itemContainType, itemNx;
-			fs >> type >> itemContainType >> itemNx;
-			const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, { x, y }, getGrid());
-			auto unit = new Unit(getGrid(), candle, x, y);
-			DebugOut(L"\n load candle");
-			break;
-		}
+			{
+				int type, itemContainType, itemNx;
+				fs >> type >> itemContainType >> itemNx;
+				const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, {x, y},
+				                                                    getGrid());
+				auto unit = new Unit(getGrid(), candle, x, y);
+				DebugOut(L"\n load candle");
+				break;
+			}
 
 		case OBChangeStage:
-		{
-			float width, height;
-			int nextStage;
-			fs >> width >> height >> nextStage;
-			auto obj = new ObjectChangeStage();
-			obj->setWidthHeight(width, height);
-			obj->setPosition(x, y);
-			obj->setNextStage(nextStage);
-			auto unit = new Unit(getGrid(), obj, x, y);
-			DebugOut(L"\n load obChangeStage");
-			break;
-		}
+			{
+				float width, height;
+				int nextStage;
+				fs >> width >> height >> nextStage;
+				auto obj = new ObjectChangeStage();
+				obj->setWidthHeight(width, height);
+				obj->setPosition(x, y);
+				obj->setNextStage(nextStage);
+				auto unit = new Unit(getGrid(), obj, x, y);
+				DebugOut(L"\n load obChangeStage");
+				break;
+			}
 
 		case OBEnemy:
-		{
-			int type, faceSide, respawnTime;
-			float min, max;
-			fs >> faceSide >> type >> min >> max >> respawnTime;
-			auto obj = EnemyFactory::getInstance()->getEnemy(type);
-			obj->setRespawnTime(respawnTime);
-			obj->setRespawnArea({ min, max });
-			obj->setInitPos({ x, y });
-			obj->setPosition(x, y);
-			obj->setInitFaceSide(faceSide);
-			obj->setFaceSide(faceSide);
-			auto unit = new Unit(getGrid(), obj, x, y);
-			DebugOut(L"\n load enemy");
-			break;
-		}
+			{
+				int type, faceSide, respawnTime;
+				float min, max;
+				fs >> faceSide >> type >> min >> max >> respawnTime;
+				auto obj = EnemyFactory::getInstance()->getEnemy(type);
+				obj->setRespawnTime(respawnTime);
+				obj->setRespawnArea({min, max});
+				obj->setInitPos({x, y});
+				obj->setPosition(x, y);
+				obj->setInitFaceSide(faceSide);
+				obj->setFaceSide(faceSide);
+				auto unit = new Unit(getGrid(), obj, x, y);
+				DebugOut(L"\n load enemy");
+				break;
+			}
 		case OBDoor:
-		{
-			int nx;
-			float min, max, moveCam;
-			fs >> nx >> min >> max >> moveCam;
-			auto obj = new Door();
-			obj->setInitPos({ x, y });
-			obj->setPosition(x, y);
-			obj->setFaceSide(nx);
-			obj->setNextCameraLimit({ min, max });
-			obj->setMoveCamDistance(moveCam);
-			auto unit = new Unit(getGrid(), obj, x, y);
-			break;
-		}
+			{
+				int nx;
+				float min, max, moveCam;
+				fs >> nx >> min >> max >> moveCam;
+				auto obj = new Door();
+				obj->setInitPos({x, y});
+				obj->setPosition(x, y);
+				obj->setFaceSide(nx);
+				obj->setNextCameraLimit({min, max});
+				obj->setMoveCamDistance(moveCam);
+				auto unit = new Unit(getGrid(), obj, x, y);
+				break;
+			}
+		case OBForceIdleSim:
+			{
+				float width, height, nextX, nextY;
+				int direction;
+				fs >> width >> height >> direction >> nextX >> nextY;
+				auto ob = new ForceIdleSim();
+				ob->setWidhtHeight(width, height);
+				ob->setInitPos({x, y});
+				ob->setPosition(x, y);
+				ob->setDirection(direction);
+				ob->setNextX(nextX);
+				ob->setNextY(nextY);
+				auto unit = new Unit(getGrid(), ob, x, y);
+				break;
+			}
 		default:
+			auto obj = ObjectFactory::getInstance()->getObj(id);
+			obj->setInitPos({x, y});
+			obj->setPosition(x, y);
+			auto unit = new Unit(getGrid(), obj, x, y);
 			break;
 		}
 	}
@@ -188,19 +208,19 @@ void Stage::loadBoundaryCase(fstream& fs, float x, float y)
 	switch (type)
 	{
 	case BoundaryStair:
-	{
-		float stairType, faceSide, nextX, nextY;
-		fs >> stairType >> faceSide >> nextX >> nextY;
-		auto stair = dynamic_cast<Stair*>(boundary);
-		if (stair)
 		{
-			stair->setFaceSide(faceSide);
-			stair->setStairType(stairType);
-			stair->setNextPos({ nextX, nextY });
-			listStairs.push_back(stair);
+			float stairType, faceSide, nextX, nextY;
+			fs >> stairType >> faceSide >> nextX >> nextY;
+			auto stair = dynamic_cast<Stair*>(boundary);
+			if (stair)
+			{
+				stair->setFaceSide(faceSide);
+				stair->setStairType(stairType);
+				stair->setNextPos({nextX, nextY});
+				listStairs.push_back(stair);
+			}
+			break;
 		}
-		break;
-	}
 	case BoundaryNormal:
 	case BoundaryGround:
 		listBoundary.push_back(boundary);
@@ -285,12 +305,13 @@ void Stage::respawnEnemies()
 vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects()
 {
 	vector<MapGameObjects> map;
-	map.push_back({ OBStair, &listStairs });
-	map.push_back({ OBItem, &listItems });
-	map.push_back({ OBCanHitObjs, &listCanHitObjects });
-	map.push_back({ OBChangeStage, &listObjectChangeStage });
-	map.push_back({ OBEnemy, &listEnemy });
-	map.push_back({ OBBoundary, &listStopSimObjs });
+	map.push_back({OBForceIdleSim, &listForceIdleSim});
+	map.push_back({OBStair, &listStairs});
+	map.push_back({OBItem, &listItems});
+	map.push_back({OBCanHitObjs, &listCanHitObjects});
+	map.push_back({OBChangeStage, &listObjectChangeStage});
+	map.push_back({OBEnemy, &listEnemy});
+	map.push_back({OBBoundary, &listStopSimObjs});
 	return map;
 }
 
@@ -309,16 +330,16 @@ void Stage::updateInActiveUnit()
 				ob->setEnable(false);
 				break;
 			case OBEnemy:
-			{
-				auto enemy = dynamic_cast<Enemy*>(ob);
-				if (enemy->IsEnable())
 				{
-					enemy->setEnable(false);
-					enemy->reset();
+					auto enemy = dynamic_cast<Enemy*>(ob);
+					if (enemy->IsEnable())
+					{
+						enemy->setEnable(false);
+						enemy->reset();
+					}
+					break;
 				}
-				break;
-			}
-			default:;
+			default: ;
 			}
 		}
 	}
@@ -329,10 +350,10 @@ bool Stage::isInViewport(GameObject* object)
 	const auto camPosition = Game::getInstance()->getCameraPosition();
 
 	auto isInView = isColliding(object->getBoundingBox(),
-		{
-			camPosition.x, camPosition.y, camPosition.x + SCREEN_WIDTH,
-			camPosition.y + SCREEN_HEIGHT
-		});
+	                            {
+		                            camPosition.x, camPosition.y, camPosition.x + SCREEN_WIDTH,
+		                            camPosition.y + SCREEN_HEIGHT
+	                            });
 
 
 	return isInView;
@@ -383,7 +404,9 @@ void Stage::loadListObjFromGrid()
 		case OBDoor: listDoor.push_back(obj);
 			listStopSimObjs.push_back(obj);
 			break;
-		default:;
+		case OBForceIdleSim: listForceIdleSim.push_back((obj));
+			break;
+		default: ;
 		}
 	}
 	sort(listRenderObj.begin(), listRenderObj.end(), sortByType);
@@ -398,6 +421,7 @@ void Stage::resetAllList()
 	listEnemy.clear();
 	listDoor.clear();
 	listStopSimObjs.clear();
+	listForceIdleSim.clear();
 }
 
 void Stage::updateCamera(const DWORD dt) const
@@ -416,7 +440,7 @@ void Stage::updateCamera(const DWORD dt) const
 	auto newY = posY;
 
 	const auto isCanMoveAreaX =
-		simonX + offset > SCREEN_WIDTH / 2 + game->getLimitCamX().min&&
+		simonX + offset > SCREEN_WIDTH / 2 + game->getLimitCamX().min &&
 		simonX + offset - 20 + SCREEN_WIDTH / 2 < game->getLimitCamX().max;
 
 	if (isCanMoveAreaX)
@@ -456,7 +480,7 @@ void Stage::onKeyDown(const int keyCode)
 		break;
 	case DIK_F: game->getCamera()->move(200);
 		break;
-	default:;
+	default: ;
 	}
 }
 

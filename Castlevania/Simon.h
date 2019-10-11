@@ -92,6 +92,7 @@ private:
 	float stairDxRemain{};
 	float stairDyRemain{};
 	Stair* collidedStair{};
+	vector<GameObject*>* listStairs{};
 	int goThroughDoorStatus;
 
 	bool isPowering() { return isTimerRunning(timerPowering); };
@@ -99,6 +100,8 @@ private:
 	bool isCollidingWithStair();
 	void standAfterClimbStair();
 	void setClimbStairInfo(int direction);
+	bool forceStopClimb(int direction);
+	void removeAutoclimbDistance();
 
 	/*----------------- simon actions -----------------*/
 	void move(int side);
@@ -146,24 +149,15 @@ private:
 	void processAnimStaring();
 	void checkCollisionWithStair(vector<GameObject*>* objs);
 
-	void removeAutoclimbDistance()
-	{
-		stairDxRemain = -1;
-		stairDyRemain = -1;
-	}
-
-	vector<GameObject*>* listStairs{};
 	bool canAutoClimb();
 	void doAutoClimb(DWORD dt);
 	bool isAutoWalking();
 	void checkIfFalling(DWORD dt);
 	float vxAutoWalk;
 	void updateCameraWhenGoThroughDoor(DWORD dt);
-
-
-
 	bool processCollisionWithDoor(float minTx, float nx, Door* door);
 	Door* collidedDoor;
 	bool forceDisable;
 	void checkBoundary();
+	void checkCollisionWithForceIdleSim(DWORD dt, vector<GameObject*>* objs);
 };

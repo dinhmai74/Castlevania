@@ -157,13 +157,16 @@
       <Filter>Source Files\Object\boundary</Filter>
     </ClCompile>
     <ClCompile Include="Door.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Object\boundary</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ForceIdleSim.cpp">
+      <Filter>Source Files\Object\boundary</Filter>
     </ClCompile>
     <ClCompile Include="ObjectFactory.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\GameManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -336,6 +339,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ObjectFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ForceIdleSim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TempRenderObj.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

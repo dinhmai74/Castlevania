@@ -1,6 +1,8 @@
 #include "ObjectFactory.h"
 #include "Door.h"
 #include "Boundary.h"
+#include "ForceIdleSim.h"
+#include "TempRenderObj.h"
 
 
 GameObject* ObjectFactory::getObj(int type)
@@ -8,10 +10,7 @@ GameObject* ObjectFactory::getObj(int type)
 	GameObject* ob;
 	switch (type)
 	{
-		case OBDoor: ob = new Door();
-			DebugOut(L"\n load door");
-			break;
-		default: ob= new Boundary();
+	default: ob = new TempRenderObj();
 	}
 
 	return ob;

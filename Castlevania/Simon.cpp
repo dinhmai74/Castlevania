@@ -4,6 +4,7 @@
 #include "ObjectChangeStage.h"
 #include "Enemy.h"
 #include "Door.h"
+#include "ForceIdleSim.h"
 
 auto const subWeaponFactory = SubWeaponFactory::getInstance();
 
@@ -11,6 +12,8 @@ Simon::Simon()
 {
 	init();
 }
+
+/*----------------- init and render  -----------------*/
 
 void Simon::init()
 {
@@ -86,7 +89,7 @@ bool Simon::forceRenderStaringAnimStand()
 	return false;
 }
 
-#pragma region update
+/*----------------- update  -----------------*/
 
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps)
 {
@@ -152,7 +155,7 @@ void Simon::updateCameraWhenGoThroughDoor(DWORD dt)
 		moveCam(collidedDoor->getMoveCamDistance());
 		collidedDoor = nullptr;
 		break;
-	default: ;
+	default:;
 	}
 }
 
@@ -300,7 +303,7 @@ void Simon::checkBoundary()
 	if (x + width >= limit.max) x = limit.max - width;
 }
 
-#pragma endregion
+/*----------------- check collision  -----------------*/
 
 void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 {
@@ -325,6 +328,9 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 		case OBStair:
 			listStairs = map.objs;
 			checkCollisionWithStair(listStairs);
+			break;
+		case OBForceIdleSim:
+			checkCollisionWithForceIdleSim(dt, map.objs);
 			break;
 		default: DebugOut(L"[WARNING] unknown obj to check collision with id %d!\n", map.id);
 		}
@@ -355,22 +361,14 @@ void Simon::checkCollisionWithStair(vector<GameObject*>* objs)
 		auto box = getBoundingBox();
 		box.t = box.b - 5;
 		if (isColliding(box, obj->getBoundingBox()) && stair)
-		{
 			collidedStair = stair;
-		}
-
 		if (state == climbing && collidedStair)
 		{
 			auto isEndOfStairUp = collidedStair->getStairType() == StairEnd && climbDirection == ClimbUp;
 			auto isEndOfStairDown = collidedStair->getStairType() == StairStartUp && climbDirection == ClimbDown;
 
-			if (isEndOfStairDown || isEndOfStairUp)
-			{
-				setState(idle);
-				removeAllVelocity();
-				removeAutoclimbDistance();
-				setAnimId(ANIM_IDLE);
-			}
+			if (isEndOfStairDown) collidedStair = nullptr;
+			if (isEndOfStairUp) forceStopClimb(ClimbUp);
 		}
 	}
 }
@@ -402,10 +400,20 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 		{
 			const auto object = (i->obj);
 			const auto boundary = dynamic_cast<Boundary*>(object);
-			if (boundary && boundary->getBoundaryType() == BoundaryNormal)
-				isCollideX = processCollisionWithBoundaryByX(minTx, nx, boundary);
-			if (boundary && boundary->getBoundaryType() == BoundaryGround)
-				isCollideY = processCollisionWithGround(minTy, ny);
+			if (boundary)
+			{
+				auto type = boundary->getBoundaryType();
+				switch (type)
+				{
+				case BoundaryNormal:
+					isCollideX = processCollisionWithBoundaryByX(minTx, nx, boundary);
+					break;
+				case BoundaryGround:
+					isCollideY = processCollisionWithGround(minTy, ny);
+					break;
+				default:;
+				}
+			}
 
 			const auto door = dynamic_cast<Door*>(object);
 			if (door)
@@ -574,12 +582,26 @@ bool Simon::processCollisionWithBoundaryByX(float minTx, float nx, Boundary* bou
 	return true;
 }
 
+void Simon::checkCollisionWithForceIdleSim(DWORD dt, vector<GameObject*>* objs)
+{
+	for (auto obj : *objs)
+	{
+		auto force = dynamic_cast<ForceIdleSim*>(obj);
+		if (force && isColliding(getBoundingBox(), force->getBoundingBox())) {
+			auto res = forceStopClimb(force->getDirection());
+			if (res)
+				y = force->getNextY();
+		}
+	}
+}
+
+/*----------------- actions  -----------------*/
+
 void Simon::standAfterClimbStair()
 {
-	removeAutoclimbDistance();
 	staringStatus = pause;
-	stand();
-	removeAllVelocity();
+	forceStopClimb(climbDirection);
+	setFaceSide(climbDirection);
 	gravity = SIMON_GRAVITY;
 }
 
@@ -686,7 +708,7 @@ void Simon::generateSubWeapon()
 	const auto subX = getFaceSide() == SideLeft ? x - width + 10 : x + width;
 	const auto subY = state == throwingWhenSitting ? y + 15 : y;
 
-	subWeapon->setInitPos({subX, subY});
+	subWeapon->setInitPos({ subX, subY });
 	subWeapon->setPosition(subX, subY);
 	subWeapon->setEnable();
 	StageManager::getInstance()->add(subWeapon);
@@ -772,40 +794,40 @@ void Simon::handleOnKeyDown(int keyCode)
 			jump();
 		break;
 	case DIK_LCONTROL:
-		{
-			if (state == jumping) isJumpingHit = true;
-			auto hittingType = hitting;
-			if (!isReleaseSitButton && !isJumpingHit) hittingType = hittingWhenSitting;
-			else if (state == climbing) hittingType = hittingWhenClimbing;
-			hit(hittingType);
-			break;
-		}
+	{
+		if (state == jumping) isJumpingHit = true;
+		auto hittingType = hitting;
+		if (!isReleaseSitButton && !isJumpingHit) hittingType = hittingWhenSitting;
+		else if (state == climbing) hittingType = hittingWhenClimbing;
+		hit(hittingType);
+		break;
+	}
 	case DIK_A:
-		{
-			if (state == jumping) isJumpingHit = true;
-			auto hittingType = throwing;
-			if (!isReleaseSitButton && !isJumpingHit) hittingType = throwingWhenSitting;
-			else if (state == climbing) hittingType = throwingWhenClimbing;
-			this->doThrow(hittingType);
-			break;
-		}
+	{
+		if (state == jumping) isJumpingHit = true;
+		auto hittingType = throwing;
+		if (!isReleaseSitButton && !isJumpingHit) hittingType = throwingWhenSitting;
+		else if (state == climbing) hittingType = throwingWhenClimbing;
+		this->doThrow(hittingType);
+		break;
+	}
 
 	case DIK_DOWN:
 		if (isInGround
 			&& state != sitting
 			&& state != jumping
-		)
+			)
 		{
 			isReleaseSitButton = false;
 			if (state != climbing) sit();
 			else climbStair(ClimbDown);
 		}
 		break;
-	default: ;
+	default:;
 	}
 }
 
-#pragma region utilities
+/*----------------- utilities  -----------------*/
 
 void Simon::updateAnimId()
 {
@@ -845,13 +867,13 @@ void Simon::updateAnimId()
 		break;
 
 	case hittingWhenClimbing:
-		{
-			auto const anim = climbDirection == ClimbUp ? ANIM_HIT_UP_STAIR : ANIM_HIT_DOWN_STAIR;
-			setAnimId(anim);
-			if (animations[animId]->isDone())
-				refreshHitAnim(climbing, anim);
-		}
-		break;
+	{
+		auto const anim = climbDirection == ClimbUp ? ANIM_HIT_UP_STAIR : ANIM_HIT_DOWN_STAIR;
+		setAnimId(anim);
+		if (animations[animId]->isDone())
+			refreshHitAnim(climbing, anim);
+	}
+	break;
 	case throwing:
 		setAnimId(ANIM_HITTING);
 		frame = animations[animId]->getCurrentFrame();
@@ -867,15 +889,15 @@ void Simon::updateAnimId()
 			refreshHitAnim(sitting, ANIM_SIT);
 		break;
 	case throwingWhenClimbing:
-		{
-			auto const anim = climbDirection == ClimbUp ? ANIM_HIT_UP_STAIR : ANIM_HIT_DOWN_STAIR;
-			setAnimId(anim);
-			frame = animations[animId]->getCurrentFrame();
-			if (frame == 2) throwSubWeapon();
-			else if (animations[animId]->isDone())
-				refreshHitAnim(climbing, anim);
-		}
-		break;
+	{
+		auto const anim = climbDirection == ClimbUp ? ANIM_HIT_UP_STAIR : ANIM_HIT_DOWN_STAIR;
+		setAnimId(anim);
+		frame = animations[animId]->getCurrentFrame();
+		if (frame == 2) throwSubWeapon();
+		else if (animations[animId]->isDone())
+			refreshHitAnim(climbing, anim);
+	}
+	break;
 	default:
 		setAnimId(ANIM_IDLE);
 	}
@@ -909,7 +931,8 @@ Box Simon::getBoundingBox()
 bool Simon::shouldKeyboardDisable()
 {
 	return forceDead || isHitting || isThrowing || isPowering() || isAutoWalking() || isChangingStage() ||
-		isDeflecting() || isDying() || canAutoClimb() || forceDisable || goThroughDoorStatus != nope || Camera::getInstance()->isMoving();
+		isDeflecting() || isDying() || canAutoClimb() || forceDisable || goThroughDoorStatus != nope || Camera::
+		getInstance()->isMoving();
 }
 
 void Simon::resetState()
@@ -990,12 +1013,6 @@ bool Simon::canThrow()
 
 void Simon::setClimbStairInfo(int direction)
 {
-	if (collidedStair->getStairType() == StairEnd)
-	{
-		standAfterClimbStair();
-		return;
-	}
-
 	setState(climbing);
 	faceSide = collidedStair->getFaceSide() * direction;
 	const auto nextPos = collidedStair->getNextPos();
@@ -1003,6 +1020,21 @@ void Simon::setClimbStairInfo(int direction)
 	stairDyRemain = nextPos.y;
 	gravity = 0;
 	staringStatus = onGoing;
+}
+
+bool Simon::forceStopClimb(int direction)
+{
+	if (state != climbing || climbDirection != direction) return false;
+	removeAllVelocity();
+	removeAutoclimbDistance();
+	collidedStair = nullptr;
+	stand();
+}
+
+void Simon::removeAutoclimbDistance()
+{
+	stairDxRemain = -1;
+	stairDyRemain = -1;
 }
 
 bool Simon::canAutoWalkWithDistance()
@@ -1027,7 +1059,6 @@ void Simon::moveCam(float distance)
 	if (canMoveCam)
 		cam->move(distance);
 }
-#pragma endregion
 
 Simon::~Simon()
 = default;

@@ -133,6 +133,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyGhouls.cpp" />
+    <ClCompile Include="ForceIdleSim.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Grid.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="BoundaryFactory.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="ForceIdleSim.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="stage1_castle.h" />
     <ClInclude Include="Stair.h" />
@@ -208,6 +210,7 @@
     <ClInclude Include="SubWeaponFactory.h" />
     <ClInclude Include="SubWeaponHolyWater.h" />
     <ClInclude Include="SweptAABB.h" />
+    <ClInclude Include="TempRenderObj.h" />
     <ClInclude Include="Territory.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TileConst.h" />

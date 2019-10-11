@@ -46,6 +46,7 @@ private:
 	vector<GameObject*> listEnemy;
 	vector<GameObject*> listDoor;
 	vector<GameObject*> listStopSimObjs;
+	vector<GameObject*> listForceIdleSim;
 	vector<Unit*> listUnit;
 	vector<GameObject*> listStairs;
 

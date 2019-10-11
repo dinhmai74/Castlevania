@@ -37,7 +37,6 @@ void Door::openDoor()
 void Door::closeDoor()
 {
 	if (state == DoorOpenIdle) setState(DoorClosing);
-
 }
 
 

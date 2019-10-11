@@ -68,16 +68,17 @@ enum ObjectType
 	OBEnemy,
 	OBStair,
 	OBDoor,
+	OBForceIdleSim,
 	OBSimon = 50,
 	OBCastle = 51,
-	OBSubWeapon = 52
+	OBSubWeapon = 52,
 };
 
 enum BoundaryType {
 	BoundaryNormal,
 	BoundaryGround,
 	BoundaryStair,
-	BoundaryCastle
+	BoundaryCastle,
 };
 
 /*----------------- item regions -----------------*/
