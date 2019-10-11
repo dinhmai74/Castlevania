@@ -10,6 +10,7 @@
 #include "Timer.h"
 #include "Stair.h"
 
+class ObjectChangeStage;
 class Door;
 
 class Simon :
@@ -42,9 +43,9 @@ public:
 
 	void initAnim() override;
 	void update(DWORD dt, const vector<MapGameObjects>& maps);
-
 	bool updateLife(int val);
 	bool updateHP(int val);
+	void updateEnergy(int val=1);
 	void doAutoWalk(DWORD dt=1000, float vx= SIM_AUTO_WALK_VX);
 	void doAutoWalkWithDistance(float distance, float vx= SIM_AUTO_WALK_DISTANCE_VX);
 
@@ -145,7 +146,7 @@ private:
 
 	void processCollisionWithItem(Item* item);
 	void updateChangingStageEffect();
-	void doChangeStageEffect(DWORD changingDuration= SIM_CHANGING_STAGE_DURATION);
+	void doChangeStageEffect(ObjectChangeStage* obj,DWORD changingDuration= SIM_CHANGING_STAGE_DURATION);
 	void processAnimStaring();
 	void checkCollisionWithStair(vector<GameObject*>* objs);
 

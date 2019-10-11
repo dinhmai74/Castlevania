@@ -1,2 +1,0 @@
-stair_leftup_ani	stair_leftup	100
-stair_rightdown_ani	stair_rightdown	100

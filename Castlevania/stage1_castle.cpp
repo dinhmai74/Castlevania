@@ -2,12 +2,13 @@
 
 Stage1Castle::Stage1Castle()
 {
-	addAnimation(normal, "stage1_castle_default_ani");
+	initAnim();
+	setAnimId(normal);
 	setType(OBCastle);
 }
 
-void Stage1Castle::render()
+void Stage1Castle::initAnim()
 {
-	animations[normal]->render(-1, x, y);
+	addAnimation(normal, "stage1_castle_default_ani");
 }
 

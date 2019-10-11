@@ -18,10 +18,6 @@ Boundary* BoundaryFactory::getBoundary(int type)
 		boundary = new Stair();
 			DebugOut(L"\n load stair");
 		break;
-	case BoundaryCastle:
-		boundary = new Stage1Castle();
-			DebugOut(L"\n load castle");
-		break;
 	default:
 		boundary = new Boundary();
 	}

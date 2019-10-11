@@ -1,1 +1,1 @@
-stage1_castle_default_ani_0	0	0	124	368 0 0 124	368
+stage1_castle_default_0	0	0	95	300 0	0	95	300

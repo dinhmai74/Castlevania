@@ -183,6 +183,12 @@ bool Simon::updateHP(int val)
 	return true;
 }
 
+void Simon::updateEnergy(int val/*=1*/)
+{
+	energy += val;
+	energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy;
+}
+
 void Simon::updateRGB()
 {
 	if (!timerPowering->isTimeUp())
@@ -216,6 +222,7 @@ void Simon::updateChangingStageEffect()
 	if (isChangingStage())
 	{
 		vx = getFaceSide() * SIM_AUTO_WALK_VX;
+		if (vx > 0) animId = ANIM_IDLE;
 		startedChangeStage = true;
 	}
 	else
@@ -233,7 +240,7 @@ void Simon::updateWhip(DWORD dt, vector<GameObject*>* objs)
 	whip->update(dt, x, y, objs, state, climbDirection);
 }
 
-void Simon::doChangeStageEffect(DWORD duration)
+void Simon::doChangeStageEffect(ObjectChangeStage* obj,DWORD duration)
 {
 	if (isChangingStage())return;
 	timerChangeStage->setLimitedTime(duration);
@@ -346,7 +353,7 @@ void Simon::checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs)
 		if (isColliding(getBoundingBox(), e->getBoundingBox()) && !isChangingStage())
 		{
 			stageWillChangeTo = objectChangeStage->NextStage();
-			doChangeStageEffect();
+			doChangeStageEffect(objectChangeStage);
 		}
 		break;
 	}
