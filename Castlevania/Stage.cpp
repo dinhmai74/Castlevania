@@ -92,10 +92,17 @@ void Stage::loadObjectFromFiles()
 		{
 		case OBSimon:
 		{
-			float max, min, camX, camY;
-			fs >> min >> max >> camX >> camY;
+			float max, min, camX, camY,climbDistance =0;
+			int state, climbDirection=1 ;
+			fs >> min >> max >> camX >> camY >> state;
+			if (state == climbing) fs >> climbDistance >> climbDirection;
 			simon->setPosition(x, y);
+			simon->setState(state);
+			simon->setInitState(state);
 			simon->setInitPos({ x, y });
+			simon->setStairDxRemain(climbDistance);
+			simon->setStairDyRemain(climbDistance);
+			simon->setClimbDirection(climbDirection);
 			game->setLimitCamX({ min, max });
 			initCam = { camX, camY };
 			game->setCameraPosition(camX, camY);

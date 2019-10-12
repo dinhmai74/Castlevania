@@ -1,4 +1,5 @@
 #include "EnemyGhouls.h"
+#include "SimonConstants.h"
 
 
 void EnemyGhouls::initAnim()

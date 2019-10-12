@@ -45,6 +45,7 @@ protected:
 
 	int state;
 	int previousState;
+	int initState;
 	unordered_map<int, Animation*> animations;
 	int preAnimId;
 	bool previousAnimIsOneTimeAnim;
@@ -187,6 +188,8 @@ public:
 	void setInitSpeed(D3DXVECTOR2 val) { initSpeed = val; }
 	int getFaceSide() const { return faceSide; }
 	void setAnimId(int val) { animId = val; }
+	int getInitState() const { return initState; }
+	void setInitState(int val) { initState = val; }
 private:
 	void doBurnedEffect();
 };

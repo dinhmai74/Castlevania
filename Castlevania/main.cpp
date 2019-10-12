@@ -233,6 +233,10 @@ void LoadSprites(int id, wstring texName, D3DCOLOR transparentColor = MAIN_TEXTU
 	animationReader.close();
 }
 
+void loadMaps()
+{
+}
+
 void loadResources()
 {
 	textureManager->add(ID_TEX_BBOX, L"textures\\Bbox.png");
@@ -253,6 +257,7 @@ void loadResources()
 	mapName.push_back({ ID_STAGE_1,L"stage1","1",1536,320,32,32 });
 	mapName.push_back({ ID_STAGE_2,L"stage2","2",5632,352,32,32 });
 	mapName.push_back({ ID_STAGE_3,L"stage3","2",1024,352,32,32 });
+	mapName.push_back({ 4,L"stage3","2",1024,352,32,32 });
 
 	auto stages = StageManager::getInstance();
 	stages->init(mapName);

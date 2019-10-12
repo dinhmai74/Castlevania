@@ -64,12 +64,14 @@ public:
 	void setHp(int val);
 	void setEnergy(int val);
 	void setForceDead(bool val=true);
-	void setSubWeapon(int type)
-	{
-		subWeaponType = type;
-	};
-
+	void setSubWeapon(int type);;
 	void getHurt(int nx, int ny, int hpLose) override;
+	float getStairDxRemain() const { return stairDxRemain; }
+	void setStairDxRemain(float val) { stairDxRemain = val; }
+	float getStairDyRemain() const { return stairDyRemain; }
+	void setStairDyRemain(float val) { stairDyRemain = val; }
+	int getClimbDirection() const { return climbDirection; }
+	void setClimbDirection(int val) { climbDirection = val; }
 
 private:
 	bool isHitting{};

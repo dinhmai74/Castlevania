@@ -259,8 +259,8 @@ void Simon::doAutoClimb(DWORD dt)
 		const auto climbSpeed = SIM_CLIMB_VELOCITY;
 		vx = climbSpeed * faceSide;
 		vy = static_cast<float>(climbDirection) * -climbSpeed;
-		stairDxRemain -= float(dt) * climbSpeed;
-		stairDyRemain -= float(dt) * climbSpeed;
+		setStairDxRemain(getStairDxRemain() - float(dt) * climbSpeed);
+		setStairDyRemain(getStairDyRemain() - float(dt) * climbSpeed);
 	}
 }
 
@@ -623,7 +623,7 @@ bool Simon::climbStair(int direction)
 		staringStatus = pause;
 		return false;
 	}
-	if (staringStatus == ready || stairDxRemain > 0 || stairDyRemain > 0) return false;
+	if (staringStatus == ready || getStairDxRemain() > 0 || getStairDyRemain() > 0) return false;
 
 	if (collidedStair->getStairType() == StairStartUp && direction != ClimbUp) return false;
 	if (collidedStair->getStairType() == StairStartDown && direction != ClimbDown) return false;
@@ -964,6 +964,7 @@ void Simon::reset()
 	resetState();
 	x = initPos.x;
 	y = initPos.y;
+	state = initState;
 	gravity = SIMON_GRAVITY;
 	timerPowering->stop();
 	timerDeflect->stop();
@@ -988,6 +989,11 @@ void Simon::setEnergy(int val)
 void Simon::setForceDead(bool val)
 {
 	forceDead = val;
+}
+
+void Simon::setSubWeapon(int type)
+{
+	subWeaponType = type;
 }
 
 void Simon::getHurt(int nx, int ny, int hpLose)
@@ -1030,8 +1036,8 @@ void Simon::setClimbStairInfo(int direction)
 	setState(climbing);
 	faceSide = collidedStair->getFaceSide() * direction;
 	const auto nextPos = collidedStair->getNextPos();
-	stairDxRemain = nextPos.x;
-	stairDyRemain = nextPos.y;
+	setStairDxRemain(nextPos.x);
+	setStairDyRemain(nextPos.y);
 	gravity = 0;
 	staringStatus = onGoing;
 }
@@ -1047,8 +1053,8 @@ bool Simon::forceStopClimb(int direction)
 
 void Simon::removeAutoclimbDistance()
 {
-	stairDxRemain = -1;
-	stairDyRemain = -1;
+	setStairDxRemain(-1);
+	setStairDyRemain(-1);
 }
 
 int Simon::getHittingInfo()
@@ -1068,7 +1074,7 @@ bool Simon::canAutoWalkWithDistance()
 
 bool Simon::canAutoClimb()
 {
-	return stairDxRemain > 0 && stairDyRemain > 0;
+	return getStairDxRemain() > 0 && getStairDyRemain() > 0;
 }
 
 bool Simon::isAutoWalking()
