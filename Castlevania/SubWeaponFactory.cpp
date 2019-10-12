@@ -36,8 +36,9 @@ SubWeapon* SubWeaponFactory::getSubWeapon(int type, int faceSide)
 		break;
 	case itemHolyWater:
 		subWeapon = new SubWeaponHolyWater();
-		velocity = { faceSide * 0.2f, -0.2f };
+		velocity = { faceSide * 0.15f, -0.15f };
 		gravity = 0.0009f;
+		hits = -1;
 		break;
 	default: break;
 	}

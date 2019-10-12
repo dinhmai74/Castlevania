@@ -283,8 +283,12 @@ void Stage::updateSubWeapon(SubWeapon* subWeapon, DWORD dt)
 	temp.insert(temp.end(), listEnemy.begin(), listEnemy.end());
 	if (holyWater)
 	{
-		temp.insert(temp.end(), listBoundary.begin(), listBoundary.end());
-		subWeapon->update(dt, simonPos, simon->getState(), &temp);
+		temp.insert(temp.end(), listCanHitObjects.begin(), listCanHitObjects.end());
+		vector<MapGameObjects> maps;
+		maps.push_back({ OBEnemy, &temp});
+		maps.push_back({ OBBoundary, &listBoundary});
+		
+		holyWater->update(dt, simonPos, simon->getState(), maps);
 	}
 	else
 	{

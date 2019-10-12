@@ -18,6 +18,7 @@ void SubWeapon::initAnim()
 
 void SubWeapon::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, vector<GameObject*>* coObjects)
 {
-	updateGravity(gravity);
 	Weapon::update(dt, simonPos, simonState, coObjects);
+	updatePosWhenNotCollide();
+	updateGravity(gravity);
 }

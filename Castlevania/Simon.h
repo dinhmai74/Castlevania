@@ -24,6 +24,8 @@ public:
 	void handleOnKeyPress(BYTE* states);
 	bool shouldKeyboardDisable();
 	void handleOnKeyDown(int KeyCode);
+
+
 	Box getBoundingBox() override;
 	void handleOnKeyRelease(int KeyCode);
 
@@ -103,6 +105,8 @@ private:
 	void setClimbStairInfo(int direction);
 	bool forceStopClimb(int direction);
 	void removeAutoclimbDistance();
+	int getHittingInfo();
+
 
 	/*----------------- simon actions -----------------*/
 	void move(int side);
@@ -161,4 +165,5 @@ private:
 	bool forceDisable;
 	void checkBoundary();
 	void checkCollisionWithForceIdleSim(DWORD dt, vector<GameObject*>* objs);
+	bool isReleaseThrowButton;
 };

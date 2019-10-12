@@ -27,15 +27,13 @@ void Weapon::checkCollision(DWORD dt, vector<GameObject*>* coObjs)
 	calcPotentialCollisions(coObjs, coEvents);
 	calcPotentialCollisionsAABB(coObjs, coEvents);
 
-	if (coEvents.empty()) updatePosWhenNotCollide();
-	else
+	if (!coEvents.empty()) 
 	{
 		float minTx;
 		float minTy;
 		float nx = 0;
 		float ny;
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
-		updatePosWhenNotCollide();
 		auto hit = false;
 
 		for (auto& i : coEventsResult)

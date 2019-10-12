@@ -32,21 +32,21 @@ constexpr auto CDIR_BOTTOM = -1.0f;
 //states
 enum State
 {
-	idle = 1,
-	walking = 2,
-	sitting = 3,
-	jumping = 4,
-	hitting = 5,
-	hittingWhenSitting = 6,
-	throwing = 7,
-	throwingWhenSitting = 8,
-	climbing = 9,
+	idle ,
+	walking ,
+	sitting ,
+	jumping ,
+	hitting ,
+	hittingWhenSitting ,
 	hittingWhenClimbing,
+	throwing,
+	throwingWhenSitting,
 	throwingWhenClimbing,
+	climbing,
 	disabled,
 	deflect = 99,
 	death = -1,
-	normal = 1,
+	normal = 0,
 };
 
 enum CandleType
