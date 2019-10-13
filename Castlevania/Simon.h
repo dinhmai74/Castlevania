@@ -80,7 +80,6 @@ private:
 	Timer* timerPowering = new Timer(SIM_POWERING_DURATION);
 	Timer* timerThrowing = new Timer(SIM_DELTA_TRHOWING_TIME);
 	Timer* timerAutoWalk = new Timer(SIM_AUTO_WALK_DURATION);
-	Timer* timerChangeStage = new Timer(SIM_CHANGING_STAGE_DURATION);
 	float autoWalkDistance;
 	bool isReleaseSitButton{};
 	Whip* whip{};
@@ -91,7 +90,7 @@ private:
 	int energy{};
 	int life{};
 	int climbDirection{};
-	int stageWillChangeTo{};
+	int stageIdWillChangeTo{};
 	bool forceDead{};
 	int staringStatus{};
 	float stairDxRemain{};
@@ -99,9 +98,12 @@ private:
 	Stair* collidedStair{};
 	vector<GameObject*>* listStairs{};
 	int goThroughDoorStatus;
+	D3DXVECTOR2 changeStateVelocity;
+	VectorInt changeStateDirection;
+	D3DXVECTOR2 changeStateDistanceRemain;
 
 	bool isPowering() { return isTimerRunning(timerPowering); };
-	bool isChangingStage() { return isTimerRunning(timerChangeStage); };
+	bool isChangingStage() { return changeStateDistanceRemain.x >= 0 && changeStateDistanceRemain.y >= 0 ; };
 	bool isCollidingWithStair();
 	void standAfterClimbStair();
 	void setClimbStairInfo(int direction);
@@ -151,7 +153,7 @@ private:
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
 
 	void processCollisionWithItem(Item* item);
-	void updateChangingStageEffect();
+	void updateChangingStageEffect(DWORD dt);
 	void doChangeStageEffect(ObjectChangeStage* obj,DWORD changingDuration= SIM_CHANGING_STAGE_DURATION);
 	void processAnimStaring();
 	void checkCollisionWithStair(vector<GameObject*>* objs);
@@ -168,4 +170,6 @@ private:
 	void checkBoundary();
 	void checkCollisionWithForceIdleSim(DWORD dt, vector<GameObject*>* objs);
 	bool isReleaseThrowButton;
+	int changeStateAnim;
+	std::string stageMapObjNameWillChangeto;
 };

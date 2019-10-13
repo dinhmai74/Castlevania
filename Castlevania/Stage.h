@@ -31,6 +31,10 @@ public:
 	Grid* getGrid() const;
 	Simon* getSimon() const;
 	int getId();;
+	std::wstring getFileObjects() const { return fileObjects; }
+	void setFileObjects(std::wstring val) { fileObjects = val; }
+	std::wstring getMapName() const { return mapName; }
+	void setMapName(std::wstring val) { mapName = val; }
 private:
 	Simon* simon;
 	int mapId;
@@ -66,4 +70,5 @@ private:
 	void updateGrid();
 	bool renderBoundingBox;
 	bool stopEnemyAction;
+	wstring fileObjects;
 };

@@ -5,6 +5,7 @@ StageManager* StageManager::instance = nullptr;
 
 StageManager::~StageManager()
 {
+	isReleaseSelectMapKey = true;
 }
 
 void StageManager::init(vector<TileMapInfo> tileMapsInfo)
@@ -16,14 +17,15 @@ void StageManager::init(vector<TileMapInfo> tileMapsInfo)
 	currentStage->init(tileMapsInfo[0].id, tileMapsInfo[0].mapName);
 }
 
-void StageManager::nextStage(int id)
+void StageManager::nextStage(int id, wstring mapNameInput)
 {
 	if (id == -2) return;
 	auto newStage = new Stage();
 	// cause map id from =1 so next one id from tileMapsInfo is this
 	auto nextId = id == -1 ? currentStage->getId() : id;
 	if (nextId > tileMapsInfo.size() - 1) nextId = 0;
-	newStage->init(tileMapsInfo[nextId].id, tileMapsInfo[nextId].mapName, currentStage->getSimon());
+	auto mapName = mapNameInput == L"none" ? tileMapsInfo[nextId].mapName : mapNameInput;
+	newStage->init(tileMapsInfo[nextId].id,mapName, currentStage->getSimon());
 	setStage(newStage);
 }
 
@@ -53,12 +55,22 @@ void StageManager::onKeyDown(int keyCode)
 	case DIK_Q: nextStage(0); break;
 	case DIK_W: nextStage(1); break;
 	case DIK_E: nextStage(2); break;
+	case DIK_T: nextStage(1, L"stage2.1"); break;
 	case DIK_N: nextStage(); break;
-	case DIK_R: reset(getCurrentStage()->getId() - 1); break;
 
 	default:
 		break;
 	}
+}
+
+void StageManager::onKeyUp(int keyCode)
+{
+	getCurrentStage()->onKeyUp(keyCode);
+}
+
+void StageManager::keyState(BYTE* states)
+{
+	getCurrentStage()->keyState(states);
 }
 
 void StageManager::add(GameObject* ob) const

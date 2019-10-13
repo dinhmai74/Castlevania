@@ -92,10 +92,11 @@ void Stage::loadObjectFromFiles()
 		{
 		case OBSimon:
 		{
-			float max, min, camX, camY,climbDistance =0;
-			int state, climbDirection=1 ;
-			fs >> min >> max >> camX >> camY >> state;
+			float max, min, camX, camY, climbDistance = 0;
+			int nx, state, climbDirection = 1;
+			fs >> nx >> min >> max >> camX >> camY >> state;
 			if (state == climbing) fs >> climbDistance >> climbDirection;
+			simon->setFaceSide(nx);
 			simon->setPosition(x, y);
 			simon->setState(state);
 			simon->setInitState(state);
@@ -136,13 +137,18 @@ void Stage::loadObjectFromFiles()
 
 		case OBChangeStage:
 		{
-			float width, height;
-			int nextStage;
-			fs >> width >> height >> nextStage;
+			float width, height, xPoint, yPoint, vx, vy, animId;
+			int nextStageId;
+			string nextStageName;
+			fs >> width >> height >> nextStageId>> nextStageName >> xPoint >> yPoint >> vx >> vy >> animId;
 			auto obj = new ObjectChangeStage();
 			obj->setWidthHeight(width, height);
 			obj->setPosition(x, y);
-			obj->setNextStage(nextStage);
+			obj->setNextStageId(nextStageId);
+			obj->setNextStageMapObjName(nextStageName);
+			obj->setChangeStateDestinationPoint({ xPoint,yPoint });
+			obj->setChangeStateVelocity({ vx,vy});
+			obj->setChangeStateAnimId(animId);
 			auto unit = new Unit(getGrid(), obj, x, y);
 			DebugOut(L"\n load obChangeStage");
 			break;
@@ -292,9 +298,9 @@ void Stage::updateSubWeapon(SubWeapon* subWeapon, DWORD dt)
 	{
 		temp.insert(temp.end(), listCanHitObjects.begin(), listCanHitObjects.end());
 		vector<MapGameObjects> maps;
-		maps.push_back({ OBEnemy, &temp});
-		maps.push_back({ OBBoundary, &listBoundary});
-		
+		maps.push_back({ OBEnemy, &temp });
+		maps.push_back({ OBBoundary, &listBoundary });
+
 		holyWater->update(dt, simonPos, simon->getState(), maps);
 	}
 	else
