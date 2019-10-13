@@ -1,0 +1,3 @@
+C:/Users/gon/source/repos/dinhmai74/Castlevania/out/build/x64-Debug/CMakeFiles/Castlevania.dir
+C:/Users/gon/source/repos/dinhmai74/Castlevania/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/gon/source/repos/dinhmai74/Castlevania/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir

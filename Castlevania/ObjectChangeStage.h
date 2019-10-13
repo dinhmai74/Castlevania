@@ -20,15 +20,18 @@ public:
 	void setChangeStateAnimId(int val) { changeStateAnimId = val; }
 	D3DXVECTOR2 getChangeStateDestinationPoint() const { return changeStateDestinationPoint; }
 	void setChangeStateDestinationPoint(D3DXVECTOR2 val) { changeStateDestinationPoint = val; }
-	std::string getNextStageMapObjName() const { return nextStageMapObjName; }
-	void setNextStageMapObjName(std::string val) { nextStageMapObjName = val; }
+	std::wstring getNextStageMapObjName() const { return nextStageMapObjName; }
+	void setNextStageMapObjName(std::wstring val) { nextStageMapObjName = val; }
+	VectorInt getSimonDirectCollide() const { return simonDirectCollide; }
+	void setSimonDirectCollide(VectorInt val) { simonDirectCollide = val; }
 private:
 	float width, height;
 	int nextStageId;
-	string nextStageMapObjName;
+	wstring nextStageMapObjName;
 	D3DXVECTOR2 changeStateDestinationPoint;
 	D3DXVECTOR2 changeStateVelocity;
 	int changeStateAnimId;
+	VectorInt simonDirectCollide;
 };
 
 inline ObjectChangeStage::ObjectChangeStage()

@@ -171,5 +171,5 @@ private:
 	void checkCollisionWithForceIdleSim(DWORD dt, vector<GameObject*>* objs);
 	bool isReleaseThrowButton;
 	int changeStateAnim;
-	std::string stageMapObjNameWillChangeto;
+	std::wstring stageMapObjNameWillChangeto;
 };

@@ -225,8 +225,6 @@ void Simon::updateChangingStageEffect(DWORD dt)
 	{
 		vx = changeStateDirection.x * changeStateVelocity.x;
 		vy = changeStateDirection.y * changeStateVelocity.y;
-		DebugOut(L"vx, vy  %f %f\n",vx, vy );
-		animId = changeStateAnim;
 		changeStateDistanceRemain.x -= vx * dt;
 		changeStateDistanceRemain.y -= vy * dt;
 		startedChangeStage = true;
@@ -235,7 +233,7 @@ void Simon::updateChangingStageEffect(DWORD dt)
 	{
 		if (startedChangeStage)
 		{
-			StageManager::getInstance()->nextStage(stageIdWillChangeTo);
+			StageManager::getInstance()->nextStage(stageIdWillChangeTo, stageMapObjNameWillChangeto);
 			startedChangeStage = false;
 		}
 	}
@@ -251,7 +249,12 @@ void Simon::doChangeStageEffect(ObjectChangeStage* obj, DWORD duration)
 	if (isChangingStage()) return;
 
 	auto destinationPoint = obj->getChangeStateDestinationPoint();
+	if (destinationPoint.x == -1 && destinationPoint.y == -1) {
+		StageManager::getInstance()->nextStage(stageIdWillChangeTo, obj->getNextStageMapObjName());
+		return;
+	}
 	changeStateAnim = obj->getChangeStateAnimId();
+	stageMapObjNameWillChangeto = obj->getNextStageMapObjName();
 	auto xDistance = destinationPoint.x - x;
 	// > 0 => need to go right
 	faceSide = xDistance > 0 ? 1 : -1;
@@ -362,18 +365,42 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps)
 
 void Simon::checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs)
 {
-	for (auto i = 0; i < objs->size(); i++)
-	{
-		auto e = objs->at(i);
-		auto objectChangeStage = dynamic_cast<ObjectChangeStage*>(e);
-		if (isColliding(getBoundingBox(), e->getBoundingBox()) && !isChangingStage())
+	vector<LPCollisionEvent> coEvents;
+	vector<LPCollisionEvent> coEventsResult;
+	coEvents.clear();
+
+	calcPotentialCollisions(objs, coEvents);
+	if (!coEvents.empty()) {
+		float minTx, minTy, nx, ny;
+		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
+		DebugOut(L"ny %d %f\n", ny, ny);
+		for (auto & i : coEventsResult)
 		{
-			stageIdWillChangeTo = objectChangeStage->getNextStageId();
-			stageMapObjNameWillChangeto = objectChangeStage->getNextStageMapObjName();
-			doChangeStageEffect(objectChangeStage);
+			auto obj = dynamic_cast<ObjectChangeStage*>(i->obj);
+			if (obj) {
+				auto side= obj->getSimonDirectCollide();
+				stageIdWillChangeTo = obj->getNextStageId();
+				stageMapObjNameWillChangeto = obj->getNextStageMapObjName();
+				if (side.y != 0) {
+					if (ny == side.y) doChangeStageEffect(obj);
+				}
+				else doChangeStageEffect(obj);
+			}
 		}
-		break;
 	}
+
+	//for (auto i = 0; i < objs->size(); i++)
+	//{
+	//	auto e = objs->at(i);
+	//	auto objectChangeStage = dynamic_cast<ObjectChangeStage*>(e);
+	//	if (isColliding(getBoundingBox(), e->getBoundingBox()) && !isChangingStage())
+	//	{
+	//		stageIdWillChangeTo = objectChangeStage->getNextStageId();
+	//		stageMapObjNameWillChangeto = objectChangeStage->getNextStageMapObjName();
+	//		doChangeStageEffect(objectChangeStage);
+	//	}
+	//	break;
+	//}
 }
 
 void Simon::checkCollisionWithStair(vector<GameObject*>* objs)
@@ -456,7 +483,7 @@ void Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundarie
 			blockY(minTy, ny);
 			updatedY = true;
 		}
-		if (isCollideDoor)
+		if (isCollideDoor && nx == CDIR_LEFT)
 		{
 			blockX(minTx, nx);
 			updatedX = true;
@@ -861,9 +888,14 @@ void Simon::handleOnKeyDown(int keyCode)
 
 void Simon::updateAnimId()
 {
-	if (isAutoWalking() || isChangingStage() || isDying())
+	if (isAutoWalking() || isDying())
 	{
 		setAnimId(ANIM_WALK);
+		GameObject::updateAnimId();
+		return;
+	}
+	if (isChangingStage()) {
+		setAnimId(changeStateAnim);
 		GameObject::updateAnimId();
 		return;
 	}

@@ -24,8 +24,8 @@ constexpr auto DEFAULT_TIME_PLAY = 300;
 constexpr auto DIR_LEFT = -1;
 constexpr auto DIR_RIGHT = 1;
 // Collision direction
-constexpr auto CDIR_LEFT = 1.0f;
-constexpr auto CDIR_RIGHT = -1.0f;
+constexpr auto CDIR_LEFT = -1.0f;
+constexpr auto CDIR_RIGHT = 1.0f;
 constexpr auto CDIR_TOP = 1.0f;
 constexpr auto CDIR_BOTTOM = -1.0f;
 

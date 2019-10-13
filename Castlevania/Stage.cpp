@@ -138,17 +138,19 @@ void Stage::loadObjectFromFiles()
 		case OBChangeStage:
 		{
 			float width, height, xPoint, yPoint, vx, vy, animId;
-			int nextStageId;
+			int nextStageId, colideX, colideY;
 			string nextStageName;
-			fs >> width >> height >> nextStageId>> nextStageName >> xPoint >> yPoint >> vx >> vy >> animId;
+			fs >> width >> height >> nextStageId>> nextStageName >> xPoint >> yPoint >> vx >> vy >> animId>> colideX >> colideY;
 			auto obj = new ObjectChangeStage();
 			obj->setWidthHeight(width, height);
 			obj->setPosition(x, y);
 			obj->setNextStageId(nextStageId);
-			obj->setNextStageMapObjName(nextStageName);
+			std::wstring wsTemp(nextStageName.begin(), nextStageName.end());
+			obj->setNextStageMapObjName(wsTemp);
 			obj->setChangeStateDestinationPoint({ xPoint,yPoint });
 			obj->setChangeStateVelocity({ vx,vy});
 			obj->setChangeStateAnimId(animId);
+			obj->setSimonDirectCollide({colideX, colideY});
 			auto unit = new Unit(getGrid(), obj, x, y);
 			DebugOut(L"\n load obChangeStage");
 			break;
