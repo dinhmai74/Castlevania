@@ -40,7 +40,6 @@ void Door::closeDoor()
 }
 
 
-
 void Door::setNextCameraLimit(Region val)
 {
 	nextCameraLimit = val;

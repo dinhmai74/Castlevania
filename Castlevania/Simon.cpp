@@ -575,7 +575,7 @@ void Simon::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs)
 bool Simon::processCollisionWithDoor(float minTx, float nx, Door* door)
 {
 	auto result = false;
-	if (nx == door->getFaceSide() && !door->isOpenning())
+	if ((nx == door->getFaceSide()) && !door->isOpenning())
 	{
 		setState(idle);
 		auto cam = Camera::getInstance();
@@ -642,7 +642,10 @@ void Simon::checkCollisionWithForceIdleSim(DWORD dt, vector<GameObject*>* objs)
 		{
 			auto res = forceStopClimb(force->getDirection());
 			if (res)
+			{
 				y = force->getNextY();
+				isInGround = true;
+			}
 		}
 	}
 }
