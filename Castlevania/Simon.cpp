@@ -985,8 +985,6 @@ Box Simon::getBoundingBox()
 {
 	auto box = getBoundingBoxBaseOnFile();
 	// offset from rect sprite and bbox
-	box.l = x + 10;
-	box.r = box.l + SIM_WIDTH;
 	return box;
 }
 
