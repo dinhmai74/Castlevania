@@ -55,6 +55,7 @@ void StageManager::onKeyDown(int keyCode)
 	case DIK_Q: nextStage(0); break;
 	case DIK_W: nextStage(1); break;
 	case DIK_E: nextStage(2); break;
+	case DIK_R: nextStage(2, L"stage3.1"); break;
 	case DIK_T: nextStage(1, L"stage2.1"); break;
 	case DIK_N: nextStage(); break;
 
