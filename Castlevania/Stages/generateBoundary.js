@@ -10,13 +10,13 @@ var questions = [
     },
     {
 		type: "input",
-		name: "top",
-		message: "top",
+		name: "left",
+		message: "left",
     },
     {
 		type: "input",
-		name: "left",
-		message: "left",
+		name: "top",
+		message: "top",
     },
     {
 		type: "input",
@@ -41,17 +41,9 @@ inquirer.prompt(questions).then(answers => {
 });
 
 function calData(name, data) {
-    console.log("name",name);
-
-    const {w,h,l,t} = data;
-    let currentX=l;
-    let currentY=t;
-
-    while (w >0) {
-        currentX +=100;
-        w-=100;
-        console.log(currentX);
-    }
+	const {w,h,l,t} = data;
+	let result=`\n0 ${l} ${t} ${w} ${h} 0`
+	appendFile(name+"_objects",result);
 }
 
 function appendFile(name, data) {
@@ -64,6 +56,15 @@ function appendFile(name, data) {
     }
         else {
 			console.log("Some other error: ", err.code);
+		}
+	});
+
+	fs.appendFile(`${name}.txt`, data, function(err) {
+		if (err) {
+			// append failed
+			console.log("error: ", err);
+		} else {
+			// done
 		}
 	});
 }

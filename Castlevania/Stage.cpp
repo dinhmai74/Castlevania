@@ -18,7 +18,7 @@ Stage::~Stage()
 
 void Stage::init(int mapId, wstring mapName)
 {
-	this->renderBoundingBox = false;
+	this->renderBoundingBox = true;
 	game->getCamera()->reset();
 	initMap(mapId, mapName);
 	initSimon();
@@ -27,7 +27,7 @@ void Stage::init(int mapId, wstring mapName)
 
 void Stage::init(int mapId, wstring mapName, Simon * simon)
 {
-	this->renderBoundingBox = false;
+	this->renderBoundingBox = true;
 	game->getCamera()->reset();
 	this->simon = simon;
 	this->simon->reset();
