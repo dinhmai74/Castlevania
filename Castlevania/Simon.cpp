@@ -421,7 +421,9 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 	if (!updatedY) {
 		if (result.y && ny == CDIR_BOTTOM) {
 			isInGround = true;
-			if (state== jumping) stand();
+			vx = 0;
+			vy = 0;
+			if (state == jumping) stand();
 		}
 		else y += dy;
 	}

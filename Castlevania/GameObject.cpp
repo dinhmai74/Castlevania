@@ -91,8 +91,6 @@ void GameObject::doBurnedEffect(bool enable) {
 
 bool GameObject::processCollisionWithGround(float minTy, float ny) {
 	if (ny == CDIR_BOTTOM) {
-		vx = 0;
-		vy = 0;
 		isInGround = true;
 		return true;
 	}
@@ -329,7 +327,7 @@ void GameObject::checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* co
 	for (auto& coEvent : coEvents) delete coEvent;
 }
 
-CollisionResult GameObject::checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjects, vector<CollisionEvent*>& coResult, float& minTx, float& minTy, float& nx, float& ny) {
+CollisionResult GameObject::checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjects, vector<LPCollisionEvent>& coEventsResult, float& minTx, float& minTy, float& nx, float& ny) {
 	vector<LPCollisionEvent> coEvents;
 	coEvents.clear();
 
@@ -338,8 +336,8 @@ CollisionResult GameObject::checkCollisionWithBoundary(DWORD dt, vector<GameObje
 
 	if (!coEvents.empty())
 	{
-		filterCollision(coEvents, coResult, minTx, minTy, nx, ny);
-		for (auto& i : coResult) {
+		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
+		for (auto& i : coEventsResult) {
 			const auto object = (i->obj);
 			const auto boundary = dynamic_cast<Boundary*>(object);
 			if (boundary) {

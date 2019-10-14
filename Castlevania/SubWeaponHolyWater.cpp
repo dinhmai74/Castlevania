@@ -33,27 +33,14 @@ void SubWeaponHolyWater::checkCollision(DWORD dt, vector<MapGameObjects>& maps) 
 }
 
 CollisionResult SubWeaponHolyWater::checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjs) {
-	vector<LPCollisionEvent> coEvents;
 	vector<LPCollisionEvent> coEventsResult;
 	float minTx;
 	float minTy;
 	float nx = 0;
 	float ny;
-	coEvents.clear();
 	auto result = GameObject::checkCollisionWithBoundary(dt, coObjs, coEventsResult, minTx, minTy, nx, ny);
 	bool updatedY = false;
 	auto updatedX = false;
-
-	calcPotentialCollisions(coObjs, coEvents);
-
-	// no collison
-	if (!coEvents.empty()) {
-
-		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
-		auto isCollideDoor = false;
-		// block
-
-			}
 
 	if (!updatedX) {
 		if (result.x) blockX(minTx, nx);
@@ -71,8 +58,6 @@ CollisionResult SubWeaponHolyWater::checkCollisionWithBoundary(DWORD dt, vector<
 		else y += dy;
 	}
 
-
-	for (auto& coEvent : coEvents) delete coEvent;
 	return result;
 }
 

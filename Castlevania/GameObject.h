@@ -143,7 +143,7 @@ public:
 	}
 
 	void checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* coObjects);
-	virtual CollisionResult checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjects,vector<CollisionEvent*>& coResult,
+	virtual CollisionResult checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjects,vector<LPCollisionEvent>& coEventsResult,
 														float& minTx,float& minTy, float& nx, float& ny);
 
 	/*----------------- bounding box  -----------------*/

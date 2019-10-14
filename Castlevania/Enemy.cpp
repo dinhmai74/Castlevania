@@ -39,7 +39,7 @@ void Enemy::resetPos() {
 	y = initPos.y;
 }
 
-void Enemy::update(DWORD dt, vector<GameObject*>* coObjects /*= nullptr*/) {
+void Enemy::update(DWORD dt, vector<GameObject*> * coObjects /*= nullptr*/) {
 	if (getIsStopAllAction()) return;
 	GameObject::update(dt);
 	if (!isEnable) return;
@@ -47,30 +47,31 @@ void Enemy::update(DWORD dt, vector<GameObject*>* coObjects /*= nullptr*/) {
 	updateGravity();
 }
 
-void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*>* coObjects) {
+void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*> * coObjects) {
 	vector<LPCollisionEvent> coEvents;
 	vector<LPCollisionEvent> coEventsResult;
+	float minTx;
+	float minTy;
+	float nx = 0;
+	float ny;
 	coEvents.clear();
 
-	calcPotentialCollisions(coObjects, coEvents);
-	// no collison
-	if (coEvents.empty())
-		updatePosWhenNotCollide();
-	else {
-		float minTx;
-		float minTy;
-		float nx = 0;
-		float ny;
-		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
-		x += minTx * dx + nx * 0.1f;
-		y += minTy * dy + ny * 0.1f;
-		changeDirection(coEventsResult, nx, ny);
-	}
+	auto result = GameObject::checkCollisionWithBoundary(dt, coObjects, coEventsResult, minTx, minTy, nx, ny);
+	bool updatedY = false;
+	auto updatedX = false;
 
-	for (auto& coEvent : coEvents) delete coEvent;
+	if (!updatedX) {
+		if (result.x) changeDirection(coEventsResult,minTx, nx);
+		else x += vx*dt;
+	}
+	if (!updatedY) {
+		if (result.y && ny == CDIR_BOTTOM) {
+		}
+		else y += dy;
+	}
 }
 
-void Enemy::changeDirection(const vector<CollisionEvent*>& vector, float nx, float ny) {
+void Enemy::changeDirection(const vector<CollisionEvent*> & vector, float nx, float ny) {
 	if (nx != 0) {
 		faceSide = getFaceSide() * -1;
 		this->vx *= -1;
@@ -82,7 +83,7 @@ void Enemy::changeDirection(const vector<CollisionEvent*>& vector, float nx, flo
 
 
 void Enemy::respawn(float playerX, float playerY) {
-	if (canRespawn({playerX, playerY})) {
+	if (canRespawn({ playerX, playerY })) {
 		auto nx = playerX - x > 0 ? 1 : -1;
 		reset();
 		setFaceSide(nx);
