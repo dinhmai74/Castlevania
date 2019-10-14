@@ -133,6 +133,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyGhouls.cpp" />
+    <ClCompile Include="EnemyWolf.cpp" />
     <ClCompile Include="ForceIdleSim.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="BoundaryFactory.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="EnemyWolf.h" />
     <ClInclude Include="ForceIdleSim.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="stage1_castle.h" />

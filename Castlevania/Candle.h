@@ -4,6 +4,12 @@
 #include "ItemFactory.h"
 #include "Timer.h"
 
+enum CandleType
+{
+	candleBig,
+	candleSmall
+};
+
 class Candle : public GameObject
 {
 public:

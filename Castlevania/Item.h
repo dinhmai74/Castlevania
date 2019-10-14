@@ -2,6 +2,21 @@
 #include "GameObject.h"
 #include "Constants.h"
 
+enum ItemType
+{
+	itemDagger,
+	itemAxe,
+	itemBoomerang,
+	itemHolyWater,
+	itemRedMoneyBag,
+	itemWhiteMoneyBag,
+	itemBlueMoneyBag,
+	itemWhip = 102,
+	itemBigHeart = 100,
+	itemSmallHeart = 101,
+	itemHolyWaterEffect = 103,
+};
+
 class Item :
 	public GameObject
 {

@@ -49,12 +49,6 @@ enum State
 	normal = 0,
 };
 
-enum CandleType
-{
-	candleBig,
-	candleSmall
-};
-
 enum ObjectType
 {
 	OBBoundary,
@@ -73,40 +67,6 @@ enum ObjectType
 	OBCastle = 51,
 	OBSubWeapon = 52,
 };
-
-enum BoundaryType {
-	BoundaryNormal,
-	BoundaryGround,
-	BoundaryStair,
-	BoundaryCastle,
-};
-
-/*----------------- item regions -----------------*/
-#pragma region Items
-
-auto constexpr G_HEART_SMALL = 0.0001f;
-
-enum ItemType
-{
-	itemDagger,
-	itemAxe,
-	itemBoomerang,
-	itemHolyWater,
-	itemRedMoneyBag,
-	itemWhiteMoneyBag,
-	itemBlueMoneyBag,
-	itemWhip = 102,
-	itemBigHeart = 100,
-	itemSmallHeart = 101,
-	itemHolyWaterEffect = 103,
-};
-
-enum EnemType
-{
-	EnemGhouls,
-};
-
-#pragma endregion
 
 /*----------------- candle -----------------*/
 auto constexpr CANDLE_DESTROYED_TIME = 300;
@@ -129,6 +89,7 @@ auto constexpr TIMER_HOLY_BURN_DURATION = 2000;
 
 /*----------------- gravity  -----------------*/
 auto constexpr E_GRAVITY = 0.0015f;
+auto constexpr G_HEART_SMALL = 0.0001f;
 
 struct VectorInt
 {

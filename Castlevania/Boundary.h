@@ -1,6 +1,13 @@
 ﻿#pragma once
 #include "GameObject.h"
 
+enum BoundaryType {
+	BoundaryNormal,
+	BoundaryGround,
+	BoundaryStair,
+	BoundaryCastle,
+};
+
 class Boundary : public GameObject
 {
 public:

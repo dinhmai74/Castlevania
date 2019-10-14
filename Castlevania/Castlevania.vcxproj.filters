@@ -168,6 +168,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\GameManager</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyWolf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -345,6 +348,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TempRenderObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyWolf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

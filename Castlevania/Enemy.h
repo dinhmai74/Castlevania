@@ -2,6 +2,12 @@
 #include "GameObject.h"
 #include "Territory.h"
 
+enum EnemType
+{
+	EnemGhouls,
+	EnemWolf,
+};
+
 
 class Enemy: public GameObject
 {
