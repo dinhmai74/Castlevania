@@ -44,7 +44,7 @@ void Enemy::update(DWORD dt, vector<GameObject*> * coObjects /*= nullptr*/) {
 	GameObject::update(dt);
 	if (!isEnable) return;
 	checkCollisionAndChangeDirectX(dt, coObjects);
-	updateGravity();
+	updateGravity(this->initGravity);
 }
 
 void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*> * coObjects) {

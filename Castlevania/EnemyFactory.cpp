@@ -20,16 +20,18 @@ Enemy* EnemyFactory::getEnemy(int type)
 	case EnemWolf:
 		enemy = new EnemyWolf();
 		dmg = 3;
-		vx = 0.15f;
-		vy = -0.3f;
+		gravity = E_GRAVITY * 0.5;
+		vx = 0.25f;
+		vy = -0.2f;
 		break;
 	default: enemy = new EnemyGhouls();
 	}
 	enemy->setGravity(gravity);
 	enemy->setFaceSide(faceSide);
 	enemy->setInitSpeed({ vx, vy });
-	enemy->setSpeed(faceSide * vx, vy);
+	enemy->setSpeed(faceSide * vx, 0);
 	enemy->setDmg(dmg);
+	enemy->setInitGravity(gravity);
 	enemy->setEnable(false);
 	return enemy;
 }

@@ -72,6 +72,7 @@ protected:
 	int deathTimeDuration;
 	bool canDeflect;
 	bool isInGround;
+	float initGravity;
 public:
 	GameObject();
 
@@ -213,6 +214,8 @@ public:
 	void doBurnedEffect(bool enable = false);
 	bool processCollisionWithGround(float minTy, float ny);
 	bool processCollisionWithBoundaryByX(float minTx, float nx, GameObject* boundary);
+	float getInitGravity() const { return initGravity; }
+	void setInitGravity(float val) { initGravity = val; }
 };
 
 

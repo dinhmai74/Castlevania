@@ -10,6 +10,7 @@ EnemyWolf::~EnemyWolf() = default;
 void EnemyWolf::initAnim() {
 	addAnimation(idle, "wolf_idle_ani");
 	addAnimation(walking, "wolf_run_ani");
+	addAnimation(jumping, "wolf_jump_ani");
 }
 
 void EnemyWolf::init() {
@@ -23,22 +24,26 @@ void EnemyWolf::updateAnimId() {
 }
 
 void EnemyWolf::update(DWORD dt, vector<GameObject*> * coObjects, float simX) {
-	if (state == idle) vx = 0;
+	if (state == idle) {
+		vx = 0;
+		gravity = initGravity;
+	}
 	Enemy::update(dt, coObjects);
 
+	checkIfCanRun(simX);
+	checkCollisionWithGround(dt, coObjects);
 	checkCollisonWithBoundaryForceJump(coObjects);
-	updateStateWhenSimGoTerritory(simX);
+	updateVelocity();
 	updateAnimId();
 }
 
-void EnemyWolf::updateStateWhenSimGoTerritory(float simX) {
+void EnemyWolf::checkIfCanRun(float simX) {
 	auto rightSide = simX - x > 0;
 	auto distance = fabs(simX - x);
 	auto activeDistance = rightSide ? activeTerritory.right : activeTerritory.left;
 	auto canActive = distance <= activeDistance;
 	if (canActive) {
-		setState(walking);
-		vx = initVelocity.x * faceSide;
+		canRun = true;
 	}
 }
 
@@ -57,4 +62,27 @@ void EnemyWolf::jump() {
 	vy = initVelocity.y;
 	isInGround = false;
 	setState(jumping);
+}
+
+void EnemyWolf::checkCollisionWithGround(DWORD dt, vector<GameObject*> * coObjects) {
+	vector<LPCollisionEvent> coEvents;
+	vector<LPCollisionEvent> coEventResult;
+
+	calcPotentialCollisions(coObjects, coEvents);
+	if (!coEvents.empty()) {
+		float minTx, minTy, nx, ny;
+		filterCollision(coEvents, coEventResult, minTx, minTy, nx, ny);
+		for (auto rs : coEventResult) {
+			auto obj = dynamic_cast<Boundary*>(rs->obj);
+			if (obj && obj->getBoundaryType() == BoundaryGround && ny == CDIR_BOTTOM) {
+				canRun ? setState(walking) : setState(idle);
+			}
+		}
+	}
+}
+
+void EnemyWolf::updateVelocity() {
+	if (!canRun) return;
+	if (state != jumping) setState(walking);
+	vx = initVelocity.x * faceSide;
 }
