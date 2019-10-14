@@ -1,5 +1,6 @@
 #include "EnemyFactory.h"
 #include "EnemyGhouls.h"
+#include "EnemyWolf.h"
 
 Enemy* EnemyFactory::getEnemy(int type)
 {
@@ -15,6 +16,11 @@ Enemy* EnemyFactory::getEnemy(int type)
 	case EnemGhouls:
 		enemy = new EnemyGhouls();
 		dmg = 2;
+		break;
+	case EnemWolf:
+		enemy = new EnemyWolf();
+		dmg = 3;
+		vx = 0.15f;
 		break;
 	default: enemy = new EnemyGhouls();
 	}
@@ -33,7 +39,6 @@ int EnemyFactory::getHp(int enemyType)
 {
 	switch (enemyType)
 	{
-	case EnemGhouls: return 1;
 	default: return 1;
 	}
 }

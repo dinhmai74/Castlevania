@@ -2,21 +2,21 @@
 #include "GameObject.h"
 #include "Territory.h"
 
-enum EnemType
-{
+enum EnemType {
 	EnemGhouls,
 	EnemWolf,
 };
 
+auto constexpr E_UNTOUCHABLE_DURATION = 200;
+auto constexpr E_RESPAWN_INIT_TIME = 3000;
 
-class Enemy: public GameObject
-{
+class Enemy : public GameObject {
 public:
 	Enemy();
 	~Enemy();
-	void init();
-	void reset();
-	void resetHP();
+	virtual void init();
+	virtual void reset();
+	void resetHp();
 	void resetPos();
 	void update(DWORD dt, vector<GameObject*>* coObjects = nullptr) override;
 	void checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*>* coObjects);
@@ -24,7 +24,7 @@ public:
 	bool canRespawn(D3DXVECTOR2 simPos);
 	void respawn(float playerX, float playerY);
 
-	void setNewEnemy(bool val = true) ;
+	void setNewEnemy(bool val = true);
 	void getHurt(int nx, int ny, int hpLose) override;
 	void processWhenBurnedEffectDone() override;
 
@@ -39,22 +39,24 @@ public:
 	Region getRespawnArea() const { return respawnArea; }
 	void setRespawnArea(Region val) { respawnArea = val; }
 
-	virtual void setEnable(bool val = true) override;
+	void setEnable(bool val = true) override;
 
 	bool getIsStopAllAction() const { return isStopAllAction; }
 	void setIsStopAllAction(bool val) { isStopAllAction = val; }
 
-	virtual void render() override;
+	void render() override;
 
-	void setRespawnTime(DWORD val) { respawnTime = val; }
+	void setRespawnTime(DWORD val) { respawnTime = val;  }
+	Timer* getTimerRespawn() const { return timerRespawn; }
+	void setTimerRespawn(Timer* val) { timerRespawn = val; }
 private:
-	int enemyType;
-	int dmg;
-	int initFaceSide;
-	bool isExist;
-	bool isStopAllAction;
-	DWORD respawnTime;
-	Timer* timerRespawn;
-	Region respawnArea;
+	int enemyType{};
+	int dmg{};
+	int initFaceSide{};
+	bool isExist{};
+	bool isStopAllAction{};
+	DWORD respawnTime{};
+	Timer* timerRespawn{};
+	Region respawnArea{};
 
 };

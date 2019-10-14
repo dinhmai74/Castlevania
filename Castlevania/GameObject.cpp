@@ -66,15 +66,16 @@ void GameObject::updateAnimId()
 
 void GameObject::render()
 {
+	if (IsEnable()) {
+		animations[animId]->render(getFaceSide(), x, y, alpha);
+		currentFrame = animations[animId]->getCurrentFrame();
+	}
 	if (burnEffect)
 	{
 		const auto blowX = x;
 		const auto blowY = y;
 		burnEffect->render(1, blowX, blowY);
 	}
-	if (!IsEnable()) return;
-	animations[animId]->render(getFaceSide(), x, y, alpha);
-	currentFrame = animations[animId]->getCurrentFrame();
 }
 
 void GameObject::getSpeed(float& vx, float& vy) const
@@ -89,13 +90,13 @@ void GameObject::getPosition(float& x, float& y) const
 	y = this->y;
 }
 
-void GameObject::doBurnedEffect()
+void GameObject::doBurnedEffect(bool enable)
 {
 	timerBurnEffect->start();
 	const auto now = GetTickCount();
 	burnEffect = AnimationManager::getInstance()->get(ANIM_BURNED);
 	burnEffect->setAniStartTime(now);
-	setEnable(false);
+	setEnable(enable);
 
 }
 
@@ -135,7 +136,9 @@ void GameObject::doDeathAnim()
 	vy = 0;
 	this->hp = 0;
 	if (animations[ANIM_DEATH]) timerDeath->start();
-	else doBurnedEffect();
+	else {
+		doBurnedEffect();
+	}
 }
 
 void GameObject::loseHp(int hpLose)
@@ -147,8 +150,14 @@ void GameObject::loseHp(int hpLose)
 void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose)
 {
 	loseHp(hpLose);
-	if (animations[ANIM_DEFLECT] && canDeflect)doDeflect(nx);
-	else doUntouchable();
+	if (animations[ANIM_DEFLECT] && canDeflect) {
+		doDeflect(nx);
+		doBurnedEffect(true);
+	}
+	else {
+		doUntouchable();
+		doBurnedEffect(true);
+	}
 }
 
 void GameObject::doDeflect(int nx)

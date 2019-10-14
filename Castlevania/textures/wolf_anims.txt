@@ -1,0 +1,2 @@
+wolf_idle_ani	wolf_idle_0	100
+wolf_run_ani	wolf_run_1	100	wolf_run_2	100	wolf_run_3 100

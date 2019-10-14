@@ -158,10 +158,11 @@ void Stage::loadObjectFromFiles()
 
 		case OBEnemy:
 		{
-			int type, faceSide, respawnTime;
+			int type, faceSide, respawnTime, initState;
 			float min, max;
-			fs >> faceSide >> type >> min >> max >> respawnTime;
+			fs >> faceSide >> type >> min >> max >> respawnTime>> initState;
 			auto obj = EnemyFactory::getInstance()->getEnemy(type);
+			obj->setInitState(initState);
 			obj->setRespawnTime(respawnTime);
 			obj->setRespawnArea({ min, max });
 			obj->setInitPos({ x, y });

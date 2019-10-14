@@ -191,7 +191,7 @@ public:
 	int getInitState() const { return initState; }
 	void setInitState(int val) { initState = val; }
 private:
-	void doBurnedEffect();
+	void doBurnedEffect(bool enable=false);
 };
 
 

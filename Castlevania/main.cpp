@@ -247,6 +247,7 @@ void loadResources()
 	LoadSprites(1008, L"shouls");
 	LoadSprites(1009, L"stage1_castle");
 	LoadSprites(1010, L"door");
+	LoadSprites(1011, L"wolf");
 	LoadSprites(100001, L"blackboard", D3DCOLOR_XRGB(0, 0, 0));
 	LoadSprites(100002, L"HP");
 	vector<TileMapInfo> mapInfos;
