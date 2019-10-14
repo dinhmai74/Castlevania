@@ -35,6 +35,8 @@ public:
 	void setFileObjects(std::wstring val) { fileObjects = val; }
 	std::wstring getMapName() const { return mapName; }
 	void setMapName(std::wstring val) { mapName = val; }
+	bool getStopEnemyAction() const { return stopEnemyAction; }
+	void setStopEnemyAction(bool val=true) { stopEnemyAction = val; }
 private:
 	Simon* simon;
 	int mapId;

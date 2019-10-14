@@ -97,7 +97,10 @@ void Enemy::respawn(float playerX, float playerY)
 {
 	if (canRespawn({ playerX,playerY }))
 	{
+		auto nx = playerX - x > 0 ? 1 : -1;
 		reset();
+		setFaceSide(nx);
+		vx = initSpeed.x * nx;
 		setNewEnemy();
 	}
 }

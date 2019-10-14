@@ -280,7 +280,7 @@ void Stage::update(DWORD dt)
 
 		auto enem = dynamic_cast<Enemy*>(obj);
 		if (enem)
-			enem->setIsStopAllAction(stopEnemyAction);
+			enem->setIsStopAllAction(getStopEnemyAction());
 
 		obj->update(dt, &listBoundary);
 	}
@@ -484,7 +484,7 @@ void Stage::onKeyDown(const int keyCode)
 		break;
 	case DIK_D: simon->powerUpWhip(false);
 		break;
-	case DIK_S: stopEnemyAction = !stopEnemyAction;
+	case DIK_S: setStopEnemyAction(!getStopEnemyAction());
 		break;
 	case DIK_X: simon->getHurt(1, 1, 1);
 		break;

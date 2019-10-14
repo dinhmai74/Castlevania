@@ -193,16 +193,19 @@ void Simon::updateEnergy(int val/*=1*/)
 
 void Simon::updateRGB()
 {
+	auto const stageManager = StageManager::getInstance();
 	if (!timerPowering->isTimeUp())
 	{
 		r = g + 80;
 		g = 100 + rand() % 150;
 		b = g + 35;
+		stageManager->getCurrentStage()->setStopEnemyAction();
 	}
 	else
 	{
 		r = g = b = 255;
 		isCollectingWhip = false;
+		stageManager->getCurrentStage()->setStopEnemyAction(false);
 		timerPowering->stop();
 	}
 }
