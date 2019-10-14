@@ -11,6 +11,7 @@ Enemy::Enemy() {
 Enemy::~Enemy() = default;
 
 void Enemy::init() {
+	DebugOut(L"enemy\n");
 	resetHp();
 	setDmg(1);
 	setType(OBEnemy);
@@ -87,6 +88,7 @@ void Enemy::respawn(float playerX, float playerY) {
 		auto nx = playerX - x > 0 ? 1 : -1;
 		reset();
 		setFaceSide(nx);
+		setInitFaceSide(nx);
 		vx = initVelocity.x * nx;
 		setNewEnemy();
 	}

@@ -23,7 +23,7 @@ void EnemyWolf::updateAnimId() {
 	setAnimId(state);
 }
 
-void EnemyWolf::update(DWORD dt, vector<GameObject*> * coObjects, float simX) {
+void EnemyWolf::update(DWORD dt, vector<GameObject*>* coObjects, float simX) {
 	if (state == idle) {
 		vx = 0;
 		gravity = initGravity;
@@ -47,12 +47,12 @@ void EnemyWolf::checkIfCanRun(float simX) {
 	}
 }
 
-void EnemyWolf::checkCollisonWithBoundaryForceJump(vector<GameObject*> * coObjects) {
+void EnemyWolf::checkCollisonWithBoundaryForceJump(vector<GameObject*>* coObjects) {
 	for (auto obj : *coObjects) {
 		auto force = dynamic_cast<ForceEnemyJumpingBound*>(obj);
 		if (!force) continue;
 		if (isColliding(obj->getBoundingBox(), getBoundingBox())) {
-			if (isInGround) jump();
+			if (isInGround && state == walking) jump();
 			break;
 		}
 	}
@@ -61,10 +61,11 @@ void EnemyWolf::checkCollisonWithBoundaryForceJump(vector<GameObject*> * coObjec
 void EnemyWolf::jump() {
 	vy = initVelocity.y;
 	isInGround = false;
+	jumped = true;
 	setState(jumping);
 }
 
-void EnemyWolf::checkCollisionWithGround(DWORD dt, vector<GameObject*> * coObjects) {
+void EnemyWolf::checkCollisionWithGround(DWORD dt, vector<GameObject*>* coObjects) {
 	vector<LPCollisionEvent> coEvents;
 	vector<LPCollisionEvent> coEventResult;
 
@@ -75,7 +76,11 @@ void EnemyWolf::checkCollisionWithGround(DWORD dt, vector<GameObject*> * coObjec
 		for (auto rs : coEventResult) {
 			auto obj = dynamic_cast<Boundary*>(rs->obj);
 			if (obj && obj->getBoundaryType() == BoundaryGround && ny == CDIR_BOTTOM) {
-				canRun ? setState(walking) : setState(idle);
+				if (canRun) {
+					setState(walking);
+					if (jumped) faceSide = -getInitFaceSide();
+				}
+				else setState(idle);
 			}
 		}
 	}

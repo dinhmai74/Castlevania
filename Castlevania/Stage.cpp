@@ -62,7 +62,6 @@ void Stage::loadContent() {
 	loadObjectFromFiles();
 }
 
-
 void Stage::loadObjectFromFiles() {
 	fstream fs;
 	const wstring objectsPath = STAGE_PREFIX_PATH + mapName + STAGE_OBJECTS_PATH;

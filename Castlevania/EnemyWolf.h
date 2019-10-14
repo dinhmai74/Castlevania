@@ -24,4 +24,5 @@ public:
 private:
 	Territory activeTerritory;
 	bool canRun;
+	bool jumped;
 };

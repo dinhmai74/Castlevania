@@ -2,8 +2,7 @@
 #include "EnemyGhouls.h"
 #include "EnemyWolf.h"
 
-Enemy* EnemyFactory::getEnemy(int type)
-{
+Enemy* EnemyFactory::getEnemy(int type) {
 	Enemy* enemy;
 	auto faceSide = -1;
 	auto gravity = E_GRAVITY;
@@ -11,8 +10,7 @@ Enemy* EnemyFactory::getEnemy(int type)
 	auto vy = 0.0f;
 	auto dmg = 1;
 
-	switch (type)
-	{
+	switch (type) {
 	case EnemGhouls:
 		enemy = new EnemyGhouls();
 		dmg = 2;
@@ -23,6 +21,7 @@ Enemy* EnemyFactory::getEnemy(int type)
 		gravity = E_GRAVITY * 0.5;
 		vx = 0.25f;
 		vy = -0.2f;
+		enemy->getTimerRespawn()->setLimitedTime(100);
 		break;
 	default: enemy = new EnemyGhouls();
 	}
@@ -38,11 +37,8 @@ Enemy* EnemyFactory::getEnemy(int type)
 
 EnemyFactory* EnemyFactory::instance = nullptr;
 
-int EnemyFactory::getHp(int enemyType)
-{
-	switch (enemyType)
-	{
+int EnemyFactory::getHp(int enemyType) {
+	switch (enemyType) {
 	default: return 1;
 	}
 }
-
