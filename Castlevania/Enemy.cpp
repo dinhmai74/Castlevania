@@ -27,7 +27,7 @@ void Enemy::reset() {
 	setAnimId(ANIM_WALK);
 	timerRespawn->setLimitedTime(respawnTime);
 	setFaceSide(initFaceSide);
-	vx = initSpeed.x * initFaceSide;
+	vx = initVelocity.x * initFaceSide;
 }
 
 void Enemy::resetHp() {
@@ -86,7 +86,7 @@ void Enemy::respawn(float playerX, float playerY) {
 		auto nx = playerX - x > 0 ? 1 : -1;
 		reset();
 		setFaceSide(nx);
-		vx = initSpeed.x * nx;
+		vx = initVelocity.x * nx;
 		setNewEnemy();
 	}
 }
@@ -102,10 +102,6 @@ bool Enemy::canRespawn(D3DXVECTOR2 simPos) {
 void Enemy::setNewEnemy(bool val /*= true*/) {
 	getTimerRespawn()->stop();
 	setEnable();
-}
-
-void Enemy::getHurt(int nx, int ny, int hpLose) {
-	GameObject::getHurt(nx, ny, hpLose);
 }
 
 void Enemy::processWhenBurnedEffectDone() {

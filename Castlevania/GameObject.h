@@ -33,7 +33,7 @@ protected:
 	float dy;	// dy = vy*dt
 	float vx;
 	float vy;
-	D3DXVECTOR2 initSpeed;
+	D3DXVECTOR2 initVelocity;
 	int hp;
 	float boundingGameX; // gioi han man hinh game x
 	float boundingGameY; // gioi han man hinh game y
@@ -87,8 +87,8 @@ public:
 	}
 
 	/*----------------- hurt and death -----------------*/
-	virtual void getHurt(int nx = -1, int hpLose = 1);
-	virtual void getHurt(int nx, int ny, int hpLose);
+	virtual bool getHurt(int nx = -1, int hpLose = 1);
+	virtual bool getHurt(int nx, int ny, int hpLose);
 
 	void doDeathAnim();
 
@@ -184,8 +184,8 @@ public:
 	bool isDeflecting() { return isTimerRunning(timerDeflect); }
 	bool isUntouching() { return isTimerRunning(timerUntouchable); }
 	bool isDying() { return isTimerRunning(timerDeath); };
-	D3DXVECTOR2 getInitSpeed() const { return initSpeed; }
-	void setInitSpeed(D3DXVECTOR2 val) { initSpeed = val; }
+	D3DXVECTOR2 getInitSpeed() const { return initVelocity; }
+	void setInitSpeed(D3DXVECTOR2 val) { initVelocity = val; }
 	int getFaceSide() const { return faceSide; }
 	void setAnimId(int val) { animId = val; }
 	int getInitState() const { return initState; }

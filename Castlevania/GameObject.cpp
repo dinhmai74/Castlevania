@@ -116,17 +116,18 @@ void GameObject::addAnimation(int id, string animTexId)
 	animations[id] = animation;
 }
 
-void GameObject::getHurt(int nx, int hpLose)
+bool GameObject::getHurt(int nx, int hpLose)
 {
-	GameObject::getHurt(nx, 1, hpLose);
+	return GameObject::getHurt(nx, 1, hpLose);
 }
 
-void GameObject::getHurt(int nx, int ny, int hpLose)
+bool GameObject::getHurt(int nx, int ny, int hpLose)
 {
-	if (isUntouching() || isDeflecting()) return;
+	if (isUntouching() || isDeflecting()) return false;
 	if (this->hp <= hpLose)
 		doDeathAnim();
 	else setStatusWhenStillHaveEnoughHP(nx, hpLose);
+	return true;
 }
 
 void GameObject::doDeathAnim()

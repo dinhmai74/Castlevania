@@ -25,7 +25,6 @@ public:
 	void respawn(float playerX, float playerY);
 
 	void setNewEnemy(bool val = true);
-	void getHurt(int nx, int ny, int hpLose) override;
 	void processWhenBurnedEffectDone() override;
 
 	/*----------------- get set  -----------------*/

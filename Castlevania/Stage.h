@@ -21,6 +21,7 @@ public:
 	void initSimon();
 	void reset();
 	void render();
+	bool updateEnemy(vector<GameObject*>::value_type obj,DWORD dt);
 	void update(DWORD dt);
 
 	void updateSubWeapon(SubWeapon* subWeapon, DWORD dt);
@@ -58,6 +59,7 @@ private:
 
 	void loadObjectFromFiles();
 	void loadContent();
+	void loadEnemies(fstream &fs, float x, float y);
 	void loadBoundaryCase(fstream &fs, float x, float y);
 	void initSimonPos();
 	void respawnEnemies();

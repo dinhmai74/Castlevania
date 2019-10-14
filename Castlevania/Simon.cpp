@@ -567,7 +567,8 @@ void Simon::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs)
 			const auto enemy = dynamic_cast<Enemy*>(object);
 			if (enemy)
 			{
-				getHurt(nx, ny, enemy->getDmg());
+				auto hurtResult=getHurt(nx, ny, enemy->getDmg());
+				if(hurtResult) resetState();
 			}
 		}
 	}
@@ -1048,11 +1049,11 @@ void Simon::setSubWeapon(int type)
 	subWeaponType = type;
 }
 
-void Simon::getHurt(int nx, int ny, int hpLose)
+bool Simon::getHurt(int nx, int ny, int hpLose)
 {
-	if (isUntouching() || isDeflecting()) return;
+	if (isUntouching() || isDeflecting()) return false;
 	resetState();
-	GameObject::getHurt(nx, ny, hpLose);
+	return GameObject::getHurt(nx, ny, hpLose);
 }
 
 void Simon::upgradeWhipLv(bool up) const

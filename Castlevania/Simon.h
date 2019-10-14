@@ -65,7 +65,7 @@ public:
 	void setEnergy(int val);
 	void setForceDead(bool val=true);
 	void setSubWeapon(int type);;
-	void getHurt(int nx, int ny, int hpLose) override;
+	bool getHurt(int nx, int ny, int hpLose) override;
 	float getStairDxRemain() const { return stairDxRemain; }
 	void setStairDxRemain(float val) { stairDxRemain = val; }
 	float getStairDyRemain() const { return stairDyRemain; }

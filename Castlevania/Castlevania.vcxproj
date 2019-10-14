@@ -173,6 +173,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="EnemyWolf.h" />
+    <ClInclude Include="ForceEnemyJumpingBound.h" />
     <ClInclude Include="ForceIdleSim.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="stage1_castle.h" />
