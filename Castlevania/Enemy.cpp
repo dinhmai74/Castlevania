@@ -67,6 +67,7 @@ void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*> * coObj
 	}
 	if (!updatedY) {
 		if (result.y && ny == CDIR_BOTTOM) {
+			blockY(minTy, ny);
 		}
 		else y += dy;
 	}
@@ -81,7 +82,6 @@ void Enemy::changeDirection(const vector<CollisionEvent*> & vector, float nx, fl
 		vy = 0;
 	}
 }
-
 
 void Enemy::respawn(float playerX, float playerY) {
 	if (canRespawn({ playerX, playerY })) {

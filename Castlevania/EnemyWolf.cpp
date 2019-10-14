@@ -78,7 +78,10 @@ void EnemyWolf::checkCollisionWithGround(DWORD dt, vector<GameObject*>* coObject
 			if (obj && obj->getBoundaryType() == BoundaryGround && ny == CDIR_BOTTOM) {
 				if (canRun) {
 					setState(walking);
-					if (jumped) faceSide = -getInitFaceSide();
+					if (jumped && !changedFaceSide) {
+						faceSide *= -1;
+						changedFaceSide = true;
+					}
 				}
 				else setState(idle);
 			}
@@ -90,4 +93,11 @@ void EnemyWolf::updateVelocity() {
 	if (!canRun) return;
 	if (state != jumping) setState(walking);
 	vx = initVelocity.x * faceSide;
+}
+
+void EnemyWolf::reset() {
+	Enemy::reset();
+	jumped = false;
+	changedFaceSide = false;
+	setState(idle);
 }
