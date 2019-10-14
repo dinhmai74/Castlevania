@@ -2,6 +2,7 @@
 #include "Stair.h"
 #include "stage1_castle.h"
 #include "ForceIdleSim.h"
+#include "ForceEnemyJumpingBound.h"
 
 BoundaryFactory* BoundaryFactory::instance = nullptr;
 
@@ -12,11 +13,12 @@ Boundary* BoundaryFactory::getBoundary(int type)
 	{
 	case BoundaryNormal:
 		boundary = new Boundary();
-			DebugOut(L"\n load oboundary ");
 		break;
 	case BoundaryStair:
 		boundary = new Stair();
-			DebugOut(L"\n load stair");
+		break;
+	case BoundaryForceJump:
+		boundary = new ForceEnemyJumpingBound();
 		break;
 	default:
 		boundary = new Boundary();

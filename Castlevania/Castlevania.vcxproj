@@ -134,6 +134,7 @@
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyGhouls.cpp" />
     <ClCompile Include="EnemyWolf.cpp" />
+    <ClCompile Include="ForceEnemyJumpingBound.cpp" />
     <ClCompile Include="ForceIdleSim.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />

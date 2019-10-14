@@ -1,8 +1,7 @@
 #include "SubWeaponHolyWater.h"
 #include "Boundary.h"
 
-SubWeaponHolyWater::SubWeaponHolyWater()
-{
+SubWeaponHolyWater::SubWeaponHolyWater() {
 	addAnimation(itemHolyWater, "subweapons_holy_water_ani");
 	addAnimation(itemHolyWaterEffect, "subweapons_holy_water_effect_ani");
 	setWeaponType(itemHolyWater);
@@ -11,8 +10,7 @@ SubWeaponHolyWater::SubWeaponHolyWater()
 	timerEffect = new Timer(TIMER_HOLY_BURN_DURATION);
 }
 
-void SubWeaponHolyWater::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, vector<MapGameObjects>& map)
-{
+void SubWeaponHolyWater::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, vector<MapGameObjects>& map) {
 	GameObject::update(dt);
 	updateAnimId();
 	checkCollision(dt, map);
@@ -20,12 +18,9 @@ void SubWeaponHolyWater::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, 
 	updateEffect();
 }
 
-void SubWeaponHolyWater::checkCollision(DWORD dt, vector<MapGameObjects>& maps)
-{
-	for (auto map : maps)
-	{
-		switch (map.id)
-		{
+void SubWeaponHolyWater::checkCollision(DWORD dt, vector<MapGameObjects>& maps) {
+	for (auto map : maps) {
+		switch (map.id) {
 		case OBBoundary:
 			checkCollisionWithBoundary(dt, map.objs);
 			break;
@@ -37,59 +32,61 @@ void SubWeaponHolyWater::checkCollision(DWORD dt, vector<MapGameObjects>& maps)
 	}
 }
 
-void SubWeaponHolyWater::checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjs)
-{
+CollisionResult SubWeaponHolyWater::checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjs) {
 	vector<LPCollisionEvent> coEvents;
 	vector<LPCollisionEvent> coEventsResult;
+	float minTx;
+	float minTy;
+	float nx = 0;
+	float ny;
 	coEvents.clear();
+	auto result = GameObject::checkCollisionWithBoundary(dt, coObjs, coEventsResult, minTx, minTy, nx, ny);
+	bool updatedY = false;
+	auto updatedX = false;
 
 	calcPotentialCollisions(coObjs, coEvents);
 
-	if (coEvents.empty()) updatePosWhenNotCollide();
-	else
-	{
-		float minTx;
-		float minTy;
-		float nx = 0;
-		float ny;
-		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
-		updatePosInTheMomentCollideAndRemoveVelocity(minTx, minTy, nx, ny);
+	// no collison
+	if (!coEvents.empty()) {
 
-		for (auto& i : coEventsResult)
-		{
-			const auto object = (i->obj);
-			processWithBoundary(object, nx, ny);
+		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
+		auto isCollideDoor = false;
+		// block
+
+			}
+
+	if (!updatedX) {
+		if (result.x) blockX(minTx, nx);
+		else x += dx;
+	}
+	if (!updatedY) {
+		if (result.y && ny == CDIR_BOTTOM) {
+			if (timerEffect->runAlready()) return result;
+			setState(itemHolyWaterEffect);
+			vx = 0;
+			vy = 0;
+			gravity = 0.0f;
+			timerEffect->start();
 		}
+		else y += dy;
 	}
 
+
 	for (auto& coEvent : coEvents) delete coEvent;
+	return result;
 }
 
-void SubWeaponHolyWater::updateEffect()
-{
-	if (timerEffect->isTimeUpAndRunAlr())
-	{
+void SubWeaponHolyWater::updateEffect() {
+	if (timerEffect->isTimeUpAndRunAlr()) {
 		disableWeapon();
 		isBurned = false;
 	}
 }
 
-void SubWeaponHolyWater::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs)
-{
+void SubWeaponHolyWater::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs) {
 	Weapon::checkCollision(dt, objs);
 }
 
-void SubWeaponHolyWater::updateAnimId()
-{
+void SubWeaponHolyWater::updateAnimId() {
 	setAnimId(state);
-}
-
-void SubWeaponHolyWater::processWithBoundary(GameObject* const object, float nx, float ny)
-{
-	if (timerEffect->runAlready()) return;
-	setState(itemHolyWaterEffect);
-	vx = 0;
-	vy = 0;
-	gravity = 0.0f;
-	timerEffect->start();
 }

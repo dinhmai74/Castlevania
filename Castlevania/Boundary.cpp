@@ -2,7 +2,7 @@
 
 Boundary::Boundary()
 {
-	init();
+	Boundary::init();
 }
 
 void Boundary::initAnim()

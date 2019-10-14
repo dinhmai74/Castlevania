@@ -6,15 +6,17 @@ enum BoundaryType {
 	BoundaryGround,
 	BoundaryStair,
 	BoundaryCastle,
+	BoundaryForceJump,
 };
 
 class Boundary : public GameObject
 {
 public:
 	Boundary();
+	virtual void init();
 	void initAnim() override;
 	void render() override;
-	virtual Box getBoundingBox() override;
+	Box getBoundingBox() override;
 
 	int getBoundaryType() const;
 	void setBoundaryType(int val);
@@ -23,5 +25,4 @@ private:
 	float width;
 	float height;
 	int boundaryType;
-	void init();
 };

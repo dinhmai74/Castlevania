@@ -8,9 +8,8 @@ public:
 	~SubWeaponHolyWater() = default;
 	void update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, vector<MapGameObjects>& maps);
 	void updateAnimId() override;
-	void processWithBoundary(GameObject* const object, float nx, float ny);
 	void checkCollision(DWORD dt, vector<MapGameObjects>& coObjs) ;
-	void checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjs);
+	CollisionResult checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjs) ;
 private:
 	Timer* timerEffect;
 	bool isBurned;

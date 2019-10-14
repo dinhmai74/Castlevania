@@ -219,6 +219,7 @@ void Stage::loadBoundaryCase(fstream& fs, float x, float y) {
 		break;
 	}
 	case BoundaryNormal:
+	case BoundaryForceJump:
 	case BoundaryGround:
 		listBoundary.push_back(boundary);
 		break;

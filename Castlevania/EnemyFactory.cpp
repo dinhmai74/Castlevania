@@ -21,6 +21,7 @@ Enemy* EnemyFactory::getEnemy(int type)
 		enemy = new EnemyWolf();
 		dmg = 3;
 		vx = 0.15f;
+		vy = -0.3f;
 		break;
 	default: enemy = new EnemyGhouls();
 	}

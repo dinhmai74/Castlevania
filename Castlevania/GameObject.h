@@ -10,27 +10,31 @@ using namespace std;
 constexpr auto FACE_TO_RIGHT = 1;
 constexpr auto FACE_TO_LEFT = -1;
 
+struct CollisionResult {
+	bool x;
+	bool y;
+};
+
 struct CollisionEvent;
 typedef CollisionEvent* LPCollisionEvent;
 class GameObject;
 typedef GameObject* LPGAMEOBJECT;
 
-class GameObject
-{
+class GameObject {
 protected:
 	int id;
 	int type;
 
 	float x;
 	float y;
-	float dx;	// dx = vx*dt
+	float dx; // dx = vx*dt
 	int alpha;
 	int r;
 	int g;
 	int b;
 	D3DXVECTOR2 initPos;
 	float gravity;
-	float dy;	// dy = vy*dt
+	float dy; // dy = vy*dt
 	float vx;
 	float vy;
 	D3DXVECTOR2 initVelocity;
@@ -67,6 +71,7 @@ protected:
 	bool startUntouch;
 	int deathTimeDuration;
 	bool canDeflect;
+	bool isInGround;
 public:
 	GameObject();
 
@@ -78,9 +83,13 @@ public:
 	virtual void updateAnimId();
 	virtual void renderBoundingBox();
 	void addAnimation(int id, string animTexId);
-	void setDisable() { isActive = false; isEnable = false; }
-	void removeAllVelocity()
-	{
+
+	void setDisable() {
+		isActive = false;
+		isEnable = false;
+	}
+
+	void removeAllVelocity() {
 		gravity = 0;
 		vx = 0;
 		vy = 0;
@@ -121,29 +130,29 @@ public:
 	void updateGravity() { updateGravity(this->gravity); };
 	void updatePosWhenNotCollide();
 	void updatePosInTheMomentCollideAndRemoveVelocity(float minTx, float minTy, float nx,
-		float ny);
+	                                                  float ny);
 	void updatePosInTheMomentCollide(float minTx, float minTy, float nx,
-		float ny);
+	                                 float ny);
 
-	void blockX(float minTx, float nx)
-	{
+	void blockX(float minTx, float nx) {
 		x += minTx * dx + nx * 0.2f;
 	}
 
-	void blockY(float minTy, float ny)
-	{
+	void blockY(float minTy, float ny) {
 		y += minTy * dy + ny * 0.2f;
 	}
 
 	void checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* coObjects);
+	virtual CollisionResult checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjects,vector<CollisionEvent*>& coResult,
+														float& minTx,float& minTy, float& nx, float& ny);
 
 	/*----------------- bounding box  -----------------*/
 	Box getBoundingBoxBaseOnFile();
 	Box getBoundingBoxBaseOnFileAndPassWidth(float width);
 	virtual Box getBoundingBox(float width, float height);
-	virtual Box getBoundingBox()
-	{
-		if (!isEnable) return { 0,0,0,0 };
+
+	virtual Box getBoundingBox() {
+		if (!isEnable) return {0, 0, 0, 0};
 		return getBoundingBox(-1, -1);
 	};
 	D3DXVECTOR2 getOffsetFromBoundingBox();
@@ -152,20 +161,31 @@ public:
 	void setGravity(float val) { gravity = val; }
 	void setType(int type) { this->type = type; }
 	void setId(int id) { this->id = id; }
-	void setPosition(float x, float y) { this->x = x; this->y = y; }
-	void setState(int state)
-	{
-		this->previousState = this->state; this->state = state;
+
+	void setPosition(float x, float y) {
+		this->x = x;
+		this->y = y;
 	}
+
+	void setState(int state) {
+		this->previousState = this->state;
+		this->state = state;
+	}
+
 	void setSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
-	void setBoundingGame(float x, float y) { this->boundingGameX = x; this->boundingGameY = y; }
+
+	void setBoundingGame(float x, float y) {
+		this->boundingGameX = x;
+		this->boundingGameY = y;
+	}
+
 	int getId() const { return id; }
 	int getType() const { return type; }
 	int getPreviousState() const { return previousState; }
 	int getState() const { return state; }
 	void getSpeed(float& vx, float& vy) const;
 	void getPosition(float& x, float& y) const;
-	D3DXVECTOR2 getPosition() { return{ x,y }; }
+	D3DXVECTOR2 getPosition() { return {x, y}; }
 
 	bool IsActive() const { return isActive; }
 	virtual void setActive(bool val = true) { isActive = val; }
@@ -190,13 +210,14 @@ public:
 	void setAnimId(int val) { animId = val; }
 	int getInitState() const { return initState; }
 	void setInitState(int val) { initState = val; }
-private:
-	void doBurnedEffect(bool enable=false);
+	void doBurnedEffect(bool enable = false);
+	bool processCollisionWithGround(float minTy, float ny);
+	bool processCollisionWithBoundaryByX(float minTx, float nx, GameObject* boundary);
 };
 
 
-inline Box GameObject::getBoundingBox(float width, float height)
-{	// return width height default by file;
+inline Box GameObject::getBoundingBox(float width, float height) {
+	// return width height default by file;
 	if (width == -1 && height == -1) return getBoundingBoxBaseOnFile();
 	// return if set width height get bounding box
 	if (width != -1 && height == -1) return getBoundingBoxBaseOnFileAndPassWidth(width);
@@ -212,23 +233,23 @@ inline Box GameObject::getBoundingBox(float width, float height)
 	return Box(l, t, r, b);
 }
 
-struct CollisionEvent
-{
+struct CollisionEvent {
 	GameObject* obj;
 	float t, nx, ny;
-	CollisionEvent(const float t, const float nx, const float ny, const LPGAMEOBJECT obj = nullptr)
-	{
-		this->t = t; this->nx = nx; this->ny = ny; this->obj = obj;
+
+	CollisionEvent(const float t, const float nx, const float ny, const LPGAMEOBJECT obj = nullptr) {
+		this->t = t;
+		this->nx = nx;
+		this->ny = ny;
+		this->obj = obj;
 	}
 
-	static bool compare(const LPCollisionEvent& a, LPCollisionEvent& b)
-	{
+	static bool compare(const LPCollisionEvent& a, LPCollisionEvent& b) {
 		return a->t < b->t;
 	}
 };
 
-struct MapGameObjects
-{
+struct MapGameObjects {
 	int id;
 	vector<GameObject*>* objs;
 };

@@ -1,11 +1,10 @@
-﻿#include "Boundary.h"
+﻿#pragma once
+#include "Boundary.h"
 
-class ForceEnemyJumpingBound: public Boundary
+class ForceEnemyJumpingBound final : public Boundary
 {
 public:
 	ForceEnemyJumpingBound();
-	~ForceEnemyJumpingBound();
-protected:
-	
+	~ForceEnemyJumpingBound()=default;
 private:
 };

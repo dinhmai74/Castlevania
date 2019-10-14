@@ -117,9 +117,7 @@ private:
 	void jump();
 	void sit();
 	void stand();
-	void standUp();
 	bool climbStair(int direction);
-	void downStair();
 	void stopMoveWhenHitting();
 	void hit(int type);
 	bool canThrow();
@@ -142,9 +140,7 @@ private:
 	void moveCam(float distance=235);
 
 	/*----------------- check collision -----------------*/
-	bool processCollisionWithGround(float minTy, float ny);
-	bool processCollisionWithBoundaryByX(float minTx, float ny, Boundary* boundary);
-	void checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries);
+	CollisionResult checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries) ;
 	void checkCollisionWithItems(DWORD dt, vector<GameObject*>* items);
 	void checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs);
 	void upgradeWhipLv(bool up = true) const;

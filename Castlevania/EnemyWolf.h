@@ -17,6 +17,8 @@ public:
 	/*----------------- get set -----------------*/
 	Territory getActiveTerritory() const { return activeTerritory; }
 	void setActiveTerritory(Territory val) { activeTerritory = val; }
+	void checkCollisonWithBoundaryForceJump(vector<GameObject*>* coObjects);
+	void jump();
 private:
 	Territory activeTerritory;
 };

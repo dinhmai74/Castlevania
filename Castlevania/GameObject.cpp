@@ -1,30 +1,27 @@
 ﻿#include "GameObject.h"
 #include <algorithm>
 #include "SimonConstants.h"
+#include "Boundary.h"
 
-void GameObject::processWhenBurnedEffectDone()
-{
-	if (timerBurnEffect->isTimeUpAndRunAlr())
-	{
+void GameObject::processWhenBurnedEffectDone() {
+	if (timerBurnEffect->isTimeUpAndRunAlr()) {
 		burnEffect = nullptr;
 		if (state == death) setActive(false);
 		timerBurnEffect->stop();
 	}
 }
 
-void GameObject::doUntouchable()
-{
+void GameObject::doUntouchable() {
 	timerUntouchable->start();
 }
 
-GameObject::GameObject()
-{
+GameObject::GameObject() {
 	x = y = 0;
 	initPos = { 0, 0 };
 	vx = vy = 0;
 	alpha = r = b = g = 255;
 	setFaceSide(SideRight); // right side
-	isEnable= true;
+	isEnable = true;
 	preAnimId = -1;
 	previousAnimIsOneTimeAnim = false;
 	boundingGameX = 0;
@@ -45,15 +42,12 @@ GameObject::GameObject()
 	nxDeflect = -1;
 }
 
-GameObject::~GameObject()
-{
+GameObject::~GameObject() {
 	if (texture != nullptr) texture->Release();
 }
 
-void GameObject::updateAnimId()
-{
-	switch (state)
-	{
+void GameObject::updateAnimId() {
+	switch (state) {
 	case deflect:
 		if (animations[ANIM_DEFLECT]) setAnimId(ANIM_DEFLECT);
 		break;
@@ -64,34 +58,29 @@ void GameObject::updateAnimId()
 	}
 }
 
-void GameObject::render()
-{
+void GameObject::render() {
 	if (IsEnable()) {
 		animations[animId]->render(getFaceSide(), x, y, alpha);
 		currentFrame = animations[animId]->getCurrentFrame();
 	}
-	if (burnEffect)
-	{
+	if (burnEffect) {
 		const auto blowX = x;
 		const auto blowY = y;
 		burnEffect->render(1, blowX, blowY);
 	}
 }
 
-void GameObject::getSpeed(float& vx, float& vy) const
-{
+void GameObject::getSpeed(float& vx, float& vy) const {
 	vx = this->vx;
 	vy = this->vy;
 }
 
-void GameObject::getPosition(float& x, float& y) const
-{
+void GameObject::getPosition(float& x, float& y) const {
 	x = this->x;
 	y = this->y;
 }
 
-void GameObject::doBurnedEffect(bool enable)
-{
+void GameObject::doBurnedEffect(bool enable) {
 	timerBurnEffect->start();
 	const auto now = GetTickCount();
 	burnEffect = AnimationManager::getInstance()->get(ANIM_BURNED);
@@ -100,8 +89,24 @@ void GameObject::doBurnedEffect(bool enable)
 
 }
 
-void GameObject::renderBoundingBox()
-{
+bool GameObject::processCollisionWithGround(float minTy, float ny) {
+	if (ny == CDIR_BOTTOM) {
+		vx = 0;
+		vy = 0;
+		isInGround = true;
+		return true;
+	}
+
+	return false;
+}
+
+bool GameObject::processCollisionWithBoundaryByX(float minTx, float nx, GameObject* boundary) {
+
+	if (nx == 0) return false;
+	return true;
+}
+
+void GameObject::renderBoundingBox() {
 	const auto texture = TextureManager::getInstance()->get(ID_TEX_BBOX);
 	auto game = Game::getInstance();
 	float l, r, t, b;
@@ -110,19 +115,16 @@ void GameObject::renderBoundingBox()
 	game->draw(getFaceSide(), rect.l, rect.t, texture, rect, rect, 140);
 }
 
-void GameObject::addAnimation(int id, string animTexId)
-{
+void GameObject::addAnimation(int id, string animTexId) {
 	auto animation = AnimationManager::getInstance()->get(animTexId);
 	animations[id] = animation;
 }
 
-bool GameObject::getHurt(int nx, int hpLose)
-{
+bool GameObject::getHurt(int nx, int hpLose) {
 	return GameObject::getHurt(nx, 1, hpLose);
 }
 
-bool GameObject::getHurt(int nx, int ny, int hpLose)
-{
+bool GameObject::getHurt(int nx, int ny, int hpLose) {
 	if (isUntouching() || isDeflecting()) return false;
 	if (this->hp <= hpLose)
 		doDeathAnim();
@@ -130,8 +132,7 @@ bool GameObject::getHurt(int nx, int ny, int hpLose)
 	return true;
 }
 
-void GameObject::doDeathAnim()
-{
+void GameObject::doDeathAnim() {
 	setState(death);
 	vx = 0;
 	vy = 0;
@@ -142,14 +143,12 @@ void GameObject::doDeathAnim()
 	}
 }
 
-void GameObject::loseHp(int hpLose)
-{
+void GameObject::loseHp(int hpLose) {
 	hp -= hpLose;
 	if (hp <= 0)
 		hp = 0;
 }
-void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose)
-{
+void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose) {
 	loseHp(hpLose);
 	if (animations[ANIM_DEFLECT] && canDeflect) {
 		doDeflect(nx);
@@ -161,16 +160,14 @@ void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose)
 	}
 }
 
-void GameObject::doDeflect(int nx)
-{
+void GameObject::doDeflect(int nx) {
 	setState(deflect);
 	if (nx == 0) nx = 1;
 	setNxDeflect(nx);
 	timerDeflect->start();
 }
 
-LPCollisionEvent GameObject::sweptAABBEx(LPGAMEOBJECT coO)
-{
+LPCollisionEvent GameObject::sweptAABBEx(LPGAMEOBJECT coO) {
 	float t, nx, ny;
 
 	auto coBox = coO->getBoundingBox();
@@ -205,10 +202,8 @@ LPCollisionEvent GameObject::sweptAABBEx(LPGAMEOBJECT coO)
 	coEvents: list of potential collisions
 */
 void GameObject::calcPotentialCollisions
-(vector<LPGAMEOBJECT>* coObjects, vector<LPCollisionEvent>& coEvents)
-{
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
+(vector<LPGAMEOBJECT>* coObjects, vector<LPCollisionEvent>& coEvents) {
+	for (UINT i = 0; i < coObjects->size(); i++) {
 		auto e = sweptAABBEx(coObjects->at(i));
 
 		if (e->t >= 0 && e->t <= 1.0f)
@@ -220,14 +215,11 @@ void GameObject::calcPotentialCollisions
 	std::sort(coEvents.begin(), coEvents.end(), CollisionEvent::compare);
 }
 
-void GameObject::calcPotentialCollisionsAABB(vector<LPGAMEOBJECT>* coObjects, vector<LPCollisionEvent>& coEvents)
-{
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
+void GameObject::calcPotentialCollisionsAABB(vector<LPGAMEOBJECT>* coObjects, vector<LPCollisionEvent>& coEvents) {
+	for (UINT i = 0; i < coObjects->size(); i++) {
 		auto ob = coObjects->at(i);
 		auto isCollided = isColliding(getBoundingBox(), ob->getBoundingBox());
-		if (isCollided)
-		{
+		if (isCollided) {
 			auto* e = new CollisionEvent(0, 1, 1, ob);
 			coEvents.push_back(e);
 		}
@@ -237,8 +229,7 @@ void GameObject::calcPotentialCollisionsAABB(vector<LPGAMEOBJECT>* coObjects, ve
 void GameObject::filterCollision
 (vector<LPCollisionEvent>& coEvents,
 	vector<LPCollisionEvent>& coEventsResult,
-	float& min_tx, float& min_ty, float& nx, float& ny)
-{
+	float& min_tx, float& min_ty, float& nx, float& ny) {
 	min_tx = 1.0f;
 	min_ty = 1.0f;
 	int min_ix = -1;
@@ -249,19 +240,16 @@ void GameObject::filterCollision
 
 	coEventsResult.clear();
 
-	for (UINT i = 0; i < coEvents.size(); i++)
-	{
+	for (UINT i = 0; i < coEvents.size(); i++) {
 		auto c = coEvents[i];
 
-		if (c->t < min_tx && c->nx != 0)
-		{
+		if (c->t < min_tx && c->nx != 0) {
 			min_tx = c->t;
 			nx = c->nx;
 			min_ix = i;
 		}
 
-		if (c->t < min_ty && c->ny != 0)
-		{
+		if (c->t < min_ty && c->ny != 0) {
 			min_ty = c->t;
 			ny = c->ny;
 			min_iy = i;
@@ -272,8 +260,7 @@ void GameObject::filterCollision
 	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
-void GameObject::update(const DWORD dt, vector<GameObject*>* coObject)
-{
+void GameObject::update(const DWORD dt, vector<GameObject*>* coObject) {
 	this->dt = dt;
 	createBlowUpEffectAndSetRespawnTimer();
 	processUntouchableEffect();
@@ -282,38 +269,31 @@ void GameObject::update(const DWORD dt, vector<GameObject*>* coObject)
 	dy = vy * dt;
 }
 
-void GameObject::processDeathEffect()
-{
-	if (isDying())
-	{
+void GameObject::processDeathEffect() {
+	if (isDying()) {
 		setAnimId(ANIM_DEATH);
 		setEnable(false);
 		startDying = true;
 	}
-	else if (startDying)
-	{
+	else if (startDying) {
 		startDying = false;
 	}
 }
 
-void GameObject::processUntouchableEffect()
-{
+void GameObject::processUntouchableEffect() {
 	if (isUntouching()) alpha = rand() % 255;
 	else alpha = 255;
 }
 
-void GameObject::processDeflectEffect()
-{
-	if (timerDeflect->isTimeUpAndRunAlr())
-	{
+void GameObject::processDeflectEffect() {
+	if (timerDeflect->isTimeUpAndRunAlr()) {
 		vx = 0;
 		setState(idle);
 		timerDeflect->stop();
 		doUntouchable();
 		x -= nxDeflect * 0.01f; // case that collide boundary need more space
 	}
-	else if (timerDeflect->isRunning())
-	{
+	else if (timerDeflect->isRunning()) {
 		vx = vxDeflect * nxDeflect;
 		vy = -vyDeflect;
 		startUntouch = true;
@@ -321,17 +301,14 @@ void GameObject::processDeflectEffect()
 	}
 }
 
-void GameObject::createBlowUpEffectAndSetRespawnTimer()
-{
-	if (timerBurnEffect->isTimeUpAndRunAlr())
-	{
+void GameObject::createBlowUpEffectAndSetRespawnTimer() {
+	if (timerBurnEffect->isTimeUpAndRunAlr()) {
 		timerBurnEffect->stop();
 		burnEffect = nullptr;
 	}
 }
 
-void GameObject::checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* coObjects)
-{
+void GameObject::checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* coObjects) {
 	vector<LPCollisionEvent> coEvents;
 	vector<LPCollisionEvent> coEventsResult;
 	coEvents.clear();
@@ -340,8 +317,7 @@ void GameObject::checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* co
 	// no collison
 	if (coEvents.empty())
 		updatePosWhenNotCollide();
-	else
-	{
+	else {
 		float minTx;
 		float minTy;
 		float nx = 0;
@@ -353,45 +329,70 @@ void GameObject::checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* co
 	for (auto& coEvent : coEvents) delete coEvent;
 }
 
-void GameObject::updatePosWhenNotCollide()
-{
+CollisionResult GameObject::checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjects, vector<CollisionEvent*>& coResult, float& minTx, float& minTy, float& nx, float& ny) {
+	vector<LPCollisionEvent> coEvents;
+	coEvents.clear();
+
+	calcPotentialCollisions(coObjects, coEvents);
+	CollisionResult result = { false,false };
+
+	if (!coEvents.empty())
+	{
+		filterCollision(coEvents, coResult, minTx, minTy, nx, ny);
+		for (auto& i : coResult) {
+			const auto object = (i->obj);
+			const auto boundary = dynamic_cast<Boundary*>(object);
+			if (boundary) {
+				auto type = boundary->getBoundaryType();
+				switch (type) {
+				case BoundaryNormal:
+					result.x= processCollisionWithBoundaryByX(minTx, nx, boundary);
+					break;
+				case BoundaryGround:
+					result.y= processCollisionWithGround(minTy, ny);
+					break;
+				default:;
+				}
+			}
+		}
+	}
+
+	for (auto& coEvent : coEvents) delete coEvent;
+	return result;
+}
+
+void GameObject::updatePosWhenNotCollide() {
 	x += dx;
 	y += dy;
 }
 
-void GameObject::updateGravity(float gravity)
-{
+void GameObject::updateGravity(float gravity) {
 	vy += gravity * dt;
 	this->gravity = gravity;
 }
 
-void GameObject::updatePosInTheMomentCollideAndRemoveVelocity(float minTx, float minTy, float nx, float ny)
-{
+void GameObject::updatePosInTheMomentCollideAndRemoveVelocity(float minTx, float minTy, float nx, float ny) {
 	updatePosInTheMomentCollide(minTx, minTy, nx, ny);
 	if (nx != 0) vx = 0;
 	if (ny != 0) vy = 0;
 }
 
-void GameObject::updatePosInTheMomentCollide(float minTx, float minTy, float nx, float ny)
-{
+void GameObject::updatePosInTheMomentCollide(float minTx, float minTy, float nx, float ny) {
 	blockX(minTx, nx);
 	blockY(minTy, ny);
 }
 
-Box GameObject::getBoundingBoxBaseOnFile()
-{
+Box GameObject::getBoundingBoxBaseOnFile() {
 	float r, l;
 	auto spriteFrame = animations[animId]->getFrameSprite();
 	auto spriteBoundary = animations[animId]->getFrameBoundingBox();
 	auto offset = getOffsetFromBoundingBox();
 
-	if (getFaceSide() == SideRight)
-	{
+	if (getFaceSide() == SideRight) {
 		r = x + (spriteFrame.r - spriteFrame.l) - offset.x;
 		l = r - (spriteBoundary.r - spriteBoundary.l);
 	}
-	else
-	{
+	else {
 		l = x + offset.x;
 		r = spriteBoundary.r - spriteBoundary.l + l;
 	}
@@ -403,8 +404,7 @@ Box GameObject::getBoundingBoxBaseOnFile()
 	return Box(l, t, r, b);
 }
 
-Box GameObject::getBoundingBoxBaseOnFileAndPassWidth(float width)
-{
+Box GameObject::getBoundingBoxBaseOnFileAndPassWidth(float width) {
 	const auto box = getBoundingBoxBaseOnFile();
 	const float bboxWidth = box.r - box.l;
 	const float l = x + bboxWidth / 2 - width / 2;
@@ -412,8 +412,7 @@ Box GameObject::getBoundingBoxBaseOnFileAndPassWidth(float width)
 	return Box(l, box.t, r, box.b);
 }
 
-D3DXVECTOR2 GameObject::getOffsetFromBoundingBox()
-{
+D3DXVECTOR2 GameObject::getOffsetFromBoundingBox() {
 	auto spriteFrame = animations[animId]->getFrameSprite();
 	auto spriteBoundary = animations[animId]->getFrameBoundingBox();
 
