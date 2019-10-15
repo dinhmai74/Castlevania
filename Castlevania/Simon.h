@@ -73,6 +73,8 @@ public:
 	int getClimbDirection() const { return climbDirection; }
 	void setClimbDirection(int val) { climbDirection = val; }
 
+	float getAutoWalkDistance() const { return autoWalkDistance; }
+	void setAutoWalkDistance(float val) { autoWalkDistance = val; }
 private:
 	bool isHitting{};
 	bool isThrowing{};

@@ -15,8 +15,10 @@ void EnemyWolf::initAnim() {
 
 void EnemyWolf::init() {
 	initAnim();
+	setIsVirgin(true);
 	setEnemyType(EnemWolf);
 	setState(idle);
+	setEnable();
 }
 
 void EnemyWolf::updateAnimId() {
@@ -41,6 +43,7 @@ void EnemyWolf::checkIfCanRun(float simX) {
 	auto rightSide = simX - x > 0;
 	auto distance = fabs(simX - x);
 	auto activeDistance = rightSide ? activeTerritory.right : activeTerritory.left;
+
 	auto canActive = distance <= activeDistance;
 	if (canActive) {
 		canRun = true;
@@ -100,4 +103,10 @@ void EnemyWolf::reset() {
 	jumped = false;
 	changedFaceSide = false;
 	setState(idle);
+	canRun = false;
+	vx = 0;
+}
+
+void EnemyWolf::respawn(float playerX, float playerY) {
+	Enemy::respawn(playerX, playerY);
 }

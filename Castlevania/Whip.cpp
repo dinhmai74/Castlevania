@@ -96,6 +96,8 @@ void Whip::upgradeWhipLv(bool up)
 	if (lv < MAX_WHIP_LV && up) lv++;
 	else if (lv > 1 && !up) lv--;
 
+	if (lv <= 1) lv = 1;
+
 	setDmg(lv);
 }
 

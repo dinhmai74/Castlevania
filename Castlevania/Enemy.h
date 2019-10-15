@@ -22,10 +22,11 @@ public:
 	void checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*>* coObjects);
 	void changeDirection(const vector<CollisionEvent*>& vector, float nx, float ny);
 	bool canRespawn(D3DXVECTOR2 simPos);
-	void respawn(float playerX, float playerY);
+	virtual void respawn(float playerX, float playerY);
 
-	void setNewEnemy(bool val = true);
+	void generateEnemy(float playerX);
 	void processWhenBurnedEffectDone() override;
+	void render() override;
 
 	/*----------------- get set  -----------------*/
 	int getEnemyType() const { return enemyType; }
@@ -43,19 +44,24 @@ public:
 	bool getIsStopAllAction() const { return isStopAllAction; }
 	void setIsStopAllAction(bool val) { isStopAllAction = val; }
 
-	void render() override;
 
 	void setRespawnTime(DWORD val) { respawnTime = val;  }
 	Timer* getTimerRespawn() const { return timerRespawn; }
 	void setTimerRespawn(Timer* val) { timerRespawn = val; }
+	bool getForceRespawn() const { return forceRespawn; }
+	void setForceRespawn(bool val) { forceRespawn = val; }
+	bool getIsVirgin() const { return isVirgin; }
+	void setIsVirgin(bool val=true) { isVirgin = val; }
 private:
 	int enemyType{};
+	bool forceRespawn;
+	bool isVirgin=true;
 	int dmg{};
 	int initFaceSide{};
 	bool isExist{};
 	bool isStopAllAction{};
 	DWORD respawnTime{};
-	Timer* timerRespawn{};
+	Timer* timerRespawn= new Timer(1000);
 	Region respawnArea{};
 
 };

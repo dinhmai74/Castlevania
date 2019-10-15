@@ -68,28 +68,25 @@ void TileMap::loadMap()
 
 void TileMap::draw()
 {
-	D3DXVECTOR2 camPosition = { 0, 0 };
-	Game::getInstance()->getCameraPosition(camPosition.x, camPosition.y);
+	float xCam, yCam;
+	Game::getInstance()->getCameraPosition(xCam, yCam);
 
-	int startRowToDraw = (int)camPosition.y / tileHeight;
+	auto startColToDraw = static_cast<int>(xCam) / tileWidth;
+	auto endColToDraw = static_cast<int>(xCam + SCREEN_WIDTH) / tileWidth;
+
+	int startRowToDraw = (int)yCam / tileHeight;
 	int endRowToDraw = startRowToDraw + SCREEN_HEIGHT / tileHeight;
-
-	int startColToDraw = (int)camPosition.x / getTileWidth();
-	int endColToDraw = startColToDraw + SCREEN_WIDTH / getTileWidth();
 
 	if (endRowToDraw >= totalRow) endRowToDraw = totalRow - 1;
 	if (endColToDraw >= totalCol) endColToDraw = totalCol - 1;
 
-	for (UINT i = startRowToDraw; i <= endRowToDraw; i++)
-	{
-		for (UINT j = startColToDraw; j <= endColToDraw; j++)
-		{
-			// +camPosition.x để luôn giữ camera ở chính giữa, vì trong hàm Game::Draw() có trừ cho camPosition.x làm các object đều di chuyển theo
-			// +(int)camPosition.x % 32 để giữ cho camera chuyển động mượt
-			const auto x = getTileWidth() * (j - startColToDraw) + camPosition.x - (int)camPosition.x % getTileWidth();
-			const auto y = tileHeight * (i - startRowToDraw) + camPosition.y - (int)camPosition.y % tileHeight;
+	for (auto i = startRowToDraw; i <= endRowToDraw; i++) {
+		for (auto j = startColToDraw; j <= endColToDraw; j++) {
+			// get position x,y to draw sprite ( depend on camera  x and y )
+			const auto x = tileWidth * (j - startColToDraw) + xCam - static_cast<int>(xCam) % tileWidth;
+			const auto y = tileHeight * (i - startRowToDraw) + yCam - static_cast<int>(yCam) % tileHeight;
 
-			sprites->get(stringMatrix[i][j])->draw(-1, x, y + HEADER_HEIGHT);
+			sprites->get(stringMatrix[i][j])->draw(-1,x, y+HEADER_HEIGHT);
 		}
 	}
 }

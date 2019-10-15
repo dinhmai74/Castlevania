@@ -30,11 +30,15 @@ public:
 
 	virtual void reset() override;
 
+	void respawn(float playerX, float playerY) override;
+	bool getFirstTimeRespawn() const { return firstTimeRespawn; }
+	void setFirstTimeRespawn(bool val) { firstTimeRespawn = val; }
 private:
 	Territory activeTerritory;
 	bool canRun;
 	int jumpStatus;
 	int changeFaceSide;
 	bool changedFaceSide;
+	bool firstTimeRespawn;
 	bool jumped;
 };

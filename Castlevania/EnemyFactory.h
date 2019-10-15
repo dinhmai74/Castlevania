@@ -13,10 +13,9 @@ public:
 		return instance;
 	}
 	Enemy* getEnemy(int type);
+	int getHp(int enemyType);
 private:
 	EnemyFactory() = default;
 	static EnemyFactory* instance;
-public:
-	static int getHp(int enemyType);
 };
 

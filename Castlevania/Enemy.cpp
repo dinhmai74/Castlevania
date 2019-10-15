@@ -11,10 +11,12 @@ Enemy::Enemy() {
 Enemy::~Enemy() = default;
 
 void Enemy::init() {
-	DebugOut(L"enemy\n");
+	setActive();
+	setEnable(false);
 	resetHp();
 	setDmg(1);
 	setType(OBEnemy);
+	forceRespawn = false;
 	setRespawnTime(E_RESPAWN_INIT_TIME);
 	timerUntouchable = new Timer(E_UNTOUCHABLE_DURATION);
 	setTimerRespawn(new Timer(respawnTime));
@@ -27,12 +29,13 @@ void Enemy::reset() {
 	setState(initState);
 	setAnimId(ANIM_WALK);
 	timerRespawn->setLimitedTime(respawnTime);
+	if (!timerRespawn->isRunning()) timerRespawn->start();
 	setFaceSide(initFaceSide);
 	vx = initVelocity.x * initFaceSide;
 }
 
 void Enemy::resetHp() {
-	hp = EnemyFactory::getHp(enemyType);
+	hp = EnemyFactory::getInstance()->getHp(enemyType);
 }
 
 void Enemy::resetPos() {
@@ -44,6 +47,7 @@ void Enemy::update(DWORD dt, vector<GameObject*> * coObjects /*= nullptr*/) {
 	if (getIsStopAllAction()) return;
 	GameObject::update(dt);
 	if (!isEnable) return;
+	if (vx > 0) setIsVirgin(false);
 	checkCollisionAndChangeDirectX(dt, coObjects);
 	updateGravity(this->initGravity);
 }
@@ -85,13 +89,18 @@ void Enemy::changeDirection(const vector<CollisionEvent*> & vector, float nx, fl
 
 void Enemy::respawn(float playerX, float playerY) {
 	if (canRespawn({ playerX, playerY })) {
-		auto nx = playerX - x > 0 ? 1 : -1;
-		reset();
-		setFaceSide(nx);
-		setInitFaceSide(nx);
-		vx = initVelocity.x * nx;
-		setNewEnemy();
+		generateEnemy(playerX);
 	}
+}
+
+void Enemy::generateEnemy(float playerX) {
+	auto nx = playerX - x > 0 ? 1 : -1;
+	reset();
+	setFaceSide(nx);
+	setInitFaceSide(nx);
+	vx = initVelocity.x * nx;
+	getTimerRespawn()->stop();
+	setEnable();
 }
 
 bool Enemy::canRespawn(D3DXVECTOR2 simPos) {
@@ -99,12 +108,7 @@ bool Enemy::canRespawn(D3DXVECTOR2 simPos) {
 	const auto distance = fabs(x - simPos.x);
 	const auto isInRegion = distance >= respawnArea.min && distance <= respawnArea.max;
 
-	return isEnoughTime && isInRegion && !isEnable;
-}
-
-void Enemy::setNewEnemy(bool val /*= true*/) {
-	getTimerRespawn()->stop();
-	setEnable();
+	return (isEnoughTime && isInRegion && !isEnable) || forceRespawn;
 }
 
 void Enemy::processWhenBurnedEffectDone() {

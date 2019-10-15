@@ -17,7 +17,6 @@ Stage::~Stage()
 = default;
 
 void Stage::init(int mapId, wstring mapName) {
-	this->renderBoundingBox = true;
 	game->getCamera()->reset();
 	initMap(mapId, mapName);
 	initSimon();
@@ -25,7 +24,7 @@ void Stage::init(int mapId, wstring mapName) {
 }
 
 void Stage::init(int mapId, wstring mapName, Simon * simon) {
-	this->renderBoundingBox = true;
+	this->renderBoundingBox = false;
 	game->getCamera()->reset();
 	this->simon = simon;
 	this->simon->reset();
@@ -44,7 +43,6 @@ void Stage::initMap(int mapId, wstring mapName) {
 
 void Stage::initSimon() {
 	simon = new Simon();
-	simon->doAutoWalk();
 	simon->setLife(3);
 	simon->setEnergy(5);
 	simon->setHp(SIM_MAX_HP);
@@ -85,15 +83,22 @@ void Stage::loadObjectFromFiles() {
 			float max, min, camX, camY, climbDistance = 0;
 			int nx, state, climbDirection = 1;
 			fs >> nx >> min >> max >> camX >> camY >> state;
-			if (state == climbing) fs >> climbDistance >> climbDirection;
+			if (state == climbing) {
+				fs >> climbDistance >> climbDirection;
+				simon->setStairDxRemain(climbDistance);
+				simon->setStairDyRemain(climbDistance);
+				simon->setClimbDirection(climbDirection);
+			}
+			else if (state == walking) {
+				float autoWalkDistance, vAutoWalk;
+				fs >> autoWalkDistance >> vAutoWalk;
+				simon->doAutoWalkWithDistance(autoWalkDistance, vAutoWalk);
+			}
 			simon->setFaceSide(nx);
 			simon->setPosition(x, y);
 			simon->setState(state);
 			simon->setInitState(state);
 			simon->setInitPos({ x, y });
-			simon->setStairDxRemain(climbDistance);
-			simon->setStairDyRemain(climbDistance);
-			simon->setClimbDirection(climbDirection);
 			game->setLimitCamX({ min, max });
 			initCam = { camX, camY };
 			game->setCameraPosition(camX, camY);
@@ -335,7 +340,6 @@ vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects() {
 
 void Stage::updateInActiveUnit() {
 	for (auto ob : listRenderObj) {
-		auto wepon = dynamic_cast<SubWeapon*>(ob);
 		if (!isInViewport(ob)) {
 			auto type = ob->getType();
 			switch (type) {
@@ -346,7 +350,7 @@ void Stage::updateInActiveUnit() {
 			case OBEnemy:
 			{
 				auto enemy = dynamic_cast<Enemy*>(ob);
-				if (enemy->IsEnable()) {
+				if (enemy && enemy->IsEnable() && !enemy->getIsVirgin()) {
 					enemy->setEnable(false);
 					enemy->reset();
 				}
@@ -360,10 +364,14 @@ void Stage::updateInActiveUnit() {
 
 bool Stage::isInViewport(GameObject* object) {
 	const auto camPosition = Game::getInstance()->getCameraPosition();
+	const auto map = TileMapManager::getInstance()->get(mapId);
+	const auto offset = map->getTileWidth() * 2;
+	const auto left = camPosition.x;
+	const auto right = camPosition.x + SCREEN_WIDTH;
 
-	auto isInView = isColliding(object->getBoundingBox(),
+	const auto isInView = isColliding(object->getBoundingBox(),
 		{
-			camPosition.x, camPosition.y, camPosition.x + SCREEN_WIDTH,
+			left, camPosition.y, right,
 			camPosition.y + SCREEN_HEIGHT
 		});
 
