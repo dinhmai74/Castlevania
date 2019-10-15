@@ -691,7 +691,7 @@ void Simon::handleOnKeyPress(BYTE* states) {
 	else if (game->isKeyDown(DIK_DOWN)) {
 		isReleaseSitButton = false;
 		auto result = false;
-		if (collidedStair && collidedStair->getStairType() == StairStartDown)
+		if (collidedStair && collidedStair->getStairType() == StairStartDown && state != jumping)
 			result = climbStair(ClimbDown);
 		else if (state != climbing) {
 			sit();
@@ -700,7 +700,7 @@ void Simon::handleOnKeyPress(BYTE* states) {
 		else result = climbStair(ClimbDown);
 		if (!result) stand();
 	}
-	else if (game->isKeyDown(DIK_UPARROW)) {
+	else if (game->isKeyDown(DIK_UPARROW) && state != jumping && collidedStair && collidedStair->getStairType()== StairStartUp) {
 		auto result = climbStair(ClimbUp);
 		if (!result) stand();
 		isReleaseThrowButton = false;
