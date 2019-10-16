@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include "EnemyFactory.h"
 #include "SimonConstants.h"
+#include "Boundary.h"
 
 
 Enemy::Enemy() {
@@ -49,27 +50,53 @@ void Enemy::update(DWORD dt, vector<GameObject*> * coObjects /*= nullptr*/) {
 	if (!isEnable) return;
 	if (vx > 0) setIsVirgin(false);
 	checkCollisionAndChangeDirectX(dt, coObjects);
-	updateGravity(dt, initGravity);
+	updateGravity(dt);
 }
 
 void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*> * coObjects) {
 	vector<LPCollisionEvent> coEventsResult;
+	vector<LPCollisionEvent> coEvents;
+	coEvents.clear();
+	CollisionResult result = { false,false };
+	bool updatedY = false;
+	auto updatedX = false;
 	float minTx;
 	float minTy;
 	float nx = 0;
 	float ny;
 
-	auto result = GameObject::checkCollisionWithBoundary(dt, coObjects, coEventsResult, minTx, minTy, nx, ny);
-	bool updatedY = false;
-	auto updatedX = false;
+	calcPotentialCollisions(coObjects, coEvents);
 
+	if (!coEvents.empty()) {
+
+		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
+
+
+		for (auto& i : coEventsResult) {
+			const auto boundary = dynamic_cast<Boundary*>(i->obj);
+			if (boundary) {
+				auto type = boundary->getBoundaryType();
+				switch (type) {
+				case BoundaryNormal:
+					result.x = processCollisionWithBoundaryByX(minTx, nx, boundary);
+					break;
+				case BoundaryGround:
+					result.y =processCollisionWithGround(minTy, ny);
+					break;
+				default:;
+				}
+			}
+		}
+	}
 	if (!updatedX) {
-		if (result.x) changeDirection(coEventsResult,minTx, nx);
-		else x += vx*dt;
+		if (result.x) blockX(minTx, nx);
+		else x += dx;
 	}
 	if (!updatedY) {
 		if (result.y && ny == CDIR_BOTTOM) {
-			blockY(minTy, ny);
+			isInGround = true;
+			vx = 0;
+			vy = 0;
 		}
 		else y += dy;
 	}

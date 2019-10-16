@@ -7,9 +7,6 @@
 #include "Timer.h"
 using namespace std;
 
-constexpr auto FACE_TO_RIGHT = 1;
-constexpr auto FACE_TO_LEFT = -1;
-
 struct CollisionResult {
 	bool x;
 	bool y;
@@ -144,8 +141,6 @@ public:
 	}
 
 	void checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* coObjects);
-	virtual CollisionResult checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjects,vector<LPCollisionEvent>& coEventsResult,
-														float& minTx,float& minTy, float& nx, float& ny);
 
 	/*----------------- bounding box  -----------------*/
 	Box getBoundingBoxBaseOnFile();

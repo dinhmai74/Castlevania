@@ -32,33 +32,38 @@ void SubWeaponHolyWater::checkCollision(DWORD dt, vector<MapGameObjects>& maps) 
 	}
 }
 
-CollisionResult SubWeaponHolyWater::checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjs) {
+void SubWeaponHolyWater::checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjs) {
+	vector<LPCollisionEvent> coEvents;
 	vector<LPCollisionEvent> coEventsResult;
-	float minTx;
-	float minTy;
-	float nx = 0;
-	float ny;
-	auto result = GameObject::checkCollisionWithBoundary(dt, coObjs, coEventsResult, minTx, minTy, nx, ny);
-	bool updatedY = false;
-	auto updatedX = false;
+	coEvents.clear();
 
-	if (!updatedX) {
-		if (result.x) blockX(minTx, nx);
-		else x += dx;
-	}
-	if (!updatedY) {
-		if (result.y && ny == CDIR_BOTTOM) {
-			if (timerEffect->runAlready()) return result;
-			setState(itemHolyWaterEffect);
-			vx = 0;
-			vy = 0;
-			gravity = 0.0f;
-			timerEffect->start();
+	calcPotentialCollisions(coObjs, coEvents);
+
+	if (coEvents.empty()) updatePosWhenNotCollide();
+	else {
+		float minTx;
+		float minTy;
+		float nx = 0;
+		float ny;
+		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
+		updatePosInTheMomentCollideAndRemoveVelocity(minTx, minTy, nx, ny);
+
+		for (auto& i : coEventsResult) {
+			const auto object = (i->obj);
+			processWithBoundary(object, nx, ny);
 		}
-		else y += dy;
 	}
 
-	return result;
+	for (auto& coEvent : coEvents) delete coEvent;
+}
+
+void SubWeaponHolyWater::processWithBoundary(GameObject* const object, float nx, float ny) {
+	if (timerEffect->runAlready()) return;
+	setState(itemHolyWaterEffect);
+	vx = 0;
+	vy = 0;
+	gravity = 0.0f;
+	timerEffect->start();
 }
 
 void SubWeaponHolyWater::updateEffect() {

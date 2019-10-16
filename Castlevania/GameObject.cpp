@@ -47,15 +47,8 @@ GameObject::~GameObject() {
 }
 
 void GameObject::updateAnimId() {
-	switch (state) {
-	case deflect:
-		if (animations[ANIM_DEFLECT]) setAnimId(ANIM_DEFLECT);
-		break;
-	case death:
-		if (animations[ANIM_DEATH]) setAnimId(ANIM_DEATH);
-		break;
-	default:;
-	}
+	if (state == deflect && animations[ANIM_DEFLECT]) setAnimId(ANIM_DEFLECT);
+	else if (state == death && animations[ANIM_DEATH]) setAnimId(ANIM_DEATH);
 }
 
 void GameObject::render() {
@@ -82,11 +75,10 @@ void GameObject::getPosition(float& x, float& y) const {
 
 void GameObject::doBurnedEffect(bool enable) {
 	timerBurnEffect->start();
-	const auto now = GetTickCount();
+	const auto now = GetTickCount64();
 	burnEffect = AnimationManager::getInstance()->get(ANIM_BURNED);
 	burnEffect->setAniStartTime(now);
 	setEnable(enable);
-
 }
 
 bool GameObject::processCollisionWithGround(float minTy, float ny) {
@@ -106,16 +98,13 @@ bool GameObject::processCollisionWithBoundaryByX(float minTx, float nx, GameObje
 
 void GameObject::renderBoundingBox() {
 	const auto texture = TextureManager::getInstance()->get(ID_TEX_BBOX);
-	auto game = Game::getInstance();
-	float l, r, t, b;
 	const auto rect = getBoundingBox();
 
-	game->draw(getFaceSide(), rect.l, rect.t, texture, rect, rect, 140);
+	Game::getInstance()->draw(getFaceSide(), rect.l, rect.t, texture, rect, rect, 140);
 }
 
 void GameObject::addAnimation(int id, string animTexId) {
-	auto animation = AnimationManager::getInstance()->get(animTexId);
-	animations[id] = animation;
+	animations[id] = AnimationManager::getInstance()->get(animTexId);
 }
 
 bool GameObject::getHurt(int nx, int hpLose) {
@@ -327,38 +316,6 @@ void GameObject::checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* co
 	for (auto& coEvent : coEvents) delete coEvent;
 }
 
-CollisionResult GameObject::checkCollisionWithBoundary(DWORD dt, vector<GameObject*>* coObjects, vector<LPCollisionEvent>& coEventsResult, float& minTx, float& minTy, float& nx, float& ny) {
-	vector<LPCollisionEvent> coEvents;
-	coEvents.clear();
-
-	calcPotentialCollisions(coObjects, coEvents);
-	CollisionResult result = { false,false };
-
-	if (!coEvents.empty())
-	{
-		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
-		for (auto& i : coEventsResult) {
-			const auto object = (i->obj);
-			const auto boundary = dynamic_cast<Boundary*>(object);
-			if (boundary) {
-				auto type = boundary->getBoundaryType();
-				switch (type) {
-				case BoundaryNormal:
-					result.x= processCollisionWithBoundaryByX(minTx, nx, boundary);
-					break;
-				case BoundaryGround:
-					result.y= processCollisionWithGround(minTy, ny);
-					break;
-				default:;
-				}
-			}
-		}
-	}
-
-	for (auto& coEvent : coEvents) delete coEvent;
-	return result;
-}
-
 void GameObject::updatePosWhenNotCollide() {
 	x += dx;
 	y += dy;
@@ -411,11 +368,11 @@ Box GameObject::getBoundingBoxBaseOnFileAndPassWidth(float width) {
 }
 
 D3DXVECTOR2 GameObject::getOffsetFromBoundingBox() {
-	auto spriteFrame = animations[animId]->getFrameSprite();
-	auto spriteBoundary = animations[animId]->getFrameBoundingBox();
+	const auto spriteFrame = animations[animId]->getFrameSprite();
+	const auto spriteBoundary = animations[animId]->getFrameBoundingBox();
 
 	// spriteFrame is usually larger than the spriteBoundary so we need to take account of the offset
-	auto offsetX = spriteBoundary.l - spriteFrame.l;
-	auto offsetY = spriteBoundary.t - spriteFrame.t;
+	const auto offsetX = spriteBoundary.l - spriteFrame.l;
+	const auto offsetY = spriteBoundary.t - spriteFrame.t;
 	return { offsetX, offsetY };
 }

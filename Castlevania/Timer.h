@@ -15,36 +15,32 @@ public:
 		this->limitedTime = limitedTime; startTime = 0; isRun = false;
 	}
 
-	void start() { startTime = GetTickCount(); isRun = true; }
+	void start() { startTime = GetTickCount64(); isRun = true; }
 	void stop() { startTime = 0; isRun = false; }
-	bool isTimeUp()
-	{
-		if (GetTickCount() - startTime >= limitedTime) {
+	bool isTimeUp() const {
+		if (GetTickCount64() - startTime >= limitedTime) {
 			return true;
 		}
 		return false;
 	}
-	bool isTimeUp(DWORD delayTime)
-	{
-		if (GetTickCount() - startTime  >= limitedTime +delayTime) {
+	bool isTimeUp(DWORD delayTime) const {
+		if (GetTickCount64() - startTime  >= limitedTime +delayTime) {
 			return true;
 		}
 		return false;
 	}
-	bool isRunning()
-	{
+	bool isRunning() const {
 		return !isTimeUp() && isRun;
 	}
 
-	bool isTimeUpAndRunAlr()
-	{
+	bool isTimeUpAndRunAlr() const {
 		return isTimeUp() && isRun;
 	}
 
-	int getTimeRunAlr() { return GetTickCount() - startTime; }
+	int getTimeRunAlr() const { return GetTickCount64() - startTime; }
 
-	int getStartTime() { return startTime; }
-	int getLimitedTime() { return limitedTime; }
+	int getStartTime() const { return startTime; }
+	int getLimitedTime() const { return limitedTime; }
 	void setLimitedTime(int val) { limitedTime = val; }
 	bool runAlready() const { return isRun; }
 };
