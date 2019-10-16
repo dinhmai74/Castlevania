@@ -16,7 +16,7 @@ void Animation::add(string spriteId, DWORD time) {
 
 void Animation::render(int nx, float x, float y, int alpha, int r, int g, int b)
 {
-	const auto now = GetTickCount();
+	const auto now = GetTickCount64();
 	if (currentFrame == -1) {
 		currentFrame = 0;
 		lastFrameTime = now;

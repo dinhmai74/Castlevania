@@ -53,13 +53,11 @@ void Enemy::update(DWORD dt, vector<GameObject*> * coObjects /*= nullptr*/) {
 }
 
 void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*> * coObjects) {
-	vector<LPCollisionEvent> coEvents;
 	vector<LPCollisionEvent> coEventsResult;
 	float minTx;
 	float minTy;
 	float nx = 0;
 	float ny;
-	coEvents.clear();
 
 	auto result = GameObject::checkCollisionWithBoundary(dt, coObjects, coEventsResult, minTx, minTy, nx, ny);
 	bool updatedY = false;

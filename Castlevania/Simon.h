@@ -36,6 +36,8 @@ public:
 
 	void render() override;
 
+	void didSimonRender();
+
 	void renderWhip();
 
 	bool forceRenderStaringAnimStand();
@@ -44,7 +46,13 @@ public:
 	void refreshHitAnim(int stateAfterHit = idle, int animAfterHit = ANIM_IDLE);
 
 	void initAnim() override;
+
+	bool shouldUpdate(DWORD dt);
+	void willUpdate();
 	void update(DWORD dt, const vector<MapGameObjects>& maps);
+	void didUpdate();
+
+
 	bool updateLife(int val);
 	bool updateHP(int val);
 	void updateEnergy(int val=1);
@@ -138,7 +146,7 @@ private:
 	/*----------------- special effect  -----------------*/
 	void checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs);
 	void processDeathEffect();
-	void updateAutoWalk(DWORD dt);
+	void updateAutoWalk();
 	void moveCam(float distance=235);
 
 	/*----------------- check collision -----------------*/
@@ -151,21 +159,21 @@ private:
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
 
 	void processCollisionWithItem(Item* item);
-	void updateChangingStageEffect(DWORD dt);
+	void updateChangingStageEffect();
 	void doChangeStageEffect(ObjectChangeStage* obj,DWORD changingDuration= SIM_CHANGING_STAGE_DURATION);
 	void processAnimStaring();
 	void checkCollisionWithStair(vector<GameObject*>* objs);
 
 	bool canAutoClimb();
-	void doAutoClimb(DWORD dt);
+	void doAutoClimb();
 	bool isAutoWalking();
-	void checkIfFalling(DWORD dt);
+	void checkIfFalling();
 	float vxAutoWalk;
-	void updateCameraWhenGoThroughDoor(DWORD dt);
+	void updateCameraWhenGoThroughDoor();
 	bool processCollisionWithDoor(float minTx, float nx, Door* door);
 	Door* collidedDoor;
 	bool forceDisable;
-	void checkBoundary();
+	void checkOutOfBound();
 	void checkCollisionWithForceIdleSim(DWORD dt, vector<GameObject*>* objs);
 	bool isReleaseThrowButton;
 	int changeStateAnim;
