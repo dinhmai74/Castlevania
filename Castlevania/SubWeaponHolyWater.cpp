@@ -14,7 +14,7 @@ void SubWeaponHolyWater::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, 
 	GameObject::update(dt);
 	updateAnimId();
 	checkCollision(dt, map);
-	updateGravity(gravity);
+	updateGravity(dt,gravity);
 	updateEffect();
 }
 

@@ -18,7 +18,7 @@ void Item::update(DWORD dt, vector<GameObject*>* boundary)
 	GameObject::update(dt);
 	checkDurationToDisapear();
 	checkCollision(dt, boundary);
-	updateGravity(gravity);
+	updateGravity(dt,gravity);
 }
 
 void Item::setItemType(const int type)

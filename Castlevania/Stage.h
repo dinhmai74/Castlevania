@@ -45,7 +45,8 @@ private:
 	Game* game;
 	wstring mapName;
 	D3DXVECTOR2 initCam;
-	vector<GameObject*> listBoundary;
+	vector<GameObject*> listCanCollideBoundary;
+	vector<GameObject*> listDefaultBoundary;
 	vector<GameObject*> listItems;
 	vector<GameObject*> listCanHitObjects;
 	vector<GameObject*> listRenderObj;

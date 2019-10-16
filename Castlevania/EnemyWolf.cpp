@@ -15,17 +15,17 @@ void EnemyWolf::initAnim() {
 
 void EnemyWolf::init() {
 	initAnim();
+	setRespawnTime(5000);
 	setIsVirgin(true);
 	setEnemyType(EnemWolf);
 	setState(idle);
-	setEnable();
 }
 
 void EnemyWolf::updateAnimId() {
 	setAnimId(state);
 }
 
-void EnemyWolf::update(DWORD dt, vector<GameObject*>* coObjects, float simX) {
+void EnemyWolf::update(DWORD dt, vector<GameObject*> * coObjects, float simX) {
 	if (state == idle) {
 		vx = 0;
 		gravity = initGravity;
@@ -50,7 +50,7 @@ void EnemyWolf::checkIfCanRun(float simX) {
 	}
 }
 
-void EnemyWolf::checkCollisonWithBoundaryForceJump(vector<GameObject*>* coObjects) {
+void EnemyWolf::checkCollisonWithBoundaryForceJump(vector<GameObject*> * coObjects) {
 	for (auto obj : *coObjects) {
 		auto force = dynamic_cast<ForceEnemyJumpingBound*>(obj);
 		if (!force) continue;
@@ -68,7 +68,7 @@ void EnemyWolf::jump() {
 	setState(jumping);
 }
 
-void EnemyWolf::checkCollisionWithGround(DWORD dt, vector<GameObject*>* coObjects) {
+void EnemyWolf::checkCollisionWithGround(DWORD dt, vector<GameObject*> * coObjects) {
 	vector<LPCollisionEvent> coEvents;
 	vector<LPCollisionEvent> coEventResult;
 

@@ -19,9 +19,9 @@ Enemy* EnemyFactory::getEnemy(int type) {
 	case EnemWolf:
 		enemy = new EnemyWolf();
 		dmg = 3;
-		gravity = E_GRAVITY * 0.5;
-		vx = 0.25f;
-		vy = -0.2f;
+		gravity = 0.0009;
+		vx = 0.27f;
+		vy = -0.22f;
 		enemy->getTimerRespawn()->setLimitedTime(100);
 		break;
 	default: enemy = new EnemyGhouls();
@@ -31,6 +31,7 @@ Enemy* EnemyFactory::getEnemy(int type) {
 	enemy->setInitSpeed({ vx, vy });
 	enemy->setSpeed(faceSide * vx, 0);
 	enemy->setDmg(dmg);
+	enemy->setEnable(false);
 	enemy->setInitGravity(gravity);
 	return enemy;
 }

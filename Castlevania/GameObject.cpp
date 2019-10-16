@@ -364,7 +364,7 @@ void GameObject::updatePosWhenNotCollide() {
 	y += dy;
 }
 
-void GameObject::updateGravity(float gravity) {
+void GameObject::updateGravity(DWORD dt,float gravity) {
 	vy += gravity * dt;
 	this->gravity = gravity;
 }

@@ -127,8 +127,8 @@ public:
 	virtual void update(DWORD dt, vector<GameObject*>* coObjects = nullptr);
 	virtual void processDeflectEffect();
 	virtual void processDeathEffect();
-	void updateGravity(float gravity);
-	void updateGravity() { updateGravity(this->gravity); };
+	void updateGravity(DWORD dt,float gravity);
+	void updateGravity(DWORD dt) { updateGravity(dt,this->gravity); };
 	void updatePosWhenNotCollide();
 	void updatePosInTheMomentCollideAndRemoveVelocity(float minTx, float minTy, float nx,
 	                                                  float ny);

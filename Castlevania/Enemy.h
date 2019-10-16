@@ -9,6 +9,7 @@ enum EnemType {
 
 auto constexpr E_UNTOUCHABLE_DURATION = 200;
 auto constexpr E_RESPAWN_INIT_TIME = 3000;
+auto constexpr E_GRAVITY = 0.0015f;
 
 class Enemy : public GameObject {
 public:

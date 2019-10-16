@@ -102,7 +102,7 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps) {
 	checkCollision(dt, maps);
 	updateAnimId();
 	// simple fall down
-	updateGravity(gravity);
+	updateGravity(dt,gravity);
 
 	checkBoundary();
 }

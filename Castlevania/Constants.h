@@ -88,7 +88,6 @@ auto constexpr TIMER_HOLY_BURN_DURATION = 2000;
 
 
 /*----------------- gravity  -----------------*/
-auto constexpr E_GRAVITY = 0.0015f;
 auto constexpr G_HEART_SMALL = 0.0001f;
 
 struct VectorInt

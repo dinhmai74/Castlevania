@@ -37,7 +37,7 @@ void Stage::initMap(int mapId, wstring mapName) {
 	this->mapId = mapId;
 	this->mapName = std::move(mapName);
 	const auto map = TileMapManager::getInstance()->get(mapId);
-	this->grid = new Grid(map->getMapWidth(), 480, map->getTileWidth() * 2);
+	this->grid = new Grid(map->getMapWidth(), 480);
 	game->setLimitCamX({ 0, static_cast<float>(map->getMapWidth()) });
 }
 
@@ -218,16 +218,18 @@ void Stage::loadBoundaryCase(fstream& fs, float x, float y) {
 			stair->setFaceSide(faceSide);
 			stair->setStairType(stairType);
 			stair->setNextPos({ nextX, nextY });
-			listStairs.push_back(stair);
+			auto unit = new Unit(grid, boundary, x, y);
+			listStairs.push_back(boundary);
 		}
 		break;
 	}
 	case BoundaryNormal:
-	case BoundaryForceJump:
 	case BoundaryGround:
-		listBoundary.push_back(boundary);
+		listCanCollideBoundary.push_back(boundary);
 		break;
-	default: auto unit = new Unit(grid, boundary, x, y);
+	default:
+		auto unit = new Unit(grid, boundary, x, y);
+		listDefaultBoundary.push_back(boundary);
 	}
 }
 
@@ -267,7 +269,10 @@ bool Stage::updateEnemy(vector<GameObject*>::value_type obj, DWORD dt) {
 		enem->setIsStopAllAction(getStopEnemyAction());
 		auto wolf = dynamic_cast<EnemyWolf*>(obj);
 		if (wolf) {
-			wolf->update(dt, &listBoundary, simon->getPosition().x);
+			vector<GameObject*> canColide;
+			canColide = listCanCollideBoundary;
+			canColide.insert(canColide.begin(), listDefaultBoundary.begin(), listDefaultBoundary.end());
+			wolf->update(dt, &canColide, simon->getPosition().x);
 			return true;
 		}
 	}
@@ -291,7 +296,7 @@ void Stage::update(DWORD dt) {
 
 		auto updateResult = updateEnemy(obj, dt);
 
-		if (!updateResult) obj->update(dt, &listBoundary);
+		if (!updateResult) obj->update(dt, &listCanCollideBoundary);
 	}
 	updateCamera(dt);
 	updateGrid();
@@ -308,7 +313,7 @@ void Stage::updateSubWeapon(SubWeapon* subWeapon, DWORD dt) {
 		temp.insert(temp.end(), listCanHitObjects.begin(), listCanHitObjects.end());
 		vector<MapGameObjects> maps;
 		maps.push_back({ OBEnemy, &temp });
-		maps.push_back({ OBBoundary, &listBoundary });
+		maps.push_back({ OBBoundary, &listCanCollideBoundary });
 
 		holyWater->update(dt, simonPos, simon->getState(), maps);
 	}
@@ -364,8 +369,6 @@ void Stage::updateInActiveUnit() {
 
 bool Stage::isInViewport(GameObject* object) {
 	const auto camPosition = Game::getInstance()->getCameraPosition();
-	const auto map = TileMapManager::getInstance()->get(mapId);
-	const auto offset = map->getTileWidth() * 2;
 	const auto left = camPosition.x;
 	const auto right = camPosition.x + SCREEN_WIDTH;
 
@@ -395,10 +398,9 @@ bool sortByType(GameObject* a, GameObject* b) {
 
 void Stage::loadListObjFromGrid() {
 	resetAllList();
-	listRenderObj = listBoundary;
-	listStopSimObjs = listBoundary;
+	listRenderObj = listCanCollideBoundary;
+	listStopSimObjs = listCanCollideBoundary;
 	listRenderObj.push_back(simon);
-	listRenderObj.insert(listRenderObj.begin(), listStairs.begin(), listStairs.end());
 	getGrid()->get(Game::getInstance()->getCameraPosition(), listUnit);
 
 	for (auto unit : listUnit) {
@@ -424,6 +426,7 @@ void Stage::loadListObjFromGrid() {
 		}
 	}
 	sort(listRenderObj.begin(), listRenderObj.end(), sortByType);
+	DebugOut(L"size %d\n", listRenderObj.size());
 }
 
 void Stage::resetAllList() {

@@ -128,8 +128,8 @@ void Grid::remove(Unit* unit, float oldRow, float oldCol)
 
 void Grid::get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
 {
-	auto startCol = static_cast<int>(camPosition.x / cellWidth)-1;
-	int endCol = static_cast<int>((camPosition.x + SCREEN_WIDTH) / cellWidth)+1;
+	auto startCol = static_cast<int>(camPosition.x / cellWidth);
+	int endCol = ceil((camPosition.x + SCREEN_WIDTH) / cellWidth);
 	endCol = endCol > totalCols ? totalCols : endCol;
 	startCol = startCol < 0 ? 0 : startCol;
 

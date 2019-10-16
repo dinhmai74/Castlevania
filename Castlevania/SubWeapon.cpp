@@ -20,5 +20,5 @@ void SubWeapon::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, vector<Ga
 {
 	Weapon::update(dt, simonPos, simonState, coObjects);
 	updatePosWhenNotCollide();
-	updateGravity(gravity);
+	updateGravity(dt,gravity);
 }

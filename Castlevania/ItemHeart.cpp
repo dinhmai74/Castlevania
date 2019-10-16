@@ -6,7 +6,7 @@ void ItemHeart::update(DWORD dt, vector<GameObject*>* boundary)
 {
 	GameObject::update(dt);
 	checkDurationToDisapear();
-	updateGravity();
+	updateGravity(dt);
 	checkCollision(dt, boundary);
 	if (itemType == itemSmallHeart)checkOutOfBoundary();
 }
