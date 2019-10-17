@@ -71,7 +71,6 @@ void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*> * coObj
 
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
 
-
 		for (auto& i : coEventsResult) {
 			const auto boundary = dynamic_cast<Boundary*>(i->obj);
 			if (boundary) {
@@ -89,26 +88,22 @@ void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*> * coObj
 		}
 	}
 	if (!updatedX) {
-		if (result.x) blockX(minTx, nx);
+		if (result.x) changeDirection(minTx, nx);
 		else x += dx;
 	}
 	if (!updatedY) {
 		if (result.y && ny == CDIR_BOTTOM) {
 			isInGround = true;
-			vx = 0;
 			vy = 0;
 		}
 		else y += dy;
 	}
 }
 
-void Enemy::changeDirection(const vector<CollisionEvent*> & vector, float nx, float ny) {
+void Enemy::changeDirection(float nx, float ny) {
 	if (nx != 0) {
 		faceSide = getFaceSide() * -1;
 		this->vx *= -1;
-	}
-	else if (ny == -1.0f) {
-		vy = 0;
 	}
 }
 

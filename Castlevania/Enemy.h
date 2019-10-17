@@ -21,7 +21,7 @@ public:
 	void resetPos();
 	void update(DWORD dt, vector<GameObject*>* coObjects = nullptr) override;
 	void checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*>* coObjects);
-	void changeDirection(const vector<CollisionEvent*>& vector, float nx, float ny);
+	void changeDirection( float nx, float ny);
 	bool canRespawn(D3DXVECTOR2 simPos);
 	virtual void respawn(float playerX, float playerY);
 
