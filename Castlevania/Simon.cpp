@@ -881,6 +881,9 @@ void Simon::reset() {
 	timerAutoWalk->stop();
 	autoWalkDistance = -1;
 	climbDirection = 0;
+	stairDxRemain = 0;
+	stairDyRemain = 0;
+	state = initState;
 }
 
 void Simon::setHp(int val) {
