@@ -18,7 +18,10 @@ public:
 	void add(int ID, LPCWSTR filePathTex, LPCWSTR filePathData, int mapWidth, int mapHeight, int tileWidth = 32, int tileHeight = 32);
 	void add(int ID, wstring mapName, int mapWidth, int mapHeight, int tileWidth = 32, int tileHeight = 32);
 	void add(TileMapInfo mapInfo);
-	auto get(int ID) { return tilemaps[ID]; }
+	auto get(int ID)
+	{
+		return tilemaps[ID];
+	}
 private:
 	std::unordered_map<int, TileMap*> tilemaps;
 	TileMapManager() = default;

@@ -3,6 +3,10 @@
 
 StageManager* StageManager::instance = nullptr;
 
+void StageManager::removeAllObjOutOfBound() {
+	currentStage->getGrid()->removeOutOfBoundUnit(Camera::getInstance()->getLimitX());
+}
+
 StageManager::~StageManager()
 {
 	isReleaseSelectMapKey = true;

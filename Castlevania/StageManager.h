@@ -36,4 +36,6 @@ private:
 	Stage* currentStage = nullptr;
 	Stage* preStage = nullptr;
 	vector<TileMapInfo> tileMapsInfo;
+public:
+	void removeAllObjOutOfBound();
 };

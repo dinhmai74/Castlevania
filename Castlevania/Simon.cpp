@@ -156,6 +156,7 @@ void Simon::updateCameraWhenGoThroughDoor() {
 		goThroughDoorStatus = nope;
 		moveCam(collidedDoor->getMoveCamDistance());
 		collidedDoor = nullptr;
+		StageManager::getInstance()->removeAllObjOutOfBound();
 		break;
 	default:;
 	}

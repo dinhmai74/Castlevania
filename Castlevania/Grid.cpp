@@ -1,5 +1,6 @@
 ﻿#include "Grid.h"
 #include "Enemy.h"
+#include "Door.h"
 
 Unit::Unit(Grid* grid, LPGAMEOBJECT obj, float x, float y)
 {
@@ -143,9 +144,33 @@ void Grid::get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
 			{
 				if (unit->get()->IsActive())
 					listUnits.push_back(unit);
+				else
+				{
+					remove(unit);
+				}
 
 				unit = unit->next;
 			}
 		}
 	}
+}
+
+void Grid::removeOutOfBoundUnit(Region region) {
+	for (auto i = 0; i < totalRows; i++)
+	{
+		for (auto j = 0; j < totalCols; j++)
+		{
+			auto unit = cells[i][j];
+
+			while (unit != nullptr)
+			{
+				auto pos = unit->get()->getInitPos();
+				if ((pos.x < region.min || pos.x>region.max) && unit->get()->getType() != OBDoor)
+					remove(unit);
+
+				unit = unit->next;
+			}
+		}
+	}
+
 }
