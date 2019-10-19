@@ -1,0 +1,1 @@
+bat_fly_ani	bat_fly_2	150	bat_fly_4	150	bat_fly_2	150 bat_fly_3	150

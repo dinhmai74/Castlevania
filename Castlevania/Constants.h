@@ -44,6 +44,7 @@ enum State
 	throwingWhenClimbing,
 	climbing,
 	disabled,
+	flying,
 	deflect = 99,
 	death = -1,
 	normal = 0,

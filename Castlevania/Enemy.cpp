@@ -3,6 +3,7 @@
 #include "EnemyFactory.h"
 #include "SimonConstants.h"
 #include "Boundary.h"
+#include "StageManager.h"
 
 
 Enemy::Enemy() {
@@ -108,23 +109,30 @@ void Enemy::changeDirection(float nx, float ny) {
 }
 
 void Enemy::respawn(float playerX, float playerY) {
+	if(enemyType==EnemBat)
+	{
+		DebugOut(L"bat \n");
+	}
 	if (canRespawn({ playerX, playerY })) {
-		generateEnemy(playerX);
+		generateEnemy(playerX,playerY);
 	}
 }
 
-void Enemy::generateEnemy(float playerX) {
-	auto nx = playerX - x > 0 ? 1 : -1;
+void Enemy::generateEnemy(float playerX,float playerY) {
+	if (!isInViewPort()) return;
+	auto nx = playerX - initPos.x> 0 ? 1 : -1;
 	reset();
 	setFaceSide(nx);
 	setInitFaceSide(nx);
 	vx = initVelocity.x * nx;
 	getTimerRespawn()->stop();
 	setEnable();
+	readyToRespawn = false;
 }
 
 bool Enemy::canRespawn(D3DXVECTOR2 simPos) {
 	const auto isEnoughTime = getTimerRespawn()->isTimeUpAndRunAlr();
+	if (isEnoughTime) readyToRespawn = true;
 	const auto distance = fabs(x - simPos.x);
 	const auto isInRegion = distance >= respawnArea.min && distance <= respawnArea.max;
 
@@ -143,6 +151,22 @@ void Enemy::setEnable(bool val /*= true*/) {
 	GameObject::setEnable(val);
 	if (!val)
 		getTimerRespawn()->start();
+}
+
+bool Enemy::isInViewPort() {
+	const auto camPosition = Game::getInstance()->getCameraPosition();
+	const auto left = camPosition.x;
+	const auto right = camPosition.x + SCREEN_WIDTH;
+
+	auto box = getBoundingBoxBaseOnFile();
+	const auto isInView = isColliding(box,
+		{
+			left, camPosition.y, right,
+			camPosition.y + SCREEN_HEIGHT
+		});
+
+
+	return isInView;
 }
 
 void Enemy::render() {

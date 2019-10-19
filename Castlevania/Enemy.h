@@ -5,6 +5,7 @@
 enum EnemType {
 	EnemGhouls,
 	EnemWolf,
+	EnemBat,
 };
 
 auto constexpr E_UNTOUCHABLE_DURATION = 200;
@@ -25,7 +26,7 @@ public:
 	bool canRespawn(D3DXVECTOR2 simPos);
 	virtual void respawn(float playerX, float playerY);
 
-	void generateEnemy(float playerX);
+	virtual void generateEnemy(float playerX,float playerY);
 	void processWhenBurnedEffectDone() override;
 	void render() override;
 
@@ -53,16 +54,23 @@ public:
 	void setForceRespawn(bool val) { forceRespawn = val; }
 	bool getIsVirgin() const { return isVirgin; }
 	void setIsVirgin(bool val=true) { isVirgin = val; }
+	int getScore() const { return score; }
+	void setScore(int val) { score = val; }
+	bool getReadyToRespawn() const { return readyToRespawn; }
+	void setReadyToRespawn(bool val) { readyToRespawn = val; }
 private:
 	int enemyType{};
 	bool forceRespawn;
 	bool isVirgin=true;
 	int dmg{};
+	int score;
 	int initFaceSide{};
 	bool isExist{};
 	bool isStopAllAction{};
+	bool readyToRespawn;
 	DWORD respawnTime{};
 	Timer* timerRespawn= new Timer(1000);
 	Region respawnArea{};
 
+	bool isInViewPort();
 };

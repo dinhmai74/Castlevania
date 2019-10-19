@@ -30,12 +30,11 @@ public:
 	Stage* getCurrentStage() const { return currentStage; }
 	void descreaseLife();
 	void loadTileMaps();
+	void removeAllObjOutOfBound();
 private:
 	bool isReleaseSelectMapKey;
 	static StageManager* instance;
 	Stage* currentStage = nullptr;
 	Stage* preStage = nullptr;
 	vector<TileMapInfo> tileMapsInfo;
-public:
-	void removeAllObjOutOfBound();
 };

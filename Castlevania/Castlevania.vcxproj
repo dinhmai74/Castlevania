@@ -124,6 +124,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationFrame.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
+    <ClCompile Include="EnemyBat.cpp" />
     <ClCompile Include="Boundary.cpp" />
     <ClCompile Include="BoundaryFactory.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="AnimationManager.h" />
+    <ClInclude Include="EnemyBat.h" />
     <ClInclude Include="BigCandle.h" />
     <ClInclude Include="Boundary.h" />
     <ClInclude Include="BoundaryFactory.h" />

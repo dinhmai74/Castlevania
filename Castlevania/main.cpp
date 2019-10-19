@@ -15,6 +15,7 @@ void SampleKeyHander::OnKeyDown(int KeyCode)
     //DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	StageManager::getInstance()->onKeyDown(KeyCode);
 	if (KeyCode == DIK_R)
+
 	{
 		hud->Init();
 	}
@@ -248,6 +249,7 @@ void loadResources()
 	LoadSprites(1009, L"stage1_castle");
 	LoadSprites(1010, L"door");
 	LoadSprites(1011, L"wolf");
+	LoadSprites(1012, L"bat");
 	LoadSprites(100001, L"blackboard", D3DCOLOR_XRGB(0, 0, 0));
 	LoadSprites(100002, L"HP");
 	vector<TileMapInfo> mapInfos;

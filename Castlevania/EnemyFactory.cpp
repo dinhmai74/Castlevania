@@ -1,6 +1,7 @@
 #include "EnemyFactory.h"
 #include "EnemyGhouls.h"
 #include "EnemyWolf.h"
+#include "EnemyBat.h"
 
 Enemy* EnemyFactory::getEnemy(int type) {
 	Enemy* enemy;
@@ -9,12 +10,12 @@ Enemy* EnemyFactory::getEnemy(int type) {
 	auto vx = 0.08f;
 	auto vy = 0.0f;
 	auto dmg = 1;
+	auto score = 200;
 
 	switch (type) {
 	case EnemGhouls:
 		enemy = new EnemyGhouls();
 		dmg = 2;
-		enemy->getTimerRespawn()->setLimitedTime(1000);
 		break;
 	case EnemWolf:
 		enemy = new EnemyWolf();
@@ -22,10 +23,17 @@ Enemy* EnemyFactory::getEnemy(int type) {
 		gravity = 0.0009;
 		vx = 0.27f;
 		vy = -0.22f;
-		enemy->getTimerRespawn()->setLimitedTime(100);
+		break;
+	case EnemBat:
+		enemy = new EnemyBat();
+		dmg = 2;
+		gravity = 0.0003;
+		vx = 1.7f;
+		vy = -0.0005f;
 		break;
 	default: enemy = new EnemyGhouls();
 	}
+	enemy->setRespawnTime(100);
 	enemy->setGravity(gravity);
 	enemy->setFaceSide(faceSide);
 	enemy->setInitSpeed({ vx, vy });
@@ -33,6 +41,7 @@ Enemy* EnemyFactory::getEnemy(int type) {
 	enemy->setDmg(dmg);
 	enemy->setEnable(false);
 	enemy->setInitGravity(gravity);
+	enemy->setScore(score);
 	return enemy;
 }
 

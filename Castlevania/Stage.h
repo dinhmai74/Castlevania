@@ -38,6 +38,7 @@ public:
 	void setMapName(std::wstring val) { mapName = val; }
 	bool getStopEnemyAction() const { return stopEnemyAction; }
 	void setStopEnemyAction(bool val=true) { stopEnemyAction = val; }
+	bool isInViewport(GameObject* object);
 private:
 	Simon* simon;
 	int mapId;
@@ -70,7 +71,6 @@ private:
 
 	vector<MapGameObjects> getMapSimonCanCollisionObjects();
 	void updateCamera(DWORD dt) const;
-	bool isInViewport(GameObject* object);
 	void updateInActiveUnit();
 	void updateGrid();
 	bool renderBoundingBox;
