@@ -21,6 +21,7 @@ void EnemyBat::updateAnimId() {
 }
 
 void EnemyBat::update(DWORD dt, vector<GameObject*> * coObjects) {
+	DebugOut(L"x %f\n",x);
 	updateAnimId();
 	GameObject::update(dt);
 	x += vx;
@@ -46,15 +47,17 @@ void EnemyBat::updateVy() {
 }
 
 void EnemyBat::generateEnemy(float playerX, float playerY) {
-	auto nx = -StageManager::getInstance()->getCurrentStage()->getSimon()->getFaceSide();
-	reset();
-	setFaceSide(nx);
-	setInitFaceSide(nx);
-	auto posX = playerX - nx* 200;
+	auto nx = StageManager::getInstance()->getCurrentStage()->getSimon()->getFaceSide();
+	auto posX = playerX + nx* 200;
 	auto posY = playerY + 20;
-	setPosition(posX,posY);
 	initPos.y = posY;
-	vx = initVelocity.x * nx;
+	reset();
+	setPosition(posX,posY);
+	setFaceSide(-nx);
+	setInitFaceSide(-nx);
+	vx = initVelocity.x * faceSide;
+	if (!isInViewPort()) return;
 	getTimerRespawn()->stop();
+	setReadyToRespawn(false);	
 	setEnable();
 }

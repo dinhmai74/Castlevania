@@ -58,6 +58,7 @@ public:
 	void setScore(int val) { score = val; }
 	bool getReadyToRespawn() const { return readyToRespawn; }
 	void setReadyToRespawn(bool val) { readyToRespawn = val; }
+	bool isInViewPort();
 private:
 	int enemyType{};
 	bool forceRespawn;
@@ -72,5 +73,4 @@ private:
 	Timer* timerRespawn= new Timer(1000);
 	Region respawnArea{};
 
-	bool isInViewPort();
 };

@@ -26,6 +26,7 @@ void Enemy::init() {
 }
 
 void Enemy::reset() {
+	if (!isInViewPort()) return;
 	resetHp();
 	resetPos();
 	setState(initState);
@@ -34,6 +35,7 @@ void Enemy::reset() {
 	if (!timerRespawn->isRunning()) timerRespawn->start();
 	setFaceSide(initFaceSide);
 	vx = initVelocity.x * initFaceSide;
+	readyToRespawn = false;
 }
 
 void Enemy::resetHp() {
@@ -109,22 +111,18 @@ void Enemy::changeDirection(float nx, float ny) {
 }
 
 void Enemy::respawn(float playerX, float playerY) {
-	if(enemyType==EnemBat)
-	{
-		DebugOut(L"bat \n");
-	}
 	if (canRespawn({ playerX, playerY })) {
 		generateEnemy(playerX,playerY);
 	}
 }
 
 void Enemy::generateEnemy(float playerX,float playerY) {
-	if (!isInViewPort()) return;
 	auto nx = playerX - initPos.x> 0 ? 1 : -1;
 	reset();
 	setFaceSide(nx);
 	setInitFaceSide(nx);
 	vx = initVelocity.x * nx;
+	if (!isInViewPort()) return;
 	getTimerRespawn()->stop();
 	setEnable();
 	readyToRespawn = false;
