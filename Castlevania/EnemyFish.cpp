@@ -1,4 +1,6 @@
 #include "EnemyFish.h"
+#include "Bullet.h"
+#include "StageManager.h"
 
 
 EnemyFish::EnemyFish() {
@@ -36,15 +38,54 @@ void EnemyFish::update(DWORD dt, vector<GameObject*> * coObjects) {
 	updateAnimId();
 	Enemy::update(dt, coObjects);
 	updateWhenJumping();
-	updateVx();
+	updateWalking();
+	shoot();
 }
 
-void EnemyFish::updateVx() {
-	if (state == walking) vx = faceSide*initVelocity.x;
+void EnemyFish::updateWalking() {
+	if (state == walking) vx = faceSide * initVelocity.x;
+	else if (state == hitting) {
+		vx = 0;
+		if (animations[animId]->isDone()) {
+			setState(walking);
+			faceSide *= -1;
+			animations[hitting]->refresh();
+		}
+	}
 }
 
 bool EnemyFish::processCollisionWithGround(float minTy, float ny) {
 	auto result = Enemy::processCollisionWithGround(minTy, ny);
-	if (result) setState(walking);
+	if (result && state != hitting) {
+		setState(walking);
+	}
 	return result;
+}
+
+void EnemyFish::generateBullet() {
+	auto bullet = new Bullet();
+	bullet->setFaceSide(faceSide);
+	auto box = getBoundingBox();
+	auto width = box.r - box.l;
+	const auto xBullet = faceSide> 0 ? x +width + 5 : x;
+	bullet->setPosition(xBullet,y+10);
+
+	StageManager::getInstance()->add(bullet);
+}
+
+void EnemyFish::shoot() {
+	if (canShoot()) {
+		setState(hitting);
+		generateBullet();
+		auto time = rand() % 2500 + 2000;
+		timerShooting->setLimitedTime(time);
+		timerShooting->start();
+	}
+	else {
+		if (!timerShooting->isRunning()) timerShooting->start();
+	}
+}
+
+bool EnemyFish::canShoot() {
+	return timerShooting->isTimeUpAndRunAlr() && state == walking;
 }

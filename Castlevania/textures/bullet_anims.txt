@@ -1,0 +1,1 @@
+bullet_fireball_ani	bullet_fireball_0	100
