@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include "Door.h"
 #include "ForceIdleSim.h"
+#include "EnemyFactory.h"
 
 auto const subWeaponFactory = SubWeaponFactory::getInstance();
 
@@ -494,7 +495,10 @@ void Simon::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs) {
 
 		for (auto& i : coEventsResult) {
 			const auto enemy = dynamic_cast<Enemy*>(i->obj);
-			if (enemy && getHurt(nx, ny, enemy->getDmg())) resetState();
+			if (enemy && getHurt(nx, ny, enemy->getDmg())) {
+				resetState();
+				if (enemy->getEnemyType() == EnemBat) enemy->getHurt(EnemyFactory::getInstance()->getHp(EnemBat));
+			}
 		}
 	}
 

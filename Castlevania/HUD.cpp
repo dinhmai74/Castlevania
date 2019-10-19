@@ -7,9 +7,9 @@ void HUD::Init()
 	auto game = Game::getInstance();
 	defaultTime = DEFAULT_TIME_PLAY;
 	time = 0;
-	score = 0;
 
 	stage = StageManager::getInstance()->getCurrentStage();
+	score = StageManager::getInstance()->getScore();
 	blackboard = spriteManager->get("blackboard_default_0");
 	font = game->getFont();
 	subWeapons.push_back(spriteManager->get("item_dagger"));
@@ -34,6 +34,7 @@ void HUD::update(DWORD dt, bool stopwatch)
 		remainTime = 0;
 	}
 
+	score = StageManager::getInstance()->getScore();
 	simon = stage->getSimon();
 
 	string scoreStr = to_string(score);

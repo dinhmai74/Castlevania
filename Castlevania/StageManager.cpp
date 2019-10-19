@@ -15,6 +15,7 @@ StageManager::~StageManager()
 void StageManager::init(vector<TileMapInfo> tileMapsInfo)
 {
 	this->tileMapsInfo = tileMapsInfo;
+	score = 0;
 
 	loadTileMaps();
 	currentStage = new Stage();

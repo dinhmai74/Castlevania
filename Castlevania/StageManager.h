@@ -31,7 +31,10 @@ public:
 	void descreaseLife();
 	void loadTileMaps();
 	void removeAllObjOutOfBound();
+	void addScore(int score) { this->score += score; };
+	int getScore() { return score; };
 private:
+	int score;
 	bool isReleaseSelectMapKey;
 	static StageManager* instance;
 	Stage* currentStage = nullptr;

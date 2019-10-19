@@ -21,7 +21,6 @@ void EnemyBat::updateAnimId() {
 }
 
 void EnemyBat::update(DWORD dt, vector<GameObject*> * coObjects) {
-	DebugOut(L"x %f\n",x);
 	updateAnimId();
 	GameObject::update(dt);
 	x += vx;

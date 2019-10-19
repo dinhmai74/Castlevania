@@ -167,6 +167,12 @@ bool Enemy::isInViewPort() {
 	return isInView;
 }
 
+void Enemy::doDeathAnim()
+{
+	StageManager::getInstance()->addScore(score);
+	GameObject:: doDeathAnim();
+}
+
 void Enemy::render() {
 	if (isEnable) {
 		alpha = 255;

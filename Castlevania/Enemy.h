@@ -59,6 +59,7 @@ public:
 	bool getReadyToRespawn() const { return readyToRespawn; }
 	void setReadyToRespawn(bool val) { readyToRespawn = val; }
 	bool isInViewPort();
+	void doDeathAnim() override;
 private:
 	int enemyType{};
 	bool forceRespawn;

@@ -97,7 +97,7 @@ public:
 	virtual bool getHurt(int nx = -1, int hpLose = 1);
 	virtual bool getHurt(int nx, int ny, int hpLose);
 
-	void doDeathAnim();
+	virtual void doDeathAnim();
 
 	void loseHp(int hpLose = 1);
 	void doDeflect(int nx);
