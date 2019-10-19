@@ -1,10 +1,9 @@
 #include "EnemyGhouls.h"
-#include "SimonConstants.h"
 
 
 void EnemyGhouls::initAnim()
 {
-	addAnimation(ANIM_WALK, "shouls_walk_ani");
+	addAnimation(walking, "shouls_walk_ani");
 }
 
 EnemyGhouls::EnemyGhouls()
@@ -18,6 +17,4 @@ void EnemyGhouls::init()
 {
 	setEnemyType(EnemGhouls);
 	initAnim();
-	setState(walking);
-	setAnimId(ANIM_WALK);
 }

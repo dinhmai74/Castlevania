@@ -30,7 +30,7 @@ void Enemy::reset() {
 	resetHp();
 	resetPos();
 	setState(initState);
-	setAnimId(ANIM_WALK);
+	setAnimId(getInitAnimId());
 	timerRespawn->setLimitedTime(respawnTime);
 	if (!timerRespawn->isRunning()) timerRespawn->start();
 	setFaceSide(initFaceSide);
@@ -83,7 +83,7 @@ void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*> * coObj
 					result.x = processCollisionWithBoundaryByX(minTx, nx, boundary);
 					break;
 				case BoundaryGround:
-					result.y =processCollisionWithGround(minTy, ny);
+					result.y = processCollisionWithGround(minTy, ny);
 					break;
 				default:;
 				}
@@ -112,12 +112,12 @@ void Enemy::changeDirection(float nx, float ny) {
 
 void Enemy::respawn(float playerX, float playerY) {
 	if (canRespawn({ playerX, playerY })) {
-		generateEnemy(playerX,playerY);
+		generateEnemy(playerX, playerY);
 	}
 }
 
-void Enemy::generateEnemy(float playerX,float playerY) {
-	auto nx = playerX - initPos.x> 0 ? 1 : -1;
+void Enemy::generateEnemy(float playerX, float playerY) {
+	auto nx = playerX - initPos.x > 0 ? 1 : -1;
 	reset();
 	setFaceSide(nx);
 	setInitFaceSide(nx);
@@ -167,10 +167,25 @@ bool Enemy::isInViewPort() {
 	return isInView;
 }
 
-void Enemy::doDeathAnim()
-{
+void Enemy::doDeathAnim() {
 	StageManager::getInstance()->addScore(score);
-	GameObject:: doDeathAnim();
+	GameObject::doDeathAnim();
+}
+
+void Enemy::initAnim() {
+}
+
+void Enemy::updateAnimId() {
+	setAnimId(state);
+}
+
+Box Enemy::getBoundingBox()
+{
+	if (!isEnable) return {0,0,0,0};
+	auto tempBox= getBoundingBoxBaseOnFileAndPassWidth(20);
+
+	tempBox.t += 10;
+	return tempBox;
 }
 
 void Enemy::render() {

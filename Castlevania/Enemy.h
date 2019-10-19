@@ -6,6 +6,7 @@ enum EnemType {
 	EnemGhouls,
 	EnemWolf,
 	EnemBat,
+	EnemFish,
 };
 
 auto constexpr E_UNTOUCHABLE_DURATION = 200;
@@ -60,6 +61,13 @@ public:
 	void setReadyToRespawn(bool val) { readyToRespawn = val; }
 	bool isInViewPort();
 	void doDeathAnim() override;
+	int getInitAnimId() const { return initAnimId; }
+	void setInitAnimId(int val) { initAnimId = val; }
+
+	virtual void initAnim() override;
+
+	virtual void updateAnimId() override;
+	Box getBoundingBox() override;
 private:
 	int enemyType{};
 	bool forceRespawn;
@@ -74,4 +82,5 @@ private:
 	Timer* timerRespawn= new Timer(1000);
 	Region respawnArea{};
 
+	int initAnimId;
 };

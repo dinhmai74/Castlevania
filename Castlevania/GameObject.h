@@ -207,8 +207,8 @@ public:
 	int getInitState() const { return initState; }
 	void setInitState(int val) { initState = val; }
 	void doBurnedEffect(bool enable = false);
-	bool processCollisionWithGround(float minTy, float ny);
-	bool processCollisionWithBoundaryByX(float minTx, float nx, GameObject* boundary);
+	virtual bool processCollisionWithGround(float minTy, float ny);
+	virtual bool processCollisionWithBoundaryByX(float minTx, float nx, GameObject* boundary);
 	float getInitGravity() const { return initGravity; }
 	void setInitGravity(float val) { initGravity = val; }
 };

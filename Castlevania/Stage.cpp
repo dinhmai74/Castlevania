@@ -9,6 +9,7 @@
 #include "ForceIdleSim.h"
 #include "stage1_castle.h"
 #include "EnemyWolf.h"
+#include "EnemyFish.h"
 
 Stage::Stage() {
 }
@@ -242,8 +243,17 @@ void Stage::loadEnemies(fstream& fs, float x, float y) {
 		fs >> activeTerLeft >> activeTerRight;
 		auto wolf = dynamic_cast<EnemyWolf*>(obj);
 		wolf->setActiveTerritory({ activeTerLeft,activeTerRight });
+	}else if(type == EnemFish)
+	{
+		float jumpRange;
+		fs >> jumpRange;
+		auto fish= dynamic_cast<EnemyFish*>(obj);
+		fish->setJumpingMaxRange(jumpRange);
 	}
 	obj->setInitState(initState);
+	obj->setState(initState);
+	obj->setInitAnimId(initState);
+	obj->setAnimId(initState);
 	obj->setRespawnTime(respawnTime);
 	obj->setRespawnArea({ minRespawn, maxRespawn });
 	obj->setInitPos({ x, y });

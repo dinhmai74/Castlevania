@@ -7,7 +7,6 @@ public:
 	EnemyBat();
 	~EnemyBat();
 	void initAnim() override;
-	void updateAnimId() override;
 	void update(DWORD dt, vector<GameObject*>* coObjects) override;
 	void updateVy();
 

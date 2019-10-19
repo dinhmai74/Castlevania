@@ -133,6 +133,7 @@
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
+    <ClCompile Include="EnemyFish.cpp" />
     <ClCompile Include="EnemyGhouls.cpp" />
     <ClCompile Include="EnemyWolf.cpp" />
     <ClCompile Include="ForceEnemyJumpingBound.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="BoundaryFactory.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Door.h" />
+    <ClInclude Include="EnemyFish.h" />
     <ClInclude Include="EnemyWolf.h" />
     <ClInclude Include="ForceEnemyJumpingBound.h" />
     <ClInclude Include="ForceIdleSim.h" />
@@ -231,6 +233,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Castlevania.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="f" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

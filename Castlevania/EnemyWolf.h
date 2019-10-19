@@ -16,7 +16,6 @@ public:
 	void initAnim() override;
 
 	void init() override;
-	void updateAnimId() override;
 	void update(DWORD dt, vector<GameObject*>* coObjects,float simX) ;
 	void checkIfCanRun(float simX);
 

@@ -2,6 +2,7 @@
 #include "EnemyGhouls.h"
 #include "EnemyWolf.h"
 #include "EnemyBat.h"
+#include "EnemyFish.h"
 
 Enemy* EnemyFactory::getEnemy(int type) {
 	Enemy* enemy;
@@ -9,13 +10,12 @@ Enemy* EnemyFactory::getEnemy(int type) {
 	auto gravity = E_GRAVITY;
 	auto vx = 0.08f;
 	auto vy = 0.0f;
-	auto dmg = 1;
+	auto dmg = 2;
 	auto score = 200;
 
 	switch (type) {
 	case EnemGhouls:
 		enemy = new EnemyGhouls();
-		dmg = 2;
 		break;
 	case EnemWolf:
 		enemy = new EnemyWolf();
@@ -26,11 +26,15 @@ Enemy* EnemyFactory::getEnemy(int type) {
 		break;
 	case EnemBat:
 		enemy = new EnemyBat();
-		dmg = 2;
 		gravity = 0.0003;
 		vx = 1.7f;
 		vy = -0.0005f;
 		break;
+	case EnemFish:
+		enemy = new EnemyFish();
+		vy = -0.5f;
+		break;
+		
 	default: enemy = new EnemyGhouls();
 	}
 	enemy->setRespawnTime(100);

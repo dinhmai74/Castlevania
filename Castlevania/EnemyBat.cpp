@@ -5,8 +5,6 @@
 EnemyBat::EnemyBat() {
 	setEnemyType(EnemBat);
 	initAnim();
-	setState(walking);
-	setAnimId(walking);
 	timerAddVelocityY->start();
 }
 
@@ -15,9 +13,7 @@ EnemyBat::~EnemyBat()
 
 void EnemyBat::initAnim() {
 	addAnimation(walking, "bat_fly_ani");
-}
-
-void EnemyBat::updateAnimId() {
+	addAnimation(idle, "bat_idle_ani");
 }
 
 void EnemyBat::update(DWORD dt, vector<GameObject*> * coObjects) {

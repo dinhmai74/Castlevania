@@ -21,10 +21,6 @@ void EnemyWolf::init() {
 	setState(idle);
 }
 
-void EnemyWolf::updateAnimId() {
-	setAnimId(state);
-}
-
 void EnemyWolf::update(DWORD dt, vector<GameObject*> * coObjects, float simX) {
 	if (state == idle) {
 		vx = 0;

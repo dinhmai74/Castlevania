@@ -250,6 +250,7 @@ void loadResources()
 	LoadSprites(1010, L"door");
 	LoadSprites(1011, L"wolf");
 	LoadSprites(1012, L"bat");
+	LoadSprites(1013, L"fish");
 	LoadSprites(100001, L"blackboard", D3DCOLOR_XRGB(0, 0, 0));
 	LoadSprites(100002, L"HP");
 	vector<TileMapInfo> mapInfos;
