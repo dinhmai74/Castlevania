@@ -7,6 +7,7 @@
 #include "TileMapManager.h"
 #include "Item.h"
 #include "CandleFactory.h"
+#include "EnemVampireBoss.h"
 
 class Stage
 {
@@ -39,6 +40,8 @@ public:
 	bool getStopEnemyAction() const { return stopEnemyAction; }
 	void setStopEnemyAction(bool val=true) { stopEnemyAction = val; }
 	bool isInViewport(GameObject* object);
+	EnemyVampireBoss* getBoss() const { return boss; }
+	void setBoss(EnemyVampireBoss* val) { boss = val; }
 private:
 	Simon* simon;
 	int mapId;
@@ -58,6 +61,7 @@ private:
 	vector<GameObject*> listForceIdleSim;
 	vector<Unit*> listUnit;
 	vector<GameObject*> listStairs;
+	EnemyVampireBoss* boss;
 
 	void loadObjectFromFiles();
 	void loadContent();

@@ -165,8 +165,11 @@ void Grid::removeOutOfBoundUnit(Region region) {
 			while (unit != nullptr)
 			{
 				auto pos = unit->get()->getInitPos();
-				if ((pos.x < region.min || pos.x>region.max) && unit->get()->getType() != OBDoor)
-					remove(unit);
+				if ((pos.x < region.min ) && unit->get()->getType() != OBDoor)
+				{
+					DebugOut(L"pos.x %f\n",pos.x);
+					DebugOut(L"region.min %f\n",region.min);
+				}
 
 				unit = unit->next;
 			}

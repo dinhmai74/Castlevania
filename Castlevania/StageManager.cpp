@@ -63,6 +63,7 @@ void StageManager::onKeyDown(int keyCode)
 	case DIK_R: nextStage(2, L"stage3.1"); break;
 	case DIK_T: nextStage(1, L"stage2.1"); break;
 	case DIK_Y: nextStage(1, L"stage2.2"); break;
+	case DIK_P: nextStage(1, L"stage2.3"); break;
 	case DIK_N: nextStage(); break;
 
 	default:

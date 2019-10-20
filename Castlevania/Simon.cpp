@@ -110,6 +110,12 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps) {
 
 	willUpdate();
 	GameObject::update(dt);
+	if (movingCam) {
+		if (!Camera::getInstance()->isMoving()) {
+			StageManager::getInstance()->removeAllObjOutOfBound();
+			movingCam = false;
+		}
+	}
 	checkCollision(dt, maps);
 	updateAnimId();
 	updateGravity(dt, gravity);
@@ -156,8 +162,8 @@ void Simon::updateCameraWhenGoThroughDoor() {
 	case ThroughDone:
 		goThroughDoorStatus = nope;
 		moveCam(collidedDoor->getMoveCamDistance());
+		movingCam = true;
 		collidedDoor = nullptr;
-		StageManager::getInstance()->removeAllObjOutOfBound();
 		break;
 	default:;
 	}
@@ -890,10 +896,6 @@ void Simon::reset() {
 	state = initState;
 }
 
-void Simon::setHp(int val) {
-	hp = val;
-}
-
 void Simon::setEnergy(int val) {
 	energy = val;
 }
@@ -979,7 +981,9 @@ bool Simon::isAutoWalking() {
 
 void Simon::moveCam(float distance) {
 	auto cam = Camera::getInstance();
-	if (!cam->isMoving()) cam->move(distance);
+	if (!cam->isMoving()) {
+		cam->move(distance);
+	}
 }
 
 Simon::~Simon()

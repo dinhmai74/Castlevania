@@ -1,0 +1,3 @@
+vampire_boss_sleep_ani	vampire_boss_default_0	100	
+vampire_boss_idle_ani	vampire_boss_default_1	1000 vampire_boss_default_1 100
+vampire_boss_fly_ani vampire_boss_default_1	200	vampire_boss_default_2	200

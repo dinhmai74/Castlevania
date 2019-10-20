@@ -29,7 +29,7 @@ GameObject::GameObject() {
 	state = normal;
 	isActive = true;
 	gravity = 0;
-	hp = 1;
+	setHp(1);
 	untouchableDuration = 2000;
 	deflectTimeDuration = 400;
 	deathTimeDuration = 1000;
@@ -113,7 +113,7 @@ bool GameObject::getHurt(int nx, int hpLose) {
 
 bool GameObject::getHurt(int nx, int ny, int hpLose) {
 	if (isUntouching() || isDeflecting()) return false;
-	if (this->hp <= hpLose)
+	if (this->getHp() <= hpLose)
 		doDeathAnim();
 	else setStatusWhenStillHaveEnoughHP(nx, hpLose);
 	return true;
@@ -123,7 +123,7 @@ void GameObject::doDeathAnim() {
 	setState(death);
 	vx = 0;
 	vy = 0;
-	this->hp = 0;
+	this->setHp(0);
 	if (animations[ANIM_DEATH]) timerDeath->start();
 	else {
 		doBurnedEffect();
@@ -131,9 +131,9 @@ void GameObject::doDeathAnim() {
 }
 
 void GameObject::loseHp(int hpLose) {
-	hp -= hpLose;
-	if (hp <= 0)
-		hp = 0;
+	setHp(getHp() - hpLose);
+	if (getHp() <= 0)
+		setHp(0);
 }
 void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose) {
 	loseHp(hpLose);

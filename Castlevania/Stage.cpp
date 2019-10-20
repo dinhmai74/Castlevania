@@ -10,6 +10,7 @@
 #include "stage1_castle.h"
 #include "EnemyWolf.h"
 #include "EnemyFish.h"
+#include "EnemVampireBoss.h"
 
 Stage::Stage() {
 }
@@ -38,7 +39,7 @@ void Stage::initMap(int mapId, wstring mapName) {
 	this->mapId = mapId;
 	this->mapName = std::move(mapName);
 	const auto map = TileMapManager::getInstance()->get(mapId);
-	this->grid = new Grid(map->getMapWidth(), 480, map->getTileWidth()*4);
+	this->grid = new Grid(map->getMapWidth(), 480, map->getTileWidth() * 4);
 	game->setLimitCamX({ 0, static_cast<float>(map->getMapWidth()) });
 }
 
@@ -140,6 +141,7 @@ void Stage::loadObjectFromFiles() {
 			auto obj = new ObjectChangeStage();
 			obj->setWidthHeight(width, height);
 			obj->setPosition(x, y);
+			obj->setInitPos({ x,y });
 			obj->setNextStageId(nextStageId);
 			std::wstring wsTemp(nextStageName.begin(), nextStageName.end());
 			obj->setNextStageMapObjName(wsTemp);
@@ -192,6 +194,17 @@ void Stage::loadObjectFromFiles() {
 			ob->setPosition(x, y);
 			DebugOut(L"load castle\n");
 			auto unit = new Unit(getGrid(), ob, x, y);
+			break;
+		}
+		case OBBoss:
+		{
+			setBoss(new EnemyVampireBoss());
+			boss->setInitPos({ x,y });
+			boss->setPosition(x, y);
+			boss->setEnable();
+			DebugOut(L"load boss\n");
+			auto unit = new Unit(grid, boss, x, y);
+			break;
 		}
 		default:
 			break;
@@ -208,6 +221,7 @@ void Stage::loadBoundaryCase(fstream& fs, float x, float y) {
 	auto boundary = BoundaryFactory::getInstance()->getBoundary(type);
 	boundary->setWidhtHeight(width, height);
 	boundary->setPosition(x, y);
+	boundary->setInitPos({ x, y });
 	switch (type) {
 	case BoundaryStair:
 	{
@@ -243,11 +257,11 @@ void Stage::loadEnemies(fstream& fs, float x, float y) {
 		fs >> activeTerLeft >> activeTerRight;
 		auto wolf = dynamic_cast<EnemyWolf*>(obj);
 		wolf->setActiveTerritory({ activeTerLeft,activeTerRight });
-	}else if(type == EnemFish)
-	{
+	}
+	else if (type == EnemFish) {
 		float jumpRange;
 		fs >> jumpRange;
-		auto fish= dynamic_cast<EnemyFish*>(obj);
+		auto fish = dynamic_cast<EnemyFish*>(obj);
 		fish->setJumpingMaxRange(jumpRange);
 	}
 	obj->setInitState(initState);
@@ -364,7 +378,7 @@ void Stage::updateInActiveUnit() {
 			case OBEnemy:
 			{
 				auto enemy = dynamic_cast<Enemy*>(ob);
-				if (enemy && enemy->IsEnable()&& !enemy->getReadyToRespawn()) {
+				if (enemy && enemy->IsEnable() && !enemy->getReadyToRespawn()) {
 					enemy->setEnable(false);
 					enemy->reset();
 				}

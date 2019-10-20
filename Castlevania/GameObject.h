@@ -124,13 +124,13 @@ public:
 	virtual void update(DWORD dt, vector<GameObject*>* coObjects = nullptr);
 	virtual void processDeflectEffect();
 	virtual void processDeathEffect();
-	void updateGravity(DWORD dt,float gravity);
-	void updateGravity(DWORD dt) { updateGravity(dt,this->gravity); };
+	void updateGravity(DWORD dt, float gravity);
+	void updateGravity(DWORD dt) { updateGravity(dt, this->gravity); };
 	void updatePosWhenNotCollide();
 	void updatePosInTheMomentCollideAndRemoveVelocity(float minTx, float minTy, float nx,
-	                                                  float ny);
+		float ny);
 	void updatePosInTheMomentCollide(float minTx, float minTy, float nx,
-	                                 float ny);
+		float ny);
 
 	void blockX(float minTx, float nx) {
 		x += minTx * dx + nx * 0.2f;
@@ -148,7 +148,7 @@ public:
 	virtual Box getBoundingBox(float width, float height);
 
 	virtual Box getBoundingBox() {
-		if (!isEnable) return {0, 0, 0, 0};
+		if (!isEnable) return { 0, 0, 0, 0 };
 		return getBoundingBox(-1, -1);
 	};
 	D3DXVECTOR2 getOffsetFromBoundingBox();
@@ -181,7 +181,7 @@ public:
 	int getState() const { return state; }
 	void getSpeed(float& vx, float& vy) const;
 	void getPosition(float& x, float& y) const;
-	D3DXVECTOR2 getPosition() { return {x, y}; }
+	D3DXVECTOR2 getPosition() { return { x, y }; }
 
 	bool IsActive() const { return isActive; }
 	virtual void setActive(bool val = true) { isActive = val; }
@@ -203,7 +203,9 @@ public:
 	D3DXVECTOR2 getInitSpeed() const { return initVelocity; }
 	void setInitSpeed(D3DXVECTOR2 val) { initVelocity = val; }
 	int getFaceSide() const { return faceSide; }
-	void setAnimId(int val) { animId = val; }
+	void setAnimId(int val) {
+		animId = val;
+	}
 	int getInitState() const { return initState; }
 	void setInitState(int val) { initState = val; }
 	void doBurnedEffect(bool enable = false);
@@ -211,6 +213,8 @@ public:
 	virtual bool processCollisionWithBoundaryByX(float minTx, float nx, GameObject* boundary);
 	float getInitGravity() const { return initGravity; }
 	void setInitGravity(float val) { initGravity = val; }
+	int getHp() const { return hp; }
+	void setHp(int val) { hp = val; }
 };
 
 

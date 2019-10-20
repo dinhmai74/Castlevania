@@ -17,6 +17,7 @@ Candle* CandleFactory::getCandle(const int type, const int itemType, const int i
 	candle->itemInside = itemType;
 	candle->itemNx = itemNx;
 	candle->setPosition(pos.x, pos.y);
+	candle->setInitPos(pos);
 	candle->grid = grid;
 	return candle;
 }

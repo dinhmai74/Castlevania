@@ -1,8 +1,7 @@
 #include "HUD.h"
 HUD* HUD::instance = nullptr;
 
-void HUD::Init()
-{
+void HUD::Init() {
 	auto spriteManager = SpriteManager::getInstance();
 	auto game = Game::getInstance();
 	defaultTime = DEFAULT_TIME_PLAY;
@@ -17,20 +16,17 @@ void HUD::Init()
 	subWeapons.push_back(spriteManager->get("item_boomerang"));
 	subWeapons.push_back(spriteManager->get("item_holywater"));
 
-	for (int i = 0; i < 16; i++)
-	{
+	for (int i = 0; i < 16; i++) {
 		playerHP.push_back(spriteManager->get("HP_player"));
 		loseHP.push_back(spriteManager->get("HP_lose"));
 		enemyHP.push_back(spriteManager->get("HP_enemy"));
 	}
 }
 
-void HUD::update(DWORD dt, bool stopwatch)
-{
+void HUD::update(DWORD dt, bool stopwatch) {
 	if (!stopwatch) time += dt;
 	int remainTime = defaultTime - time / CLOCKS_PER_SEC;
-	if (remainTime <= 0)
-	{
+	if (remainTime <= 0) {
 		remainTime = 0;
 	}
 
@@ -58,22 +54,23 @@ void HUD::update(DWORD dt, bool stopwatch)
 	SetRect(&inforRect, 0, 15, SCREEN_WIDTH, 80);
 }
 
-void HUD::render()
-{
+void HUD::render() {
 	showHud();
 }
 
-void HUD::showInfo()
-{
+void HUD::showInfo() {
 }
 
-void HUD::showHud()
-{
+void HUD::showHud() {
 	if (font) font->DrawTextA(nullptr, info.c_str(), -1, &inforRect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
 	blackboard->draw(0, 0);
 
 	/*----------------- draw hp -----------------*/
 	auto simonHP = simon->getHp();
+	auto boss = StageManager::getInstance()->getCurrentStage()->getBoss();
+	auto bossHp = 15;
+	if (boss) bossHp = boss->getHp();
+
 	for (int i = 0; i < simonHP; i++)
 		playerHP[i]->draw(105 + i * 9, 31);
 
@@ -81,15 +78,14 @@ void HUD::showHud()
 		loseHP[i]->draw(105 + i * 9, 31);
 
 	// enemy HP
-	for (int i = 0; i < 15; i++)
+	for (int i = 0; i < bossHp; i++)
 		enemyHP[i]->draw(105 + i * 9, 47);
 
-	for (int i = 15; i < SIM_MAX_HP; i++)
+	for (int i = bossHp; i < SIM_MAX_HP; i++)
 		loseHP[i]->draw(105 + i * 9, 47);
 
 	auto subtype = simon->getSubWeaponType();
-	if (subtype != -1)
-	{
+	if (subtype != -1) {
 		subWeapons[subtype]->draw(1, 320, 38, 255, 255, 255, 255, 0);
 	}
 }

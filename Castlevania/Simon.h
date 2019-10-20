@@ -64,12 +64,10 @@ public:
 	int  getSubWeaponType() const { return subWeaponType; }
 	void powerUpWhip(bool upgrade = true);
 	Whip* getWhip() { return whip; }
-	int getHp() { return hp; };
 	int getEnergy() { return energy; };
 	int Life() const { return life; }
 	void setLife(int val) { life = val; }
 	void reset();
-	void setHp(int val);
 	void setEnergy(int val);
 	void setForceDead(bool val=true);
 	void setSubWeapon(int type);;
@@ -178,4 +176,5 @@ private:
 	bool isReleaseThrowButton;
 	int changeStateAnim;
 	std::wstring stageMapObjNameWillChangeto;
+	bool movingCam;
 };
