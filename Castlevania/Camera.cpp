@@ -22,6 +22,7 @@ bool Camera::update(DWORD dt)
 
 void Camera::move(float distance, float vx/*= 0.15f*/)
 {
+	if (getIsLocked()) return;
 	movedDistance = distance;
 	moveVx = vx;
 }
@@ -31,6 +32,7 @@ void Camera::reset()
 	x = 0;
 	y = 0;
 	movedDistance = 0;
+	isLocked = false;
 }
 
 void Camera::setPos(D3DXVECTOR2 pos)

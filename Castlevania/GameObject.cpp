@@ -40,6 +40,7 @@ GameObject::GameObject() {
 	vxDeflect = 0.15f;
 	vyDeflect = 0.06f;
 	nxDeflect = -1;
+	burnAnimId = ANIM_BURNED;
 }
 
 GameObject::~GameObject() {
@@ -76,7 +77,7 @@ void GameObject::getPosition(float& x, float& y) const {
 void GameObject::doBurnedEffect(bool enable) {
 	timerBurnEffect->start();
 	const auto now = GetTickCount64();
-	burnEffect = AnimationManager::getInstance()->get(ANIM_BURNED);
+	burnEffect = AnimationManager::getInstance()->get(burnAnimId);
 	burnEffect->setAniStartTime(now);
 	setEnable(enable);
 }

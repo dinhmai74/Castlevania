@@ -346,6 +346,7 @@ void Stage::updateSubWeapon(SubWeapon* subWeapon, DWORD dt) {
 }
 
 void Stage::respawnEnemies() {
+	if (isFightingBoss) return;
 	for (auto obj : listEnemy) {
 		float playerX, playerY;
 		simon->getPosition(playerX, playerY);
@@ -464,6 +465,7 @@ void Stage::resetAllList() {
 }
 
 void Stage::updateCamera(const DWORD dt) const {
+	if (game->getCamera()->getIsLocked()) return;
 	auto res = game->getCamera()->update(dt);
 	if (res) return;
 	float simonX, simonY, simonVx, simonVy;

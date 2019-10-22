@@ -67,7 +67,7 @@ public:
 	virtual void initAnim() override;
 
 	virtual void updateAnimId() override;
-	Box getBoundingBox() override;
+	virtual Box getBoundingBox() override;
 private:
 	int enemyType{};
 	bool forceRespawn;

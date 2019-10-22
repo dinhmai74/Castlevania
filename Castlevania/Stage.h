@@ -9,8 +9,7 @@
 #include "CandleFactory.h"
 #include "EnemVampireBoss.h"
 
-class Stage
-{
+class Stage {
 public:
 	Stage();
 	~Stage();
@@ -22,7 +21,7 @@ public:
 	void initSimon();
 	void reset();
 	void render();
-	bool updateEnemy(vector<GameObject*>::value_type obj,DWORD dt);
+	bool updateEnemy(vector<GameObject*>::value_type obj, DWORD dt);
 	void update(DWORD dt);
 
 	void updateSubWeapon(SubWeapon* subWeapon, DWORD dt);
@@ -32,19 +31,22 @@ public:
 	void keyState(BYTE* states) const;
 	Grid* getGrid() const;
 	Simon* getSimon() const;
-	int getId();;
+	int getId();
 	std::wstring getFileObjects() const { return fileObjects; }
 	void setFileObjects(std::wstring val) { fileObjects = val; }
 	std::wstring getMapName() const { return mapName; }
 	void setMapName(std::wstring val) { mapName = val; }
 	bool getStopEnemyAction() const { return stopEnemyAction; }
-	void setStopEnemyAction(bool val=true) { stopEnemyAction = val; }
+	void setStopEnemyAction(bool val = true) { stopEnemyAction = val; }
 	bool isInViewport(GameObject* object);
 	EnemyVampireBoss* getBoss() const { return boss; }
 	void setBoss(EnemyVampireBoss* val) { boss = val; }
+	bool getIsFightingBoss() const { return isFightingBoss; }
+	void setIsFightingBoss(bool val=true) { isFightingBoss = val; }
 private:
 	Simon* simon;
 	int mapId;
+	bool isFightingBoss;
 	Grid* grid;
 	Game* game;
 	wstring mapName;
@@ -65,9 +67,8 @@ private:
 
 	void loadObjectFromFiles();
 	void loadContent();
-	void loadEnemies(fstream &fs, float x, float y);
-	void loadBoundaryCase(fstream &fs, float x, float y);
-	void initSimonPos();
+	void loadEnemies(fstream& fs, float x, float y);
+	void loadBoundaryCase(fstream& fs, float x, float y);
 	void respawnEnemies();
 	void loadListObjFromGrid();
 

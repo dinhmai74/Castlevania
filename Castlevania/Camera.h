@@ -2,19 +2,16 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
-struct Region
-{
+struct Region {
 	float min;
 	float max;
 };
 
-class Camera
-{
+class Camera {
 public:
 	~Camera() { instance = nullptr; }
 
-	static Camera* getInstance()
-	{
+	static Camera* getInstance() {
 		if (instance == nullptr)
 			instance = new Camera;
 		return instance;
@@ -25,15 +22,18 @@ public:
 	void setX(float val) { x = val; }
 	Region getLimitX() const { return limitX; }
 	void setLimitX(Region val) { limitX = val; }
-	void setLimitXMax(float val){ limitX.max = val; }
+	void setLimitXMax(float val) { limitX.max = val; }
 	void setPos(D3DXVECTOR2 pos);
 	D3DXVECTOR2 getPos();
 	bool update(DWORD dt);
 	bool isMoving() { return movedDistance > 0; }
-	void move(float distance, float vx= 0.15f);
+	void move(float distance, float vx = 0.15f);
 	void reset();
+	void lock(bool val= true) { isLocked =val; };
+	bool getIsLocked() const { return isLocked; }
 private:
 	Camera();
+	bool isLocked;
 	static Camera* instance;
 	float x, y;
 	float movedDistance;

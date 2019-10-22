@@ -70,6 +70,7 @@ protected:
 	bool canDeflect;
 	bool isInGround;
 	float initGravity;
+	string burnAnimId;
 public:
 	GameObject();
 
@@ -163,7 +164,7 @@ public:
 		this->y = y;
 	}
 
-	void setState(int state) {
+	virtual void setState(int state) {
 		this->previousState = this->state;
 		this->state = state;
 	}
