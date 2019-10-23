@@ -50,7 +50,6 @@ void TileMap::loadMap()
 		getline(fs, line);
 		line.erase(std::remove(line.begin(), line.end(), ','), line.end());
 
-		vector<Sprite*> spriteline;
 		vector<string> stringLine;
 		stringstream ss(line);
 		int n;
