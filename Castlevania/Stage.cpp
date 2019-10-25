@@ -39,7 +39,7 @@ void Stage::initMap(int mapId, wstring mapName) {
 	this->mapId = mapId;
 	this->mapName = std::move(mapName);
 	const auto map = TileMapManager::getInstance()->get(mapId);
-	this->grid = new Grid(map->getMapWidth(), 480, map->getTileWidth() * 4);
+	this->grid = new Grid(map->getMapWidth(), 480);
 	game->setLimitCamX({ 0, static_cast<float>(map->getMapWidth()) });
 }
 
@@ -268,12 +268,12 @@ void Stage::loadEnemies(fstream& fs, float x, float y) {
 	obj->setState(initState);
 	obj->setInitAnimId(initState);
 	obj->setAnimId(initState);
-	obj->setRespawnTime(respawnTime);
 	obj->setRespawnArea({ minRespawn, maxRespawn });
 	obj->setInitPos({ x, y });
 	obj->setPosition(x, y);
 	obj->setInitFaceSide(faceSide);
 	obj->setFaceSide(faceSide);
+	obj->setRespawnTime(respawnTime);
 	auto unit = new Unit(getGrid(), obj, x, y);
 }
 
@@ -379,6 +379,7 @@ void Stage::updateInActiveUnit() {
 			case OBEnemy:
 			{
 				auto enemy = dynamic_cast<Enemy*>(ob);
+				DebugOut(L"enemy %d\n",enemy->getReadyToRespawn());
 				if (enemy && enemy->IsEnable() && !enemy->getReadyToRespawn()) {
 					enemy->setEnable(false);
 					enemy->reset();

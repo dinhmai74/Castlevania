@@ -21,7 +21,6 @@ void EnemyVampireBoss::init() {
 	setInitSpeed({ 0.1f, 0.1f });
 	setScore(300);
 	setDmg(2);
-	deathTimeDuration = 1000;
 	nextTargetPos = { -1,-1 };
 }
 

@@ -59,7 +59,7 @@ void GameObject::render() {
 	}
 	if (burnEffect) {
 		auto getCenterPos = getCenter();
-		const auto blowX = getCenterPos.x + faceSide * (10);
+		const auto blowX = getCenterPos.x;
 		const auto blowY = getCenterPos.y;
 		burnEffect->render(1, blowX, blowY);
 	}
@@ -101,7 +101,7 @@ bool GameObject::processCollisionWithBoundaryByX(float minTx, float nx, GameObje
 D3DXVECTOR2 GameObject::getCenter() {
 	auto box = getBoundingBox();
 	auto xPos = x + ((box.r - box.l) / 2);
-	auto yPos =box.t - 10;
+	auto yPos = y;
 	return { xPos,yPos };
 }
 
@@ -268,8 +268,9 @@ void GameObject::update(const DWORD dt, vector<GameObject*>* coObject) {
 
 void GameObject::processDeathEffect() {
 	if (isDying()) {
-		setAnimId(ANIM_DEATH);
-		setEnable(false);
+		startDying = true;
+		vx = 0;
+		vy = 0;
 	}
 }
 
