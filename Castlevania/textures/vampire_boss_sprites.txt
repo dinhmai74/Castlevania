@@ -1,3 +1,6 @@
 vampire_boss_default_0	0	0	96	46	0	0	96	46
 vampire_boss_default_1	96	0	192	46	96	0	192	46
 vampire_boss_default_2	192	0	288	46	192	0	288	46
+vampire_boss_death_0	0	46	96	106	0	46	96	106
+vampire_boss_death_1	96	46	192	106	96	46	192	106
+vampire_boss_death_2	192	46	288	106	192	46	288	106

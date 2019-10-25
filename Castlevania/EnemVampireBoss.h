@@ -17,15 +17,16 @@ public:
 	void updateVelocity();
 	void chaseTarget();
 	Box getBoundingBox() override;
+	void processDeathEffect() override;
+	void setState(int state) override;
 private:
 	GameObject* simon;
-	D3DXVECTOR2 target;
+	D3DXVECTOR2 nextTargetPos;
 	D3DXVECTOR2 getRandomPosInBound();
 	Timer* timerActionCountDown = new Timer(2000);
 	Timer* timerIdle = new Timer(1000);
 	bool isHitDone;
+	DWORD deathTime;
 	void setIdle();
 	void getNewActionBaseOnState();
-public:
-	void setState(int state) override;
 };

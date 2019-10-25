@@ -140,8 +140,10 @@ bool Enemy::canRespawn(D3DXVECTOR2 simPos) {
 void Enemy::processWhenBurnedEffectDone() {
 	if (burnEffect && burnEffect->isOver(BURNED_DURATION)) {
 		burnEffect = nullptr;
-		setEnable(false);
-		reset();
+		if (state != death) {
+			setEnable(false);
+			reset();
+		}
 	}
 }
 
@@ -176,13 +178,13 @@ void Enemy::initAnim() {
 }
 
 void Enemy::updateAnimId() {
+	if (state == death) return;
 	setAnimId(state);
 }
 
-Box Enemy::getBoundingBox()
-{
-	if (!isEnable) return {0,0,0,0};
-	auto tempBox= getBoundingBoxBaseOnFileAndPassWidth(20);
+Box Enemy::getBoundingBox() {
+	if (!isEnable) return { 0,0,0,0 };
+	auto tempBox = getBoundingBoxBaseOnFileAndPassWidth(20);
 
 	tempBox.t += 10;
 	return tempBox;
@@ -198,8 +200,7 @@ void Enemy::render() {
 		currentFrame = animations[animId]->getCurrentFrame();
 	}
 	if (burnEffect) {
-		const auto blowX = x;
-		const auto blowY = y;
-		burnEffect->render(1, blowX, blowY);
+		auto centerPos = getCenter();
+		burnEffect->render(1, centerPos.x, centerPos.y);
 	}
 }

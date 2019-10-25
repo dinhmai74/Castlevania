@@ -15,13 +15,14 @@ void EnemyVampireBoss::init() {
 	setAnimId(sleep);
 	setEnable();
 	setFaceSide(SideLeft);
-	setHp(15);
+	setHp(1);
 	setInitGravity(0);
 	setGravity(0);
 	setInitSpeed({ 0.1f, 0.1f });
 	setScore(300);
-	setDmg(3);
-	target = { -1,-1 };
+	setDmg(2);
+	deathTimeDuration = 1000;
+	nextTargetPos = { -1,-1 };
 }
 
 void EnemyVampireBoss::initAnim() {
@@ -29,6 +30,7 @@ void EnemyVampireBoss::initAnim() {
 	addAnimation(flying, "vampire_boss_fly_ani");
 	addAnimation(hitting, "vampire_boss_fly_ani");
 	addAnimation(idle, "vampire_boss_fly_ani");
+	addAnimation(ANIM_DEATH,"vampire_boss_death_ani");
 }
 
 void EnemyVampireBoss::update(DWORD dt, vector<GameObject*> * coObjects /*= nullptr*/) {
@@ -40,6 +42,7 @@ void EnemyVampireBoss::update(DWORD dt, vector<GameObject*> * coObjects /*= null
 	x += dx;
 	y += dy;
 	setAnimId(state);
+	processDeathEffect();
 }
 
 
@@ -56,15 +59,15 @@ void EnemyVampireBoss::checkCanAwake() {
 }
 
 void EnemyVampireBoss::getNextPositionToFly() {
-	if (target.x > 0 && target.y > 0) return;
+	if (nextTargetPos.x > 0 && nextTargetPos.y > 0) return;
 
 	if (state == hitting) {
-		target = simon->getPosition();
+		nextTargetPos = simon->getPosition();
 	}
 	else if (state == flying) {
-		target = getRandomPosInBound();
+		nextTargetPos = getRandomPosInBound();
 	}
-	else target = { -1,-1 };
+	else nextTargetPos = { -1,-1 };
 }
 
 void EnemyVampireBoss::updateVelocity() {
@@ -72,7 +75,7 @@ void EnemyVampireBoss::updateVelocity() {
 		vx = vy = 0;
 		return;
 	}
-	auto pos = target;
+	auto pos = nextTargetPos;
 	auto nx = x - pos.x > 0 ? -1 : 1;
 	auto ny = y - pos.y > 0 ? -1 : 1;
 
@@ -124,7 +127,7 @@ void EnemyVampireBoss::getNewActionBaseOnState() {
 	}
 
 	auto offset = 10;
-	auto gotToNextPos = fabs(x - target.x) <= offset && fabs(y - target.y) <= offset;
+	auto gotToNextPos = fabs(x - nextTargetPos.x) <= offset && fabs(y - nextTargetPos.y) <= offset;
 
 	if (state == hitting) {
 		if (gotToNextPos)  setState(flying);
@@ -136,6 +139,18 @@ void EnemyVampireBoss::getNewActionBaseOnState() {
 
 void EnemyVampireBoss::setState(int state) {
 	GameObject::setState(state);
-	target = { -1,-1 };
+	nextTargetPos = { -1,-1 };
+}
+
+void EnemyVampireBoss::processDeathEffect() {
+	if (isDying()) {
+		vx = 0;
+		vy = 0;
+		startDying = true;
+	}
+	else if (startDying) {
+		startDying = false;
+		setDisable();
+	}
 }
 

@@ -14,7 +14,7 @@ SubWeapon* SubWeaponFactory::getSubWeapon(int type, int faceSide)
 {
 	auto subWeapon = new SubWeapon();
 	D3DXVECTOR2 velocity = { 0,0 };
-	auto dmg = 1;
+	auto dmg = 2;
 	float gravity = 0;
 	auto hits = 1;
 

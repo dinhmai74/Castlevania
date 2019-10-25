@@ -47,7 +47,7 @@ enum State
 	flying,
 	sleep,
 	deflect = 99,
-	death = -1,
+	death = 101,
 	normal = 0,
 };
 

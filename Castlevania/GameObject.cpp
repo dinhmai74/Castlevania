@@ -58,8 +58,9 @@ void GameObject::render() {
 		currentFrame = animations[animId]->getCurrentFrame();
 	}
 	if (burnEffect) {
-		const auto blowX = x;
-		const auto blowY = y;
+		auto getCenterPos = getCenter();
+		const auto blowX = getCenterPos.x + faceSide * (10);
+		const auto blowY = getCenterPos.y;
 		burnEffect->render(1, blowX, blowY);
 	}
 }
@@ -97,6 +98,13 @@ bool GameObject::processCollisionWithBoundaryByX(float minTx, float nx, GameObje
 	return true;
 }
 
+D3DXVECTOR2 GameObject::getCenter() {
+	auto box = getBoundingBox();
+	auto xPos = x + ((box.r - box.l) / 2);
+	auto yPos =box.t - 10;
+	return { xPos,yPos };
+}
+
 void GameObject::renderBoundingBox() {
 	const auto texture = TextureManager::getInstance()->get(ID_TEX_BBOX);
 	const auto rect = getBoundingBox();
@@ -121,6 +129,7 @@ bool GameObject::getHurt(int nx, int ny, int hpLose) {
 }
 
 void GameObject::doDeathAnim() {
+	if (state == death) return;
 	setState(death);
 	vx = 0;
 	vy = 0;
@@ -261,10 +270,6 @@ void GameObject::processDeathEffect() {
 	if (isDying()) {
 		setAnimId(ANIM_DEATH);
 		setEnable(false);
-		startDying = true;
-	}
-	else if (startDying) {
-		startDying = false;
 	}
 }
 
@@ -322,7 +327,7 @@ void GameObject::updatePosWhenNotCollide() {
 	y += dy;
 }
 
-void GameObject::updateGravity(DWORD dt,float gravity) {
+void GameObject::updateGravity(DWORD dt, float gravity) {
 	vy += gravity * dt;
 	this->gravity = gravity;
 }
@@ -356,7 +361,6 @@ Box GameObject::getBoundingBoxBaseOnFile() {
 	const float t = y + offset.y;
 	const float b = t + (spriteBoundary.b - spriteBoundary.t);
 
-	// neu truyen width vao tinh left right o giua enemy
 	return Box(l, t, r, b);
 }
 

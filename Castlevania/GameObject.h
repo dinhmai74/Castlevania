@@ -55,10 +55,10 @@ protected:
 
 	LPDIRECT3DTEXTURE9 texture;
 	Animation* burnEffect;
-	Timer* timerDeath;
-	Timer* timerDeflect;
-	Timer* timerUntouchable;
-	Timer* timerBurnEffect;
+	Timer* timerDeath= new Timer();
+	Timer* timerDeflect= new Timer();
+	Timer* timerUntouchable= new Timer();
+	Timer* timerBurnEffect= new Timer();
 	int untouchableDuration;
 	float vxDeflect;
 	float vyDeflect;
@@ -175,6 +175,7 @@ public:
 		this->boundingGameX = x;
 		this->boundingGameY = y;
 	}
+	D3DXVECTOR2 getCenter();
 
 	int getId() const { return id; }
 	int getType() const { return type; }

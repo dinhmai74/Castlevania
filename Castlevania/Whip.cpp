@@ -9,7 +9,7 @@ Whip::Whip()
 	lv = 1;
 	setAnimId(-1);
 	type = OBwhip;
-	setDmg(1);
+	setDmg(2);
 }
 
 Whip::~Whip()
@@ -98,7 +98,6 @@ void Whip::upgradeWhipLv(bool up)
 
 	if (lv <= 1) lv = 1;
 
-	setDmg(lv);
 }
 
 void Whip::initAnim()

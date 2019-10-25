@@ -449,6 +449,11 @@ void Stage::loadListObjFromGrid() {
 		default:;
 		}
 	}
+
+	if (boss) {
+		listEnemy.push_back(boss);
+		listCanHitObjects.push_back(boss);
+	}
 	sort(listRenderObj.begin(), listRenderObj.end(), sortByType);
 }
 
