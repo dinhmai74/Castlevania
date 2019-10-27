@@ -16,6 +16,7 @@ void Bullet::updateSpeed()
 Bullet::Bullet()
 {
 	initAnim();
+	setType(OBBullet);
 	setAnimId(idle);
 	initVelocity = { 0.15,0 };
 }

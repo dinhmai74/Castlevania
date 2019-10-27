@@ -66,6 +66,7 @@ enum ObjectType
 	OBDoor,
 	OBForceIdleSim,
 	OBBoss,
+	OBBullet,
 	OBSimon = 50,
 	OBCastle = 51,
 	OBSubWeapon = 52,

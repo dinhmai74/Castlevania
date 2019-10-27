@@ -6,6 +6,7 @@
 #include "Door.h"
 #include "ForceIdleSim.h"
 #include "EnemyFactory.h"
+#include "Bullet.h"
 
 auto const subWeaponFactory = SubWeaponFactory::getInstance();
 
@@ -323,8 +324,9 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps) {
 		case OBChangeStage: checkCollisionWithObChangeStage(dt, map.objs);
 			break;
 		case OBEnemy:
-			checkCollisionWithEnemy(dt, map.objs);
 			updateWhip(dt, map.objs);
+		case OBBullet:
+			checkCollisionWithEnemy(dt, map.objs);
 			break;
 		case OBStair:
 			listStairs = map.objs;
@@ -489,7 +491,11 @@ void Simon::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs) {
 			if (enemy && getHurt(nx, ny, enemy->getDmg())) {
 				resetState();
 				if (enemy->getEnemyType() == EnemBat) enemy->getHurt(EnemyFactory::getInstance()->getHp(EnemBat));
+				continue;
 			}
+
+			const auto bullet = dynamic_cast<Bullet*>(i->obj);
+			if (bullet && getHurt(nx, ny, bullet->getDmg())) resetState();
 		}
 	}
 

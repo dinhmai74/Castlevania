@@ -61,6 +61,7 @@ private:
 	vector<GameObject*> listDoor;
 	vector<GameObject*> listStopSimObjs;
 	vector<GameObject*> listForceIdleSim;
+	vector<GameObject*> listBullet;
 	vector<Unit*> listUnit;
 	vector<GameObject*> listStairs;
 	EnemyVampireBoss* boss;

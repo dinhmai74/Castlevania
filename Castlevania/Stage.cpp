@@ -376,6 +376,7 @@ vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects() {
 	map.push_back({ OBChangeStage, &listObjectChangeStage });
 	map.push_back({ OBEnemy, &listEnemy });
 	map.push_back({ OBBoundary, &listStopSimObjs });
+	map.push_back({ OBBullet, &listBullet});
 	return map;
 }
 
@@ -480,6 +481,9 @@ void Stage::loadListObjFromGrid() {
 			break;
 		case OBForceIdleSim: listForceIdleSim.push_back((obj));
 			break;
+		case OBBullet:
+			listBullet.push_back(obj);
+			break;
 		default:;
 		}
 	}
@@ -501,6 +505,7 @@ void Stage::resetAllList() {
 	listStopSimObjs.clear();
 	listObjectChangeStage.clear();
 	listForceIdleSim.clear();
+	listBullet.clear();
 }
 
 void Stage::updateCamera(const DWORD dt) const {
