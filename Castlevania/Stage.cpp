@@ -289,20 +289,25 @@ void Stage::render() {
 bool Stage::updateEnemy(vector<GameObject*>::value_type obj, DWORD dt) {
 	auto enem = dynamic_cast<Enemy*>(obj);
 	if (enem) {
-		if (isGamePause || Camera::getInstance()->isMoving()) return true;
-		if(isStopEnemy)
-		{
+		if (simon->isWalkingOutDoor() || isStopEnemy) {
 			enem->reset();
 			return true;
 		}
+
+		if (isGamePause) return true;
+		vector<GameObject*> canColide;
+		canColide = listCanCollideBoundary;
+		canColide.insert(canColide.begin(), listDefaultBoundary.begin(), listDefaultBoundary.end());
+
 		auto wolf = dynamic_cast<EnemyWolf*>(obj);
 		if (wolf) {
-			vector<GameObject*> canColide;
-			canColide = listCanCollideBoundary;
-			canColide.insert(canColide.begin(), listDefaultBoundary.begin(), listDefaultBoundary.end());
 			wolf->update(dt, &canColide, simon->getPosition().x);
-			return true;
 		}
+		else {
+			enem->update(dt, &canColide);
+		}
+
+		return true;
 	}
 	return false;
 }

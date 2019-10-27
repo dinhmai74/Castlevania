@@ -45,10 +45,9 @@ void Enemy::resetPos() {
 }
 
 void Enemy::update(DWORD dt, vector<GameObject*> * coObjects /*= nullptr*/) {
-	if (isStopAllAction) return ;
+	if (isStopAllAction) return;
 	GameObject::update(dt);
 	if (!isEnable) return;
-	if (vx > 0) setIsVirgin(false);
 	checkCollisionAndChangeDirectX(dt, coObjects);
 	updateGravity(dt);
 }
@@ -101,16 +100,12 @@ void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*> * coObj
 }
 
 void Enemy::changeDirection(float nx, float ny) {
-	if (nx != 0) {
-		faceSide = getFaceSide() * -1;
-		this->vx *= -1;
-	}
+	faceSide = getFaceSide() * -1;
+	this->vx *= -1;
 }
 
 void Enemy::respawn(float playerX, float playerY) {
-	if (canRespawn({ playerX, playerY })) {
-		generateEnemy(playerX, playerY);
-	}
+	if (canRespawn({ playerX, playerY })) generateEnemy(playerX, playerY);
 }
 
 void Enemy::generateEnemy(float playerX, float playerY) {

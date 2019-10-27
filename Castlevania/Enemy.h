@@ -48,8 +48,6 @@ public:
 	void setTimerRespawn(Timer* val) { timerRespawn = val; }
 	bool getForceRespawn() const { return forceRespawn; }
 	void setForceRespawn(bool val) { forceRespawn = val; }
-	bool getIsVirgin() const { return isVirgin; }
-	void setIsVirgin(bool val = true) { isVirgin = val; }
 	int getScore() const { return score; }
 	void setScore(int val) { score = val; }
 	bool getReadyToRespawn() const { return readyToRespawn; }
@@ -66,7 +64,6 @@ public:
 private:
 	int enemyType{};
 	bool forceRespawn;
-	bool isVirgin = true;
 	int dmg{};
 	int score;
 	int initFaceSide{};

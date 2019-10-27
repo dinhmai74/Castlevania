@@ -99,12 +99,7 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps) {
 
 	willUpdate();
 	GameObject::update(dt);
-	if (movingCam) {
-		if (!Camera::getInstance()->isMoving()) {
-			StageManager::getInstance()->removeAllObjOutOfBound();
-			movingCam = false;
-		}
-	}
+
 	checkCollision(dt, maps);
 	checkClimbingState();
 	updateAnimId();
@@ -115,6 +110,12 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps) {
 
 void Simon::didUpdate() {
 
+	if (movingCam) {
+		if (!Camera::getInstance()->isMoving()) {
+			StageManager::getInstance()->removeAllObjOutOfBound();
+			movingCam = false;
+		}
+	}
 	checkOutOfBound();
 }
 

@@ -16,7 +16,6 @@ void EnemyWolf::initAnim() {
 void EnemyWolf::init() {
 	initAnim();
 	setRespawnTime(5000);
-	setIsVirgin(true);
 	setEnemyType(EnemWolf);
 	setState(idle);
 }

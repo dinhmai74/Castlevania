@@ -78,6 +78,7 @@ public:
 	float getAutoWalkDistance() const { return autoWalkDistance; }
 	void setAutoWalkDistance(float val) { autoWalkDistance = val; }
 	void setSubWeapon(int val) { subWeaponType = val; }
+	bool isWalkingOutDoor() { return collidedDoor != nullptr; }
 private:
 	bool isHitting{};
 	bool isThrowing{};
