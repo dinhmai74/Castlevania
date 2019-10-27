@@ -289,7 +289,12 @@ void Stage::render() {
 bool Stage::updateEnemy(vector<GameObject*>::value_type obj, DWORD dt) {
 	auto enem = dynamic_cast<Enemy*>(obj);
 	if (enem) {
-		if (isGamePause) return true;
+		if (isGamePause || Camera::getInstance()->isMoving()) return true;
+		if(isStopEnemy)
+		{
+			enem->reset();
+			return true;
+		}
 		auto wolf = dynamic_cast<EnemyWolf*>(obj);
 		if (wolf) {
 			vector<GameObject*> canColide;
@@ -545,11 +550,11 @@ void Stage::onKeyDown(const int keyCode) {
 		break;
 	case DIK_F: simon->updateEnergy(100);
 		break;
-	case DIK_PAUSE: {
+	case DIK_G: isStopEnemy = !isStopEnemy;
+		break;
+	case DIK_PAUSE:
 		isGamePause = !isGamePause;
-		DebugOut(L"pause\n");
-	}
-				  break;
+		break;
 	default:;
 	}
 }

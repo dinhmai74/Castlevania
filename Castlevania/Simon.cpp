@@ -126,7 +126,7 @@ void Simon::checkOutOfBound() {
 	if (x + offset <= limit.min) x = limit.min - offset;
 
 	auto width = (getBoundingBox().r - getBoundingBox().l);
-	if (x + width >= limit.max) x = limit.max - width;
+	if (x + width + offset >= limit.max) x = limit.max - width - offset;
 }
 
 void Simon::updateCameraWhenGoThroughDoor() {

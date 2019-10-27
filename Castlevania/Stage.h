@@ -82,4 +82,5 @@ private:
 	bool isGamePause;
 	wstring fileObjects;
 	bool isInViewPort(Box pos);
+	bool isStopEnemy;
 };

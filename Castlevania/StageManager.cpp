@@ -39,6 +39,7 @@ void StageManager::nextStage(int id, wstring mapNameInput)
 	if (nextId > tileMapsInfo.size() - 1) nextId = 0;
 	auto mapName = mapNameInput == L"none" ? tileMapsInfo[nextId].mapName : mapNameInput;
 	newStage->init(tileMapsInfo[nextId].id,mapName, currentStage->getSimon());
+	newStage->getSimon()->resetState();
 	setStage(newStage);
 }
 

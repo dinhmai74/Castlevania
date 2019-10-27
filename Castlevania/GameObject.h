@@ -55,10 +55,10 @@ protected:
 
 	LPDIRECT3DTEXTURE9 texture;
 	Animation* burnEffect;
-	Timer* timerDeath= new Timer();
-	Timer* timerDeflect= new Timer();
-	Timer* timerUntouchable= new Timer();
-	Timer* timerBurnEffect= new Timer();
+	Timer* timerDeath = new Timer();
+	Timer* timerDeflect = new Timer();
+	Timer* timerUntouchable = new Timer();
+	Timer* timerBurnEffect = new Timer();
 	int untouchableDuration;
 	float vxDeflect;
 	float vyDeflect;
@@ -156,6 +156,10 @@ public:
 	D3DXVECTOR2 getOffsetFromBoundingBox();
 
 	/*----------------- get set   -----------------*/
+	float getWidth() {
+		auto box = getBoundingBoxBaseOnFile();
+		return  box.r - box.l;
+	}
 	void setGravity(float val) { gravity = val; }
 	void setType(int type) { this->type = type; }
 	void setId(int id) { this->id = id; }

@@ -29,7 +29,7 @@ void EnemyVampireBoss::initAnim() {
 	addAnimation(flying, "vampire_boss_fly_ani");
 	addAnimation(hitting, "vampire_boss_fly_ani");
 	addAnimation(idle, "vampire_boss_fly_ani");
-	addAnimation(ANIM_DEATH,"vampire_boss_death_ani");
+	addAnimation(ANIM_DEATH, "vampire_boss_death_ani");
 }
 
 void EnemyVampireBoss::update(DWORD dt, vector<GameObject*> * coObjects /*= nullptr*/) {
@@ -52,7 +52,10 @@ void EnemyVampireBoss::checkCanAwake() {
 
 	if (simon->getPosition().x - x >= 50) {
 		setIdle();
-		Camera::getInstance()->lock();
+		auto cam = Camera::getInstance();
+		cam->lock();
+		auto pos = cam->getPos();
+		cam->setLimitX({ pos.x,pos.x + SCREEN_WIDTH });
 		stage->setIsFightingBoss();
 	}
 }
