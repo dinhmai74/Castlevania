@@ -54,7 +54,7 @@ void GameObject::updateAnimId() {
 
 void GameObject::render() {
 	if (IsEnable()) {
-		animations[animId]->render(getFaceSide(), x, y, alpha);
+		animations[animId]->render(faceSide, x, y, alpha, 255, 255, 255, isStopAllAction);
 		currentFrame = animations[animId]->getCurrentFrame();
 	}
 	if (burnEffect) {

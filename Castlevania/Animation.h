@@ -4,14 +4,12 @@
 #include "Constants.h"
 using namespace std;
 
-enum AnimState
-{
+enum AnimState {
 	rendered = 1,
 	notRenderedYet = -1
 };
 
-class Animation
-{
+class Animation {
 	DWORD lastFrameTime;
 	int defaultTime;
 	int currentFrame;
@@ -30,8 +28,7 @@ public:
 
 	int getCurrentFrame();
 	void add(string spriteId, DWORD time = 0);
-	void render(int nx, float x, float y, int alpha = 255, int r = 255, int g = 255, int b = 255);
-	void render(int nx, float x, float y, int frame, int alpha, int r, int g, int b);
+	void render(int nx, float x, float y, int alpha = 255, int r = 255, int g = 255, int b = 255, bool isStop = false);
 	void refresh();
 	bool isDone();
 	void setAniStartTime(DWORD t = GetTickCount()) { animStartTime = t; }

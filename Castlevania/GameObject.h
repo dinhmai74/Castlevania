@@ -71,6 +71,7 @@ protected:
 	bool isInGround;
 	float initGravity;
 	string burnAnimId;
+	bool isStopAllAction;
 public:
 	GameObject();
 
@@ -217,6 +218,8 @@ public:
 	void setInitGravity(float val) { initGravity = val; }
 	int getHp() const { return hp; }
 	void setHp(int val) { hp = val; }
+	bool getIsStopAllAction() const { return isStopAllAction; }
+	void setIsStopAllAction(bool val) { isStopAllAction = val; }
 };
 
 

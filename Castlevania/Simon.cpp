@@ -49,20 +49,9 @@ void Simon::initAnim() {
 }
 
 void Simon::render() {
-	if (forceDead) {
-		animations[ANIM_DEATH]->render(getFaceSide(), x, y);
-		return;
-	}
-
 	renderWhip();
-
-	auto const forceRenderFrame = !timerPowering->isTimeUp() || forceRenderStaringAnimStand();
-	if (forceRenderFrame)
-		animations[animId]->render(getFaceSide(), x, y, currentFrame, alpha, r, g, b);
-	else animations[animId]->render(getFaceSide(), x, y, alpha, r, g, b);
-
+	animations[animId]->render(faceSide, x, y, alpha, r, g, b, isStopAllAction);
 	didSimonRender();
-
 }
 
 void Simon::didSimonRender() {
@@ -91,7 +80,9 @@ bool Simon::forceRenderStaringAnimStand() {
 bool Simon::shouldUpdate(DWORD dt) {
 	this->dt = dt;
 	canDeflect = state != climbing;
-	return !forceDead;
+	checkStopAllAction();
+	updateRGB();
+	return !forceDead && !isStopAllAction;
 }
 
 void Simon::willUpdate() {
@@ -102,7 +93,6 @@ void Simon::willUpdate() {
 	updateChangingStageEffect();
 	updateCameraWhenGoThroughDoor();
 	processDeathEffect();
-	updateRGB();
 }
 
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps) {
@@ -126,6 +116,21 @@ void Simon::update(DWORD dt, const vector<MapGameObjects>& maps) {
 void Simon::didUpdate() {
 
 	checkOutOfBound();
+}
+
+void Simon::checkOutOfBound() {
+	if (this->goThroughDoorStatus != nope) return;
+	auto cam = Camera::getInstance();
+	auto limit = cam->getLimitX();
+	auto offset = 10;
+	if (x + offset <= limit.min) x = limit.min - offset;
+
+	auto width = (getBoundingBox().r - getBoundingBox().l);
+	if (x + width >= limit.max) x = limit.max - width;
+}
+
+void Simon::checkStopAllAction() {
+	isStopAllAction = !timerPowering->isTimeUp() || forceRenderStaringAnimStand();
 }
 
 void Simon::updateCameraWhenGoThroughDoor() {
@@ -304,16 +309,6 @@ void Simon::processDeathEffect() {
 	}
 }
 
-void Simon::checkOutOfBound() {
-	if (this->goThroughDoorStatus != nope) return;
-	auto cam = Camera::getInstance();
-	auto limit = cam->getLimitX();
-	auto offset = 10;
-	if (x + offset <= limit.min) x = limit.min - offset;
-
-	auto width = (getBoundingBox().r - getBoundingBox().l);
-	if (x + width >= limit.max) x = limit.max - width;
-}
 
 /*----------------- check collision  -----------------*/
 
@@ -559,6 +554,7 @@ void Simon::checkCollisionWithForceIdleSim(DWORD dt, vector<GameObject*>* objs) 
 		}
 	}
 }
+
 
 /*----------------- actions  -----------------*/
 

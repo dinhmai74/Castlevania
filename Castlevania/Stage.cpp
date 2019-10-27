@@ -289,7 +289,8 @@ void Stage::render() {
 bool Stage::updateEnemy(vector<GameObject*>::value_type obj, DWORD dt) {
 	auto enem = dynamic_cast<Enemy*>(obj);
 	if (enem) {
-		enem->setIsStopAllAction(getStopEnemyAction());
+		enem->setIsStopAllAction(stopEnemyAction);
+		if (stopEnemyAction) return true;
 		auto wolf = dynamic_cast<EnemyWolf*>(obj);
 		if (wolf) {
 			vector<GameObject*> canColide;
@@ -376,28 +377,49 @@ void Stage::updateInActiveUnit() {
 				ob->setActive(false);
 				ob->setEnable(false);
 				break;
-			case OBEnemy:
-			{
-				auto enemy = dynamic_cast<Enemy*>(ob);
-				DebugOut(L"enemy %d\n",enemy->getReadyToRespawn());
-				if (enemy && enemy->IsEnable() && !enemy->getReadyToRespawn()) {
-					enemy->setEnable(false);
-					enemy->reset();
-				}
-				break;
-			}
 			default:;
+			}
+		}
+	}
+
+	for (auto ob : listEnemy) {
+		auto enemy = dynamic_cast<Enemy*>(ob);
+		if (enemy && !isInViewport(enemy)) {
+				// set respawn immediately when user go out the init enemy pos
+			auto initPos = enemy->getInitPos();
+			auto enemyBBox = enemy->getBoundingBoxBaseOnFile();
+			Box box;
+			box.l = initPos.x;
+			box.t = initPos.y;
+			box.r = box.l + (enemyBBox.r - enemyBBox.l);
+			box.b = box.t + (enemyBBox.b - enemyBBox.t);
+
+			if (!isInViewPort(box) && !enemy->getReadyToRespawn()) {
+				enemy->setRespawnTime(1);
+				enemy->reset();
+				enemy->setEnable(false);
+				continue;
+			}
+
+			// start timer when enemy ran out the view port
+			if (!enemy->getReadyToRespawn() && enemy->IsEnable()) {
+				enemy->reset();
+				enemy->setEnable(false);
 			}
 		}
 	}
 }
 
 bool Stage::isInViewport(GameObject* object) {
+	return isInViewPort(object->getBoundingBox());
+}
+
+
+bool Stage::isInViewPort(Box pos) {
 	const auto camPosition = Game::getInstance()->getCameraPosition();
 	const auto left = camPosition.x;
 	const auto right = camPosition.x + SCREEN_WIDTH;
-
-	const auto isInView = isColliding(object->getBoundingBox(),
+	const auto isInView = isColliding(pos,
 		{
 			left, camPosition.y, right,
 			camPosition.y + SCREEN_HEIGHT
@@ -523,6 +545,8 @@ void Stage::onKeyDown(const int keyCode) {
 	case DIK_4: simon->setSubWeapon(itemHolyWater);
 		break;
 	case DIK_F: simon->updateEnergy(100);
+		break;
+	case DIK_G: stopEnemyAction = !stopEnemyAction;
 		break;
 	default:;
 	}

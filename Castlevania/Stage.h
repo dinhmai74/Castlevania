@@ -81,4 +81,5 @@ private:
 	bool renderBoundingBox;
 	bool stopEnemyAction;
 	wstring fileObjects;
+	bool isInViewPort(Box pos);
 };

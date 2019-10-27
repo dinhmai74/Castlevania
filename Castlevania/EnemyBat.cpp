@@ -38,21 +38,21 @@ void EnemyBat::updateVy() {
 	if (isBottom == false) isBottom = -distance >= offset;
 
 	if (isBottom)
-		vy += initVelocity.y*dt;
+		vy += initVelocity.y * dt;
 }
 
 void EnemyBat::generateEnemy(float playerX, float playerY) {
 	auto nx = StageManager::getInstance()->getCurrentStage()->getSimon()->getFaceSide();
-	auto posX = playerX + nx* 200;
+	auto posX = playerX + nx * 200;
 	auto posY = playerY + 20;
 	initPos.y = posY;
 	reset();
-	setPosition(posX,posY);
+	setPosition(posX, posY);
 	setFaceSide(-nx);
 	setInitFaceSide(-nx);
 	vx = initVelocity.x * faceSide;
 	if (!isInViewPort()) return;
 	getTimerRespawn()->stop();
-	setReadyToRespawn(false);	
+	setReadyToRespawn(false);
 	setEnable();
 }

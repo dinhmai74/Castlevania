@@ -177,4 +177,5 @@ private:
 	int changeStateAnim;
 	std::wstring stageMapObjNameWillChangeto;
 	bool movingCam;
+	void checkStopAllAction();
 };

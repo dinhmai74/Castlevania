@@ -26,13 +26,10 @@ void Enemy::init() {
 }
 
 void Enemy::reset() {
-	if (!isInViewPort()) return;
 	resetHp();
 	resetPos();
 	setState(initState);
 	setAnimId(getInitAnimId());
-	timerRespawn->setLimitedTime(respawnTime);
-	if (!timerRespawn->isRunning()) timerRespawn->start();
 	setFaceSide(initFaceSide);
 	vx = initVelocity.x * initFaceSide;
 	readyToRespawn = false;
@@ -48,7 +45,7 @@ void Enemy::resetPos() {
 }
 
 void Enemy::update(DWORD dt, vector<GameObject*> * coObjects /*= nullptr*/) {
-	if (getIsStopAllAction()) return;
+	if (isStopAllAction) return;
 	GameObject::update(dt);
 	if (!isEnable) return;
 	if (vx > 0) setIsVirgin(false);
@@ -123,40 +120,40 @@ void Enemy::generateEnemy(float playerX, float playerY) {
 	setInitFaceSide(nx);
 	vx = initVelocity.x * nx;
 	if (!isInViewPort()) return;
-	getTimerRespawn()->stop();
 	setEnable();
 	readyToRespawn = false;
 }
 
 bool Enemy::canRespawn(D3DXVECTOR2 simPos) {
 	const auto isEnoughTime = getTimerRespawn()->isTimeUpAndRunAlr();
-	if (isEnoughTime) readyToRespawn = true;
+	if (isEnoughTime && !isEnable) readyToRespawn = true;
 	const auto distance = fabs(x - simPos.x);
 	const auto isInRegion = distance >= respawnArea.min && distance <= respawnArea.max;
 
-	return (isEnoughTime && isInRegion && !isEnable) || forceRespawn;
+	return (readyToRespawn && isInRegion) || forceRespawn;
 }
 
 void Enemy::processWhenBurnedEffectDone() {
 	if (burnEffect && burnEffect->isOver(BURNED_DURATION)) {
 		burnEffect = nullptr;
 		if (state != death) {
-			setEnable(false);
 			reset();
+			setEnable(false);
 		}
 	}
 }
 
 void Enemy::setEnable(bool val /*= true*/) {
+	if (!val && isEnable)
+		timerRespawn->start();
 	GameObject::setEnable(val);
-	if (!val)
-		getTimerRespawn()->start();
 }
 
 bool Enemy::isInViewPort() {
 	const auto camPosition = Game::getInstance()->getCameraPosition();
-	const auto left = camPosition.x;
-	const auto right = camPosition.x + SCREEN_WIDTH;
+	const auto offset = 20;
+	const auto left = camPosition.x + offset;
+	const auto right = camPosition.x + SCREEN_WIDTH - offset;
 
 	auto box = getBoundingBoxBaseOnFile();
 	const auto isInView = isColliding(box,
