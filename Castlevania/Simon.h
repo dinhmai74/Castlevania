@@ -9,13 +9,11 @@
 #include "Boundary.h"
 #include "Timer.h"
 #include "Stair.h"
-
-class ObjectChangeStage;
-class Door;
+#include "ObjectChangeStage.h"
+#include "Door.h"
 
 class Simon :
-	public GameObject
-{
+	public GameObject {
 public:
 	Simon();
 	void init();
@@ -40,7 +38,7 @@ public:
 
 	void renderWhip();
 
-	bool forceRenderStaringAnimStand();
+	bool checkClimbingState();
 	virtual void updateAnimId();
 
 	void refreshHitAnim(int stateAfterHit = idle, int animAfterHit = ANIM_IDLE);
@@ -55,9 +53,9 @@ public:
 
 	bool updateLife(int val);
 	bool updateHP(int val);
-	void updateEnergy(int val=1);
-	void doAutoWalk(DWORD dt=1000, float vx= SIM_AUTO_WALK_VX);
-	void doAutoWalkWithDistance(float distance, float vx= SIM_AUTO_WALK_DISTANCE_VX);
+	void updateEnergy(int val = 1);
+	void doAutoWalk(DWORD dt = 1000, float vx = SIM_AUTO_WALK_VX);
+	void doAutoWalkWithDistance(float distance, float vx = SIM_AUTO_WALK_DISTANCE_VX);
 
 	/*----------------- get set  -----------------*/
 	SubWeapon* getSubWeapon() const { return subWeapon; }
@@ -68,9 +66,7 @@ public:
 	int Life() const { return life; }
 	void setLife(int val) { life = val; }
 	void reset();
-	void setEnergy(int val);
-	void setForceDead(bool val=true);
-	void setSubWeapon(int type);;
+	void setEnergy(int val) { energy = val; };
 	bool getHurt(int nx, int ny, int hpLose) override;
 	float getStairDxRemain() const { return stairDxRemain; }
 	void setStairDxRemain(float val) { stairDxRemain = val; }
@@ -81,6 +77,7 @@ public:
 
 	float getAutoWalkDistance() const { return autoWalkDistance; }
 	void setAutoWalkDistance(float val) { autoWalkDistance = val; }
+	void setSubWeapon(int val) { subWeaponType = val; }
 private:
 	bool isHitting{};
 	bool isThrowing{};
@@ -111,12 +108,11 @@ private:
 	D3DXVECTOR2 changeStateDistanceRemain;
 
 	bool isPowering() { return isTimerRunning(timerPowering); };
-	bool isChangingStage() { return changeStateDistanceRemain.x >= 0 && changeStateDistanceRemain.y >= 0 ; };
+	bool isChangingStage() { return changeStateDistanceRemain.x >= 0 && changeStateDistanceRemain.y >= 0; };
 	bool isCollidingWithStair();
-	void standAfterClimbStair();
 	void setClimbStairInfo(int direction);
 	bool forceStopClimb(int direction);
-	void removeAutoclimbDistance();
+	void removeAutoClimbDistance();
 	int getHittingInfo();
 
 
@@ -134,8 +130,7 @@ private:
 	void loseEnergy() { energy--; energy = energy < 0 ? 0 : energy; };
 	void addEnergy() { energy++; energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy; };
 	void generateSubWeapon();
-	bool isHaveSubWeapon() const
-	{
+	bool isHaveSubWeapon() const {
 		return subWeaponType != -1;
 	};
 
@@ -145,10 +140,10 @@ private:
 	void checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs);
 	void processDeathEffect();
 	void updateAutoWalk();
-	void moveCam(float distance=235);
+	void moveCam(float distance = 235);
 
 	/*----------------- check collision -----------------*/
-	CollisionResult checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries) ;
+	CollisionResult checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries);
 	void checkCollisionWithItems(DWORD dt, vector<GameObject*>* items);
 	void checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs);
 	void upgradeWhipLv(bool up = true) const;
@@ -158,8 +153,7 @@ private:
 
 	void processCollisionWithItem(Item* item);
 	void updateChangingStageEffect();
-	void doChangeStageEffect(ObjectChangeStage* obj,DWORD changingDuration= SIM_CHANGING_STAGE_DURATION);
-	void processAnimStaring();
+	void doChangeStageEffect(ObjectChangeStage* obj, DWORD changingDuration = SIM_CHANGING_STAGE_DURATION);
 	void checkCollisionWithStair(vector<GameObject*>* objs);
 
 	bool canAutoClimb();
@@ -177,5 +171,4 @@ private:
 	int changeStateAnim;
 	std::wstring stageMapObjNameWillChangeto;
 	bool movingCam;
-	void checkStopAllAction();
 };

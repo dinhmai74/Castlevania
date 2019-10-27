@@ -1,7 +1,7 @@
 #include "HUD.h"
 HUD* HUD::instance = nullptr;
 
-void HUD::Init() {
+void HUD::init() {
 	auto spriteManager = SpriteManager::getInstance();
 	auto game = Game::getInstance();
 	defaultTime = DEFAULT_TIME_PLAY;

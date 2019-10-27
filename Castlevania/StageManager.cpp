@@ -1,7 +1,13 @@
 #include "StageManager.h"
 #include "HUD.h"
+HUD* hud = HUD::getInstance();
+
 
 StageManager* StageManager::instance = nullptr;
+
+void StageManager::pauseGame(bool val) const {
+	currentStage->setGamePause(val);
+}
 
 void StageManager::removeAllObjOutOfBound() {
 	currentStage->getGrid()->removeOutOfBoundUnit(Camera::getInstance()->getLimitX());
@@ -20,6 +26,8 @@ void StageManager::init(vector<TileMapInfo> tileMapsInfo)
 	loadTileMaps();
 	currentStage = new Stage();
 	currentStage->init(tileMapsInfo[0].id, tileMapsInfo[0].mapName);
+
+	hud->init();
 }
 
 void StageManager::nextStage(int id, wstring mapNameInput)
@@ -50,6 +58,18 @@ void StageManager::reset(int id)
 	if (nextId > tileMapsInfo.size() - 1) nextId = 0;
 	newStage->init(tileMapsInfo[nextId].id, tileMapsInfo[nextId].mapName);
 	setStage(newStage);
+}
+
+void StageManager::render() const
+{
+	getCurrentStage()->render();
+	hud->render();
+}
+
+void StageManager::update(const DWORD dt) const
+{
+	getCurrentStage()->update(dt);
+	hud->update(dt, currentStage->getIsGamePause());
 }
 
 void StageManager::onKeyDown(int keyCode)
@@ -100,6 +120,5 @@ void StageManager::descreaseLife()
 	else
 	{
 		// TODO: add end game screen
-		simon->setForceDead();
 	}
 }

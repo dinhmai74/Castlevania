@@ -3,7 +3,7 @@
 #include <vector>
 #include "GameObject.h"
 
-#define DEFAULT_CELL_WIDTH		256
+#define DEFAULT_CELL_WIDTH		128
 #define DEFAULT_CELL_HEIGHT		240
 
 class Unit

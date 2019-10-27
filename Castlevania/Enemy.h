@@ -29,7 +29,6 @@ public:
 
 	virtual void generateEnemy(float playerX, float playerY);
 	void processWhenBurnedEffectDone() override;
-	void render() override;
 
 	/*----------------- get set  -----------------*/
 	int getEnemyType() const { return enemyType; }

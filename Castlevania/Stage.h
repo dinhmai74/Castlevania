@@ -36,8 +36,8 @@ public:
 	void setFileObjects(std::wstring val) { fileObjects = val; }
 	std::wstring getMapName() const { return mapName; }
 	void setMapName(std::wstring val) { mapName = val; }
-	bool getStopEnemyAction() const { return stopEnemyAction; }
-	void setStopEnemyAction(bool val = true) { stopEnemyAction = val; }
+	bool getIsGamePause() const { return isGamePause; }
+	void setGamePause(bool val = true) { isGamePause = val; }
 	bool isInViewport(GameObject* object);
 	EnemyVampireBoss* getBoss() const { return boss; }
 	void setBoss(EnemyVampireBoss* val) { boss = val; }
@@ -79,7 +79,7 @@ private:
 	void updateInActiveUnit();
 	void updateGrid();
 	bool renderBoundingBox;
-	bool stopEnemyAction;
+	bool isGamePause;
 	wstring fileObjects;
 	bool isInViewPort(Box pos);
 };

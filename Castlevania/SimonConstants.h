@@ -54,6 +54,7 @@ enum ClimbDirect
 
 enum StaringStatus
 {
+	none,
 	pause,
 	ready,
 	onGoing

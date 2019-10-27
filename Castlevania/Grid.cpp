@@ -2,8 +2,7 @@
 #include "Enemy.h"
 #include "Door.h"
 
-Unit::Unit(Grid* grid, LPGAMEOBJECT obj, float x, float y)
-{
+Unit::Unit(Grid* grid, LPGAMEOBJECT obj, float x, float y) {
 	this->grid = grid;
 	this->obj = obj;
 	this->x = x;
@@ -15,13 +14,11 @@ Unit::Unit(Grid* grid, LPGAMEOBJECT obj, float x, float y)
 	grid->add(this);
 }
 
-void Unit::move(float x, float y)
-{
+void Unit::move(float x, float y) {
 	grid->move(this, x, y);
 }
 
-Grid::Grid(int mapWidth, int mapHeight, int cellWidth, int cellHeight)
-{
+Grid::Grid(int mapWidth, int mapHeight, int cellWidth, int cellHeight) {
 	this->mapWidth = mapWidth;
 	this->mapHeight = mapHeight;
 
@@ -41,12 +38,10 @@ Grid::Grid(int mapWidth, int mapHeight, int cellWidth, int cellHeight)
 			cells[i][j] = nullptr;
 }
 
-Grid::~Grid()
-{
+Grid::~Grid() {
 }
 
-void Grid::add(Unit* unit)
-{
+void Grid::add(Unit* unit) {
 	// dua vao x,y -> calculate row and and unit in
 	auto row = static_cast<int>(unit->y / cellHeight);
 	auto col = static_cast<int>(unit->x / cellWidth);
@@ -64,15 +59,13 @@ void Grid::add(Unit* unit)
 		unit->next->prev = unit;
 }
 
-int Grid::limitRange(int current, int total)
-{
+int Grid::limitRange(int current, int total) {
 	if (current < 0) return 0;
 	if (current >= total) return total - 1;
 	return current;
 }
 
-void Grid::UnlinkUnit(Unit* unit, int oldRow, int oldCol)
-{
+void Grid::UnlinkUnit(Unit* unit, int oldRow, int oldCol) {
 	// unlink the old cell contain unit
 	if (unit->prev != nullptr)
 		unit->prev->next = unit->next;
@@ -86,16 +79,14 @@ void Grid::UnlinkUnit(Unit* unit, int oldRow, int oldCol)
 		cells[oldRow][oldCol] = unit->next;
 }
 
-Cell Grid::getCellBaseOnPos(float x, float y)
-{
+Cell Grid::getCellBaseOnPos(float x, float y) {
 	auto row = static_cast<int>(y / cellHeight);
 	auto col = static_cast<int>(x / cellWidth);
 
 	return { row,col };
 }
 
-void Grid::move(Unit* unit, float x, float y)
-{
+void Grid::move(Unit* unit, float x, float y) {
 	const auto oldCell = getCellBaseOnPos(unit->x, unit->y);
 	const auto newCell = getCellBaseOnPos(x, y);
 
@@ -118,8 +109,7 @@ void Grid::move(Unit* unit, float x, float y)
 	add(unit);
 }
 
-void Grid::remove(Unit* unit, float oldRow, float oldCol)
-{
+void Grid::remove(Unit* unit, float oldRow, float oldCol) {
 	auto cell = getCellBaseOnPos(unit->x, unit->y);
 	if (oldCol == -1) oldCol = cell.col;
 	if (oldRow == -1) oldRow = cell.row;
@@ -127,19 +117,17 @@ void Grid::remove(Unit* unit, float oldRow, float oldCol)
 	UnlinkUnit(unit, static_cast<int>(oldRow), static_cast<int>(oldCol));
 }
 
-void Grid::get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
-{
-	auto startCol = static_cast<int>(camPosition.x / cellWidth);
-	int endCol = static_cast<int>(ceil((camPosition.x + SCREEN_WIDTH) / cellWidth) );
+void Grid::get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits) {
+	auto startCol = static_cast<int>(camPosition.x / cellWidth) - 1;
+	int endCol = static_cast<int>(ceil((camPosition.x + SCREEN_WIDTH) / cellWidth) + 1);
+	endCol = endCol > totalCols ? totalCols : endCol;
+	startCol = startCol < 0 ? 0 : startCol;
 
-	for (auto i = 0; i < totalRows; i++)
-	{
-		for (auto j = startCol; j < endCol; j++)
-		{
+	for (auto i = 0; i < totalRows; i++) {
+		for (auto j = startCol; j < endCol; j++) {
 			auto unit = cells[i][j];
 
-			while (unit != nullptr)
-			{
+			while (unit != nullptr) {
 				if (unit->get()->IsActive())
 					listUnits.push_back(unit);
 				else
@@ -152,19 +140,15 @@ void Grid::get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
 }
 
 void Grid::removeOutOfBoundUnit(Region region) {
-	for (auto i = 0; i < totalRows; i++)
-	{
-		for (auto j = 0; j < totalCols; j++)
-		{
+	for (auto i = 0; i < totalRows; i++) {
+		for (auto j = 0; j < totalCols; j++) {
 			auto unit = cells[i][j];
 
-			while (unit != nullptr)
-			{
+			while (unit != nullptr) {
 				auto pos = unit->get()->getInitPos();
-				if ((pos.x < region.min ) && unit->get()->getType() != OBDoor)
-				{
-					DebugOut(L"pos.x %f\n",pos.x);
-					DebugOut(L"region.min %f\n",region.min);
+				if ((pos.x < region.min) && unit->get()->getType() != OBDoor) {
+					DebugOut(L"pos.x %f\n", pos.x);
+					DebugOut(L"region.min %f\n", region.min);
 				}
 
 				unit = unit->next;

@@ -17,7 +17,7 @@ public:
 			instance = new HUD;
 		return instance;
 	}
-	void Init();
+	void init();
 	void update(DWORD dt, bool stopwatch = false);
 	void render();
 

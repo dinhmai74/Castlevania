@@ -29,7 +29,12 @@ void Animation::render(int nx, float x, float y, int alpha, int r, int g, int b,
 			}
 		}
 	}
-	frames[currentFrame]->getSprite()->draw(nx, x, y, alpha, r, b, g);
+	frames[currentFrame]->getSprite()->draw(nx, x, y, alpha, r, g, b);
+}
+
+void Animation::render(int nx, float x, float y, int alpha, int r, int g, int b, bool isStop, int frame) {
+	if (isStop) frames[frame]->getSprite()->draw(nx, x, y, alpha, r, g, b);
+	else render(nx, x, y, alpha, r, g, b, isStop);
 }
 
 bool Animation::isDone() {

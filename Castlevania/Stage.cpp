@@ -39,7 +39,7 @@ void Stage::initMap(int mapId, wstring mapName) {
 	this->mapId = mapId;
 	this->mapName = std::move(mapName);
 	const auto map = TileMapManager::getInstance()->get(mapId);
-	this->grid = new Grid(map->getMapWidth(), 480);
+	this->grid = new Grid(map->getMapWidth(), 480, map->getTileWidth() * 4);
 	game->setLimitCamX({ 0, static_cast<float>(map->getMapWidth()) });
 }
 
@@ -289,8 +289,7 @@ void Stage::render() {
 bool Stage::updateEnemy(vector<GameObject*>::value_type obj, DWORD dt) {
 	auto enem = dynamic_cast<Enemy*>(obj);
 	if (enem) {
-		enem->setIsStopAllAction(stopEnemyAction);
-		if (stopEnemyAction) return true;
+		if (isGamePause) return true;
 		auto wolf = dynamic_cast<EnemyWolf*>(obj);
 		if (wolf) {
 			vector<GameObject*> canColide;
@@ -309,9 +308,11 @@ void Stage::update(DWORD dt) {
 	const auto map = getMapSimonCanCollisionObjects();
 	respawnEnemies();
 
-	getSimon()->update(dt, map);
+	simon->setIsStopAllAction(isGamePause);
+	simon->update(dt, map);
 	for (auto obj : listRenderObj) {
 		if (obj->getType() == OBSimon) continue;
+		obj->setIsStopAllAction(isGamePause);
 		auto subWeapon = dynamic_cast<SubWeapon*>(obj);
 		if (subWeapon) {
 			updateSubWeapon(subWeapon, dt);
@@ -385,7 +386,7 @@ void Stage::updateInActiveUnit() {
 	for (auto ob : listEnemy) {
 		auto enemy = dynamic_cast<Enemy*>(ob);
 		if (enemy && !isInViewport(enemy)) {
-				// set respawn immediately when user go out the init enemy pos
+			// set respawn immediately when user go out the init enemy pos
 			auto initPos = enemy->getInitPos();
 			auto enemyBBox = enemy->getBoundingBoxBaseOnFile();
 			Box box;
@@ -522,15 +523,13 @@ void Stage::updateCamera(const DWORD dt) const {
 }
 
 void Stage::onKeyDown(const int keyCode) {
-	getSimon()->handleOnKeyDown(keyCode);
+	if (!isGamePause) getSimon()->handleOnKeyDown(keyCode);
 	switch (keyCode) {
 	case DIK_B: renderBoundingBox = !renderBoundingBox;
 		break;
 	case DIK_U: simon->powerUpWhip();
 		break;
 	case DIK_D: simon->powerUpWhip(false);
-		break;
-	case DIK_S: setStopEnemyAction(!getStopEnemyAction());
 		break;
 	case DIK_X: simon->getHurt(1, 1, 1);
 		break;
@@ -546,8 +545,11 @@ void Stage::onKeyDown(const int keyCode) {
 		break;
 	case DIK_F: simon->updateEnergy(100);
 		break;
-	case DIK_G: stopEnemyAction = !stopEnemyAction;
-		break;
+	case DIK_PAUSE: {
+		isGamePause = !isGamePause;
+		DebugOut(L"pause\n");
+	}
+				  break;
 	default:;
 	}
 }

@@ -29,6 +29,7 @@ public:
 	int getCurrentFrame();
 	void add(string spriteId, DWORD time = 0);
 	void render(int nx, float x, float y, int alpha = 255, int r = 255, int g = 255, int b = 255, bool isStop = false);
+	void render(int nx, float x, float y, int alpha, int r  , int g , int b , bool isStop , int frame);
 	void refresh();
 	bool isDone();
 	void setAniStartTime(DWORD t = GetTickCount()) { animStartTime = t; }

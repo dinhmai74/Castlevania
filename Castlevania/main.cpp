@@ -2,23 +2,16 @@
 #include"main.h"
 #include "StageManager.h"
 #include "TilemapManager.h"
-#include "HUD.h"
 
 Game* game;
 SampleKeyHander* keyHandler;
 TextureManager* textureManager = TextureManager::getInstance();
-HUD* hud = HUD::getInstance();
 
 //Create keyboard handler for main program
 void SampleKeyHander::OnKeyDown(int KeyCode)
 {
     //DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	StageManager::getInstance()->onKeyDown(KeyCode);
-	if (KeyCode == DIK_R)
-
-	{
-		hud->Init();
-	}
 	//if(KeyCode== DIK_B)
 	//{
 	//	char* showBoundary = nullptr;
@@ -262,13 +255,11 @@ void loadResources()
 
 	auto stages = StageManager::getInstance();
 	stages->init(mapInfos);
-	hud->Init();
 }
 
 void update(DWORD dt)
 {
 	StageManager::getInstance()->update(dt);
-	hud->update(dt);
 }
 
 void render()
@@ -285,7 +276,6 @@ void render()
 		float x, y;
 		Game::getInstance()->getCameraPosition(x, y);
 		StageManager::getInstance()->render();
-		hud->render();
 		spriteHandler->End();
 		d3ddv->EndScene();
 	}

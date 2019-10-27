@@ -45,7 +45,7 @@ void Enemy::resetPos() {
 }
 
 void Enemy::update(DWORD dt, vector<GameObject*> * coObjects /*= nullptr*/) {
-	if (isStopAllAction) return;
+	if (isStopAllAction) return ;
 	GameObject::update(dt);
 	if (!isEnable) return;
 	if (vx > 0) setIsVirgin(false);
@@ -185,19 +185,4 @@ Box Enemy::getBoundingBox() {
 
 	tempBox.t += 10;
 	return tempBox;
-}
-
-void Enemy::render() {
-	if (isEnable) {
-		alpha = 255;
-		if (isStopAllAction && currentFrame)
-			animations[animId]->render(getFaceSide(), x, y, currentFrame, alpha, r, g, b);
-		else animations[animId]->render(getFaceSide(), x, y, alpha);
-
-		currentFrame = animations[animId]->getCurrentFrame();
-	}
-	if (burnEffect) {
-		auto centerPos = getCenter();
-		burnEffect->render(1, centerPos.x, centerPos.y);
-	}
 }

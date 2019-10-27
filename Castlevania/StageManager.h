@@ -18,11 +18,9 @@ public:
 	void nextStage(int stageId = -1, wstring mapName= L"none");
 	void reset(int id =-1);
 	void setStage(Stage* newStage) { preStage = getCurrentStage(); currentStage = newStage; }
-	void render() const
-	{
-		getCurrentStage()->render();
-	}
-	void update(const DWORD dt) const { getCurrentStage()->update(dt); }
+	void render() const;
+
+	void update(const DWORD dt) const;
 	void onKeyDown(int keyCode);
 	void onKeyUp(int keyCode);
 	void keyState(BYTE* states);
@@ -33,6 +31,7 @@ public:
 	void removeAllObjOutOfBound();
 	void addScore(int score) { this->score += score; };
 	int getScore() { return score; };
+	void pauseGame(bool val=true) const;
 private:
 	int score;
 	bool isReleaseSelectMapKey;
