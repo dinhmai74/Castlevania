@@ -11,6 +11,8 @@
 #include "EnemyWolf.h"
 #include "EnemyFish.h"
 #include "EnemVampireBoss.h"
+#include "Bubble.h"
+#include "Water.h"
 
 Stage::Stage() {
 }
@@ -52,6 +54,7 @@ void Stage::initSimon() {
 
 void Stage::reset() {
 	resetAllList();
+	grid->reset();
 	loadContent();
 	simon->reset();
 	simon->doUntouchable();
@@ -206,6 +209,18 @@ void Stage::loadObjectFromFiles() {
 			auto unit = new Unit(grid, boss, x, y);
 			break;
 		}
+
+		case OBWater:
+		{
+			float width, height;
+			fs >> width >> height;
+			auto obj = new Water();
+			obj->setPosition(x, y);
+			obj->setInitPos({ x,y });
+			obj->setWidhtHeight(width, height);
+			listWater.push_back(obj);
+			break;
+		}
 		default:
 			break;
 		}
@@ -322,6 +337,7 @@ void Stage::update(DWORD dt) {
 	simon->update(dt, map);
 	for (auto obj : listRenderObj) {
 		if (obj->getType() == OBSimon) continue;
+	
 		obj->setIsStopAllAction(isGamePause);
 		auto subWeapon = dynamic_cast<SubWeapon*>(obj);
 		if (subWeapon) {
@@ -329,10 +345,12 @@ void Stage::update(DWORD dt) {
 			continue;
 		}
 
+
 		auto updateResult = updateEnemy(obj, dt);
 
 		if (!updateResult) obj->update(dt, &listCanCollideBoundary);
 	}
+
 	updateCamera(dt);
 	updateGrid();
 	updateInActiveUnit();
@@ -376,7 +394,8 @@ vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects() {
 	map.push_back({ OBChangeStage, &listObjectChangeStage });
 	map.push_back({ OBEnemy, &listEnemy });
 	map.push_back({ OBBoundary, &listStopSimObjs });
-	map.push_back({ OBBullet, &listBullet});
+	map.push_back({ OBBullet, &listBullet });
+	map.push_back({ OBWater,&listWater });
 	return map;
 }
 
@@ -441,6 +460,7 @@ bool Stage::isInViewPort(Box pos) {
 	return isInView;
 }
 
+
 void Stage::updateGrid() {
 	for (auto unit : listUnit) {
 		auto obj = unit->get();
@@ -456,10 +476,11 @@ bool sortByType(GameObject* a, GameObject* b) {
 }
 
 void Stage::loadListObjFromGrid() {
-	resetAllList();
+	resetAllUnitList();
 	listRenderObj = listCanCollideBoundary;
 	listStopSimObjs = listCanCollideBoundary;
 	listRenderObj.push_back(simon);
+	listRenderObj.insert(listRenderObj.begin(), listWater.begin(), listWater.end());
 	getGrid()->get(Game::getInstance()->getCameraPosition(), listUnit);
 
 	for (auto unit : listUnit) {
@@ -496,6 +517,15 @@ void Stage::loadListObjFromGrid() {
 }
 
 void Stage::resetAllList() {
+	resetAllUnitList();
+	listDefaultBoundary.clear();
+	listCanCollideBoundary.clear();
+	listStairs.clear();
+	listWater.clear();
+}
+
+
+void Stage::resetAllUnitList() {
 	listUnit.clear();
 	listRenderObj.clear();
 	listItems.clear();

@@ -68,4 +68,5 @@ public:
 	void get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits); // get all the unit in viewport base on camera pos
 	int getCellWidth() const { return cellWidth; }
 	void removeOutOfBoundUnit(Region region);
+	void reset();
 };

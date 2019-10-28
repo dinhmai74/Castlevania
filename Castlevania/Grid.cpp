@@ -157,3 +157,11 @@ void Grid::removeOutOfBoundUnit(Region region) {
 	}
 
 }
+
+void Grid::reset() {
+	for (auto i = 0; i < totalRows; i++) {
+		for (auto j = 0; j < totalCols; j++) {
+			cells[i][j]=nullptr;
+		}
+	}
+}

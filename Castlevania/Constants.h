@@ -67,6 +67,9 @@ enum ObjectType
 	OBForceIdleSim,
 	OBBoss,
 	OBBullet,
+	OBWater,
+	OBBubble,
+	OBBubbles,
 	OBSimon = 50,
 	OBCastle = 51,
 	OBSubWeapon = 52,
@@ -99,3 +102,5 @@ struct VectorInt
 	int x;
 	int y;
 };
+
+auto constexpr ANIM_EMPTY = -999;

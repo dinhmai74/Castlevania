@@ -1,7 +1,9 @@
-﻿#include "GameObject.h"
+﻿#pragma once
+#include "GameObject.h"
 #include <algorithm>
 #include "SimonConstants.h"
-#include "Boundary.h"
+#include "StageManager.h"
+#include "Bubbles.h"
 
 void GameObject::processWhenBurnedEffectDone() {
 	if (timerBurnEffect->isTimeUpAndRunAlr()) {
@@ -41,6 +43,7 @@ GameObject::GameObject() {
 	vyDeflect = 0.06f;
 	nxDeflect = -1;
 	burnAnimId = ANIM_BURNED;
+	addAnimation(ANIM_EMPTY, "empty_default_ani");
 }
 
 GameObject::~GameObject() {
@@ -96,6 +99,13 @@ bool GameObject::processCollisionWithBoundaryByX(float minTx, float nx, GameObje
 
 	if (nx == 0) return false;
 	return true;
+}
+
+void GameObject::setDeathByWater() {
+	setState(death);
+	vx = 0;
+	vy = 0;
+	hp = 0;
 }
 
 D3DXVECTOR2 GameObject::getCenter() {
@@ -257,6 +267,32 @@ void GameObject::filterCollision
 	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
+void GameObject::checkCollisionWithWater(vector<LPGAMEOBJECT>* coObjects)
+{
+	vector<LPCollisionEvent> coEvents;
+	vector<LPCollisionEvent> coEventsResult;
+	coEvents.clear();
+
+	calcPotentialCollisions(coObjects, coEvents);
+	if (!coEvents.empty()){
+		float minTx;
+		float minTy;
+		float nx = 0;
+		float ny;
+		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
+
+		for (auto& i : coEventsResult) {
+			auto  obj = i->obj;
+			auto posX = x + getWidth();
+			auto posY = obj->y;
+			StageManager::getInstance()->add(new Bubbles(posX, posY));
+			setDeathByWater();	
+		}
+	}
+
+	for (auto& coEvent : coEvents) delete coEvent;
+}
+
 void GameObject::update(const DWORD dt, vector<GameObject*>* coObject) {
 	this->dt = dt;
 	createBlowUpEffectAndSetRespawnTimer();
@@ -345,6 +381,7 @@ void GameObject::updatePosInTheMomentCollide(float minTx, float minTy, float nx,
 }
 
 Box GameObject::getBoundingBoxBaseOnFile() {
+	if (!animations[animId]) return { 0,0,0,0 };
 	float r, l;
 	auto spriteFrame = animations[animId]->getFrameSprite();
 	auto spriteBoundary = animations[animId]->getFrameBoundingBox();

@@ -65,6 +65,7 @@ private:
 	vector<Unit*> listUnit;
 	vector<GameObject*> listStairs;
 	EnemyVampireBoss* boss;
+	vector<GameObject*> listWater;
 
 	void loadObjectFromFiles();
 	void loadContent();
@@ -73,7 +74,7 @@ private:
 	void respawnEnemies();
 	void loadListObjFromGrid();
 
-	void resetAllList();
+	void resetAllUnitList();
 
 	vector<MapGameObjects> getMapSimonCanCollisionObjects();
 	void updateCamera(DWORD dt) const;
@@ -84,4 +85,5 @@ private:
 	wstring fileObjects;
 	bool isInViewPort(Box pos);
 	bool isStopEnemy;
+	void resetAllList();
 };

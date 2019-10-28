@@ -34,7 +34,7 @@ void Animation::render(int nx, float x, float y, int alpha, int r, int g, int b,
 
 void Animation::render(int nx, float x, float y, int alpha, int r, int g, int b, bool isStop, int frame) {
 	if (isStop) {
-		if (frame == -1 || frame == frames.size()) frame = 0;
+		if (frame == -1 || frame >= frames.size()) frame = 0;
 		frames[frame]->getSprite()->draw(nx, x, y, alpha, r, g, b);
 	}
 	else render(nx, x, y, alpha, r, g, b, isStop);

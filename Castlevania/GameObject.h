@@ -121,6 +121,8 @@ public:
 		float& minTy,
 		float& nx,
 		float& ny);
+
+	void checkCollisionWithWater(vector<LPGAMEOBJECT>* coObjects);
 	/*----------------- update  -----------------*/
 
 	virtual void update(DWORD dt, vector<GameObject*>* coObjects = nullptr);
@@ -224,6 +226,7 @@ public:
 	void setHp(int val) { hp = val; }
 	bool getIsStopAllAction() const { return isStopAllAction; }
 	void setIsStopAllAction(bool val) { isStopAllAction = val; }
+	virtual void setDeathByWater();
 };
 
 

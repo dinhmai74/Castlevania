@@ -335,6 +335,8 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps) {
 		case OBForceIdleSim:
 			checkCollisionWithForceIdleSim(dt, map.objs);
 			break;
+		case OBWater:
+			checkCollisionWithWater(map.objs);
 		default: DebugOut(L"[WARNING] unknown obj to check collision with id %d!\n", map.id);
 		}
 	}
@@ -884,6 +886,13 @@ bool Simon::getHurt(int nx, int ny, int hpLose) {
 	if (isUntouching() || isDeflecting()) return false;
 	resetState();
 	return GameObject::getHurt(nx, ny, hpLose);
+}
+
+void Simon::setDeathByWater() {
+	if (isDying()) return;
+
+	timerDeath->start();
+	animId = ANIM_EMPTY;
 }
 
 void Simon::upgradeWhipLv(bool up) const {

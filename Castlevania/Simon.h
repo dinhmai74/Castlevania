@@ -79,6 +79,9 @@ public:
 	void setAutoWalkDistance(float val) { autoWalkDistance = val; }
 	void setSubWeapon(int val) { subWeaponType = val; }
 	bool isWalkingOutDoor() { return collidedDoor != nullptr; }
+
+	virtual void setDeathByWater() override;
+
 private:
 	bool isHitting{};
 	bool isThrowing{};
