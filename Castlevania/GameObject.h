@@ -7,6 +7,15 @@
 #include "Timer.h"
 using namespace std;
 
+
+struct CheckPoint {
+	int mapId;
+	wstring mapName;
+	float x;
+	float y;
+};
+
+
 struct CollisionResult {
 	bool x;
 	bool y;
@@ -227,6 +236,7 @@ public:
 	bool getIsStopAllAction() const { return isStopAllAction; }
 	void setIsStopAllAction(bool val) { isStopAllAction = val; }
 	virtual void setDeathByWater();
+	Timer* getTimerUntouchable() const { return timerUntouchable; }
 };
 
 

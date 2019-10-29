@@ -3,12 +3,12 @@
 #include "WhipConst.h"
 #include "TileConst.h"
 #include "Box.h"
+#include <string.h>
 #include <d3d9.h>
 #include <d3dx9.h>
 using namespace std;
 
-enum Side
-{
+enum Side {
 	SideLeft = -1,
 	SideRight = 1
 };
@@ -30,14 +30,13 @@ constexpr auto CDIR_TOP = 1.0f;
 constexpr auto CDIR_BOTTOM = -1.0f;
 
 //states
-enum State
-{
-	idle ,
-	walking ,
-	sitting ,
-	jumping ,
-	hitting ,
-	hittingWhenSitting ,
+enum State {
+	idle,
+	walking,
+	sitting,
+	jumping,
+	hitting,
+	hittingWhenSitting,
 	hittingWhenClimbing,
 	throwing,
 	throwingWhenSitting,
@@ -51,8 +50,7 @@ enum State
 	normal = 0,
 };
 
-enum ObjectType
-{
+enum ObjectType {
 	OBBoundary,
 	OBItem,
 	OBCandle,
@@ -97,8 +95,7 @@ auto constexpr TIMER_HOLY_BURN_DURATION = 2000;
 /*----------------- gravity  -----------------*/
 auto constexpr G_HEART_SMALL = 0.0001f;
 
-struct VectorInt
-{
+struct VectorInt {
 	int x;
 	int y;
 };

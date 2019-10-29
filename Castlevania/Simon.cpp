@@ -164,6 +164,7 @@ void Simon::updateCameraWhenGoThroughDoor() {
 		break;
 	case ThroughDone:
 		goThroughDoorStatus = nope;
+		StageManager::getInstance()->setCheckPoint(collidedDoor->getNewCheckPoint());
 		moveCam(collidedDoor->getMoveCamDistance());
 		movingCam = true;
 		collidedDoor = nullptr;
@@ -337,6 +338,7 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps) {
 			break;
 		case OBWater:
 			checkCollisionWithWater(map.objs);
+			break;
 		default: DebugOut(L"[WARNING] unknown obj to check collision with id %d!\n", map.id);
 		}
 	}

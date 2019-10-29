@@ -12,6 +12,7 @@ public:
 
 	virtual void generateEnemy(float playerX, float playerY) override;
 
+	Box getBoundingBox() override;
 private:
 	Timer* timerAddVelocityY = new Timer(1000);
 	bool isBottom;

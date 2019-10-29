@@ -31,8 +31,11 @@ public:
 	void setNextCameraLimit(Region val);
 	float getMoveCamDistance();
 	void setMoveCamDistance(float val) { moveCamDistance = val; }
+	CheckPoint getNewCheckPoint() const { return newCheckPoint; }
+	void setNewCheckPoint(CheckPoint val) { newCheckPoint = val; }
 
 private:
 	Region nextCameraLimit;
 	float moveCamDistance;
+	CheckPoint newCheckPoint;
 };

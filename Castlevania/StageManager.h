@@ -16,7 +16,7 @@ public:
 	string getCurrentMapDisplayName() const { return tileMapsInfo[currentStage->getId() - 1].mapDisplayName; }
 	void init(vector<TileMapInfo> tileMapsInfo);
 	void nextStage(int stageId = -1, wstring mapName= L"none");
-	void reset(int id =-1);
+	void reset(int id =-1, wstring mapName= L"none");
 	void setStage(Stage* newStage) { preStage = getCurrentStage(); currentStage = newStage; }
 	void render() const;
 
@@ -32,6 +32,7 @@ public:
 	void addScore(int score) { this->score += score; };
 	int getScore() { return score; };
 	void pauseGame(bool val=true) const;
+	void setCheckPoint(CheckPoint val) { checkPoint = val; }
 private:
 	int score;
 	bool isReleaseSelectMapKey;
@@ -39,4 +40,5 @@ private:
 	Stage* currentStage = nullptr;
 	Stage* preStage = nullptr;
 	vector<TileMapInfo> tileMapsInfo;
+	CheckPoint checkPoint;
 };

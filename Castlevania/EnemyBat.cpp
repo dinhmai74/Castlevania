@@ -56,3 +56,10 @@ void EnemyBat::generateEnemy(float playerX, float playerY) {
 	setReadyToRespawn(false);
 	setEnable();
 }
+
+Box EnemyBat::getBoundingBox() {
+	if (isEnable)
+		return getBoundingBoxBaseOnFileAndPassWidth(10);
+
+	return { 0,0,0,0 };
+}

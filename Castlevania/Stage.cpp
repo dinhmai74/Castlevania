@@ -13,6 +13,7 @@
 #include "EnemVampireBoss.h"
 #include "Bubble.h"
 #include "Water.h"
+#include "StageManager.h"
 
 Stage::Stage() {
 }
@@ -83,6 +84,15 @@ void Stage::loadObjectFromFiles() {
 		// read line
 		fs >> id >> x >> y;
 		switch (id) {
+		case 666:
+		{
+			int mapId;
+			string mapObjectsName;
+			fs >> mapId >> mapObjectsName;
+			std::wstring wsTemp(mapObjectsName.begin(), mapObjectsName.end());
+			StageManager::getInstance()->setCheckPoint({ mapId,wsTemp,x,y });
+			break;
+		}
 		case OBSimon:
 		{
 			float max, min, camX, camY, climbDistance = 0;
@@ -164,14 +174,18 @@ void Stage::loadObjectFromFiles() {
 		case OBDoor:
 		{
 			int nx;
-			float min, max, moveCam;
-			fs >> nx >> min >> max >> moveCam;
+			float min, max, moveCam, newCheckPointX, newCheckPointY;
+			int mapId;
+			string mapObjectsName;
+			fs >> nx >> min >> max >> moveCam >> newCheckPointX >> newCheckPointY >> mapId >> mapObjectsName;
+			std::wstring wsTemp(mapObjectsName.begin(), mapObjectsName.end());
 			auto obj = new Door();
 			obj->setInitPos({ x, y });
 			obj->setPosition(x, y);
 			obj->setFaceSide(nx);
 			obj->setNextCameraLimit({ min, max });
 			obj->setMoveCamDistance(moveCam);
+			obj->setNewCheckPoint({ mapId,wsTemp, newCheckPointX,newCheckPointY });
 			auto unit = new Unit(getGrid(), obj, x, y);
 			break;
 		}
@@ -337,7 +351,7 @@ void Stage::update(DWORD dt) {
 	simon->update(dt, map);
 	for (auto obj : listRenderObj) {
 		if (obj->getType() == OBSimon) continue;
-	
+
 		obj->setIsStopAllAction(isGamePause);
 		auto subWeapon = dynamic_cast<SubWeapon*>(obj);
 		if (subWeapon) {

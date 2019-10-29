@@ -17,5 +17,5 @@ void TileMapManager::add(int ID, wstring mapName, int mapWidth, int mapHeight, i
 
 void TileMapManager::add(TileMapInfo mapInfo)
 {
-	add(mapInfo.id, mapInfo.mapName, mapInfo.mapWidth, mapInfo.mapHeight, mapInfo.tileWidth, mapInfo.tileHeight);
+	add(mapInfo.id, mapInfo.mapObjectsName, mapInfo.mapWidth, mapInfo.mapHeight, mapInfo.tileWidth, mapInfo.tileHeight);
 }

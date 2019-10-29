@@ -8,13 +8,14 @@
 #include "Item.h"
 #include "CandleFactory.h"
 #include "EnemVampireBoss.h"
+#include <string>
+
 
 class Stage {
 public:
 	Stage();
 	~Stage();
 
-	void goToStage(int mapId, wstring mapName);
 	void init(int mapId, wstring mapName);
 	void init(int mapId, wstring mapName, Simon* simon);
 	void initMap(int mapId, wstring mapName);

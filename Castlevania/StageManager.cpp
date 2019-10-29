@@ -24,7 +24,8 @@ void StageManager::init(vector<TileMapInfo> tileMapsInfo) {
 
 	loadTileMaps();
 	currentStage = new Stage();
-	currentStage->init(tileMapsInfo[0].id, tileMapsInfo[0].mapName);
+	currentStage->init(tileMapsInfo[0].id, tileMapsInfo[0].mapObjectsName);
+	checkPoint = { 0,L"stage1",0,305 };
 
 	hud->init();
 }
@@ -35,9 +36,9 @@ void StageManager::nextStage(int id, wstring mapNameInput) {
 	// cause map id from =1 so next one id from tileMapsInfo is this
 	auto nextId = id == -1 ? currentStage->getId() : id;
 	if (nextId > tileMapsInfo.size() - 1) nextId = 0;
-	auto mapName = mapNameInput == L"none" ? tileMapsInfo[nextId].mapName : mapNameInput;
-	newStage->init(tileMapsInfo[nextId].id, mapName, currentStage->getSimon());
-	newStage->getSimon()->resetState();
+	auto mapObjectsName = mapNameInput == L"none" ? tileMapsInfo[nextId].mapObjectsName : mapNameInput;
+	currentStage->getSimon()->reset();
+	newStage->init(tileMapsInfo[nextId].id, mapObjectsName, currentStage->getSimon());
 	setStage(newStage);
 }
 
@@ -47,12 +48,12 @@ void StageManager::loadTileMaps() {
 	}
 }
 
-void StageManager::reset(int id) {
+void StageManager::reset(int id, wstring mapName) {
 	auto newStage = new Stage();
 	// cause map id from =1 so next one id from tileMapsInfo is this
 	auto nextId = id == -1 ? currentStage->getId() : id;
 	if (nextId > tileMapsInfo.size() - 1) nextId = 0;
-	newStage->init(tileMapsInfo[nextId].id, tileMapsInfo[nextId].mapName);
+	newStage->init(tileMapsInfo[nextId].id, mapName, currentStage->getSimon());
 	setStage(newStage);
 }
 
@@ -79,7 +80,7 @@ void StageManager::onKeyDown(int keyCode) {
 	case DIK_N: nextStage(); break;
 	case DIK_H:
 	{
-		auto bubles = new Bubbles(20,100);
+		auto bubles = new Bubbles(20, 100);
 		add(bubles);
 
 		break;
@@ -104,12 +105,16 @@ void StageManager::add(GameObject* ob) const {
 }
 
 void StageManager::descreaseLife() {
-	DebugOut(L"descrease\n");
 	auto simon = currentStage->getSimon();
 	const auto result = simon->updateLife(-1);
 	if (result) {
-		currentStage->reset();
+		reset(checkPoint.mapId, checkPoint.mapName);
+		simon->reset();
 		simon->setHp(SIM_MAX_HP);
+		simon->setState(idle);
+		simon->setFaceSide(SideRight);
+		simon->doUntouchable();
+		simon->setPosition(checkPoint.x, checkPoint.y);
 		HUD::getInstance()->setTime(0);
 	}
 	else {
