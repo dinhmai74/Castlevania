@@ -47,6 +47,7 @@ void Simon::initAnim() {
 	addAnimation(ANIM_DOWN_STAIR, "simon_down_stair_ani");
 	addAnimation(ANIM_HIT_UP_STAIR, "simon_hit_up_stair_ani");
 	addAnimation(ANIM_HIT_DOWN_STAIR, "simon_hit_down_stair_ani");
+	addAnimation(ANIM_EMPTY, "empty_default_ani");
 }
 
 void Simon::render() {
@@ -175,7 +176,7 @@ void Simon::updateCameraWhenGoThroughDoor() {
 
 bool Simon::updateLife(int val) {
 	life += val;
-	if (life <= 0) {
+	if (life < 0) {
 		life = 0;
 		return false;
 	}
@@ -617,6 +618,7 @@ void Simon::stopMoveWhenHitting() {
 }
 
 void Simon::hit(int type) {
+	if (isDeflecting()) return;
 	stopMoveWhenHitting();
 	isHitting = true;
 	whip->refreshAnim();
@@ -863,25 +865,26 @@ void Simon::resetState() {
 	whip->refreshState();
 	animations[ANIM_HITTING]->refresh();
 	animations[ANIM_HITTING_WHEN_SIT]->refresh();
+	animations[animId]->refresh();
 }
 
 void Simon::reset() {
 	resetState();
-	x = initPos.x;
-	y = initPos.y;
-	state = initState;
+	changeStateDistanceRemain = { -1,-1 };
 	gravity = SIMON_GRAVITY;
 	timerPowering->stop();
 	timerDeflect->stop();
-	changeStateDistanceRemain = { -1,-1 };
 	timerThrowing->stop();
 	timerUntouchable->stop();
 	timerAutoWalk->stop();
-	autoWalkDistance = -1;
+	timerDeath->stop();
+	this->canDeflect = true;
+	autoWalkDistance = 0;
 	climbDirection = 0;
 	stairDxRemain = 0;
 	stairDyRemain = 0;
-	state = initState;
+	staringStatus = none;
+	setSpeed(0, 0);
 }
 
 bool Simon::getHurt(int nx, int ny, int hpLose) {
@@ -894,6 +897,8 @@ void Simon::setDeathByWater() {
 	if (isDying()) return;
 
 	timerDeath->start();
+	vx = 0;
+	gravity = 0;
 	animId = ANIM_EMPTY;
 }
 

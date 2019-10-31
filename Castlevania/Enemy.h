@@ -74,4 +74,5 @@ private:
 	Region respawnArea{};
 
 	int initAnimId;
+	void processBaseOnState();
 };

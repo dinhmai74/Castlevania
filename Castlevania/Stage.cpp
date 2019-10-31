@@ -90,7 +90,7 @@ void Stage::loadObjectFromFiles() {
 			string mapObjectsName;
 			fs >> mapId >> mapObjectsName;
 			std::wstring wsTemp(mapObjectsName.begin(), mapObjectsName.end());
-			StageManager::getInstance()->setCheckPoint({ mapId,wsTemp,x,y });
+			StageManager::getInstance()->setCheckPoint({ mapId, wsTemp, x, y });
 			break;
 		}
 		case OBSimon:
@@ -154,12 +154,12 @@ void Stage::loadObjectFromFiles() {
 			auto obj = new ObjectChangeStage();
 			obj->setWidthHeight(width, height);
 			obj->setPosition(x, y);
-			obj->setInitPos({ x,y });
+			obj->setInitPos({ x, y });
 			obj->setNextStageId(nextStageId);
 			std::wstring wsTemp(nextStageName.begin(), nextStageName.end());
 			obj->setNextStageMapObjName(wsTemp);
-			obj->setChangeStateDestinationPoint({ xPoint,yPoint });
-			obj->setChangeStateVelocity({ vx,vy });
+			obj->setChangeStateDestinationPoint({ xPoint, yPoint });
+			obj->setChangeStateVelocity({ vx, vy });
 			obj->setChangeStateAnimId(animId);
 			auto unit = new Unit(getGrid(), obj, x, y);
 			DebugOut(L"\n load obChangeStage");
@@ -185,7 +185,7 @@ void Stage::loadObjectFromFiles() {
 			obj->setFaceSide(nx);
 			obj->setNextCameraLimit({ min, max });
 			obj->setMoveCamDistance(moveCam);
-			obj->setNewCheckPoint({ mapId,wsTemp, newCheckPointX,newCheckPointY });
+			obj->setNewCheckPoint({ mapId, wsTemp, newCheckPointX, newCheckPointY });
 			auto unit = new Unit(getGrid(), obj, x, y);
 			break;
 		}
@@ -216,7 +216,7 @@ void Stage::loadObjectFromFiles() {
 		case OBBoss:
 		{
 			setBoss(new EnemyVampireBoss());
-			boss->setInitPos({ x,y });
+			boss->setInitPos({ x, y });
 			boss->setPosition(x, y);
 			boss->setEnable();
 			DebugOut(L"load boss\n");
@@ -230,7 +230,7 @@ void Stage::loadObjectFromFiles() {
 			fs >> width >> height;
 			auto obj = new Water();
 			obj->setPosition(x, y);
-			obj->setInitPos({ x,y });
+			obj->setInitPos({ x, y });
 			obj->setWidhtHeight(width, height);
 			listWater.push_back(obj);
 			break;
@@ -285,7 +285,7 @@ void Stage::loadEnemies(fstream& fs, float x, float y) {
 		float activeTerLeft, activeTerRight;
 		fs >> activeTerLeft >> activeTerRight;
 		auto wolf = dynamic_cast<EnemyWolf*>(obj);
-		wolf->setActiveTerritory({ activeTerLeft,activeTerRight });
+		wolf->setActiveTerritory({ activeTerLeft, activeTerRight });
 	}
 	else if (type == EnemFish) {
 		float jumpRange;
@@ -327,14 +327,13 @@ bool Stage::updateEnemy(vector<GameObject*>::value_type obj, DWORD dt) {
 		vector<GameObject*> canColide;
 		canColide = listCanCollideBoundary;
 		canColide.insert(canColide.begin(), listDefaultBoundary.begin(), listDefaultBoundary.end());
+		canColide.insert(canColide.begin(), listWater.begin(), listWater.end());
 
 		auto wolf = dynamic_cast<EnemyWolf*>(obj);
-		if (wolf) {
+		if (wolf)
 			wolf->update(dt, &canColide, simon->getPosition().x);
-		}
-		else {
+		else
 			enem->update(dt, &canColide);
-		}
 
 		return true;
 	}
@@ -362,6 +361,8 @@ void Stage::update(DWORD dt) {
 
 		auto updateResult = updateEnemy(obj, dt);
 
+		auto listCO = listCanCollideBoundary;
+		listCO.insert(listCO.begin(), listWater.begin(), listWater.end());
 		if (!updateResult) obj->update(dt, &listCanCollideBoundary);
 	}
 
@@ -409,7 +410,7 @@ vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects() {
 	map.push_back({ OBEnemy, &listEnemy });
 	map.push_back({ OBBoundary, &listStopSimObjs });
 	map.push_back({ OBBullet, &listBullet });
-	map.push_back({ OBWater,&listWater });
+	map.push_back({ OBWater, &listWater });
 	return map;
 }
 

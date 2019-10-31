@@ -105,6 +105,7 @@ void StageManager::add(GameObject* ob) const {
 }
 
 void StageManager::descreaseLife() {
+	DebugOut(L"descrease\n");
 	auto simon = currentStage->getSimon();
 	const auto result = simon->updateLife(-1);
 	if (result) {
@@ -115,6 +116,7 @@ void StageManager::descreaseLife() {
 		simon->setFaceSide(SideRight);
 		simon->doUntouchable();
 		simon->setPosition(checkPoint.x, checkPoint.y);
+		simon->setInitPos({ checkPoint.x,checkPoint.y });
 		HUD::getInstance()->setTime(0);
 	}
 	else {

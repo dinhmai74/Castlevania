@@ -1,14 +1,11 @@
 #include "Enemy.h"
 #include <stdexcept>
+#include "Boundary.h"
 #include "EnemyFactory.h"
 #include "SimonConstants.h"
-#include "Boundary.h"
 #include "StageManager.h"
 
-
-Enemy::Enemy() {
-	Enemy::init();
-}
+Enemy::Enemy() { Enemy::init(); }
 
 Enemy::~Enemy() = default;
 
@@ -23,6 +20,7 @@ void Enemy::init() {
 	timerUntouchable = new Timer(E_UNTOUCHABLE_DURATION);
 	setTimerRespawn(new Timer(respawnTime));
 	getTimerRespawn()->start();
+	initAnim();
 }
 
 void Enemy::reset() {
@@ -35,9 +33,7 @@ void Enemy::reset() {
 	readyToRespawn = false;
 }
 
-void Enemy::resetHp() {
-	hp = EnemyFactory::getInstance()->getHp(enemyType);
-}
+void Enemy::resetHp() { hp = EnemyFactory::getInstance()->getHp(enemyType); }
 
 void Enemy::resetPos() {
 	x = initPos.x;
@@ -46,17 +42,20 @@ void Enemy::resetPos() {
 
 void Enemy::update(DWORD dt, vector<GameObject*> * coObjects /*= nullptr*/) {
 	if (isStopAllAction) return;
-	GameObject::update(dt);
+	GameObject::update(dt, coObjects);
 	if (!isEnable) return;
+	processBaseOnState();
 	checkCollisionAndChangeDirectX(dt, coObjects);
+	checkCollisionWithWater(coObjects);
 	updateGravity(dt);
 }
 
-void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*> * coObjects) {
+void Enemy::checkCollisionAndChangeDirectX(DWORD dt,
+	vector<GameObject*> * coObjects) {
 	vector<LPCollisionEvent> coEventsResult;
 	vector<LPCollisionEvent> coEvents;
 	coEvents.clear();
-	CollisionResult result = { false,false };
+	CollisionResult result = { false, false };
 	bool updatedY = false;
 	auto updatedX = false;
 	float minTx;
@@ -67,7 +66,6 @@ void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*> * coObj
 	calcPotentialCollisions(coObjects, coEvents);
 
 	if (!coEvents.empty()) {
-
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
 
 		for (auto& i : coEventsResult) {
@@ -76,7 +74,8 @@ void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*> * coObj
 				auto type = boundary->getBoundaryType();
 				switch (type) {
 				case BoundaryNormal:
-					result.x = processCollisionWithBoundaryByX(minTx, nx, boundary);
+					result.x = processCollisionWithBoundaryByX(minTx, nx,
+						boundary);
 					break;
 				case BoundaryGround:
 					result.y = processCollisionWithGround(minTy, ny);
@@ -87,15 +86,18 @@ void Enemy::checkCollisionAndChangeDirectX(DWORD dt, vector<GameObject*> * coObj
 		}
 	}
 	if (!updatedX) {
-		if (result.x) changeDirection(minTx, nx);
-		else x += dx;
+		if (result.x)
+			changeDirection(minTx, nx);
+		else
+			x += dx;
 	}
 	if (!updatedY) {
 		if (result.y && ny == CDIR_BOTTOM) {
 			isInGround = true;
 			vy = 0;
 		}
-		else y += dy;
+		else
+			y += dy;
 	}
 }
 
@@ -123,7 +125,8 @@ bool Enemy::canRespawn(D3DXVECTOR2 simPos) {
 	const auto isEnoughTime = getTimerRespawn()->isTimeUpAndRunAlr();
 	if (isEnoughTime && !isEnable) readyToRespawn = true;
 	const auto distance = fabs(x - simPos.x);
-	const auto isInRegion = distance >= respawnArea.min && distance <= respawnArea.max;
+	const auto isInRegion =
+		distance >= respawnArea.min && distance <= respawnArea.max;
 
 	return (readyToRespawn && isInRegion) || forceRespawn;
 }
@@ -139,8 +142,7 @@ void Enemy::processWhenBurnedEffectDone() {
 }
 
 void Enemy::setEnable(bool val /*= true*/) {
-	if (!val && isEnable)
-		timerRespawn->start();
+	if (!val && isEnable) timerRespawn->start();
 	GameObject::setEnable(val);
 }
 
@@ -151,12 +153,8 @@ bool Enemy::isInViewPort() {
 	const auto right = camPosition.x + SCREEN_WIDTH - offset;
 
 	auto box = getBoundingBoxBaseOnFile();
-	const auto isInView = isColliding(box,
-		{
-			left, camPosition.y, right,
-			camPosition.y + SCREEN_HEIGHT
-		});
-
+	const auto isInView = isColliding(
+		box, { left, camPosition.y, right, camPosition.y + SCREEN_HEIGHT });
 
 	return isInView;
 }
@@ -175,9 +173,16 @@ void Enemy::updateAnimId() {
 }
 
 Box Enemy::getBoundingBox() {
-	if (!isEnable) return { 0,0,0,0 };
+	if (!isEnable) return { 0, 0, 0, 0 };
 	auto tempBox = getBoundingBoxBaseOnFileAndPassWidth(20);
 
 	tempBox.t += 10;
 	return tempBox;
+}
+
+void Enemy::processBaseOnState() {
+	if (state == death) {
+		reset();
+		setEnable(false);
+	}
 }

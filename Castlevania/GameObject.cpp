@@ -57,7 +57,7 @@ void GameObject::updateAnimId() {
 
 void GameObject::render() {
 	if (IsEnable()) {
-		animations[animId]->render(faceSide, x, y, alpha, 255, 255, 255, isStopAllAction,currentFrame);
+		animations[animId]->render(faceSide, x, y, alpha, 255, 255, 255, isStopAllAction, currentFrame);
 		currentFrame = animations[animId]->getCurrentFrame();
 	}
 	if (burnEffect) {
@@ -103,6 +103,7 @@ bool GameObject::processCollisionWithBoundaryByX(float minTx, float nx, GameObje
 
 void GameObject::setDeathByWater() {
 	setState(death);
+	animId = ANIM_EMPTY;
 	vx = 0;
 	vy = 0;
 	hp = 0;
@@ -267,14 +268,13 @@ void GameObject::filterCollision
 	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
-void GameObject::checkCollisionWithWater(vector<LPGAMEOBJECT>* coObjects)
-{
+void GameObject::checkCollisionWithWater(vector<LPGAMEOBJECT>* coObjects) {
 	vector<LPCollisionEvent> coEvents;
 	vector<LPCollisionEvent> coEventsResult;
 	coEvents.clear();
 
 	calcPotentialCollisions(coObjects, coEvents);
-	if (!coEvents.empty()){
+	if (!coEvents.empty()) {
 		float minTx;
 		float minTy;
 		float nx = 0;
@@ -283,10 +283,12 @@ void GameObject::checkCollisionWithWater(vector<LPGAMEOBJECT>* coObjects)
 
 		for (auto& i : coEventsResult) {
 			auto  obj = i->obj;
+			if (obj->getType() != OBWater) continue;
+			DebugOut(L"collide confirm\n");
 			auto posX = x + getWidth();
 			auto posY = obj->y;
 			StageManager::getInstance()->add(new Bubbles(posX, posY));
-			setDeathByWater();	
+			if (ny == CDIR_BOTTOM) setDeathByWater();
 		}
 	}
 
