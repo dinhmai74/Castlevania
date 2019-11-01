@@ -32,6 +32,7 @@ void Simon::init() {
 	setAnimId(ANIM_IDLE);
 	//gravity = 0;
 	gravity = SIMON_GRAVITY;
+	initGravity = SIMON_GRAVITY;
 	type = OBSimon;
 }
 
@@ -81,7 +82,7 @@ bool Simon::checkClimbingState() {
 
 bool Simon::shouldUpdate(DWORD dt) {
 	this->dt = dt;
-	canDeflect = state != climbing;
+	canDeflect = state != climbing && !staringStatus == ready;
 	updateRGB();
 	return !forceDead && !isStopAllAction;
 }
@@ -280,8 +281,12 @@ void Simon::doAutoClimb() {
 }
 
 void Simon::checkIfFalling() {
-	if (vy != 0) isInGround = false;
-	else if (vy == 0) isInGround = true;
+	if ((vy > 0.25) && state != jumping && !isDeflecting()) {
+		setState(falling);
+		isInGround = false;
+		DebugOut(L"failing\n");
+	}
+	else isStopAllAction = false;
 }
 
 void Simon::doAutoWalk(DWORD dt, float vx) {
@@ -453,7 +458,8 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 			isInGround = true;
 			vx = 0;
 			vy = 0;
-			if (state == jumping) stand();
+			if ((state == jumping || state == falling) && !timerSitWhenCollideGround->isRunning() && animId != ANIM_SIT)
+				timerSitWhenCollideGround->start();
 		}
 		else y += dy;
 	}
@@ -609,6 +615,7 @@ void Simon::sit() {
 
 void Simon::stand() {
 	resetState();
+	vx = 0;
 	setState(idle);
 }
 
@@ -623,6 +630,10 @@ void Simon::hit(int type) {
 	isHitting = true;
 	whip->refreshAnim();
 	setState(type);
+}
+
+void Simon::doFall() {
+	gravity *= 10;
 }
 
 void Simon::doThrow(int type) {
@@ -781,6 +792,7 @@ void Simon::updateAnimId() {
 		break;
 	case jumping:
 		setAnimId((vy > SIM_VY_READY_TO_LAND) ? ANIM_IDLE : ANIM_SIT);
+		processSitWhenCollideGroundAnim();
 		break;
 	case hitting:
 		setAnimId(ANIM_HITTING);
@@ -825,12 +837,32 @@ void Simon::updateAnimId() {
 		if (frame == 2) throwSubWeapon();
 		else if (animations[animId]->isDone())
 			refreshHitAnim(climbing, anim);
+		break;
 	}
-	break;
+	case falling:
+	{
+		processSitWhenCollideGroundAnim();
+		break;
+	}
 	default:
 		setAnimId(ANIM_IDLE);
 	}
 	GameObject::updateAnimId();
+}
+
+bool Simon::processSitWhenCollideGroundAnim() {
+	if (timerSitWhenCollideGround->isRunning()) {
+		setAnimId(ANIM_SIT);
+		return true;
+	}
+	if (timerSitWhenCollideGround->isTimeUpAndRunAlr()) {
+		setAnimId(ANIM_IDLE);
+		setState(idle);
+		timerSitWhenCollideGround->stop();
+		return true;
+	}
+
+	return false;
 }
 
 void Simon::refreshHitAnim(int stateAfterHit, int animAfterHit) {
@@ -840,10 +872,6 @@ void Simon::refreshHitAnim(int stateAfterHit, int animAfterHit) {
 	animations[animId]->refresh();
 	setState(stateAfterHit);
 	setAnimId(animAfterHit);
-}
-
-void Simon::setState(int state) {
-	GameObject::setState(state);
 }
 
 Box Simon::getBoundingBox() {

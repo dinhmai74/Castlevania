@@ -45,6 +45,7 @@ enum State {
 	disabled,
 	flying,
 	sleep,
+	falling,
 	deflect = 99,
 	death = 101,
 	normal = 0,

@@ -15,20 +15,17 @@ constexpr auto SIM_AUTO_WALK_DURATION = 1000;
 constexpr auto SIM_CHANGING_STAGE_DURATION = 2000;
 
 // trong luc luc nhay
-#define SIMON_GRAVITY 0.0015f;
+constexpr auto SIMON_GRAVITY = 0.0015f;
 //trong luc luc roi
 constexpr auto SIMON_FALL = 180;
 //di binh thuong
 constexpr auto SIMON_VX = 0.10f;
 constexpr auto SIM_AUTO_WALK_DISTANCE_VX = 0.15f;
 constexpr auto SIM_AUTO_WALK_VX = 0.03f;
-constexpr auto SIM_CLIMB_VELOCITY= 0.075;
+constexpr auto SIM_CLIMB_VELOCITY = 0.075;
 constexpr auto SIM_MAX_ENERGY = 15;
 constexpr auto SIM_MAX_LIFE = 15;
 constexpr auto SIM_MAX_HP = 15;
-//len xuong cau thang
-#define SIMON_VX_STAIR 43
-#define SIMON_VY_STAIR 43
 
 /*
  * simon animation constants
@@ -45,23 +42,20 @@ constexpr auto ANIM_HIT_DOWN_STAIR = 8;
 constexpr auto ANIM_HIT_UP_STAIR = 9;
 constexpr auto ANIM_DEATH = 101;
 
-enum ClimbDirect
-{
+enum ClimbDirect {
 	ClimbNull,
-	ClimbUp=1,
-	ClimbDown=-1,
+	ClimbUp = 1,
+	ClimbDown = -1,
 };
 
-enum StaringStatus
-{
+enum StaringStatus {
 	none,
 	pause,
 	ready,
 	onGoing
 };
 
-enum ThroughDoorStatus
-{
+enum ThroughDoorStatus {
 	nope,
 	ThroughDoorStarted,
 	ThroughDoorOpening,

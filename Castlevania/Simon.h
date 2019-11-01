@@ -29,9 +29,6 @@ public:
 
 	void resetState();
 
-	// Inherited via GameObject
-	void setState(int state);
-
 	void render() override;
 
 	void didSimonRender();
@@ -40,6 +37,8 @@ public:
 
 	bool checkClimbingState();
 	virtual void updateAnimId();
+
+	bool processSitWhenCollideGroundAnim();
 
 	void refreshHitAnim(int stateAfterHit = idle, int animAfterHit = ANIM_IDLE);
 
@@ -89,6 +88,7 @@ private:
 	Timer* timerPowering = new Timer(SIM_POWERING_DURATION);
 	Timer* timerThrowing = new Timer(SIM_DELTA_TRHOWING_TIME);
 	Timer* timerAutoWalk = new Timer(SIM_AUTO_WALK_DURATION);
+	Timer* timerSitWhenCollideGround= new Timer(150);
 	float autoWalkDistance;
 	bool isReleaseSitButton{};
 	Whip* whip{};
@@ -128,6 +128,7 @@ private:
 	bool climbStair(int direction);
 	void stopMoveWhenHitting();
 	void hit(int type);
+	void doFall();
 	bool canThrow();
 	void doThrow(int type);
 	void throwSubWeapon();

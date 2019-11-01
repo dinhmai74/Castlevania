@@ -89,6 +89,7 @@ void GameObject::doBurnedEffect(bool enable) {
 bool GameObject::processCollisionWithGround(float minTy, float ny) {
 	if (ny == CDIR_BOTTOM) {
 		isInGround = true;
+		gravity = initGravity;
 		return true;
 	}
 
@@ -100,6 +101,7 @@ bool GameObject::processCollisionWithBoundaryByX(float minTx, float nx, GameObje
 	if (nx == 0) return false;
 	return true;
 }
+
 
 void GameObject::setDeathByWater() {
 	setState(death);

@@ -146,11 +146,11 @@ public:
 		float ny);
 
 	void blockX(float minTx, float nx) {
-		x += minTx * dx + nx * 0.2f;
+		x += minTx * dx + nx * 0.1f;
 	}
 
 	void blockY(float minTy, float ny) {
-		y += minTy * dy + ny * 0.2f;
+		y += minTy * dy + ny * 0.1f;
 	}
 
 	void checkCollisionAndStopMovement(DWORD dt, vector<GameObject*>* coObjects);
