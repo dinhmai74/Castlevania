@@ -117,7 +117,7 @@ private:
 	void setClimbStairInfo(int direction);
 	bool forceStopClimb(int direction);
 	void removeAutoClimbDistance();
-	int getHittingInfo();
+	int getHittingInfo() const;
 
 
 	/*----------------- simon actions -----------------*/
@@ -139,13 +139,13 @@ private:
 		return subWeaponType != -1;
 	};
 
-	bool canAutoWalkWithDistance();
+	bool canAutoWalkWithDistance() const;
 
 	/*----------------- special effect  -----------------*/
 	void checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs);
 	void processDeathEffect();
 	void updateAutoWalk();
-	void moveCam(float distance = 235);
+	void moveCam(float distance = 235) const;
 
 	/*----------------- check collision -----------------*/
 	CollisionResult checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries);
@@ -161,9 +161,9 @@ private:
 	void doChangeStageEffect(ObjectChangeStage* obj, DWORD changingDuration = SIM_CHANGING_STAGE_DURATION);
 	void checkCollisionWithStair(vector<GameObject*>* objs);
 
-	bool canAutoClimb();
+	bool canAutoClimb() const;
 	void doAutoClimb();
-	bool isAutoWalking();
+	bool isAutoWalking() const;
 	void checkIfFalling();
 	float vxAutoWalk;
 	void updateCameraWhenGoThroughDoor();
