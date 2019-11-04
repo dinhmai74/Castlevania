@@ -97,7 +97,6 @@ bool GameObject::processCollisionWithGround(float minTy, float ny) {
 }
 
 bool GameObject::processCollisionWithBoundaryByX(float minTx, float nx, GameObject* boundary) {
-
 	if (nx == 0) return false;
 	return true;
 }
@@ -148,15 +147,12 @@ void GameObject::doDeathAnim() {
 	vy = 0;
 	this->setHp(0);
 	if (animations[ANIM_DEATH]) timerDeath->start();
-	else {
-		doBurnedEffect();
-	}
+	else doBurnedEffect();
 }
 
 void GameObject::loseHp(int hpLose) {
 	setHp(getHp() - hpLose);
-	if (getHp() <= 0)
-		setHp(0);
+	if (getHp() <= 0) setHp(0);
 }
 
 void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose) {
@@ -255,6 +251,7 @@ void GameObject::filterCollision
 		auto c = coEvents[i];
 
 		if (c->t < min_tx && c->nx != 0) {
+			// (thời gian va chạm), (nx != 0 có va chạm theo trục x)
 			min_tx = c->t;
 			nx = c->nx;
 			min_ix = i;
@@ -287,7 +284,6 @@ void GameObject::checkCollisionWithWater(vector<LPGAMEOBJECT>* coObjects) {
 		for (auto& i : coEventsResult) {
 			auto obj = i->obj;
 			if (obj->getType() != OBWater) continue;
-			DebugOut(L"collide confirm\n");
 			auto posX = x + getWidth();
 			auto posY = obj->y;
 			StageManager::getInstance()->add(new Bubbles(posX, posY));

@@ -12,7 +12,9 @@ constexpr auto SIM_THROWING_TIME = 150;
 constexpr auto SIM_POWERING_DURATION = 1000;
 constexpr auto SIM_DELTA_TRHOWING_TIME = 400;
 constexpr auto SIM_AUTO_WALK_DURATION = 1000;
+constexpr auto SIM_SIT_WHEN_LANDING = 300;
 constexpr auto SIM_CHANGING_STAGE_DURATION = 2000;
+
 
 // trong luc luc nhay
 constexpr auto SIMON_GRAVITY = 0.0015f;

@@ -16,6 +16,7 @@ public:
 	}
 
 	void start() { startTime = GetTickCount64(); isRun = true; }
+	void startDeep() { if (!isRun) start(); }
 	void stop() { startTime = 0; isRun = false; }
 	bool isTimeUp() const {
 		if (GetTickCount64() - startTime >= limitedTime) {

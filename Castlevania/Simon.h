@@ -88,7 +88,7 @@ private:
 	Timer* timerPowering = new Timer(SIM_POWERING_DURATION);
 	Timer* timerThrowing = new Timer(SIM_DELTA_TRHOWING_TIME);
 	Timer* timerAutoWalk = new Timer(SIM_AUTO_WALK_DURATION);
-	Timer* timerSitWhenCollideGround= new Timer(150);
+	Timer* timerSitWhenCollideGround= new Timer(SIM_SIT_WHEN_LANDING);
 	float autoWalkDistance;
 	bool isReleaseSitButton{};
 	Whip* whip{};
@@ -176,4 +176,5 @@ private:
 	int changeStateAnim;
 	std::wstring stageMapObjNameWillChangeto;
 	bool movingCam;
+	bool isFalling;
 };
