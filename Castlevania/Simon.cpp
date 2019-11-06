@@ -563,7 +563,7 @@ bool Simon::climbStair(int direction) {
 	if (!isCollidingWithStair()) {
 		vx = 0;
 		vy = 0;
-		staringStatus = pause;
+		staringStatus = none;
 		return false;
 	}
 	if (staringStatus == ready || getStairDxRemain() > 0 || getStairDyRemain() > 0) return false;
@@ -589,7 +589,7 @@ void Simon::move(int side) {
 	setFaceSide(side);
 	setState(walking);
 	isStopAllAction = false;
-	vx = SIMON_VX * getFaceSide();
+	vx = SIMON_VX * faceSide;
 	gravity = SIMON_GRAVITY;
 }
 
@@ -864,6 +864,7 @@ void Simon::resetState() {
 
 void Simon::reset() {
 	resetState();
+	staringStatus = none;
 	changeStateDistanceRemain = { -1, -1 };
 	gravity = initGravity;
 	timerPowering->stop();
@@ -877,7 +878,6 @@ void Simon::reset() {
 	stairDxRemain = 0;
 	stairDyRemain = 0;
 	canDeflect = true;
-	staringStatus = none;
 	isFalling = false;
 	setSpeed(0, 0);
 }
