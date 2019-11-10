@@ -103,7 +103,7 @@ public:
 	}
 
 	/*----------------- hurt and death -----------------*/
-	virtual bool getHurt(int nx = -1, int hpLose = 1);
+	bool getHurt(int nx = -1, int hpLose = 1);
 	virtual bool getHurt(int nx, int ny, int hpLose);
 
 	virtual void doDeathAnim();
@@ -168,7 +168,7 @@ public:
 	void setType(int type) { this->type = type; }
 	void setId(int id) { this->id = id; }
 
-	void setPosition(float x, float y) {
+	void setPos(float x, float y) {
 		this->x = x;
 		this->y = y;
 	}
@@ -192,8 +192,8 @@ public:
 	int getPreviousState() const { return previousState; }
 	int getState() const { return state; }
 	void getSpeed(float& vx, float& vy) const;
-	void getPosition(float& x, float& y) const;
-	D3DXVECTOR2 getPosition() { return {x, y}; }
+	void getPos(float& x, float& y) const;
+	D3DXVECTOR2 getPos() { return {x, y}; }
 
 	bool IsActive() const { return isActive; }
 	virtual void setActive(bool val = true) { isActive = val; }

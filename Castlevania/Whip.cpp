@@ -88,7 +88,7 @@ void Whip::updatePos(float simonX, float simonY, int simonState, int simonClimbD
 {
 	if (simonState == hittingWhenSitting)
 		simonY += 15;
-	setPosition(simonX - 90, simonY);
+	setPos(simonX - 90, simonY);
 }
 
 void Whip::upgradeWhipLv(bool up)

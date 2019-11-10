@@ -16,7 +16,7 @@ public:
 		return instance;
 	}
 
-	static Candle* getCandle(const int type, const int itemType, const int itemNx, D3DXVECTOR2 pos, Grid* grid, bool isEnable = true);
+	static Candle* getCandle(const int type, const int itemType, const int itemNx, D3DXVECTOR2 pos, bool isEnable = true);
 
 private:
 	CandleFactory() = default;

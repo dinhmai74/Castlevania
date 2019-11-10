@@ -7,6 +7,7 @@ enum BoundaryType {
 	BoundaryStair,
 	BoundaryCastle,
 	BoundaryForceJump,
+	BoundaryBrokenWall
 };
 
 class Boundary : public GameObject

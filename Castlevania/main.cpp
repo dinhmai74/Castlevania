@@ -247,6 +247,7 @@ void loadResources()
 	LoadSprites(1014, L"bullet");
 	LoadSprites(1015, L"vampire_boss");
 	LoadSprites(1016, L"bubble");
+	LoadSprites(1017, L"broken_wall");
 	LoadSprites(100001, L"blackboard", D3DCOLOR_XRGB(0, 0, 0));
 	LoadSprites(100002, L"HP");
 	vector<TileMapInfo> mapInfos;

@@ -168,31 +168,43 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\GameManager</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyWolf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ForceEnemyJumpingBound.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="EnemVampireBoss.cpp">
+      <Filter>Source Files\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBat.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyFish.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="EnemyWolf.cpp">
+      <Filter>Source Files\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemVampireBoss.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ForceEnemyJumpingBound.cpp">
+      <Filter>Source Files\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BrokenWallFragment.cpp">
+      <Filter>Source Files\Object</Filter>
     </ClCompile>
     <ClCompile Include="Bubble.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Object</Filter>
     </ClCompile>
     <ClCompile Include="Bubbles.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\Object</Filter>
     </ClCompile>
     <ClCompile Include="Water.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemContainer.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Candle.cpp">
+      <Filter>Source Files\Object\candle</Filter>
+    </ClCompile>
+    <ClCompile Include="BrokenWall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -399,6 +411,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Water.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BrokenWallFragment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BrokenWall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

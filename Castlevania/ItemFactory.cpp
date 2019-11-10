@@ -24,7 +24,7 @@ Item* ItemFactory::getItem(int type, D3DXVECTOR2 pos, bool isEnable)
 	item->setEnable(isEnable);
 	item->setGravity(gravity);
 	item->setSpeed(vx, vy);
-	item->setPosition(pos.x, pos.y);
+	item->setPos(pos.x, pos.y);
 	item->setInitPos(pos);
 	return item;
 }

@@ -124,9 +124,12 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationFrame.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
+    <ClCompile Include="BrokenWall.cpp" />
+    <ClCompile Include="BrokenWallFragment.cpp" />
     <ClCompile Include="Bubble.cpp" />
     <ClCompile Include="Bubbles.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Candle.cpp" />
     <ClCompile Include="EnemVampireBoss.cpp" />
     <ClCompile Include="EnemyBat.cpp" />
     <ClCompile Include="Boundary.cpp" />
@@ -147,6 +150,7 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemContainer.cpp" />
     <ClCompile Include="ItemFactory.cpp" />
     <ClCompile Include="ItemHeart.cpp" />
     <ClCompile Include="main.cpp" />
@@ -175,6 +179,8 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="AnimationManager.h" />
+    <ClInclude Include="BrokenWall.h" />
+    <ClInclude Include="BrokenWallFragment.h" />
     <ClInclude Include="Bubble.h" />
     <ClInclude Include="Bubbles.h" />
     <ClInclude Include="Bullet.h" />
@@ -189,6 +195,7 @@
     <ClInclude Include="EnemyWolf.h" />
     <ClInclude Include="ForceEnemyJumpingBound.h" />
     <ClInclude Include="ForceIdleSim.h" />
+    <ClInclude Include="ItemContainer.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="stage1_castle.h" />
     <ClInclude Include="Stair.h" />

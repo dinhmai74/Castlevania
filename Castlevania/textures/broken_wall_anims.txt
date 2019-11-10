@@ -1,0 +1,2 @@
+broken_wall_fragment_ani	broken_wall_fragment_0	100
+broken_wall_default_ani	broken_wall_default_0	100

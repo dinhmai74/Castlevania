@@ -5,17 +5,17 @@ void Bubbles::init(float x, float y) {
 	initAnim();
 	float vx = (float)(-100 + rand() % 200) / 1000;
 	setInitPos({ x,y });
-	setPosition(x, y);
+	setPos(x, y);
 	auto bubble = new Bubble();
-	bubble->setPosition(x, y);
+	bubble->setPos(x, y);
 	bubble->setSpeed(vx, -0.25);
 
 	auto bubbleL = new Bubble();
-	bubbleL->setPosition(x, y);
+	bubbleL->setPos(x, y);
 	bubbleL->setSpeed(vx, 0);
 
 	auto bubbleR = new Bubble();
-	bubbleR->setPosition(x, y);
+	bubbleR->setPos(x, y);
 	bubbleR->setSpeed(-vx, 0);
 	bubbles.push_back(bubble);
 	bubbles.push_back(bubbleL);

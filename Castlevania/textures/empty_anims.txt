@@ -1,1 +1,1 @@
-empty_default_ani	empty_default_ani_0	100
+empty_ani	empty_ani_0	100

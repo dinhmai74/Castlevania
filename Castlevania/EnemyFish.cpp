@@ -68,7 +68,7 @@ void EnemyFish::generateBullet() {
 	auto box = getBoundingBox();
 	auto width = box.r - box.l;
 	const auto xBullet = faceSide> 0 ? x +width + 5 : x;
-	bullet->setPosition(xBullet,y+10);
+	bullet->setPos(xBullet,y+10);
 
 	StageManager::getInstance()->add(bullet);
 }

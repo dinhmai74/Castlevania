@@ -1,0 +1,2 @@
+broken_wall_fragment_0	32	0	64	32	32	0	64	32
+broken_wall_default_0	0	0	32	32	0	0	32	32

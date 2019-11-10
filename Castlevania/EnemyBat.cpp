@@ -47,7 +47,7 @@ void EnemyBat::generateEnemy(float playerX, float playerY) {
 	auto posY = playerY + 20;
 	initPos.y = posY;
 	reset();
-	setPosition(posX, posY);
+	setPos(posX, posY);
 	setFaceSide(-nx);
 	setInitFaceSide(-nx);
 	vx = initVelocity.x * faceSide;

@@ -43,7 +43,7 @@ GameObject::GameObject() {
 	vyDeflect = 0.06f;
 	nxDeflect = -1;
 	burnAnimId = ANIM_BURNED;
-	addAnimation(ANIM_EMPTY, "empty_default_ani");
+	addAnimation(ANIM_EMPTY, "empty_ani");
 }
 
 GameObject::~GameObject() {
@@ -73,7 +73,7 @@ void GameObject::getSpeed(float& vx, float& vy) const {
 	vy = this->vy;
 }
 
-void GameObject::getPosition(float& x, float& y) const {
+void GameObject::getPos(float& x, float& y) const {
 	x = this->x;
 	y = this->y;
 }

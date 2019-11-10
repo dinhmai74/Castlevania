@@ -2,7 +2,7 @@
 
 CandleFactory* CandleFactory::instance = nullptr;
 
-Candle* CandleFactory::getCandle(const int type, const int itemType, const int itemNx, D3DXVECTOR2 pos, Grid* grid, bool isEnable)
+Candle* CandleFactory::getCandle(const int type, const int itemType, const int itemNx, D3DXVECTOR2 pos, bool isEnable)
 {
 	Candle* candle;
 	switch (type)
@@ -14,10 +14,9 @@ Candle* CandleFactory::getCandle(const int type, const int itemType, const int i
 	default: candle = new Candle();
 	}
 	candle->setEnable(isEnable);
-	candle->itemInside = itemType;
-	candle->itemNx = itemNx;
-	candle->setPosition(pos.x, pos.y);
+	candle->setItemId(itemType);
+	candle->setItemNx(itemNx);
+	candle->setPos(pos.x, pos.y);
 	candle->setInitPos(pos);
-	candle->grid = grid;
 	return candle;
 }

@@ -50,7 +50,7 @@ void EnemyVampireBoss::checkCanAwake() {
 	auto stage = StageManager::getInstance()->getCurrentStage();
 	simon = stage->getSimon();
 
-	if (simon->getPosition().x - x >= 50) {
+	if (simon->getPos().x - x >= 50) {
 		setIdle();
 		auto cam = Camera::getInstance();
 		cam->lock();
@@ -64,7 +64,7 @@ void EnemyVampireBoss::getNextPositionToFly() {
 	if (nextTargetPos.x > 0 && nextTargetPos.y > 0) return;
 
 	if (state == hitting) {
-		nextTargetPos = simon->getPosition();
+		nextTargetPos = simon->getPos();
 	}
 	else if (state == flying) {
 		nextTargetPos = getRandomPosInBound();

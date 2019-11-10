@@ -23,7 +23,7 @@ void Simon::init() {
 	staringStatus = none;
 	goThroughDoorStatus = nope;
 	changeStateDistanceRemain = { -1, -1 };
-	whip->setPosition(x, y);
+	whip->setPos(x, y);
 
 	isInGround = false;
 	isReleaseSitButton = true;
@@ -48,7 +48,7 @@ void Simon::initAnim() {
 	addAnimation(ANIM_DOWN_STAIR, "simon_down_stair_ani");
 	addAnimation(ANIM_HIT_UP_STAIR, "simon_hit_up_stair_ani");
 	addAnimation(ANIM_HIT_DOWN_STAIR, "simon_hit_down_stair_ani");
-	addAnimation(ANIM_EMPTY, "empty_default_ani");
+	addAnimation(ANIM_EMPTY, "empty_ani");
 }
 
 void Simon::render() {
@@ -409,11 +409,9 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 
 	calcPotentialCollisions(boundaries, coEvents);
 
-	// no collison
 	if (!coEvents.empty()) {
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
 		auto isCollideDoor = false;
-		// block
 
 		for (auto& i : coEventsResult) {
 			const auto object = (i->obj);
@@ -424,6 +422,9 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 				const auto boundary = dynamic_cast<Boundary*>(object);
 				if (boundary) {
 					auto type = boundary->getBoundaryType();
+					if(nx!=0) {
+						DebugOut(L"boundary %f\n",boundary->getBoundingBox().l);
+					}
 					switch (type) {
 					case BoundaryNormal:
 						result.x = processCollisionWithBoundaryByX(minTx, nx, boundary);
@@ -431,7 +432,11 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 					case BoundaryGround:
 						result.y = processCollisionWithGround(minTy, ny);
 						break;
-					default:;
+					default:
+						DebugOut(L"nx %d\n",nx);
+						result.x = processCollisionWithBoundaryByX(minTx,nx,boundary);
+						result.y = processCollisionWithGround(minTy, ny);
+						break;
 					}
 				}
 			}
@@ -443,8 +448,11 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 		}
 	}
 
+
 	if (!updatedX) {
-		if (result.x && nx) blockX(minTx, nx);
+		if (result.x) {
+			blockX(minTx, nx);
+		}
 		else x += dx;
 	}
 	if (!updatedY) {
@@ -572,7 +580,7 @@ bool Simon::climbStair(int direction) {
 	if (collidedStair->getStairType() == StairStartDown && direction != ClimbDown) return false;
 
 	if (state != climbing) {
-		const auto collidePos = collidedStair->getPosition();
+		const auto collidePos = collidedStair->getPos();
 		const auto finalStandPos = collidePos.x - (getBoundingBox().l - x) - 5 * collidedStair->getFaceSide();
 		doAutoWalkWithDistance(finalStandPos - x);
 		staringStatus = ready;
@@ -649,7 +657,7 @@ void Simon::generateSubWeapon() {
 	const auto subY = state == throwingWhenSitting ? y + 15 : y;
 
 	subWeapon->setInitPos({ subX, subY });
-	subWeapon->setPosition(subX, subY);
+	subWeapon->setPos(subX, subY);
 	subWeapon->setEnable();
 	StageManager::getInstance()->add(subWeapon);
 	timerThrowing->start();

@@ -14,6 +14,7 @@
 #include "Bubble.h"
 #include "Water.h"
 #include "StageManager.h"
+#include "BrokenWall.h"
 
 Stage::Stage() {
 }
@@ -110,7 +111,7 @@ void Stage::loadObjectFromFiles() {
 				simon->doAutoWalkWithDistance(autoWalkDistance, vAutoWalk);
 			}
 			simon->setFaceSide(nx);
-			simon->setPosition(x, y);
+			simon->setPos(x, y);
 			simon->setState(state);
 			simon->setInitState(state);
 			simon->setInitPos({ x, y });
@@ -138,8 +139,7 @@ void Stage::loadObjectFromFiles() {
 		{
 			int type, itemContainType, itemNx;
 			fs >> type >> itemContainType >> itemNx;
-			const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, { x, y },
-				getGrid());
+			const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, { x, y });
 			auto unit = new Unit(getGrid(), candle, x, y);
 			DebugOut(L"\n load candle");
 			break;
@@ -153,7 +153,7 @@ void Stage::loadObjectFromFiles() {
 			fs >> width >> height >> nextStageId >> nextStageName >> xPoint >> yPoint >> vx >> vy >> animId;
 			auto obj = new ObjectChangeStage();
 			obj->setWidthHeight(width, height);
-			obj->setPosition(x, y);
+			obj->setPos(x, y);
 			obj->setInitPos({ x, y });
 			obj->setNextStageId(nextStageId);
 			std::wstring wsTemp(nextStageName.begin(), nextStageName.end());
@@ -181,7 +181,7 @@ void Stage::loadObjectFromFiles() {
 			std::wstring wsTemp(mapObjectsName.begin(), mapObjectsName.end());
 			auto obj = new Door();
 			obj->setInitPos({ x, y });
-			obj->setPosition(x, y);
+			obj->setPos(x, y);
 			obj->setFaceSide(nx);
 			obj->setNextCameraLimit({ min, max });
 			obj->setMoveCamDistance(moveCam);
@@ -197,7 +197,7 @@ void Stage::loadObjectFromFiles() {
 			auto ob = new ForceIdleSim();
 			ob->setWidhtHeight(width, height);
 			ob->setInitPos({ x, y });
-			ob->setPosition(x, y);
+			ob->setPos(x, y);
 			ob->setDirection(direction);
 			ob->setNextX(nextX);
 			ob->setNextY(nextY);
@@ -208,7 +208,7 @@ void Stage::loadObjectFromFiles() {
 		{
 			auto ob = new Stage1Castle();
 			ob->setInitPos({ x, y });
-			ob->setPosition(x, y);
+			ob->setPos(x, y);
 			DebugOut(L"load castle\n");
 			auto unit = new Unit(getGrid(), ob, x, y);
 			break;
@@ -217,7 +217,7 @@ void Stage::loadObjectFromFiles() {
 		{
 			setBoss(new EnemyVampireBoss());
 			boss->setInitPos({ x, y });
-			boss->setPosition(x, y);
+			boss->setPos(x, y);
 			boss->setEnable();
 			DebugOut(L"load boss\n");
 			auto unit = new Unit(grid, boss, x, y);
@@ -229,11 +229,21 @@ void Stage::loadObjectFromFiles() {
 			float width, height;
 			fs >> width >> height;
 			auto obj = new Water();
-			obj->setPosition(x, y);
+			obj->setPos(x, y);
 			obj->setInitPos({ x, y });
 			obj->setWidhtHeight(width, height);
 			listWater.push_back(obj);
 			break;
+		}
+		case OBBrokenWall: {
+
+			float width, height;
+			int itemId;
+			fs >> width >> height>> itemId;
+			auto obj = new BrokenWall(x,y);
+			obj->setWidhtHeight(width, height);
+			obj->setItemId(itemId);
+			auto unit = new Unit(grid, obj, x, y);
 		}
 		default:
 			break;
@@ -249,7 +259,7 @@ void Stage::loadBoundaryCase(fstream& fs, float x, float y) {
 	fs >> width >> height >> type;
 	auto boundary = BoundaryFactory::getInstance()->getBoundary(type);
 	boundary->setWidhtHeight(width, height);
-	boundary->setPosition(x, y);
+	boundary->setPos(x, y);
 	boundary->setInitPos({ x, y });
 	switch (type) {
 	case BoundaryStair:
@@ -299,7 +309,7 @@ void Stage::loadEnemies(fstream& fs, float x, float y) {
 	obj->setAnimId(initState);
 	obj->setRespawnArea({ minRespawn, maxRespawn });
 	obj->setInitPos({ x, y });
-	obj->setPosition(x, y);
+	obj->setPos(x, y);
 	obj->setInitFaceSide(faceSide);
 	obj->setFaceSide(faceSide);
 	obj->setRespawnTime(respawnTime);
@@ -331,7 +341,7 @@ bool Stage::updateEnemy(vector<GameObject*>::value_type obj, DWORD dt) {
 
 		auto wolf = dynamic_cast<EnemyWolf*>(obj);
 		if (wolf)
-			wolf->update(dt, &canColide, simon->getPosition().x);
+			wolf->update(dt, &canColide, simon->getPos().x);
 		else
 			enem->update(dt, &canColide);
 
@@ -372,7 +382,7 @@ void Stage::update(DWORD dt) {
 }
 
 void Stage::updateSubWeapon(SubWeapon* subWeapon, DWORD dt) {
-	auto simonPos = getSimon()->getPosition();
+	auto simonPos = getSimon()->getPos();
 	auto holyWater = dynamic_cast<SubWeaponHolyWater*>(subWeapon);
 	vector<GameObject*> temp = listCanHitObjects;
 	temp.push_back(simon);
@@ -394,7 +404,7 @@ void Stage::respawnEnemies() {
 	if (isFightingBoss) return;
 	for (auto obj : listEnemy) {
 		float playerX, playerY;
-		simon->getPosition(playerX, playerY);
+		simon->getPos(playerX, playerY);
 		auto enemy = dynamic_cast<Enemy*>(obj);
 		if (enemy) enemy->respawn(playerX, playerY);
 	}
@@ -481,7 +491,7 @@ void Stage::updateGrid() {
 		auto obj = unit->get();
 		if (!obj->IsEnable() || !obj->IsActive()) continue;
 
-		const auto pos = obj->getPosition();
+		const auto pos = obj->getPos();
 		unit->move(pos.x, pos.y);
 	}
 }
@@ -516,6 +526,10 @@ void Stage::loadListObjFromGrid() {
 			listStopSimObjs.push_back(obj);
 			break;
 		case OBForceIdleSim: listForceIdleSim.push_back((obj));
+			break;
+		case OBBrokenWall:
+			listCanHitObjects.push_back(obj);
+			listStopSimObjs.push_back(obj);
 			break;
 		case OBBullet:
 			listBullet.push_back(obj);
@@ -558,7 +572,7 @@ void Stage::updateCamera(const DWORD dt) const {
 	auto res = game->getCamera()->update(dt);
 	if (res) return;
 	float simonX, simonY, simonVx, simonVy;
-	getSimon()->getPosition(simonX, simonY);
+	getSimon()->getPos(simonX, simonY);
 	getSimon()->getSpeed(simonVx, simonVy);
 
 	const int offset = 60;

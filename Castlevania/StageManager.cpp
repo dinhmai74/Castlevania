@@ -100,7 +100,7 @@ void StageManager::keyState(BYTE* states) {
 }
 
 void StageManager::add(GameObject* ob) const {
-	auto pos = ob->getPosition();
+	auto pos = ob->getPos();
 	auto unit = new Unit(getCurrentStage()->getGrid(), ob, pos.x, pos.y);
 }
 
@@ -115,7 +115,7 @@ void StageManager::descreaseLife() {
 		simon->setState(idle);
 		simon->setFaceSide(SideRight);
 		simon->doUntouchable();
-		simon->setPosition(checkPoint.x, checkPoint.y);
+		simon->setPos(checkPoint.x, checkPoint.y);
 		simon->setInitPos({ checkPoint.x,checkPoint.y });
 		HUD::getInstance()->setTime(0);
 	}
