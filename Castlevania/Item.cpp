@@ -5,6 +5,11 @@ Item::Item()
 	init();
 }
 
+Item::Item(int type) {
+	init();
+	setItemType(type);
+}
+
 Item::~Item()
 = default;
 
@@ -21,10 +26,10 @@ void Item::update(DWORD dt, vector<GameObject*>* boundary)
 	updateGravity(dt,gravity);
 }
 
-void Item::setItemType(const int type)
+void Item::setItemType(int type)
 {
-	itemType = type;
-	setAnimId(itemType);
+	itemType= type;
+	setAnimId(type);
 }
 
 int Item::getItemType() const
@@ -40,7 +45,7 @@ void Item::checkDurationToDisapear()
 
 Box Item::getBoundingBox()
 {
-	return GameObject::getBoundingBox(-1, -1);
+	return GameObject::getBoundingBoxBaseOnFile();
 }
 
 
@@ -52,9 +57,9 @@ void Item::initAnim()
 	addAnimation(itemDagger, "item_dagger_ani");
 	addAnimation(itemAxe, "item_axe_ani");
 	addAnimation(itemBoomerang, "item_cross_ani");
-	addAnimation(itemBlueMoneyBag, "item_blue_ani");
-	addAnimation(itemWhiteMoneyBag, "item_white_ani");
-	addAnimation(itemRedMoneyBag, "item_red_ani");
+	addAnimation(itemBlueMoneyBag, "item_bluemoneybag_ani");
+	addAnimation(itemWhiteMoneyBag, "item_whitemoneybag_ani");
+	addAnimation(itemRedMoneyBag, "item_redmoneybag_ani");
 }
 
 void Item::init()
@@ -62,6 +67,7 @@ void Item::init()
 	type = OBItem;
 	setFaceSide(SideRight);
 	initAnim();
+	animId = itemBigHeart;
 	appearTimer = new Timer(TIMER_ITEM_DURATION);
 	untouchableTimer = new Timer(TIMER_ITEM_DURATION - TIMER_ITEM_UNTOUCHABLE_DURATION);
 	appearTimer->start();

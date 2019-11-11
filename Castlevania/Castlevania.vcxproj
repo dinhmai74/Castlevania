@@ -153,6 +153,7 @@
     <ClCompile Include="ItemContainer.cpp" />
     <ClCompile Include="ItemFactory.cpp" />
     <ClCompile Include="ItemHeart.cpp" />
+    <ClCompile Include="ItemMoneyBag.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="Simon.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="ForceEnemyJumpingBound.h" />
     <ClInclude Include="ForceIdleSim.h" />
     <ClInclude Include="ItemContainer.h" />
+    <ClInclude Include="ItemMoneyBag.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="stage1_castle.h" />
     <ClInclude Include="Stair.h" />
@@ -212,7 +214,6 @@
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Item.h" />
-    <ClInclude Include="ItemDagger.h" />
     <ClInclude Include="ItemFactory.h" />
     <ClInclude Include="ItemHeart.h" />
     <ClInclude Include="KeyboardHandler.h" />
@@ -246,7 +247,6 @@
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Whip.h" />
     <ClInclude Include="WhipConst.h" />
-    <ClInclude Include="ItemWhip.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Castlevania.rc" />

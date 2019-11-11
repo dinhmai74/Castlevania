@@ -29,10 +29,11 @@ protected:
 public:
 	void init();
 	Item();
+	explicit Item(int type);
 	~Item();
 
 	void update(DWORD dt, vector<GameObject*>* boundary) override;
-	void setItemType(const int type);
+	void setItemType(int type);
 	int getItemType() const;
 	Box getBoundingBox() override;
 	virtual void checkCollision(DWORD dt, vector<GameObject*>* boundary);

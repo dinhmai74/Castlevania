@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include "Item.h"
 #include "ItemHeart.h"
-#include "ItemWhip.h"
-#include "ItemDagger.h"
 
 class ItemFactory
 {

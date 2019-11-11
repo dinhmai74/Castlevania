@@ -1,24 +1,30 @@
 #include "ItemFactory.h"
+#include "ItemMoneyBag.h"
 
 ItemFactory* ItemFactory::instance = nullptr;
 
-Item* ItemFactory::getItem(int type, D3DXVECTOR2 pos, bool isEnable)
-{
+Item* ItemFactory::getItem(int type, D3DXVECTOR2 pos, bool isEnable) {
 	Item* item;
 	auto vx = 0.0f, vy = 0.0f;
 	auto gravity = 0.0015f;
-	switch (type)
-	{
+	switch (type) {
 	case itemSmallHeart:
 		item = new ItemHeart();
 		gravity = 0.0001f;
 		vx = 0.05f;
 		break;
-	case itemWhip: item = new ItemWhip(); break;
-	case itemDagger: item = new ItemDagger(); break;
-	case itemAxe: item = new ItemDagger(); break;
 	case itemBigHeart: item = new ItemHeart(itemBigHeart); break;
-	default: item = new ItemHeart();
+	case itemBlueMoneyBag:
+		item = new ItemMoneyBag(type, 700);
+		break;
+	case itemWhiteMoneyBag:
+		item = new ItemMoneyBag(type, 500);
+		break;
+	case itemRedMoneyBag:
+		item = new ItemMoneyBag(type, 1000);
+		break;
+	default:
+		item = new Item(type);
 	}
 
 	item->setEnable(isEnable);

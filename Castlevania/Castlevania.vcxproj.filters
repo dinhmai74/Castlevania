@@ -207,6 +207,9 @@
     <ClCompile Include="BrokenWall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ItemMoneyBag.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -245,16 +248,10 @@
     <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ItemDagger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ItemFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ItemHeart.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemWhip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BigCandle.h">
@@ -420,6 +417,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BrokenWall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemMoneyBag.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

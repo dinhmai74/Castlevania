@@ -46,8 +46,8 @@ BrokenWall::~BrokenWall() {}
 
 void BrokenWall::initAnim() {
 	addAnimation(Init, "empty_ani");
-	addAnimation(Broking, "empty_ani");
-	addAnimation(Broken, "empty_ani");
+	addAnimation(Broking, "broken_wall_default_ani");
+	addAnimation(Broken, "broken_wall_default_ani");
 }
 
 

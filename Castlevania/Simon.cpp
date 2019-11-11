@@ -7,6 +7,7 @@
 #include "ForceIdleSim.h"
 #include "EnemyFactory.h"
 #include "Bullet.h"
+#include "ItemMoneyBag.h"
 
 auto const subWeaponFactory = SubWeaponFactory::getInstance();
 
@@ -22,7 +23,7 @@ void Simon::init() {
 	climbDirection = ClimbNull;
 	staringStatus = none;
 	goThroughDoorStatus = nope;
-	changeStateDistanceRemain = { -1, -1 };
+	changeStateDistanceRemain = {-1, -1};
 	whip->setPos(x, y);
 
 	isInGround = false;
@@ -54,7 +55,7 @@ void Simon::initAnim() {
 void Simon::render() {
 	renderWhip();
 	animations[animId]->render(faceSide, x, y, alpha, r, g, b, (isStopAllAction || staringStatus == pause),
-		currentFrame);
+	                           currentFrame);
 	didSimonRender();
 }
 
@@ -172,7 +173,7 @@ void Simon::updateCameraWhenGoThroughDoor() {
 		movingCam = true;
 		collidedDoor = nullptr;
 		break;
-	default:;
+	default: ;
 	}
 }
 
@@ -265,8 +266,8 @@ void Simon::doChangeStageEffect(ObjectChangeStage* obj, DWORD duration) {
 	auto yDirection = yDistance > 0 ? 1 : -1;
 
 	changeStateVelocity = obj->getChangeStateVelocity();
-	changeStateDirection = { faceSide, yDirection };
-	changeStateDistanceRemain = { fabs(xDistance), fabs(xDistance) };
+	changeStateDirection = {faceSide, yDirection};
+	changeStateDistanceRemain = {fabs(xDistance), fabs(xDistance)};
 }
 
 void Simon::doAutoClimb() {
@@ -354,7 +355,7 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps) {
 		case OBWater:
 			checkCollisionWithWater(map.objs);
 			break;
-		default:;
+		default: ;
 		}
 	}
 }
@@ -403,7 +404,7 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 	float nx = 0;
 	float ny;
 	coEvents.clear();
-	CollisionResult result = { false, false };
+	CollisionResult result = {false, false};
 	bool updatedY = false;
 	auto updatedX = false;
 
@@ -422,8 +423,8 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 				const auto boundary = dynamic_cast<Boundary*>(object);
 				if (boundary) {
 					auto type = boundary->getBoundaryType();
-					if(nx!=0) {
-						DebugOut(L"boundary %f\n",boundary->getBoundingBox().l);
+					if (nx != 0) {
+						DebugOut(L"boundary %f\n", boundary->getBoundingBox().l);
 					}
 					switch (type) {
 					case BoundaryNormal:
@@ -433,8 +434,8 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 						result.y = processCollisionWithGround(minTy, ny);
 						break;
 					default:
-						DebugOut(L"nx %d\n",nx);
-						result.x = processCollisionWithBoundaryByX(minTx,nx,boundary);
+						DebugOut(L"nx %d\n", nx);
+						result.x = processCollisionWithBoundaryByX(minTx, nx, boundary);
 						result.y = processCollisionWithGround(minTy, ny);
 						break;
 					}
@@ -535,18 +536,23 @@ bool Simon::processCollisionWithDoor(float minTx, float nx, Door* door) {
 void Simon::processCollisionWithItem(Item* item) {
 	const auto itemType = item->getItemType();
 	const auto itemHeart = dynamic_cast<ItemHeart*>(item);
-	switch (itemType) {
-	case itemSmallHeart:
-	case itemBigHeart:
-		energy += itemHeart->getEnergy();
-		break;
 
-	case itemWhip:
-		powerUpWhip();
-		break;
-	default:
-		subWeaponType = itemDagger;
-		break;
+	auto moneyBag = dynamic_cast<ItemMoneyBag*>(item);
+	if (moneyBag) {
+		StageManager::getInstance()->addScore(moneyBag->getScore());
+	}
+	else if (itemHeart) {
+		energy += itemHeart->getEnergy();
+	}
+	else {
+		switch (itemType) {
+		case itemWhip:
+			powerUpWhip();
+			break;
+		default:
+			subWeaponType = itemType;
+			break;
+		}
 	}
 
 	item->setActive(false);
@@ -656,7 +662,7 @@ void Simon::generateSubWeapon() {
 	const auto subX = getFaceSide() == SideLeft ? x - width + 10 : x + width;
 	const auto subY = state == throwingWhenSitting ? y + 15 : y;
 
-	subWeapon->setInitPos({ subX, subY });
+	subWeapon->setInitPos({subX, subY});
 	subWeapon->setPos(subX, subY);
 	subWeapon->setEnable();
 	StageManager::getInstance()->add(subWeapon);
@@ -672,11 +678,11 @@ void Simon::handleOnKeyRelease(int KeyCode) {
 		if (isInGround && !isHitting && !isThrowing && state != climbing)
 			stand();
 	}
-				 break;
+	break;
 	case DIK_UP:
 		isReleaseThrowButton = true;
 		break;
-	default:;
+	default: ;
 	}
 }
 
@@ -750,7 +756,7 @@ void Simon::handleOnKeyDown(int keyCode) {
 		break;
 	}
 
-	default:;
+	default: ;
 	}
 }
 
@@ -802,7 +808,7 @@ void Simon::updateAnimId() {
 		setAnimId(anim);
 		if (animations[animId]->isDone()) refreshHitAnim(climbing, anim);
 	}
-							break;
+	break;
 	case throwing:
 		setAnimId(ANIM_HITTING);
 		frame = animations[animId]->getCurrentFrame();
@@ -873,7 +879,7 @@ void Simon::resetState() {
 void Simon::reset() {
 	resetState();
 	staringStatus = none;
-	changeStateDistanceRemain = { -1, -1 };
+	changeStateDistanceRemain = {-1, -1};
 	gravity = initGravity;
 	timerPowering->stop();
 	timerDeflect->stop();

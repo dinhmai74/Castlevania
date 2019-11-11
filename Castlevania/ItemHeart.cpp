@@ -13,7 +13,7 @@ void ItemHeart::update(DWORD dt, vector<GameObject*>* boundary)
 
 ItemHeart::ItemHeart(int type)
 {
-	itemType = type;
+	setItemType(type);
 	gravity = 0.0002;
 	energy = 5;
 	setAnimId(type);
