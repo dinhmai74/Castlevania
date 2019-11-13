@@ -401,7 +401,6 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 					auto type = boundary->getBoundaryType();
 					switch (type) {
 					case BoundaryNormal:
-					case BoundaryBrokenWall:
 						result.x = processCollisionWithBoundaryByX(minTx, nx, boundary);
 						break;
 					case BoundaryGround:
@@ -414,6 +413,10 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 							vy = 0;
 						}
 						setState(idle);
+						break;
+					case BoundaryBrokenWall:
+						result.x = processCollisionWithBoundaryByX(minTx, nx, boundary);
+						result.y = processCollisionWithGround(minTy, ny);
 						break;
 					default:
 						break;
