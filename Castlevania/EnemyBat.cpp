@@ -59,7 +59,7 @@ void EnemyBat::generateEnemy(float playerX, float playerY) {
 
 Box EnemyBat::getBoundingBox() {
 	if (isEnable)
-		return getBoundingBoxBaseOnFileAndPassWidth(10);
+		return getBoundingBoxBaseOnFileAndPassWidth(2);
 
 	return { 0,0,0,0 };
 }

@@ -401,15 +401,21 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 					auto type = boundary->getBoundaryType();
 					switch (type) {
 					case BoundaryNormal:
+					case BoundaryBrokenWall:
 						result.x = processCollisionWithBoundaryByX(minTx, nx, boundary);
 						break;
 					case BoundaryGround:
 						result.y = processCollisionWithGround(minTy, ny);
 						break;
-					default:
-						DebugOut(L"nx %d\n", nx);
+					case BoundaryTwoSide:
 						result.x = processCollisionWithBoundaryByX(minTx, nx, boundary);
-						result.y = processCollisionWithGround(minTy, ny);
+						if (ny != 0) {
+							blockY(minTy, ny);
+							vy = 0;
+						}
+						setState(idle);
+						break;
+					default:
 						break;
 					}
 				}
@@ -426,7 +432,8 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 	if (!updatedX) {
 		if (result.x) {
 			auto distance = state == deflect ? 5.0f : 0.1f;
-			blockX(minTx, nx, distance);
+			blockX(minTx, nx,distance);
+			vx = 0;
 			if (state == deflect) {
 				timerDeflect->stop();
 				doActionAfterDeflect();

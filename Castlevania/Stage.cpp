@@ -278,6 +278,7 @@ void Stage::loadBoundaryCase(fstream& fs, float x, float y) {
 	}
 	case BoundaryNormal:
 	case BoundaryGround:
+	case BoundaryTwoSide:
 		listCanCollideBoundary.push_back(boundary);
 		break;
 	default:

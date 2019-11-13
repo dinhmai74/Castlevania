@@ -52,7 +52,7 @@ enum State {
 
 enum ObjectType {
 	OBBoundary,
-	temp111,
+	OBBrokenWall,
 	OBCandle,
 	OBCanHitObjs,
 	temp1,
@@ -68,7 +68,6 @@ enum ObjectType {
 	OBWater,
 	OBBubble,
 	OBBubbles,
-	OBBrokenWall,
 	OBBrokenWallFragment,
 	OBItem=49,
 	OBSimon = 50,
