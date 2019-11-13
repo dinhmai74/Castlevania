@@ -318,10 +318,8 @@ void GameObject::processUntouchableEffect() {
 
 void GameObject::processDeflectEffect() {
 	if (timerDeflect->isTimeUpAndRunAlr()) {
-		vx = 0;
-		setState(idle);
-		timerDeflect->stop();
-		doUntouchable();
+		doActionAfterDeflect();
+
 	}
 	else if (timerDeflect->isRunning()) {
 		vx = vxDeflect * nxDeflect;

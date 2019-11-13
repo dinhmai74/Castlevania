@@ -84,7 +84,6 @@ bool Simon::checkClimbingState() {
 
 bool Simon::shouldUpdate(DWORD dt) {
 	this->dt = dt;
-	DebugOut(L"1 %f %f %f\n",x,getBoundingBox().l, getBoundingBox().r);
 	canDeflect = state != climbing && staringStatus != ready;
 	updateRGB();
 	return !forceDead && !isStopAllAction;
@@ -178,30 +177,6 @@ void Simon::updateCameraWhenGoThroughDoor() {
 	}
 }
 
-bool Simon::addLife(int val) {
-	life += val;
-	if (life < 0) {
-		life = 0;
-		return false;
-	}
-	return true;
-}
-
-bool Simon::addHP(int val) {
-	hp += val;
-	if (hp <= 0) {
-		hp = 0;
-		return false;
-	}
-
-	if (hp > SIM_MAX_HP) hp = SIM_MAX_HP;
-	return true;
-}
-
-void Simon::addEnergy(int val/*=1*/) {
-	energy += val;
-	energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy;
-}
 
 void Simon::updateRGB() {
 	auto const stageManager = StageManager::getInstance();
@@ -450,7 +425,12 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 
 	if (!updatedX) {
 		if (result.x) {
-			blockX(minTx, nx);
+			auto distance = state == deflect ? 5.0f : 0.1f;
+			blockX(minTx, nx, distance);
+			if (state == deflect) {
+				timerDeflect->stop();
+				doActionAfterDeflect();
+			}
 		}
 		else x += dx;
 	}
@@ -973,6 +953,32 @@ bool Simon::isAutoWalking() const {
 
 void Simon::moveCam(float distance) const {
 	if (!Camera::getInstance()->isMoving()) Camera::getInstance()->move(distance);
+}
+
+
+bool Simon::addLife(int val) {
+	life += val;
+	if (life < 0) {
+		life = 0;
+		return false;
+	}
+	return true;
+}
+
+bool Simon::addHP(int val) {
+	hp += val;
+	if (hp <= 0) {
+		hp = 0;
+		return false;
+	}
+
+	if (hp > SIM_MAX_HP) hp = SIM_MAX_HP;
+	return true;
+}
+
+void Simon::addEnergy(int val/*=1*/) {
+	energy += val;
+	energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy;
 }
 
 Simon::~Simon()

@@ -132,6 +132,14 @@ public:
 
 	virtual void update(DWORD dt, vector<GameObject*>* coObjects = nullptr);
 	virtual void processDeflectEffect();
+
+	void doActionAfterDeflect() {
+		vx = 0;
+		setState(idle);
+		timerDeflect->stop();
+		doUntouchable();
+	}
+
 	virtual void processDeathEffect();
 	void updateGravity(DWORD dt, float gravity);
 	void updateGravity(DWORD dt) { updateGravity(dt, this->gravity); };
