@@ -210,6 +210,9 @@
     <ClCompile Include="ItemMoneyBag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SubWeaponEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -420,6 +423,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ItemMoneyBag.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SubWeaponEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

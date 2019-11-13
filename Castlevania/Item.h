@@ -8,6 +8,7 @@ enum ItemType
 	itemAxe,
 	itemBoomerang,
 	itemHolyWater,
+	itemStopWatch,
 	itemWhip = 102,
 	itemBigHeart = 100,
 	itemSmallHeart = 101,
@@ -15,7 +16,8 @@ enum ItemType
 	itemRedMoneyBag,
 	itemWhiteMoneyBag,
 	itemBlueMoneyBag,
-	itemPorkChop
+	itemPorkChop,
+	itemHolyCross,
 };
 
 class Item :

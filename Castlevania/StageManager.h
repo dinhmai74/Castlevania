@@ -33,6 +33,9 @@ public:
 	int getScore() { return score; };
 	void pauseGame(bool val=true) const;
 	void setCheckPoint(CheckPoint val) { checkPoint = val; }
+
+	void clearMapByItem();
+	void stopEnemyForABit(DWORD time= 2000);
 private:
 	int score;
 	bool isReleaseSelectMapKey;

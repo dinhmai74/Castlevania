@@ -261,7 +261,7 @@ void Simon::doAutoClimb() {
 
 void Simon::checkIfFalling() {
 	if (state == death) return;
-	const auto isFailing = (vy > 0.2 && state != jumping && previousState != jumping && state != hitting) || vy > 0.47;
+	const auto isFailing = (vy > 0.2 && state != jumping && previousState != jumping && state != hitting && previousState != hitting) || vy > 0.47;
 	if (isFailing) doFall();
 	else isStopAllAction = false;
 }
@@ -540,6 +540,9 @@ void Simon::processCollisionWithItem(Item* item) {
 		case itemPorkChop:
 			addHP(6);
 			break;
+		case itemHolyCross:
+			StageManager::getInstance()->clearMapByItem();
+			break;
 		default:
 			subWeaponType = itemType;
 			break;
@@ -637,6 +640,11 @@ void Simon::doThrow(int type) {
 		hit(type - 3);
 		return;
 	}
+	if(subWeaponType == itemStopWatch) {
+		StageManager::getInstance()->stopEnemyForABit();
+		loseEnergy(5);
+		return;
+	}
 	stopMoveWhenHitting();
 	isThrowing = true;
 	setState(type);
@@ -648,6 +656,7 @@ void Simon::throwSubWeapon() {
 
 void Simon::generateSubWeapon() {
 	loseEnergy();
+
 	subWeapon = subWeaponFactory->getSubWeapon(subWeaponType, getFaceSide());
 	const auto width = getBoundingBox().r - getBoundingBox().l;
 	const auto subX = getFaceSide() == SideLeft ? x - width + 10 : x + width;

@@ -15,6 +15,7 @@ void HUD::init() {
 	subWeapons.push_back(spriteManager->get("item_axe"));
 	subWeapons.push_back(spriteManager->get("item_boomerang"));
 	subWeapons.push_back(spriteManager->get("item_holywater"));
+	subWeapons.push_back(spriteManager->get("item_stopwatch"));
 
 	for (int i = 0; i < 16; i++) {
 		playerHP.push_back(spriteManager->get("HP_player"));

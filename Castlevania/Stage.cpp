@@ -27,6 +27,7 @@ void Stage::init(int mapId, wstring mapName) {
 	initMap(mapId, mapName);
 	initSimon();
 	loadContent();
+	timerStopEnemy->stop();
 }
 
 void Stage::init(int mapId, wstring mapName, Simon * simon) {
@@ -329,12 +330,14 @@ void Stage::render() {
 bool Stage::updateEnemy(vector<GameObject*>::value_type obj, DWORD dt) {
 	auto enem = dynamic_cast<Enemy*>(obj);
 	if (enem) {
-		if (simon->isWalkingOutDoor() || isStopEnemy) {
+		if (simon->isWalkingOutDoor() || isStopEnemyForDebug) {
 			enem->reset();
 			return true;
 		}
 
-		if (isGamePause) return true;
+		enem->setIsStopAllAction(timerStopEnemy->isRunning());
+
+		if (isGamePause || timerStopEnemy->isRunning()) return true;
 		vector<GameObject*> canColide;
 		canColide = listCanCollideBoundary;
 		canColide.insert(canColide.begin(), listDefaultBoundary.begin(), listDefaultBoundary.end());
@@ -472,6 +475,7 @@ bool Stage::isInViewport(GameObject* object) {
 }
 
 
+
 bool Stage::isInViewPort(Box pos) {
 	const auto camPosition = Game::getInstance()->getCameraPosition();
 	const auto left = camPosition.x;
@@ -555,6 +559,11 @@ void Stage::resetAllList() {
 }
 
 
+void Stage::clearMapByItem() {
+	for (auto enemy : listEnemy)
+		enemy->getHurt(-9999999);
+}
+
 void Stage::resetAllUnitList() {
 	listUnit.clear();
 	listRenderObj.clear();
@@ -610,17 +619,19 @@ void Stage::onKeyDown(const int keyCode) {
 		break;
 	case DIK_C: simon->getHurt(1, 1, 666);
 		break;
-	case DIK_1: simon->setSubWeapon(itemDagger);
+	case DIK_0: simon->setSubWeapon(itemDagger);
 		break;
-	case DIK_2: simon->setSubWeapon(itemAxe);
+	case DIK_1: simon->setSubWeapon(itemAxe);
 		break;
-	case DIK_3: simon->setSubWeapon(itemBoomerang);
+	case DIK_2: simon->setSubWeapon(itemBoomerang);
 		break;
-	case DIK_4: simon->setSubWeapon(itemHolyWater);
+	case DIK_3: simon->setSubWeapon(itemHolyWater);
+		break;
+	case DIK_4: simon->setSubWeapon(itemStopWatch);
 		break;
 	case DIK_F: simon->addEnergy(100);
 		break;
-	case DIK_G: isStopEnemy = !isStopEnemy;
+	case DIK_G: isStopEnemyForDebug = !isStopEnemyForDebug;
 		break;
 	case DIK_PAUSE:
 		isGamePause = !isGamePause;
@@ -647,4 +658,11 @@ Simon* Stage::getSimon() const {
 
 int Stage::getId() {
 	return mapId;
+}
+
+void Stage::stopEnemyForABit(DWORD time) {
+	if(!timerStopEnemy->isRunning()) {
+		timerStopEnemy = new Timer(time);
+		timerStopEnemy->start();
+	}
 }

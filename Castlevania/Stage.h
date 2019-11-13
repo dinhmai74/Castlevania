@@ -44,6 +44,7 @@ public:
 	void setBoss(EnemyVampireBoss* val) { boss = val; }
 	bool getIsFightingBoss() const { return isFightingBoss; }
 	void setIsFightingBoss(bool val=true) { isFightingBoss = val; }
+	void stopEnemyForABit(DWORD time);
 private:
 	Simon* simon;
 	int mapId;
@@ -67,6 +68,7 @@ private:
 	vector<GameObject*> listStairs;
 	EnemyVampireBoss* boss;
 	vector<GameObject*> listWater;
+	Timer* timerStopEnemy=new Timer();
 
 	void loadObjectFromFiles();
 	void loadContent();
@@ -85,6 +87,8 @@ private:
 	bool isGamePause;
 	wstring fileObjects;
 	bool isInViewPort(Box pos);
-	bool isStopEnemy;
+	bool isStopEnemyForDebug;
 	void resetAllList();
+public:
+	void clearMapByItem();
 };

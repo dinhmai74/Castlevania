@@ -10,6 +10,14 @@ void StageManager::pauseGame(bool val) const {
 	currentStage->setGamePause(val);
 }
 
+void StageManager::clearMapByItem() {
+	currentStage->clearMapByItem();
+}
+
+void StageManager::stopEnemyForABit(DWORD time) {
+	currentStage->stopEnemyForABit(time);
+}
+
 void StageManager::removeAllObjOutOfBound() {
 	currentStage->getGrid()->removeOutOfBoundUnit(Camera::getInstance()->getLimitX());
 }

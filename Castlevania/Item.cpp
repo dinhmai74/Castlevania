@@ -56,11 +56,13 @@ void Item::initAnim()
 	addAnimation(itemWhip, "item_chain_ani");
 	addAnimation(itemDagger, "item_dagger_ani");
 	addAnimation(itemAxe, "item_axe_ani");
-	addAnimation(itemBoomerang, "item_cross_ani");
+	addAnimation(itemStopWatch, "item_stopwatch_ani");
+	addAnimation(itemBoomerang, "item_boomerang_ani");
 	addAnimation(itemBlueMoneyBag, "item_bluemoneybag_ani");
 	addAnimation(itemWhiteMoneyBag, "item_whitemoneybag_ani");
 	addAnimation(itemRedMoneyBag, "item_redmoneybag_ani");
 	addAnimation(itemPorkChop, "item_porkchop_ani");
+	addAnimation(itemHolyCross, "item_cross_ani");
 }
 
 void Item::init()

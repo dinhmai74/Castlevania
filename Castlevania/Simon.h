@@ -127,7 +127,7 @@ private:
 	bool canThrow();
 	void doThrow(int type);
 	void throwSubWeapon();
-	void loseEnergy() { energy--; energy = energy < 0 ? 0 : energy; };
+	void loseEnergy(int val=1) { energy-=val; energy = energy < 0 ? 0 : energy; };
 	void addEnergy() { energy++; energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy; };
 	void generateSubWeapon();
 	bool isHaveSubWeapon() const {

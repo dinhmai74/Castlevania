@@ -15,10 +15,10 @@ Item* ItemFactory::getItem(int type, D3DXVECTOR2 pos, bool isEnable) {
 		break;
 	case itemBigHeart: item = new ItemHeart(itemBigHeart); break;
 	case itemBlueMoneyBag:
-		item = new ItemMoneyBag(type, 700);
+		item = new ItemMoneyBag(type, 400);
 		break;
 	case itemWhiteMoneyBag:
-		item = new ItemMoneyBag(type, 500);
+		item = new ItemMoneyBag(type, 700);
 		break;
 	case itemRedMoneyBag:
 		item = new ItemMoneyBag(type, 1000);
