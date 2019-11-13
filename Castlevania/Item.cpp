@@ -60,6 +60,7 @@ void Item::initAnim()
 	addAnimation(itemBlueMoneyBag, "item_bluemoneybag_ani");
 	addAnimation(itemWhiteMoneyBag, "item_whitemoneybag_ani");
 	addAnimation(itemRedMoneyBag, "item_redmoneybag_ani");
+	addAnimation(itemPorkChop, "item_porkchop_ani");
 }
 
 void Item::init()

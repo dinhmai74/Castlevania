@@ -35,6 +35,9 @@ void Boundary::setWidhtHeight(float w, float h)
 
 void Boundary::init()
 {
+	vx = 0;
+	vy = 0;
+	initVelocity= {0,0};
 	boundaryType = BoundaryNormal;
 	type = OBBoundary;
 }

@@ -8,13 +8,14 @@ enum ItemType
 	itemAxe,
 	itemBoomerang,
 	itemHolyWater,
-	itemRedMoneyBag,
-	itemWhiteMoneyBag,
-	itemBlueMoneyBag,
 	itemWhip = 102,
 	itemBigHeart = 100,
 	itemSmallHeart = 101,
 	itemHolyWaterEffect = 103,
+	itemRedMoneyBag,
+	itemWhiteMoneyBag,
+	itemBlueMoneyBag,
+	itemPorkChop
 };
 
 class Item :

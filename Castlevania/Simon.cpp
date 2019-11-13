@@ -84,6 +84,7 @@ bool Simon::checkClimbingState() {
 
 bool Simon::shouldUpdate(DWORD dt) {
 	this->dt = dt;
+	DebugOut(L"1 %f %f %f\n",x,getBoundingBox().l, getBoundingBox().r);
 	canDeflect = state != climbing && staringStatus != ready;
 	updateRGB();
 	return !forceDead && !isStopAllAction;
@@ -177,7 +178,7 @@ void Simon::updateCameraWhenGoThroughDoor() {
 	}
 }
 
-bool Simon::updateLife(int val) {
+bool Simon::addLife(int val) {
 	life += val;
 	if (life < 0) {
 		life = 0;
@@ -186,7 +187,7 @@ bool Simon::updateLife(int val) {
 	return true;
 }
 
-bool Simon::updateHP(int val) {
+bool Simon::addHP(int val) {
 	hp += val;
 	if (hp <= 0) {
 		hp = 0;
@@ -197,7 +198,7 @@ bool Simon::updateHP(int val) {
 	return true;
 }
 
-void Simon::updateEnergy(int val/*=1*/) {
+void Simon::addEnergy(int val/*=1*/) {
 	energy += val;
 	energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy;
 }
@@ -423,9 +424,6 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 				const auto boundary = dynamic_cast<Boundary*>(object);
 				if (boundary) {
 					auto type = boundary->getBoundaryType();
-					if (nx != 0) {
-						DebugOut(L"boundary %f\n", boundary->getBoundingBox().l);
-					}
 					switch (type) {
 					case BoundaryNormal:
 						result.x = processCollisionWithBoundaryByX(minTx, nx, boundary);
@@ -548,6 +546,9 @@ void Simon::processCollisionWithItem(Item* item) {
 		switch (itemType) {
 		case itemWhip:
 			powerUpWhip();
+			break;
+		case itemPorkChop:
+			addHP(6);
 			break;
 		default:
 			subWeaponType = itemType;
@@ -859,12 +860,6 @@ void Simon::refreshHitAnim(int stateAfterHit, int animAfterHit) {
 	animations[animId]->refresh();
 	if (stateAfterHit != -1)setState(stateAfterHit);
 	if (animAfterHit != -1)setAnimId(animAfterHit);
-}
-
-Box Simon::getBoundingBox() {
-	auto box = getBoundingBoxBaseOnFile();
-	// offset from rect sprite and bbox
-	return box;
 }
 
 void Simon::resetState() {

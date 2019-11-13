@@ -19,14 +19,18 @@ void BrokenWall::init(float x, float y) {
 
 	auto fragmentMiddle = new BrokenWallFragment();
 	fragmentMiddle->setPos(x, y);
-	fragmentMiddle->setSpeed(vx * 0.3, -0.25);
+	fragmentMiddle->setSpeed(vx * 0.3, -0.1);
 
 	auto fragmentRight = new BrokenWallFragment();
 	fragmentRight->setPos(x, y);
-	fragmentRight->setSpeed(-vx * 1.5, -0.25);
+	fragmentRight->setSpeed(-vx * 1.5, -0.20);
+	auto fragmentRight2 = new BrokenWallFragment();
+	fragmentRight->setPos(x, y);
+	fragmentRight->setSpeed(-vx * 2, -0.25);
 	fragments.push_back(fragment);
 	fragments.push_back(fragmentMiddle);
 	fragments.push_back(fragmentRight);
+	fragments.push_back(fragmentRight2);
 
 	timerActive->stop();
 	setState(Init);
@@ -45,17 +49,17 @@ BrokenWall::BrokenWall(float x, float y) {
 BrokenWall::~BrokenWall() {}
 
 void BrokenWall::initAnim() {
-	addAnimation(Init, "empty_ani");
-	addAnimation(Broking, "broken_wall_default_ani");
-	addAnimation(Broken, "broken_wall_default_ani");
 }
 
 
 void BrokenWall::render() {
 	if (state == Broking) for (auto fragMent : fragments) if (fragMent)fragMent->render();
 
-	animations[animId]->render(1, x, y);
-	ItemContainer::render();
+	if(state != Init) {
+		const auto texture = TextureManager::getInstance()->get(ID_TEX_BBOX);
+		const auto rect = Boundary::getBoundingBox();
+		Game::getInstance()->draw(1, rect.l, rect.t-5, texture, rect, rect, 255);
+	}
 }
 
 void BrokenWall::update(DWORD dt, vector<GameObject*>* coObjects) {
@@ -86,7 +90,7 @@ bool BrokenWall::getHurt(int nx, int ny, int hpLose) {
 }
 
 Box BrokenWall::getBoundingBox() {
-	if (state == Init)return getBoundingBoxBaseOnFile();
+	if (state == Init) return Boundary::getBoundingBox();
 
 	return { 0,0,0,0 };
 }

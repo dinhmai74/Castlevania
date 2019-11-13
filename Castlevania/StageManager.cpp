@@ -107,7 +107,7 @@ void StageManager::add(GameObject* ob) const {
 void StageManager::descreaseLife() {
 	DebugOut(L"descrease\n");
 	auto simon = currentStage->getSimon();
-	const auto result = simon->updateLife(-1);
+	const auto result = simon->addLife(-1);
 	if (result) {
 		reset(checkPoint.mapId, checkPoint.mapName);
 		simon->reset();

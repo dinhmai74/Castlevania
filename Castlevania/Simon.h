@@ -22,17 +22,12 @@ public:
 	void handleOnKeyPress(BYTE* states);
 	bool shouldKeyboardDisable();
 	void handleOnKeyDown(int KeyCode);
-
-
-	Box getBoundingBox() override;
 	void handleOnKeyRelease(int KeyCode);
 
 	void resetState();
 
 	void render() override;
-
 	void didSimonRender();
-
 	void renderWhip();
 
 	bool checkClimbingState();
@@ -50,9 +45,9 @@ public:
 	void didUpdate();
 
 
-	bool updateLife(int val);
-	bool updateHP(int val);
-	void updateEnergy(int val = 1);
+	bool addLife(int val);
+	bool addHP(int val);
+	void addEnergy(int val = 1);
 	void doAutoWalk(DWORD dt = 1000, float vx = SIM_AUTO_WALK_VX);
 	void doAutoWalkWithDistance(float distance, float vx = SIM_AUTO_WALK_DISTANCE_VX);
 

@@ -617,7 +617,7 @@ void Stage::onKeyDown(const int keyCode) {
 		break;
 	case DIK_4: simon->setSubWeapon(itemHolyWater);
 		break;
-	case DIK_F: simon->updateEnergy(100);
+	case DIK_F: simon->addEnergy(100);
 		break;
 	case DIK_G: isStopEnemy = !isStopEnemy;
 		break;

@@ -3,7 +3,7 @@
 #include "StageManager.h"
 
 void ItemContainer::generateItem() {
-	if (!isGeneratedItem) {
+	if (!isGeneratedItem && itemId !=-1) {
 		auto itemY = y;
 		const auto item = ItemFactory::Get()->getItem(getItemId(), { x, itemY });
 		item->setFaceSide(getItemNx());
@@ -13,4 +13,7 @@ void ItemContainer::generateItem() {
 		isGeneratedItem = true;
 	}
 }
-ItemContainer::ItemContainer() {}
+ItemContainer::ItemContainer() {
+	itemId = -1;
+	isGeneratedItem = false;
+}
