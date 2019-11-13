@@ -23,7 +23,7 @@ void Simon::init() {
 	climbDirection = ClimbNull;
 	staringStatus = none;
 	goThroughDoorStatus = nope;
-	changeStateDistanceRemain = {-1, -1};
+	changeStateDistanceRemain = { -1, -1 };
 	whip->setPos(x, y);
 
 	isInGround = false;
@@ -49,13 +49,13 @@ void Simon::initAnim() {
 	addAnimation(ANIM_DOWN_STAIR, "simon_down_stair_ani");
 	addAnimation(ANIM_HIT_UP_STAIR, "simon_hit_up_stair_ani");
 	addAnimation(ANIM_HIT_DOWN_STAIR, "simon_hit_down_stair_ani");
-	addAnimation(ANIM_EMPTY, "empty_ani");
 }
 
 void Simon::render() {
+	if (state == StateNone) return;
 	renderWhip();
-	animations[animId]->render(faceSide, x, y, alpha, r, g, b, (isStopAllAction || staringStatus == pause),
-	                           currentFrame);
+	auto isPauseAnim = isStopAllAction || (staringStatus == pause && !isHitting);
+	animations[animId]->render(faceSide, x, y, alpha, r, g, b, isPauseAnim,		currentFrame);
 	didSimonRender();
 }
 
@@ -97,7 +97,7 @@ void Simon::willUpdate() {
 	updateChangingStageEffect();
 	updateCameraWhenGoThroughDoor();
 	processDeathEffect();
-	if (state != climbing) updateGravity(dt);
+	if (state != climbing && state != hittingWhenClimbing && state != throwingWhenClimbing) updateGravity(dt);
 }
 
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps) {
@@ -173,10 +173,9 @@ void Simon::updateCameraWhenGoThroughDoor() {
 		movingCam = true;
 		collidedDoor = nullptr;
 		break;
-	default: ;
+	default:;
 	}
 }
-
 
 void Simon::updateRGB() {
 	auto const stageManager = StageManager::getInstance();
@@ -242,8 +241,8 @@ void Simon::doChangeStageEffect(ObjectChangeStage* obj, DWORD duration) {
 	auto yDirection = yDistance > 0 ? 1 : -1;
 
 	changeStateVelocity = obj->getChangeStateVelocity();
-	changeStateDirection = {faceSide, yDirection};
-	changeStateDistanceRemain = {fabs(xDistance), fabs(xDistance)};
+	changeStateDirection = { faceSide, yDirection };
+	changeStateDistanceRemain = { fabs(xDistance), fabs(xDistance) };
 }
 
 void Simon::doAutoClimb() {
@@ -331,7 +330,7 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps) {
 		case OBWater:
 			checkCollisionWithWater(map.objs);
 			break;
-		default: ;
+		default:;
 		}
 	}
 }
@@ -380,7 +379,7 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 	float nx = 0;
 	float ny;
 	coEvents.clear();
-	CollisionResult result = {false, false};
+	CollisionResult result = { false, false };
 	bool updatedY = false;
 	auto updatedX = false;
 
@@ -435,7 +434,7 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 	if (!updatedX) {
 		if (result.x) {
 			auto distance = state == deflect ? 5.0f : 0.1f;
-			blockX(minTx, nx,distance);
+			blockX(minTx, nx, distance);
 			vx = 0;
 			if (state == deflect) {
 				timerDeflect->stop();
@@ -632,6 +631,7 @@ void Simon::hit(int type) {
 	stopMoveWhenHitting();
 	isHitting = true;
 	whip->refreshAnim();
+	whip->refreshState();
 	setState(type);
 }
 
@@ -640,7 +640,7 @@ void Simon::doThrow(int type) {
 		hit(type - 3);
 		return;
 	}
-	if(subWeaponType == itemStopWatch) {
+	if (subWeaponType == itemStopWatch) {
 		StageManager::getInstance()->stopEnemyForABit();
 		loseEnergy(5);
 		return;
@@ -662,7 +662,7 @@ void Simon::generateSubWeapon() {
 	const auto subX = getFaceSide() == SideLeft ? x - width + 10 : x + width;
 	const auto subY = state == throwingWhenSitting ? y + 15 : y;
 
-	subWeapon->setInitPos({subX, subY});
+	subWeapon->setInitPos({ subX, subY });
 	subWeapon->setPos(subX, subY);
 	subWeapon->setEnable();
 	StageManager::getInstance()->add(subWeapon);
@@ -678,11 +678,11 @@ void Simon::handleOnKeyRelease(int KeyCode) {
 		if (isInGround && !isHitting && !isThrowing && state != climbing)
 			stand();
 	}
-	break;
+				 break;
 	case DIK_UP:
 		isReleaseThrowButton = true;
 		break;
-	default: ;
+	default:;
 	}
 }
 
@@ -756,10 +756,9 @@ void Simon::handleOnKeyDown(int keyCode) {
 		break;
 	}
 
-	default: ;
+	default:;
 	}
 }
-
 
 bool Simon::shouldKeyboardDisable() {
 	return forceDead || isHitting || isThrowing || isPowering() || isAutoWalking() || isChangingStage() ||
@@ -795,20 +794,23 @@ void Simon::updateAnimId() {
 		break;
 	case hitting:
 		setAnimId(ANIM_HITTING);
-		// check and process if animation hitting is done
-		if (animations[animId]->isDone()) refreshHitAnim();
+		if (animations[animId]->isDone())
+			refreshHitAnim();
 		break;
 	case hittingWhenSitting:
 		setAnimId(ANIM_HITTING_WHEN_SIT);
-		if (animations[animId]->isDone()) refreshHitAnim(sitting, ANIM_SIT);
+		if (animations[animId]->isDone())
+			refreshHitAnim(sitting, ANIM_SIT);
 		break;
 
-	case hittingWhenClimbing: {
+	case hittingWhenClimbing:
+	{
 		auto const anim = climbDirection == ClimbUp ? ANIM_HIT_UP_STAIR : ANIM_HIT_DOWN_STAIR;
 		setAnimId(anim);
-		if (animations[animId]->isDone()) refreshHitAnim(climbing, anim);
+		if (animations[animId]->isDone())
+			refreshHitAnim(climbing, anim);
+		break;
 	}
-	break;
 	case throwing:
 		setAnimId(ANIM_HITTING);
 		frame = animations[animId]->getCurrentFrame();
@@ -873,7 +875,7 @@ void Simon::resetState() {
 void Simon::reset() {
 	resetState();
 	staringStatus = none;
-	changeStateDistanceRemain = {-1, -1};
+	changeStateDistanceRemain = { -1, -1 };
 	gravity = initGravity;
 	timerPowering->stop();
 	timerDeflect->stop();
@@ -897,12 +899,12 @@ bool Simon::getHurt(int nx, int ny, int hpLose) {
 }
 
 void Simon::setDeathByWater() {
+	state = StateNone;
 	if (isDying()) return;
 
 	timerDeath->start();
 	vx = 0;
 	gravity = 0;
-	animId = ANIM_EMPTY;
 }
 
 void Simon::upgradeWhipLv(bool up) const {
@@ -973,7 +975,6 @@ bool Simon::isAutoWalking() const {
 void Simon::moveCam(float distance) const {
 	if (!Camera::getInstance()->isMoving()) Camera::getInstance()->move(distance);
 }
-
 
 bool Simon::addLife(int val) {
 	life += val;

@@ -38,7 +38,6 @@ public:
 	void update(DWORD dt, vector<GameObject*>* boundary) override;
 	void setItemType(int type);
 	int getItemType() const;
-	Box getBoundingBox() override;
 	virtual void checkCollision(DWORD dt, vector<GameObject*>* boundary);
 private:
 	void initAnim() override;

@@ -7,13 +7,12 @@ constexpr auto SIM_WIDTH = 32;
 constexpr auto SIM_VY_READY_TO_LAND = 0.15f;
 
 /*----------------- time  -----------------*/
-constexpr auto SIM_HITTING_TIME = 100;
-constexpr auto SIM_THROWING_TIME = 150;
+constexpr auto SIM_HITTING_TIME = 450;
 constexpr auto SIM_POWERING_DURATION = 1000;
 constexpr auto SIM_DELTA_TRHOWING_TIME = 400;
 constexpr auto SIM_AUTO_WALK_DURATION = 1000;
 constexpr auto SIM_SIT_WHEN_LANDING = 300;
-constexpr auto SIM_CHANGING_STAGE_DURATION = 2000;
+constexpr auto SIM_CHANGING_STAGE_DURATION = 1000;
 
 
 // trong luc luc nhay

@@ -43,12 +43,6 @@ void Item::checkDurationToDisapear()
 	if (appearTimer->isTimeUpAndRunAlr()) setDisable();
 }
 
-Box Item::getBoundingBox()
-{
-	return GameObject::getBoundingBoxBaseOnFile();
-}
-
-
 void Item::initAnim()
 {
 	addAnimation(itemSmallHeart, "item_smallheart_ani");
