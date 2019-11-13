@@ -35,11 +35,26 @@ void EnemyFish::updateWhenJumping() {
 }
 
 void EnemyFish::update(DWORD dt, vector<GameObject*> * coObjects) {
+	updateRespawnPosBaseOnSim();
 	updateAnimId();
 	Enemy::update(dt, coObjects);
 	updateWhenJumping();
 	updateWalking();
 	shoot();
+}
+
+void EnemyFish::updateRespawnPosBaseOnSim() {
+	auto sim = StageManager::getInstance()->getCurrentStage()->getSimon();
+	auto nx = sim->getFaceSide();
+	auto playerX = sim->getPos().x;
+	auto posX = playerX - nx * activeRange;
+	initPos.x = posX;
+	if (!isInViewPort() && IsEnable()) {
+		setPos(posX, initPos.y);
+		setFaceSide(nx);
+		setInitFaceSide(nx);
+		setState(jumping);
+	}
 }
 
 void EnemyFish::updateWalking() {
@@ -88,4 +103,21 @@ void EnemyFish::shoot() {
 
 bool EnemyFish::canShoot() {
 	return timerShooting->isTimeUpAndRunAlr() && state == walking;
+}
+
+void EnemyFish::generateEnemy(float playerX, float playerY) {
+	auto nx = StageManager::getInstance()->getCurrentStage()->getSimon()->getFaceSide();
+	auto posX = playerX - nx * activeRange;
+	auto posY = y;
+	DebugOut(L"activeRange %f\n",activeRange);
+	reset();
+	setPos(posX, posY);
+	initPos.x = posX;
+	setFaceSide(nx);
+	setInitFaceSide(nx);
+	vx = initVelocity.x * faceSide;
+	if (!isInViewPort()) return;
+	getTimerRespawn()->stop();
+	setReadyToRespawn(false);
+	setEnable();
 }

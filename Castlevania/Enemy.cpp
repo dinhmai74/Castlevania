@@ -24,6 +24,7 @@ void Enemy::init() {
 }
 
 void Enemy::reset() {
+	DebugOut(L"reset enem\n");
 	resetHp();
 	resetPos();
 	setState(initState);
@@ -142,7 +143,10 @@ void Enemy::processWhenBurnedEffectDone() {
 }
 
 void Enemy::setEnable(bool val /*= true*/) {
-	if (!val && isEnable) timerRespawn->start();
+	if (!val && isEnable) {
+		DebugOut(L"start timer respawn %d\n",GetTickCount64());
+		timerRespawn->start();
+	}
 	GameObject::setEnable(val);
 }
 

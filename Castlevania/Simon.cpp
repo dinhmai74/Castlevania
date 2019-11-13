@@ -133,7 +133,9 @@ void Simon::checkOutOfBound() {
 
 	auto width = (getBoundingBox().r - getBoundingBox().l);
 	if (x + width + offset >= limit.max) x = limit.max - width - offset;
+	if (y > SCREEN_HEIGHT) setDeathByWater();
 }
+
 
 void Simon::updateCameraWhenGoThroughDoor() {
 	if (!collidedDoor) return;

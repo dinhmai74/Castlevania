@@ -300,10 +300,11 @@ void Stage::loadEnemies(fstream& fs, float x, float y) {
 		wolf->setActiveTerritory({ activeTerLeft, activeTerRight });
 	}
 	else if (type == EnemFish) {
-		float jumpRange;
-		fs >> jumpRange;
+		float jumpRange, activeRange;
+		fs >> jumpRange>> activeRange;
 		auto fish = dynamic_cast<EnemyFish*>(obj);
 		fish->setJumpingMaxRange(jumpRange);
+		fish->setActiveRange(activeRange);
 	}
 	obj->setInitState(initState);
 	obj->setState(initState);
@@ -315,6 +316,7 @@ void Stage::loadEnemies(fstream& fs, float x, float y) {
 	obj->setInitFaceSide(faceSide);
 	obj->setFaceSide(faceSide);
 	obj->setRespawnTime(respawnTime);
+	obj->setEnable();
 	auto unit = new Unit(getGrid(), obj, x, y);
 }
 
@@ -335,7 +337,7 @@ bool Stage::updateEnemy(vector<GameObject*>::value_type obj, DWORD dt) {
 			return true;
 		}
 
-		enem->setIsStopAllAction(timerStopEnemy->isRunning());
+		enem->setIsStopAllAction(timerStopEnemy->isRunning()|| isGamePause);
 
 		if (isGamePause || timerStopEnemy->isRunning()) return true;
 		vector<GameObject*> canColide;
@@ -368,7 +370,7 @@ void Stage::update(DWORD dt) {
 		obj->setIsStopAllAction(isGamePause);
 		auto subWeapon = dynamic_cast<SubWeapon*>(obj);
 		if (subWeapon) {
-			updateSubWeapon(subWeapon, dt);
+			if(!isGamePause) updateSubWeapon(subWeapon, dt);
 			continue;
 		}
 
@@ -377,7 +379,7 @@ void Stage::update(DWORD dt) {
 
 		auto listCO = listCanCollideBoundary;
 		listCO.insert(listCO.begin(), listWater.begin(), listWater.end());
-		if (!updateResult) obj->update(dt, &listCanCollideBoundary);
+		if (!updateResult && !isGamePause) obj->update(dt, &listCanCollideBoundary);
 	}
 
 	updateCamera(dt);
