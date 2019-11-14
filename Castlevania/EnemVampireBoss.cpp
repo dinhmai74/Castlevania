@@ -29,7 +29,7 @@ void EnemyVampireBoss::initAnim() {
 	addAnimation(flying, "vampire_boss_fly_ani");
 	addAnimation(hitting, "vampire_boss_fly_ani");
 	addAnimation(idle, "vampire_boss_fly_ani");
-	addAnimation(ANIM_DEATH, "vampire_boss_death_ani");
+	addAnimation(death, "vampire_boss_death_ani");
 }
 
 void EnemyVampireBoss::update(DWORD dt, vector<GameObject*> * coObjects /*= nullptr*/) {
@@ -119,6 +119,7 @@ void EnemyVampireBoss::setIdle() {
 }
 
 Box EnemyVampireBoss::getBoundingBox() {
+	if (!IsEnable() || state ==death) return { x,y,x,y };
 	return getBoundingBoxBaseOnFileAndPassWidth(50);
 }
 

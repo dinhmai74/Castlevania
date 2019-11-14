@@ -33,7 +33,9 @@ public:
 	/*----------------- get set  -----------------*/
 	int getEnemyType() const { return enemyType; }
 	void setEnemyType(int val) { enemyType = val; }
-	int getDmg() const { return dmg; }
+	int getDmg() {
+		return dmg;
+	}
 	void setDmg(int val) { dmg = val; }
 	int getInitFaceSide() const { return initFaceSide; }
 	void setInitFaceSide(int val) { initFaceSide = val; }

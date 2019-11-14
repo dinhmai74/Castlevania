@@ -101,7 +101,6 @@ bool GameObject::processCollisionWithBoundaryByX(float minTx, float nx, GameObje
 	return true;
 }
 
-
 void GameObject::setDeathByWater() {
 	setState(death);
 	animId = ANIM_EMPTY;
@@ -111,7 +110,7 @@ void GameObject::setDeathByWater() {
 }
 
 D3DXVECTOR2 GameObject::getCenter() {
-	auto box = getBoundingBox();
+	auto box = getBoundingBoxBaseOnFile();
 	auto xPos = x + ((box.r - box.l) / 2);
 	auto yPos = y;
 	return {xPos, yPos};
@@ -133,7 +132,7 @@ bool GameObject::getHurt(int nx, int hpLose) {
 }
 
 bool GameObject::getHurt(int nx, int ny, int hpLose) {
-	if (isUntouching() || isDeflecting()) return false;
+	if (isUntouching() || isDeflecting() || hpLose <=0) return false;
 	if (this->getHp() <= hpLose)
 		doDeathAnim();
 	else setStatusWhenStillHaveEnoughHP(nx, hpLose);
@@ -156,7 +155,7 @@ void GameObject::loseHp(int hpLose) {
 }
 
 void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose) {
-	loseHp(hpLose);
+	if (hpLose <= 0) return;
 	if (animations[ANIM_DEFLECT] && canDeflect) {
 		doDeflect(nx);
 		doBurnedEffect(true);

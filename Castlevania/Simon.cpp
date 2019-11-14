@@ -55,7 +55,7 @@ void Simon::render() {
 	if (state == StateNone) return;
 	renderWhip();
 	auto isPauseAnim = isStopAllAction || (staringStatus == pause && !isHitting);
-	animations[animId]->render(faceSide, x, y, alpha, r, g, b, isPauseAnim,		currentFrame);
+	animations[animId]->render(faceSide, x, y, alpha, r, g, b, isPauseAnim, currentFrame);
 	didSimonRender();
 }
 
@@ -492,7 +492,7 @@ void Simon::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs) {
 
 		for (auto& i : coEventsResult) {
 			const auto enemy = dynamic_cast<Enemy*>(i->obj);
-			if (enemy && getHurt(nx, ny, enemy->getDmg())) {
+			if (enemy && enemy->getState() != death && getHurt(nx, ny, enemy->getDmg())) {
 				resetState();
 				if (enemy->getEnemyType() == EnemBat) enemy->getHurt(EnemyFactory::getInstance()->getHp(EnemBat));
 				continue;
@@ -896,8 +896,12 @@ void Simon::reset() {
 
 bool Simon::getHurt(int nx, int ny, int hpLose) {
 	if (isUntouching() || isDeflecting()) return false;
-	resetState();
-	return GameObject::getHurt(nx, ny, hpLose);
+	if (GameObject::getHurt(nx, ny, hpLose)) {
+		resetState();
+		return true;
+	}
+
+	return false;
 }
 
 void Simon::setDeathByWater() {
