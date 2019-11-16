@@ -1,6 +1,7 @@
 #include "EnemyBat.h"
 #include "StageManager.h"
 
+auto stageManager= StageManager::getInstance();
 
 EnemyBat::EnemyBat() {
 	setEnemyType(EnemBat);
@@ -42,12 +43,11 @@ void EnemyBat::updateVy() {
 }
 
 void EnemyBat::generateEnemy(float playerX, float playerY) {
-	auto nx = StageManager::getInstance()->getCurrentStage()->getSimon()->getFaceSide();
-	auto posX = playerX + nx * 200;
-	auto posY = playerY + 20;
-	initPos.y = posY;
+	int nx;
+	auto pos = getPosBaseOnSimon( nx);
+	initPos.y = pos.y;
 	reset();
-	setPos(posX, posY);
+	setPos(pos.x, pos.y);
 	setFaceSide(-nx);
 	setInitFaceSide(-nx);
 	vx = initVelocity.x * faceSide;
@@ -55,6 +55,15 @@ void EnemyBat::generateEnemy(float playerX, float playerY) {
 	getTimerRespawn()->stop();
 	setReadyToRespawn(false);
 	setEnable();
+}
+
+D3DXVECTOR2 EnemyBat::getPosBaseOnSimon(int& nx) {
+	auto simon = stageManager->getCurrentStage()->getSimon();
+	nx = simon->getFaceSide();
+	auto pos = simon->getPos();
+	auto posX = pos.x+ nx * 200;
+	auto posY = pos.y+10;
+	return { posX,posY };
 }
 
 Box EnemyBat::getBoundingBox() {

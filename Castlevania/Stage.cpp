@@ -306,6 +306,8 @@ void Stage::loadEnemies(fstream& fs, float x, float y) {
 		auto fish = dynamic_cast<EnemyFish*>(obj);
 		fish->setJumpingMaxRange(jumpRange);
 		fish->setActiveRange(activeRange);
+	} else if(type == EnemBat) {
+		y = simon->getPos().y;
 	}
 	obj->setInitState(initState);
 	obj->setState(initState);

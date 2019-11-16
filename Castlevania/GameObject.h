@@ -202,6 +202,7 @@ public:
 	void getSpeed(float& vx, float& vy) const;
 	void getPos(float& x, float& y) const;
 	D3DXVECTOR2 getPos() { return {x, y}; }
+	void setPos(D3DXVECTOR2 pos) { x = pos.x; y = pos.y; }
 
 	bool IsActive() const { return isActive; }
 	virtual void setActive(bool val = true) { isActive = val; }
