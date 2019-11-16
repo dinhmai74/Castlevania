@@ -441,6 +441,7 @@ void Stage::updateInActiveUnit() {
 			case OBSubWeapon:
 				ob->setActive(false);
 				ob->setEnable(false);
+				removeSubWeapons(ob);
 				break;
 			default:;
 			}
@@ -511,11 +512,13 @@ bool sortByType(GameObject* a, GameObject* b) {
 }
 
 void Stage::loadListObjFromGrid() {
+	DebugOut(L"subWeapons %d\n",subWeapons.size());
 	resetAllUnitList();
 	listRenderObj = listCanCollideBoundary;
 	listStopSimObjs = listCanCollideBoundary;
 	listRenderObj.push_back(simon);
 	listRenderObj.insert(listRenderObj.begin(), listWater.begin(), listWater.end());
+	listRenderObj.insert(listRenderObj.begin(), subWeapons.begin(), subWeapons.end());
 	getGrid()->get(Game::getInstance()->getCameraPosition(), listUnit);
 
 	for (auto unit : listUnit) {
@@ -671,4 +674,12 @@ void Stage::stopEnemyForABit(DWORD time) {
 		timerStopEnemy = new Timer(time);
 		timerStopEnemy->start();
 	}
+}
+
+void Stage::addSubWeapon(SubWeapon* subWeapon) {
+	subWeapons.push_back(subWeapon);
+}
+
+void Stage::removeSubWeapons(GameObject* ob) {
+	subWeapons.erase(std::remove(subWeapons.begin(), subWeapons.end(), ob), subWeapons.end());
 }

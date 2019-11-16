@@ -26,6 +26,10 @@ void StageManager::removeAllObjOutOfBound() {
 	currentStage->getGrid()->removeOutOfBoundUnit(Camera::getInstance()->getLimitX());
 }
 
+void StageManager::addSubWeapon(SubWeapon* subWeapon) {
+	currentStage->addSubWeapon(subWeapon);
+}
+
 StageManager::~StageManager() {
 	isReleaseSelectMapKey = true;
 }

@@ -74,8 +74,9 @@ public:
 	void setSubWeapon(int val) { subWeaponType = val; }
 	bool isWalkingOutDoor() { return collidedDoor != nullptr; }
 
-	virtual void setDeathByWater() override;
+	void setDeathByWater() override;
 
+	void setCanShotTimes(int val) { canShotTimes = val; }
 private:
 	bool isHitting{};
 	bool isThrowing{};
@@ -105,6 +106,7 @@ private:
 	D3DXVECTOR2 changeStateVelocity;
 	VectorInt changeStateDirection;
 	D3DXVECTOR2 changeStateDistanceRemain;
+	int canShotTimes;
 
 	bool isPowering() { return isTimerRunning(timerPowering); };
 	bool isChangingStage() { return changeStateDistanceRemain.x >= 0 && changeStateDistanceRemain.y >= 0; };

@@ -31,6 +31,7 @@ void Simon::init() {
 	isReleaseThrowButton = true;
 	Simon::initAnim();
 	setAnimId(ANIM_IDLE);
+	canShotTimes = 1;
 	//gravity = 0;
 	gravity = SIMON_GRAVITY;
 	initGravity = SIMON_GRAVITY;
@@ -667,8 +668,7 @@ void Simon::generateSubWeapon() {
 	subWeapon->setInitPos({ subX, subY });
 	subWeapon->setPos(subX, subY);
 	subWeapon->setEnable();
-	StageManager::getInstance()->add(subWeapon);
-	timerThrowing->start();
+	StageManager::getInstance()->addSubWeapon(subWeapon);
 }
 
 /*----------------- keyboard handle  -----------------*/
@@ -931,7 +931,7 @@ bool Simon::isCollidingWithStair() {
 }
 
 bool Simon::canThrow() {
-	return energy > 0 && timerThrowing->isTimeUp() && isHaveSubWeapon();
+	return energy > 0 && StageManager::getInstance()->getCurrentSubWeaponsAmount() < canShotTimes && isHaveSubWeapon();
 }
 
 void Simon::setClimbStairInfo(int direction) {

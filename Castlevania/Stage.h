@@ -30,6 +30,12 @@ public:
 	void onKeyDown(int keyCode);
 	void onKeyUp(int keyCode) const;
 	void keyState(BYTE* states) const;
+
+	void removeSubWeapons(GameObject* ob);
+	void clearMapByItem();
+	void stopEnemyForABit(DWORD time);
+	void addSubWeapon(SubWeapon* subWeapon);
+
 	Grid* getGrid() const;
 	Simon* getSimon() const;
 	int getId();
@@ -44,7 +50,7 @@ public:
 	void setBoss(EnemyVampireBoss* val) { boss = val; }
 	bool getIsFightingBoss() const { return isFightingBoss; }
 	void setIsFightingBoss(bool val=true) { isFightingBoss = val; }
-	void stopEnemyForABit(DWORD time);
+	int getCurrentSubWeaponsAmount() { return subWeapons.size(); }
 private:
 	Simon* simon;
 	int mapId;
@@ -64,6 +70,7 @@ private:
 	vector<GameObject*> listStopSimObjs;
 	vector<GameObject*> listForceIdleSim;
 	vector<GameObject*> listBullet;
+	vector<GameObject*> subWeapons;
 	vector<Unit*> listUnit;
 	vector<GameObject*> listStairs;
 	EnemyVampireBoss* boss;
@@ -89,6 +96,4 @@ private:
 	bool isInViewPort(Box pos);
 	bool isStopEnemyForDebug;
 	void resetAllList();
-public:
-	void clearMapByItem();
 };

@@ -1,10 +1,12 @@
 #include "Weapon.h"
 #include "Enemy.h"
+#include "StageManager.h"
 
 void Weapon::disableWeapon()
 {
 	setActive(false);
 	setEnable(false);
+	if(type== OBSubWeapon) StageManager::getInstance()->removeSubWeapon(this);
 }
 
 bool Weapon::processCollisionWithCandle(GameObject* coObject, int nx, int ny)

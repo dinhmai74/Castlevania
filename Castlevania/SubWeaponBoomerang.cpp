@@ -63,6 +63,6 @@ void SubWeaponBoomerang::processCollisionWithSimon(GameObject* object, float nx,
 
 	if (simon && firedDistance >= 100)
 	{
-		setDisable();
+		disableWeapon();
 	}
 }

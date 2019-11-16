@@ -28,7 +28,10 @@ public:
 	void descreaseLife();
 	void loadTileMaps();
 	void removeAllObjOutOfBound();
-	void addScore(int score) { this->score += score; };
+	void addScore(int score) { this->score += score; }
+	void addSubWeapon(SubWeapon* subWeapon);;
+	void removeSubWeapon(GameObject* sub) { currentStage->removeSubWeapons(sub); }
+	int getCurrentSubWeaponsAmount() { return currentStage->getCurrentSubWeaponsAmount(); }
 	int getScore() { return score; };
 	void pauseGame(bool val = true) const;
 	void setCheckPoint(CheckPoint val) { checkPoint = val; }
