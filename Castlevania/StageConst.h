@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+auto constexpr ID_MAIN_MENU = 0;
 auto constexpr ID_STAGE_1 = 1;
 auto constexpr ID_STAGE_2 = 2;
 auto constexpr ID_STAGE_3 = 3;

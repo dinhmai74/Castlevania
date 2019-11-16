@@ -1,6 +1,7 @@
 #include "StageManager.h"
 #include "HUD.h"
 #include "Bubbles.h"
+#include "IntroScene.h"
 HUD* hud = HUD::getInstance();
 
 
@@ -42,12 +43,14 @@ void StageManager::init(vector<TileMapInfo> tileMapsInfo) {
 	this->tileMapsInfo = tileMapsInfo;
 	score = 0;
 
+	sceneId = 0;
 	loadTileMaps();
 	currentStage = new Stage();
 	currentStage->init(tileMapsInfo[0].id, tileMapsInfo[0].mapObjectsName);
 	checkPoint = { 0,L"stage1",0,305 };
 	playerChoseWhenOver = 0;
 	isGameOver = false;
+	IntroScene::getInstance()->init();
 
 	hud->init();
 }
@@ -80,13 +83,23 @@ void StageManager::reset(int id, wstring mapName) {
 }
 
 void StageManager::render() const {
-	if (!isGameOver) getCurrentStage()->render();
-	hud->render();
+	if (sceneId == ID_MAIN_MENU) {
+		IntroScene::getInstance()->render();
+	}
+	else {
+		if (!isGameOver) getCurrentStage()->render();
+		hud->render();
+	}
 }
 
 void StageManager::update(const DWORD dt) const {
-	if (!isGameOver)getCurrentStage()->update(dt);
-	hud->update(dt, currentStage->getIsGamePause());
+	if (sceneId == ID_MAIN_MENU) {
+		IntroScene::getInstance()->update(dt);
+	}
+	else {
+		if (!isGameOver)getCurrentStage()->update(dt);
+		hud->update(dt, currentStage->getIsGamePause());
+	}
 }
 
 void StageManager::onKeyDown(int keyCode) {
@@ -102,6 +115,13 @@ void StageManager::onKeyDown(int keyCode) {
 				DestroyWindow(hWnd);
 			}
 		}
+	}
+	else if (sceneId == ID_MAIN_MENU) {
+		auto intro = IntroScene::getInstance();
+		if (intro->getIsReady()) {
+			sceneId = 1;
+		}
+		else { intro->setIsReady(true); }
 	}
 	else {
 		getCurrentStage()->onKeyDown(keyCode);
@@ -121,11 +141,13 @@ void StageManager::onKeyDown(int keyCode) {
 }
 
 void StageManager::onKeyUp(int keyCode) {
-	if (!isGameOver) getCurrentStage()->onKeyUp(keyCode);
+	if (isGameOver || sceneId== ID_MAIN_MENU) return;
+		getCurrentStage()->onKeyUp(keyCode);
 }
 
 void StageManager::keyState(BYTE* states) {
-	if (!isGameOver) getCurrentStage()->keyState(states);
+	if (isGameOver)  return;
+	getCurrentStage()->keyState(states);
 }
 
 void StageManager::add(GameObject* ob) const {

@@ -1,0 +1,1 @@
+intro_bg_ani	intro_bg_0	100

@@ -48,15 +48,15 @@ public:
 	bool addLife(int val);
 	bool addHP(int val);
 	void addEnergy(int val = 1);
-	void doAutoWalk(DWORD dt = 1000, float vx = SIM_AUTO_WALK_VX);
 	void doAutoWalkWithDistance(float distance, float vx = SIM_AUTO_WALK_DISTANCE_VX);
+	void doAutoWalkWithDistance(int distance, float vx,int newState, int newFaceSide);
 
 	/*----------------- get set  -----------------*/
 	SubWeapon* getSubWeapon() const { return subWeapon; }
 	int  getSubWeaponType() const { return subWeaponType; }
 	void powerUpWhip(bool upgrade = true);
 	Whip* getWhip() { return whip; }
-	int getEnergy() { return energy; };
+	int getEnergy() { return energy; }
 	int Life() const { return life; }
 	void setLife(int val) { life = val; }
 	void reset();
@@ -82,8 +82,6 @@ private:
 	bool isThrowing{};
 	bool isCollectingWhip{};
 	Timer* timerPowering = new Timer(SIM_POWERING_DURATION);
-	Timer* timerThrowing = new Timer(SIM_DELTA_TRHOWING_TIME);
-	Timer* timerAutoWalk = new Timer(SIM_AUTO_WALK_DURATION);
 	Timer* timerSitWhenCollideGround= new Timer(SIM_SIT_WHEN_LANDING);
 	float autoWalkDistance;
 	bool isReleaseSitButton{};
@@ -174,4 +172,6 @@ private:
 	std::wstring stageMapObjNameWillChangeto;
 	bool movingCam;
 	bool isFalling;
+	int nxAfterAutoWalk;
+	int stateAfterAutoWalk;
 };

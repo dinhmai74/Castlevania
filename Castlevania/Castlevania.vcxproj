@@ -124,6 +124,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationFrame.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
+    <ClCompile Include="Bat.cpp" />
     <ClCompile Include="BrokenWall.cpp" />
     <ClCompile Include="BrokenWallFragment.cpp" />
     <ClCompile Include="Bubble.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemContainer.cpp" />
     <ClCompile Include="ItemFactory.cpp" />
@@ -181,6 +183,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationFrame.h" />
     <ClInclude Include="AnimationManager.h" />
+    <ClInclude Include="Bat.h" />
     <ClInclude Include="BrokenWall.h" />
     <ClInclude Include="BrokenWallFragment.h" />
     <ClInclude Include="Bubble.h" />
@@ -197,6 +200,7 @@
     <ClInclude Include="EnemyWolf.h" />
     <ClInclude Include="ForceEnemyJumpingBound.h" />
     <ClInclude Include="ForceIdleSim.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="ItemContainer.h" />
     <ClInclude Include="ItemMoneyBag.h" />
     <ClInclude Include="ObjectFactory.h" />

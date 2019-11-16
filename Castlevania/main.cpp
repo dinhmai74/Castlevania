@@ -252,6 +252,9 @@ void loadResources()
 	LoadSprites(100002, L"HP");
 	LoadSprites(100003, L"pause", D3DCOLOR_XRGB(0,0,0));
 	LoadSprites(100004, L"YesNo", D3DCOLOR_XRGB(0,0,0));
+	LoadSprites(1000001, L"mainmenu", D3DCOLOR_XRGB(0,0,0));
+	LoadSprites(1000002, L"mainmenu_tile", D3DCOLOR_XRGB(0,0,0));
+	LoadSprites(1000003, L"intro", D3DCOLOR_XRGB(0,0,0));
 	vector<TileMapInfo> mapInfos;
 	mapInfos.push_back({ ID_STAGE_1,L"stage1","1",1536,320,32,32 });
 	mapInfos.push_back({ ID_STAGE_2,L"stage2","2",5632,352,32,32 });

@@ -1,0 +1,16 @@
+mainmenu_tile_default_0	0	0	144	112	0	0	144	112
+mainmenu_tile_default_1	144	0	288	112	144	0	288	112
+mainmenu_tile_default_2	288	0	432	112	288	0	432	112
+mainmenu_tile_default_3	432	0	576	112	432	0	576	112
+mainmenu_tile_default_4	576	0	720	112	576	0	720	112
+mainmenu_tile_default_5 0	112	144	224 0	112	144	224
+mainmenu_tile_default_6 144	112	288	224 144	112	288	224 
+mainmenu_tile_default_7 288	112	432	224 288	112	432	224
+mainmenu_tile_default_8 432	112	576	224 432	112	576	224
+mainmenu_tile_default_9	576	112	720	224 576	112	720	224
+mainmenu_tile_default_10	0	224	144	336 0	224	144	336
+mainmenu_tile_default_11	144	224	288	336 144	224	288	336
+mainmenu_tile_default_12	288	224	432	336 288	224	432	336
+mainmenu_tile_default_13	432	224	576	336 432	224	576	336
+mainmenu_tile_default_14	576	224	720	336 576	224	720	336
+mainmenu_tile_default_15	432	224	576	336 432	224	576	336

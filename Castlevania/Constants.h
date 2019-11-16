@@ -46,6 +46,7 @@ enum State {
 	flying,
 	sleep,
 	StateNone,
+	idleBack,
 	deflect = 99,
 	death = 101,
 	normal = 0,

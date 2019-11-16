@@ -35,6 +35,8 @@ void Simon::init() {
 	//gravity = 0;
 	gravity = SIMON_GRAVITY;
 	initGravity = SIMON_GRAVITY;
+	stateAfterAutoWalk = -1;
+	nxAfterAutoWalk = -1;
 	type = OBSimon;
 }
 
@@ -137,7 +139,6 @@ void Simon::checkOutOfBound() {
 	if (y > SCREEN_HEIGHT) setDeathByWater();
 }
 
-
 void Simon::updateCameraWhenGoThroughDoor() {
 	if (!collidedDoor) return;
 	auto cam = Camera::getInstance();
@@ -197,13 +198,17 @@ void Simon::updateRGB() {
 }
 
 void Simon::updateAutoWalk() {
-	if (timerAutoWalk->isRunning())
-		vx = vxAutoWalk * float(faceSide);
-	else if (canAutoWalkWithDistance()) {
+	if (canAutoWalkWithDistance()) {
 		vx = vxAutoWalk * float(faceSide);
 		autoWalkDistance -= vxAutoWalk * dt;
+	}else {
+		if (stateAfterAutoWalk != -1) setState(stateAfterAutoWalk);
+		if (nxAfterAutoWalk != -1) setFaceSide(nxAfterAutoWalk);
+		stateAfterAutoWalk = -1;
+		nxAfterAutoWalk = -1;
 	}
-	else if (staringStatus == ready) setClimbStairInfo(climbDirection);
+
+	if (staringStatus == ready) setClimbStairInfo(climbDirection);
 }
 
 void Simon::updateChangingStageEffect() {
@@ -277,18 +282,18 @@ void Simon::doFall() {
 	isStopAllAction = true;
 }
 
-void Simon::doAutoWalk(DWORD dt, float vx) {
-	if (timerAutoWalk->isRunning()) return;
-	timerAutoWalk->setLimitedTime(dt);
-	vxAutoWalk = vx;
-	timerAutoWalk->start();
-}
-
 void Simon::doAutoWalkWithDistance(float distance, float vx) {
 	if (distance < 0) faceSide = SideLeft;
 	else faceSide = SideRight;
 	vxAutoWalk = vx;
 	autoWalkDistance = fabs(distance);
+}
+
+void Simon::doAutoWalkWithDistance(int distance, float vx, int newState, int newFaceSide) {
+	doAutoWalkWithDistance(distance, vx);
+
+	stateAfterAutoWalk = newState;
+	nxAfterAutoWalk = newFaceSide;
 }
 
 void Simon::processDeathEffect() {
@@ -877,13 +882,13 @@ void Simon::resetState() {
 void Simon::reset() {
 	resetState();
 	staringStatus = none;
+	stateAfterAutoWalk = -1;
+	nxAfterAutoWalk = -1;
 	changeStateDistanceRemain = { -1, -1 };
 	gravity = initGravity;
 	timerPowering->stop();
 	timerDeflect->stop();
-	timerThrowing->stop();
 	timerUntouchable->stop();
-	timerAutoWalk->stop();
 	timerDeath->stop();
 	autoWalkDistance = 0;
 	climbDirection = 0;
@@ -975,7 +980,7 @@ bool Simon::canAutoClimb() const {
 }
 
 bool Simon::isAutoWalking() const {
-	return timerAutoWalk->isRunning() || canAutoWalkWithDistance();
+	return canAutoWalkWithDistance();
 }
 
 void Simon::moveCam(float distance) const {

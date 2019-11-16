@@ -44,6 +44,7 @@ public:
 	int getPlayerChoseWhenOver() const { return playerChoseWhenOver; }
 	void setPlayerChoseWhenOver(int val) { playerChoseWhenOver = val; }
 private:
+	int sceneId;
 	int score;
 	bool isReleaseSelectMapKey;
 	static StageManager* instance;
