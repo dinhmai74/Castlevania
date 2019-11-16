@@ -15,7 +15,7 @@ public:
 	string getCurrentMapDisplayName() const { return tileMapsInfo[currentStage->getId() - 1].mapDisplayName; }
 	void init(vector<TileMapInfo> tileMapsInfo);
 	void nextStage(int stageId = -1, wstring mapName = L"none");
-	void reset(int id = -1, wstring mapName = L"none");
+	void resetStage(int id = -1, wstring mapName = L"none");
 	void setStage(Stage* newStage) { preStage = getCurrentStage(); currentStage = newStage; }
 	void render() const;
 
@@ -43,8 +43,10 @@ public:
 	void setIsGameOver(bool val) { isGameOver = val; }
 	int getPlayerChoseWhenOver() const { return playerChoseWhenOver; }
 	void setPlayerChoseWhenOver(int val) { playerChoseWhenOver = val; }
+	int getSceneId() const { return isStartPlaying; }
+	void setPlaying(int val) { isStartPlaying = val; }
 private:
-	int sceneId;
+	int isStartPlaying;
 	int score;
 	bool isReleaseSelectMapKey;
 	static StageManager* instance;

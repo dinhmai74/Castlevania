@@ -1,0 +1,2 @@
+bat_decoration_idle_0	0	0	16	16	0	0	16	16
+bat_decoration_idle_1	16	0	32	16	16	0	32	16

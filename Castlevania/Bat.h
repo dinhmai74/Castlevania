@@ -9,10 +9,10 @@ public:
 	~Bat();
 
 	void initAnim() override;
-	void update(DWORD dt, vector<GameObject*>* coObjects) override;
+	void update(DWORD dt, vector<GameObject*>* coObjects=nullptr) override;
 };
 
 inline void Bat::initAnim() {
-	addAnimation(idle,"bat_ani");
+	addAnimation(idle,"bat_decoration_idle_ani");
 }
 

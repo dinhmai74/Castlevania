@@ -219,6 +219,9 @@
     <ClCompile Include="IntroScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Helicopter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -438,6 +441,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IntroScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Helicopter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

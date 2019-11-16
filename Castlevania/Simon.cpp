@@ -52,6 +52,7 @@ void Simon::initAnim() {
 	addAnimation(ANIM_DOWN_STAIR, "simon_down_stair_ani");
 	addAnimation(ANIM_HIT_UP_STAIR, "simon_hit_up_stair_ani");
 	addAnimation(ANIM_HIT_DOWN_STAIR, "simon_hit_down_stair_ani");
+	addAnimation(ANIM_IDLE_BACK, "simon_idle_back_ani");
 }
 
 void Simon::render() {
@@ -289,7 +290,7 @@ void Simon::doAutoWalkWithDistance(float distance, float vx) {
 	autoWalkDistance = fabs(distance);
 }
 
-void Simon::doAutoWalkWithDistance(int distance, float vx, int newState, int newFaceSide) {
+void Simon::doAutoWalkWithDistance(float distance, float vx, int newState, int newFaceSide) {
 	doAutoWalkWithDistance(distance, vx);
 
 	stateAfterAutoWalk = newState;
@@ -841,6 +842,11 @@ void Simon::updateAnimId() {
 			refreshHitAnim(climbing, anim);
 		break;
 	}
+	case idleBack:
+		setAnimId(ANIM_IDLE_BACK);
+		vx = 0;
+		vy = 0;
+		break;
 	default:
 		setAnimId(ANIM_IDLE);
 	}

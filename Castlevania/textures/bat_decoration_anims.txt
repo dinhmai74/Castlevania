@@ -1,0 +1,1 @@
+bat_decoration_idle_ani	bat_decoration_idle_0	50 bat_decoration_idle_1 50	

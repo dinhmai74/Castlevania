@@ -4,10 +4,11 @@
 
 Bat::Bat()
 {
-	initAnim();
+	Bat::initAnim();
 	setFaceSide(1);
 	state = idle;
 	animId = idle;
+	setType(OBDecorationBat);
 
 	vx = (float)(-50 + rand() % 100) / 1000;
 	vy = (float)(-50 + rand() % 100) / 1000;
@@ -21,8 +22,9 @@ Bat::~Bat()
 }
 
 void Bat::update(DWORD dt, vector<GameObject*>* coObjects) {
-	GameObject::update(dt);
-
+	this->dt = dt;
+	dx = vx * dt;
+	dy = vy * dt;
 	x += dx;
 	y += dy;
 }

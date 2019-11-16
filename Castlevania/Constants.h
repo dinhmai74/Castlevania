@@ -71,6 +71,8 @@ enum ObjectType {
 	OBBubble,
 	OBBubbles,
 	OBBrokenWallFragment,
+	OBHelicopter,
+	OBDecorationBat,
 	OBItem=49,
 	OBSimon = 50,
 	OBCastle = 51,

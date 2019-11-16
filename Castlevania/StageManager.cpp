@@ -9,6 +9,7 @@ StageManager* StageManager::instance = nullptr;
 
 void StageManager::resetGame() {
 	init(this->tileMapsInfo);
+	isStartPlaying = 1;
 }
 
 bool StageManager::getIsWhipMaxLv() {
@@ -43,7 +44,7 @@ void StageManager::init(vector<TileMapInfo> tileMapsInfo) {
 	this->tileMapsInfo = tileMapsInfo;
 	score = 0;
 
-	sceneId = 0;
+	isStartPlaying = 0;
 	loadTileMaps();
 	currentStage = new Stage();
 	currentStage->init(tileMapsInfo[0].id, tileMapsInfo[0].mapObjectsName);
@@ -73,7 +74,7 @@ void StageManager::loadTileMaps() {
 	}
 }
 
-void StageManager::reset(int id, wstring mapName) {
+void StageManager::resetStage(int id, wstring mapName) {
 	auto newStage = new Stage();
 	// cause map id from =1 so next one id from tileMapsInfo is this
 	auto nextId = id == -1 ? currentStage->getId() : id;
@@ -83,7 +84,7 @@ void StageManager::reset(int id, wstring mapName) {
 }
 
 void StageManager::render() const {
-	if (sceneId == ID_MAIN_MENU) {
+	if (isStartPlaying == ID_MAIN_MENU) {
 		IntroScene::getInstance()->render();
 	}
 	else {
@@ -93,7 +94,7 @@ void StageManager::render() const {
 }
 
 void StageManager::update(const DWORD dt) const {
-	if (sceneId == ID_MAIN_MENU) {
+	if (isStartPlaying == ID_MAIN_MENU) {
 		IntroScene::getInstance()->update(dt);
 	}
 	else {
@@ -116,10 +117,10 @@ void StageManager::onKeyDown(int keyCode) {
 			}
 		}
 	}
-	else if (sceneId == ID_MAIN_MENU) {
+	else if (isStartPlaying == ID_MAIN_MENU) {
 		auto intro = IntroScene::getInstance();
 		if (intro->getIsReady()) {
-			sceneId = 1;
+			isStartPlaying = 1;
 		}
 		else { intro->setIsReady(true); }
 	}
@@ -141,7 +142,7 @@ void StageManager::onKeyDown(int keyCode) {
 }
 
 void StageManager::onKeyUp(int keyCode) {
-	if (isGameOver || sceneId== ID_MAIN_MENU) return;
+	if (isGameOver || isStartPlaying== ID_MAIN_MENU) return;
 		getCurrentStage()->onKeyUp(keyCode);
 }
 
@@ -159,7 +160,7 @@ void StageManager::descreaseLife() {
 	auto simon = currentStage->getSimon();
 	const auto result = simon->addLife(-1);
 	if (result) {
-		reset(checkPoint.mapId, checkPoint.mapName);
+		resetStage(checkPoint.mapId, checkPoint.mapName);
 		simon->reset();
 		simon->setHp(SIM_MAX_HP);
 		simon->setState(idle);

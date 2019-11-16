@@ -1,0 +1,1 @@
+helicopter_idle_ani	helicopter_idle_0	100

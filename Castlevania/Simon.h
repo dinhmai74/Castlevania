@@ -49,7 +49,7 @@ public:
 	bool addHP(int val);
 	void addEnergy(int val = 1);
 	void doAutoWalkWithDistance(float distance, float vx = SIM_AUTO_WALK_DISTANCE_VX);
-	void doAutoWalkWithDistance(int distance, float vx,int newState, int newFaceSide);
+	void doAutoWalkWithDistance(float distance, float vx,int newState, int newFaceSide);
 
 	/*----------------- get set  -----------------*/
 	SubWeapon* getSubWeapon() const { return subWeapon; }
