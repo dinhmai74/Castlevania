@@ -106,6 +106,7 @@ void Simon::willUpdate() {
 
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps) {
 	if (!shouldUpdate(dt)) return;
+	DebugOut(L"x y %f %f\n",x,y);
 
 	willUpdate();
 	GameObject::update(dt);
@@ -202,14 +203,15 @@ void Simon::updateAutoWalk() {
 	if (canAutoWalkWithDistance()) {
 		vx = vxAutoWalk * float(faceSide);
 		autoWalkDistance -= vxAutoWalk * dt;
-	}else {
+	}
+	else {
 		if (stateAfterAutoWalk != -1) setState(stateAfterAutoWalk);
 		if (nxAfterAutoWalk != -1) setFaceSide(nxAfterAutoWalk);
 		stateAfterAutoWalk = -1;
 		nxAfterAutoWalk = -1;
+		if (staringStatus == ready) setClimbStairInfo(climbDirection);
 	}
 
-	if (staringStatus == ready) setClimbStairInfo(climbDirection);
 }
 
 void Simon::updateChangingStageEffect() {
@@ -262,8 +264,8 @@ void Simon::doAutoClimb() {
 		const auto climbSpeed = SIM_CLIMB_VELOCITY;
 		vx = climbSpeed * faceSide;
 		vy = static_cast<float>(climbDirection) * -climbSpeed;
-		setStairDxRemain(getStairDxRemain() - float(dt) * climbSpeed);
-		setStairDyRemain(getStairDyRemain() - float(dt) * climbSpeed);
+		if (stairDxRemain > 0)setStairDxRemain(getStairDxRemain() - float(dt) * climbSpeed);
+		if (stairDyRemain > 0)setStairDyRemain(getStairDyRemain() - float(dt) * climbSpeed);
 	}
 }
 
@@ -982,7 +984,7 @@ bool Simon::canAutoWalkWithDistance() const {
 }
 
 bool Simon::canAutoClimb() const {
-	return stairDxRemain > 0 && stairDyRemain > 0;
+	return stairDxRemain > 0 || stairDyRemain > 0;
 }
 
 bool Simon::isAutoWalking() const {

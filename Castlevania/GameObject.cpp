@@ -19,7 +19,7 @@ void GameObject::doUntouchable() {
 
 GameObject::GameObject() {
 	x = y = 0;
-	initPos = {0, 0};
+	initPos = { 0, 0 };
 	vx = vy = 0;
 	alpha = r = b = g = 255;
 	setFaceSide(SideRight); // right side
@@ -113,7 +113,7 @@ D3DXVECTOR2 GameObject::getCenter() {
 	auto box = getBoundingBoxBaseOnFile();
 	auto xPos = x + ((box.r - box.l) / 2);
 	auto yPos = y;
-	return {xPos, yPos};
+	return { xPos, yPos };
 }
 
 void GameObject::renderBoundingBox() {
@@ -132,7 +132,8 @@ bool GameObject::getHurt(int nx, int hpLose) {
 }
 
 bool GameObject::getHurt(int nx, int ny, int hpLose) {
-	if (isUntouching() || isDeflecting() || hpLose <=0) return false;
+	if (isUntouching() || isDeflecting() || hpLose <= 0) return false;
+	loseHp(hpLose);
 	if (this->getHp() <= hpLose)
 		doDeathAnim();
 	else setStatusWhenStillHaveEnoughHP(nx, hpLose);
@@ -155,7 +156,6 @@ void GameObject::loseHp(int hpLose) {
 }
 
 void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose) {
-	if (hpLose <= 0) return;
 	if (animations[ANIM_DEFLECT] && canDeflect) {
 		doDeflect(nx);
 		doBurnedEffect(true);
@@ -234,8 +234,8 @@ void GameObject::calcPotentialCollisionsAABB(vector<LPGAMEOBJECT>* coObjects, ve
 
 void GameObject::filterCollision
 (vector<LPCollisionEvent>& coEvents,
- vector<LPCollisionEvent>& coEventsResult,
- float& min_tx, float& min_ty, float& nx, float& ny) {
+	vector<LPCollisionEvent>& coEventsResult,
+	float& min_tx, float& min_ty, float& nx, float& ny) {
 	min_tx = 1.0f;
 	min_ty = 1.0f;
 	int min_ix = -1;
@@ -377,7 +377,7 @@ void GameObject::updatePosInTheMomentCollide(float minTx, float minTy, float nx,
 }
 
 Box GameObject::getBoundingBoxBaseOnFile() {
-	if (!animations[animId]) return {0, 0, 0, 0};
+	if (!animations[animId]) return { 0, 0, 0, 0 };
 	float r, l;
 	auto spriteFrame = animations[animId]->getFrameSprite();
 	auto spriteBoundary = animations[animId]->getFrameBoundingBox();
@@ -413,5 +413,5 @@ D3DXVECTOR2 GameObject::getOffsetFromBoundingBox() {
 	// spriteFrame is usually larger than the spriteBoundary so we need to take account of the offset
 	const auto offsetX = spriteBoundary.l - spriteFrame.l;
 	const auto offsetY = spriteBoundary.t - spriteFrame.t;
-	return {offsetX, offsetY};
+	return { offsetX, offsetY };
 }

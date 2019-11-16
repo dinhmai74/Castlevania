@@ -7,7 +7,7 @@ Helicopter::Helicopter() {
 	setAnimId(idle);
 	setType(OBHelicopter);
 	state = idle;
-	vx = -0.02f;
+	vx = -0.013f;
 	vy = -0.001f;
 }
 
