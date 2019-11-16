@@ -13,7 +13,7 @@ void Enemy::init() {
 	setActive();
 	setEnable(false);
 	resetHp();
-	setDmg(1);
+	setDmg(2);
 	setType(OBEnemy);
 	forceRespawn = false;
 	setRespawnTime(E_RESPAWN_INIT_TIME);
@@ -24,7 +24,6 @@ void Enemy::init() {
 }
 
 void Enemy::reset() {
-	DebugOut(L"reset enem\n");
 	resetHp();
 	resetPos();
 	setState(initState);

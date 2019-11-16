@@ -35,13 +35,10 @@ private:
 	DWORD time;
 	DWORD defaultTime;
 	int score;
-	vector<Sprite*> playerHP;
-	vector<Sprite*> enemyHP;
-	vector<Sprite*> loseHP;
-	vector<Sprite*> subWeapons;
-
-	Sprite* blackboard;
-	Sprite* pauseTexture;
+	unordered_map<int,Sprite*> subWeapons;
+	unordered_map<string, Sprite*> sprites;
+	void addSprite(string id, string sprite);
+	void addSubWeaponSprite(int id, string sprite);
 
 	ID3DXFont* font;
 	RECT inforRect;

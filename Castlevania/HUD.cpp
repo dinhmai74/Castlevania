@@ -1,28 +1,37 @@
 #include "HUD.h"
 HUD* HUD::instance = nullptr;
 
-void HUD::init() {
+void HUD::addSprite(string id, string sprite) {
 	auto spriteManager = SpriteManager::getInstance();
+	sprites[id] = spriteManager->get(sprite);
+}
+
+void HUD::addSubWeaponSprite(int id, string sprite) {
+	auto spriteManager = SpriteManager::getInstance();
+	subWeapons[id] = spriteManager->get(sprite);
+}
+
+void HUD::init() {
 	auto game = Game::getInstance();
+	font = game->getFont();
+
 	defaultTime = DEFAULT_TIME_PLAY;
 	time = 0;
 
 	stage = StageManager::getInstance()->getCurrentStage();
 	score = StageManager::getInstance()->getScore();
-	blackboard = spriteManager->get("blackboard_default_0");
-	pauseTexture = spriteManager->get("pause_0");
-	font = game->getFont();
-	subWeapons.push_back(spriteManager->get("item_dagger"));
-	subWeapons.push_back(spriteManager->get("item_axe"));
-	subWeapons.push_back(spriteManager->get("item_boomerang"));
-	subWeapons.push_back(spriteManager->get("item_holywater"));
-	subWeapons.push_back(spriteManager->get("item_stopwatch"));
-
-	for (int i = 0; i < 16; i++) {
-		playerHP.push_back(spriteManager->get("HP_player"));
-		loseHP.push_back(spriteManager->get("HP_lose"));
-		enemyHP.push_back(spriteManager->get("HP_enemy"));
-	}
+	addSprite("blackboard", "blackboard_default_0");
+	addSprite("pause", "pause_0");
+	addSprite("lostHP", "HP_lose");
+	addSprite("playerHP", "HP_player");
+	addSprite("enemyHP", "HP_enemy");
+	addSprite("yesNo", "YesNo_default_0");
+	addSprite("chose", "item_largeheart");
+	addSubWeaponSprite(itemDagger, "item_dagger");
+	addSubWeaponSprite(itemAxe, "item_axe");
+	addSubWeaponSprite(itemBoomerang, "item_boomerang");
+	addSubWeaponSprite(itemHolyWater, "item_holywater");
+	addSubWeaponSprite(itemStopWatch, "item_stopwatch");
 }
 
 void HUD::update(DWORD dt, bool stopwatch) {
@@ -32,6 +41,7 @@ void HUD::update(DWORD dt, bool stopwatch) {
 	int remainTime = defaultTime - time / CLOCKS_PER_SEC;
 	if (remainTime <= 0) {
 		remainTime = 0;
+		StageManager::getInstance()->descreaseLife();
 	}
 
 	score = StageManager::getInstance()->getScore();
@@ -59,20 +69,25 @@ void HUD::update(DWORD dt, bool stopwatch) {
 }
 
 void HUD::render() {
-	showHud();
+	auto stageManager = StageManager::getInstance();
+	if (stageManager->getIsGameOver()) showInfo();
+	else showHud();
 
 	auto offset = 50;
 	auto pauseX = SCREEN_WIDTH - 34 -offset;
 	auto pauseY = SCREEN_HEIGHT - 52 - offset;
-	if (isGamePause) pauseTexture->draw(pauseX,pauseY);
+	if (isGamePause) sprites["pause"]->draw(pauseX,pauseY);
 }
 
 void HUD::showInfo() {
+	auto chose= StageManager::getInstance()->getPlayerChoseWhenOver();
+	sprites["yesNo"]->draw(150, 150);
+	sprites["chose"]->draw(160, 244 + 40 * chose);
 }
 
 void HUD::showHud() {
 	if (font) font->DrawTextA(nullptr, info.c_str(), -1, &inforRect, DT_LEFT, D3DCOLOR_XRGB(255, 255, 255));
-	blackboard->draw(0, 0);
+	sprites["blackboard"]->draw(0, 0);
 
 	/*----------------- draw hp -----------------*/
 	auto simonHP = simon->getHp();
@@ -81,21 +96,21 @@ void HUD::showHud() {
 	if (boss) bossHp = boss->getHp();
 
 	for (int i = 0; i < simonHP; i++)
-		playerHP[i]->draw(105 + i * 9, 31);
+		sprites["playerHP"]->draw(105 + i * 9, 31);
 
 	for (int i = simonHP; i < SIM_MAX_HP; i++)
-		loseHP[i]->draw(105 + i * 9, 31);
+		sprites["lostHP"]->draw(105 + i * 9, 31);
 
 	// enemy HP
 	for (int i = 0; i < bossHp; i++)
-		enemyHP[i]->draw(105 + i * 9, 47);
+		sprites["enemyHP"]->draw(105 + i * 9, 47);
 
 	for (int i = bossHp; i < SIM_MAX_HP; i++)
-		loseHP[i]->draw(105 + i * 9, 47);
+		sprites["lostHP"]->draw(105 + i * 9, 47);
 
 	auto subtype = simon->getSubWeaponType();
 	if (subtype != -1) {
 		subWeapons[subtype]->draw(1, 320, 38, 255, 255, 255, 255, 0);
 	}
-
 }
+

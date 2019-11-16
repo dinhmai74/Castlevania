@@ -39,6 +39,10 @@ public:
 	void clearMapByItem();
 	void stopEnemyForABit(DWORD time = 2000);
 	bool getIsWhipMaxLv();
+	bool getIsGameOver() const { return isGameOver; }
+	void setIsGameOver(bool val) { isGameOver = val; }
+	int getPlayerChoseWhenOver() const { return playerChoseWhenOver; }
+	void setPlayerChoseWhenOver(int val) { playerChoseWhenOver = val; }
 private:
 	int score;
 	bool isReleaseSelectMapKey;
@@ -47,4 +51,7 @@ private:
 	Stage* preStage = nullptr;
 	vector<TileMapInfo> tileMapsInfo;
 	CheckPoint checkPoint;
+	bool isGameOver;
+	int playerChoseWhenOver;
+	void resetGame();
 };

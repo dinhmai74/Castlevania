@@ -512,7 +512,6 @@ bool sortByType(GameObject* a, GameObject* b) {
 }
 
 void Stage::loadListObjFromGrid() {
-	DebugOut(L"subWeapons %d\n",subWeapons.size());
 	resetAllUnitList();
 	listRenderObj = listCanCollideBoundary;
 	listStopSimObjs = listCanCollideBoundary;
