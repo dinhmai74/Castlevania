@@ -113,6 +113,7 @@ void Enemy::respawn(float playerX, float playerY) {
 
 void Enemy::generateEnemy(float playerX, float playerY) {
 	auto nx = playerX - initPos.x > 0 ? 1 : -1;
+
 	reset();
 	setFaceSide(nx);
 	setInitFaceSide(nx);
@@ -125,7 +126,7 @@ void Enemy::generateEnemy(float playerX, float playerY) {
 bool Enemy::canRespawn(D3DXVECTOR2 simPos) {
 	const auto isEnoughTime = getTimerRespawn()->isTimeUpAndRunAlr();
 	if (isEnoughTime && !isEnable) readyToRespawn = true;
-	const auto distance = fabs(x - simPos.x);
+	const auto distance = fabs(initPos.x - simPos.x);
 	const auto isInRegion =
 		distance >= respawnArea.min && distance <= respawnArea.max;
 
