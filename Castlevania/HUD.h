@@ -26,6 +26,7 @@ public:
 	// hiển thị thông tin máu, Exit ở góc trái màn hình
 	void showHud();
 	void setTime(int val) { time = val; }
+	void setIsGamePause(bool val) { isGamePause = val; }
 private:
 	HUD() = default;
 	static HUD* instance;
@@ -40,8 +41,10 @@ private:
 	vector<Sprite*> subWeapons;
 
 	Sprite* blackboard;
+	Sprite* pauseTexture;
 
 	ID3DXFont* font;
 	RECT inforRect;
 	string info;
+	bool isGamePause;
 };

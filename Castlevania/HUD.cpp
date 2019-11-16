@@ -10,6 +10,7 @@ void HUD::init() {
 	stage = StageManager::getInstance()->getCurrentStage();
 	score = StageManager::getInstance()->getScore();
 	blackboard = spriteManager->get("blackboard_default_0");
+	pauseTexture = spriteManager->get("pause_0");
 	font = game->getFont();
 	subWeapons.push_back(spriteManager->get("item_dagger"));
 	subWeapons.push_back(spriteManager->get("item_axe"));
@@ -25,7 +26,9 @@ void HUD::init() {
 }
 
 void HUD::update(DWORD dt, bool stopwatch) {
-	if (!stopwatch) time += dt;
+	if (!stopwatch) {
+		time += dt;
+	}
 	int remainTime = defaultTime - time / CLOCKS_PER_SEC;
 	if (remainTime <= 0) {
 		remainTime = 0;
@@ -57,6 +60,11 @@ void HUD::update(DWORD dt, bool stopwatch) {
 
 void HUD::render() {
 	showHud();
+
+	auto offset = 50;
+	auto pauseX = SCREEN_WIDTH - 34 -offset;
+	auto pauseY = SCREEN_HEIGHT - 52 - offset;
+	if (isGamePause) pauseTexture->draw(pauseX,pauseY);
 }
 
 void HUD::showInfo() {
@@ -89,4 +97,5 @@ void HUD::showHud() {
 	if (subtype != -1) {
 		subWeapons[subtype]->draw(1, 320, 38, 255, 255, 255, 255, 0);
 	}
+
 }

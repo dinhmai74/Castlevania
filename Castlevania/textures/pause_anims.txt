@@ -1,0 +1,1 @@
+pause_0_ani	pause_0	100

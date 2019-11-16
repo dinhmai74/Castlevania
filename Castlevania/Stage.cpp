@@ -15,6 +15,7 @@
 #include "Water.h"
 #include "StageManager.h"
 #include "BrokenWall.h"
+#include "HUD.h"
 
 Stage::Stage() {
 }
@@ -637,6 +638,7 @@ void Stage::onKeyDown(const int keyCode) {
 		break;
 	case DIK_PAUSE:
 		isGamePause = !isGamePause;
+		HUD::getInstance()->setIsGamePause(isGamePause);
 		break;
 	default:;
 	}
@@ -647,7 +649,7 @@ void Stage::onKeyUp(const int keyCode) const {
 }
 
 void Stage::keyState(BYTE* states) const {
-	getSimon()->handleOnKeyPress(states);
+	if (!isGamePause) getSimon()->handleOnKeyPress(states);
 }
 
 Grid* Stage::getGrid() const {

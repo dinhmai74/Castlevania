@@ -250,6 +250,7 @@ void loadResources()
 	LoadSprites(1017, L"broken_wall");
 	LoadSprites(100001, L"blackboard", D3DCOLOR_XRGB(0, 0, 0));
 	LoadSprites(100002, L"HP");
+	LoadSprites(100003, L"pause", D3DCOLOR_XRGB(0,0,0));
 	vector<TileMapInfo> mapInfos;
 	mapInfos.push_back({ ID_STAGE_1,L"stage1","1",1536,320,32,32 });
 	mapInfos.push_back({ ID_STAGE_2,L"stage2","2",5632,352,32,32 });
