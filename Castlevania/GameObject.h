@@ -171,6 +171,11 @@ public:
 		const auto box = getBoundingBoxBaseOnFile();
 		return box.r - box.l;
 	}
+	float getHeight() {
+		const auto box = getBoundingBoxBaseOnFile();
+		return box.b - box.t;
+	}
+
 
 	void setGravity(float val) { gravity = val; }
 	void setType(int type) { this->type = type; }

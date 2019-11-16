@@ -106,7 +106,6 @@ void Simon::willUpdate() {
 
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps) {
 	if (!shouldUpdate(dt)) return;
-	DebugOut(L"x y %f %f\n",x,y);
 
 	willUpdate();
 	GameObject::update(dt);
