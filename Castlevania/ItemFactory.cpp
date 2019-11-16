@@ -1,5 +1,6 @@
 #include "ItemFactory.h"
 #include "ItemMoneyBag.h"
+#include "StageManager.h"
 
 ItemFactory* ItemFactory::instance = nullptr;
 
@@ -9,10 +10,18 @@ Item* ItemFactory::getItem(int type, D3DXVECTOR2 pos, bool isEnable) {
 	auto gravity = 0.0015f;
 	switch (type) {
 	case itemSmallHeart:
-		item = new ItemHeart();
-		gravity = 0.0001f;
-		vx = 0.05f;
+	{
+		auto isWhipMaxLv = StageManager::getInstance()->getIsWhipMaxLv();
+		if (!isWhipMaxLv) {
+			item = new Item(itemWhip);
+		}
+		else {
+			item = new ItemHeart();
+			gravity = 0.0001f;
+			vx = 0.05f;
+		}
 		break;
+	}
 	case itemBigHeart: item = new ItemHeart(itemBigHeart); break;
 	case itemBlueMoneyBag:
 		item = new ItemMoneyBag(type, 400);

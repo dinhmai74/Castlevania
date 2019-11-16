@@ -6,6 +6,10 @@ HUD* hud = HUD::getInstance();
 
 StageManager* StageManager::instance = nullptr;
 
+bool StageManager::getIsWhipMaxLv() {
+	return currentStage->getSimon()->getWhip()->isMaxLv();
+}
+
 void StageManager::pauseGame(bool val) const {
 	currentStage->setGamePause(val);
 }

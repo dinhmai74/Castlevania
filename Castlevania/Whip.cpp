@@ -34,7 +34,7 @@ void Whip::render()
 
 	auto hittingFrame = 2;
 
-	if (lv == 3) hittingFrame = 9;
+	if (lv == MAX_WHIP_LV) hittingFrame = 9;
 
 	if (frame == hittingFrame) setState(STATE_WHIP_HITTING);
 	else setState(STATE_WHIP_DISAPPEAR);
@@ -50,6 +50,10 @@ void Whip::update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT> * c
 	{
 		checkEnemyCollisions(*coObject);
 	}
+}
+
+bool Whip::isMaxLv() {
+	return lv == MAX_WHIP_LV;
 }
 
 void Whip::setSide(int side)
@@ -74,13 +78,13 @@ Box Whip::getBoundingBox()
 	const auto longWhipXOffset = 20;
 	if (getFaceSide() == Side::SideLeft)
 	{
-		left = lv == 3 ? x + longWhipXOffset : x + normalXOffset;
+		left = lv == MAX_WHIP_LV ? x + longWhipXOffset : x + normalXOffset;
 	}
 	else {
-		left = lv == 3 ? (240 - longWhipXOffset) - LONG_CHAIN_BBOX_WIDTH + x : (240 - normalXOffset) - WHIP_BBOX_WIDTH + x;
+		left = lv == MAX_WHIP_LV ? (240 - longWhipXOffset) - LONG_CHAIN_BBOX_WIDTH + x : (240 - normalXOffset) - WHIP_BBOX_WIDTH + x;
 	}
 
-	const auto right = lv == 3 ? left + LONG_CHAIN_BBOX_WIDTH : left + WHIP_BBOX_WIDTH;
+	const auto right = lv == MAX_WHIP_LV ? left + LONG_CHAIN_BBOX_WIDTH : left + WHIP_BBOX_WIDTH;
 	return { left,top,right,bottom };
 }
 

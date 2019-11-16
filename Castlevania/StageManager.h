@@ -2,8 +2,7 @@
 #include "Stage.h"
 #include "TilemapManager.h"
 
-class StageManager
-{
+class StageManager {
 public:
 	static StageManager* getInstance() {
 		if (instance == nullptr) instance = new StageManager();
@@ -15,8 +14,8 @@ public:
 	Stage* getCurrentState() const { return getCurrentStage(); }
 	string getCurrentMapDisplayName() const { return tileMapsInfo[currentStage->getId() - 1].mapDisplayName; }
 	void init(vector<TileMapInfo> tileMapsInfo);
-	void nextStage(int stageId = -1, wstring mapName= L"none");
-	void reset(int id =-1, wstring mapName= L"none");
+	void nextStage(int stageId = -1, wstring mapName = L"none");
+	void reset(int id = -1, wstring mapName = L"none");
 	void setStage(Stage* newStage) { preStage = getCurrentStage(); currentStage = newStage; }
 	void render() const;
 
@@ -31,11 +30,12 @@ public:
 	void removeAllObjOutOfBound();
 	void addScore(int score) { this->score += score; };
 	int getScore() { return score; };
-	void pauseGame(bool val=true) const;
+	void pauseGame(bool val = true) const;
 	void setCheckPoint(CheckPoint val) { checkPoint = val; }
 
 	void clearMapByItem();
-	void stopEnemyForABit(DWORD time= 2000);
+	void stopEnemyForABit(DWORD time = 2000);
+	bool getIsWhipMaxLv();
 private:
 	int score;
 	bool isReleaseSelectMapKey;
