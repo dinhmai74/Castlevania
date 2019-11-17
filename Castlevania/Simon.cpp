@@ -903,6 +903,7 @@ void Simon::reset() {
 	stairDyRemain = 0;
 	canDeflect = true;
 	isFalling = false;
+	r = g = b = 255;
 	setSpeed(0, 0);
 }
 

@@ -2,7 +2,7 @@ simon_stand_ani	simon_walk_1 100
 simon_walk_ani	simon_walk_1	100	simon_walk_2	100	simon_walk_3	100	simon_walk_2	100
 simon_sit_ani	simon_sit	100
 simon_hitstand_ani	simon_hitstand_1	100	simon_hitstand_2	100	simon_hitstand_3	150 simon_hitstand_3	100
-simon_hitsit_ani	simon_hitsit_0	100	simon_hitsit_1	100	simon_hitsit_2	100 simon_hitsit_2	100
+simon_hitsit_ani	simon_hitsit_0	100	simon_hitsit_1	100	simon_hitsit_2	150 simon_hitsit_2	100
 simon_deflect_ani	simon_deflect_0 100
 simon_death_ani simon_death_0 100
 simon_up_stair_ani	simon_stairup_1 100 simon_stairup_2 100
