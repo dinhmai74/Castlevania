@@ -555,6 +555,8 @@ void Stage::loadListObjFromGrid() {
 		listCanHitObjects.push_back(boss);
 	}
 	sort(listRenderObj.begin(), listRenderObj.end(), sortByType);
+
+	DebugOut(L"listRenderObj %d\n",listRenderObj.size());
 }
 
 void Stage::resetAllList() {
