@@ -676,6 +676,7 @@ void Simon::generateSubWeapon() {
 	subWeapon->setPos(subX, subY);
 	subWeapon->setEnable();
 	StageManager::getInstance()->addSubWeapon(subWeapon);
+	timerThrowing->start();
 }
 
 /*----------------- keyboard handle  -----------------*/
@@ -944,7 +945,7 @@ bool Simon::isCollidingWithStair() {
 }
 
 bool Simon::canThrow() {
-	return energy > 0 && StageManager::getInstance()->getCurrentSubWeaponsAmount() < canShotTimes && isHaveSubWeapon();
+	return energy > 0 && StageManager::getInstance()->getCurrentSubWeaponsAmount() < canShotTimes && isHaveSubWeapon() && timerThrowing->isTimeUp();
 }
 
 void Simon::setClimbStairInfo(int direction) {

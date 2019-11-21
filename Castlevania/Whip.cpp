@@ -33,23 +33,17 @@ void Whip::update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT> * c
 	updatePos(simonX, simonY, simonState, simClimbDirect);
 	const auto frame = animations[lv]->getCurrentFrame();
 
-	auto hittingFrame = 2;
-
 	if (lv >= MAX_WHIP_LV) {
 		if (frame >= 9 && frame < 11) setState(STATE_WHIP_HITTING);
 		else setState(STATE_WHIP_DISAPPEAR);
 	}
 	else {
-		if (frame == hittingFrame) setState(STATE_WHIP_HITTING);
+		if (frame == 2) setState(STATE_WHIP_HITTING);
 		else setState(STATE_WHIP_DISAPPEAR);
 	}
-	auto state = getState();
 
-	DebugOut(L"state %d\n",state);
-
-	if (state == STATE_WHIP_HITTING) {
+	if (state == STATE_WHIP_HITTING)
 		checkEnemyCollisions(*coObject);
-	}
 }
 
 bool Whip::isMaxLv() {

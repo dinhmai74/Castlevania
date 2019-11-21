@@ -83,6 +83,7 @@ private:
 	bool isCollectingWhip{};
 	Timer* timerPowering = new Timer(SIM_POWERING_DURATION);
 	Timer* timerSitWhenCollideGround= new Timer(SIM_SIT_WHEN_LANDING);
+	Timer* timerThrowing = new Timer(SIM_DELTA_TRHOWING_TIME);
 	float autoWalkDistance;
 	bool isReleaseSitButton{};
 	Whip* whip{};

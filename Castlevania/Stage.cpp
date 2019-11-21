@@ -17,8 +17,11 @@
 #include "BrokenWall.h"
 #include "HUD.h"
 
-Stage::Stage() {
+bool sortByType(GameObject* a, GameObject* b) {
+	return a->getType() < b->getType();
 }
+
+Stage::Stage() {}
 
 Stage::~Stage()
 = default;
@@ -87,8 +90,7 @@ void Stage::loadObjectFromFiles() {
 		// read line
 		fs >> id >> x >> y;
 		switch (id) {
-		case 666:
-		{
+		case 666: {
 			int mapId;
 			string mapObjectsName;
 			fs >> mapId >> mapObjectsName;
@@ -96,8 +98,7 @@ void Stage::loadObjectFromFiles() {
 			StageManager::getInstance()->setCheckPoint({ mapId, wsTemp, x, y });
 			break;
 		}
-		case OBSimon:
-		{
+		case OBSimon: {
 			float max, min, camX, camY, climbDistance = 0;
 			int nx, state, climbDirection = 1;
 			fs >> nx >> min >> max >> camX >> camY >> state;
@@ -120,35 +121,28 @@ void Stage::loadObjectFromFiles() {
 			game->setLimitCamX({ min, max });
 			initCam = { camX, camY };
 			game->setCameraPosition(camX, camY);
-			DebugOut(L"\n load simon");
 			break;
 		}
-		case OBBoundary:
-		{
+		case OBBoundary: {
 			loadBoundaryCase(fs, x, y);
 			break;
 		}
-		case OBItem:
-		{
+		case OBItem: {
 			int type;
 			fs >> type;
 			auto item = ItemFactory::Get()->getItem(type, { x, y });
 			auto unit = new Unit(getGrid(), item, x, y);
-			DebugOut(L"\n load item");
 			break;
 		}
-		case OBCandle:
-		{
+		case OBCandle: {
 			int type, itemContainType, itemNx;
 			fs >> type >> itemContainType >> itemNx;
 			const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, { x, y });
 			auto unit = new Unit(getGrid(), candle, x, y);
-			DebugOut(L"\n load candle");
 			break;
 		}
 
-		case OBChangeStage:
-		{
+		case OBChangeStage: {
 			float width, height, xPoint, yPoint, vx, vy, animId;
 			int nextStageId;
 			string nextStageName;
@@ -164,17 +158,14 @@ void Stage::loadObjectFromFiles() {
 			obj->setChangeStateVelocity({ vx, vy });
 			obj->setChangeStateAnimId(animId);
 			auto unit = new Unit(getGrid(), obj, x, y);
-			DebugOut(L"\n load obChangeStage");
 			break;
 		}
 
-		case OBEnemy:
-		{
+		case OBEnemy: {
 			loadEnemies(fs, x, y);
 			break;
 		}
-		case OBDoor:
-		{
+		case OBDoor: {
 			int nx;
 			float min, max, moveCam, newCheckPointX, newCheckPointY;
 			int mapId;
@@ -191,8 +182,7 @@ void Stage::loadObjectFromFiles() {
 			auto unit = new Unit(getGrid(), obj, x, y);
 			break;
 		}
-		case OBForceIdleSim:
-		{
+		case OBForceIdleSim: {
 			float width, height, nextX, nextY;
 			int direction;
 			fs >> width >> height >> direction >> nextX >> nextY;
@@ -206,28 +196,23 @@ void Stage::loadObjectFromFiles() {
 			auto unit = new Unit(getGrid(), ob, x, y);
 			break;
 		}
-		case OBCastle:
-		{
+		case OBCastle: {
 			auto ob = new Stage1Castle();
 			ob->setInitPos({ x, y });
 			ob->setPos(x, y);
-			DebugOut(L"load castle\n");
 			auto unit = new Unit(getGrid(), ob, x, y);
 			break;
 		}
-		case OBBoss:
-		{
+		case OBBoss: {
 			setBoss(new EnemyVampireBoss());
 			boss->setInitPos({ x, y });
 			boss->setPos(x, y);
 			boss->setEnable();
-			DebugOut(L"load boss\n");
 			auto unit = new Unit(grid, boss, x, y);
 			break;
 		}
 
-		case OBWater:
-		{
+		case OBWater: {
 			float width, height;
 			fs >> width >> height;
 			auto obj = new Water();
@@ -241,8 +226,8 @@ void Stage::loadObjectFromFiles() {
 
 			float width, height;
 			int itemId;
-			fs >> width >> height>> itemId;
-			auto obj = new BrokenWall(x,y);
+			fs >> width >> height >> itemId;
+			auto obj = new BrokenWall(x, y);
 			obj->setWidhtHeight(width, height);
 			obj->setItemId(itemId);
 			auto unit = new Unit(grid, obj, x, y);
@@ -264,8 +249,7 @@ void Stage::loadBoundaryCase(fstream& fs, float x, float y) {
 	boundary->setPos(x, y);
 	boundary->setInitPos({ x, y });
 	switch (type) {
-	case BoundaryStair:
-	{
+	case BoundaryStair: {
 		float stairType, faceSide, nextX, nextY;
 		fs >> stairType >> faceSide >> nextX >> nextY;
 		auto stair = dynamic_cast<Stair*>(boundary);
@@ -274,7 +258,6 @@ void Stage::loadBoundaryCase(fstream& fs, float x, float y) {
 			stair->setStairType(stairType);
 			stair->setNextPos({ nextX, nextY });
 			auto unit = new Unit(grid, boundary, x, y);
-			listStairs.push_back(boundary);
 		}
 		break;
 	}
@@ -302,11 +285,12 @@ void Stage::loadEnemies(fstream& fs, float x, float y) {
 	}
 	else if (type == EnemFish) {
 		float jumpRange, activeRange;
-		fs >> jumpRange>> activeRange;
+		fs >> jumpRange >> activeRange;
 		auto fish = dynamic_cast<EnemyFish*>(obj);
 		fish->setJumpingMaxRange(jumpRange);
 		fish->setActiveRange(activeRange);
-	} else if(type == EnemBat) {
+	}
+	else if (type == EnemBat) {
 		y = simon->getPos().y;
 	}
 	obj->setInitState(initState);
@@ -340,7 +324,7 @@ bool Stage::updateEnemy(vector<GameObject*>::value_type obj, DWORD dt) {
 			return true;
 		}
 
-		enem->setIsStopAllAction(timerStopEnemy->isRunning()|| isGamePause);
+		enem->setIsStopAllAction(timerStopEnemy->isRunning() || isGamePause);
 
 		if (isGamePause || timerStopEnemy->isRunning()) return true;
 		vector<GameObject*> canColide;
@@ -373,7 +357,7 @@ void Stage::update(DWORD dt) {
 		obj->setIsStopAllAction(isGamePause);
 		auto subWeapon = dynamic_cast<SubWeapon*>(obj);
 		if (subWeapon) {
-			if(!isGamePause) updateSubWeapon(subWeapon, dt);
+			if (!isGamePause) updateSubWeapon(subWeapon, dt);
 			continue;
 		}
 
@@ -481,7 +465,6 @@ bool Stage::isInViewport(GameObject* object) {
 }
 
 
-
 bool Stage::isInViewPort(Box pos) {
 	const auto camPosition = Game::getInstance()->getCameraPosition();
 	const auto left = camPosition.x;
@@ -507,24 +490,20 @@ void Stage::updateGrid() {
 	}
 }
 
-bool sortByType(GameObject* a, GameObject* b) {
-	return a->getType() < b->getType();
-}
 
 void Stage::loadListObjFromGrid() {
 	resetAllUnitList();
-	listRenderObj = listCanCollideBoundary;
 	listStopSimObjs = listCanCollideBoundary;
 	listRenderObj.push_back(simon);
-	listRenderObj.insert(listRenderObj.begin(), listWater.begin(), listWater.end());
 	listRenderObj.insert(listRenderObj.begin(), subWeapons.begin(), subWeapons.end());
-	getGrid()->get(Game::getInstance()->getCameraPosition(), listUnit);
+	grid->get(Game::getInstance()->getCameraPosition(), listUnit);
 
 	for (auto unit : listUnit) {
 		auto obj = unit->get();
-		listRenderObj.push_back(obj);
 
 		const auto type = obj->getType();
+		const auto notRenderObjs = type == OBBoundary || type == OBForceIdleSim || type == OBChangeStage;
+		if (!notRenderObjs) listRenderObj.push_back(obj);
 		switch (type) {
 		case OBItem: listItems.push_back(obj);
 			break;
@@ -546,6 +525,11 @@ void Stage::loadListObjFromGrid() {
 		case OBBullet:
 			listBullet.push_back(obj);
 			break;
+		case OBBoundary: {
+			auto boun = dynamic_cast<Boundary*>(obj);
+			if (boun && boun->getBoundaryType() == BoundaryStair) listStairs.push_back(boun);
+			break;
+		}
 		default:;
 		}
 	}
@@ -584,6 +568,7 @@ void Stage::resetAllUnitList() {
 	listObjectChangeStage.clear();
 	listForceIdleSim.clear();
 	listBullet.clear();
+	listStairs.clear();
 }
 
 void Stage::updateCamera(const DWORD dt) const {
@@ -671,7 +656,7 @@ int Stage::getId() {
 }
 
 void Stage::stopEnemyForABit(DWORD time) {
-	if(!timerStopEnemy->isRunning()) {
+	if (!timerStopEnemy->isRunning()) {
 		timerStopEnemy = new Timer(time);
 		timerStopEnemy->start();
 	}

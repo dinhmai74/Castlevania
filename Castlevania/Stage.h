@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream> 
+#include <set> 
+#include <iterator> 
 #include <Windows.h>
 #include "Simon.h"
 #include "Boundary.h"
@@ -49,7 +52,7 @@ public:
 	EnemyVampireBoss* getBoss() const { return boss; }
 	void setBoss(EnemyVampireBoss* val) { boss = val; }
 	bool getIsFightingBoss() const { return isFightingBoss; }
-	void setIsFightingBoss(bool val=true) { isFightingBoss = val; }
+	void setIsFightingBoss(bool val = true) { isFightingBoss = val; }
 	int getCurrentSubWeaponsAmount() { return subWeapons.size(); }
 private:
 	Simon* simon;
@@ -75,7 +78,7 @@ private:
 	vector<GameObject*> listStairs;
 	EnemyVampireBoss* boss;
 	vector<GameObject*> listWater;
-	Timer* timerStopEnemy=new Timer();
+	Timer* timerStopEnemy = new Timer();
 
 	void loadObjectFromFiles();
 	void loadContent();

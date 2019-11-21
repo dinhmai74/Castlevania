@@ -259,6 +259,15 @@
   <ItemGroup>
     <ResourceCompile Include="Castlevania.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Stages\stage1_objects.txt" />
+    <Text Include="Stages\stage2.1_objects.txt" />
+    <Text Include="Stages\stage2.2_objects.txt" />
+    <Text Include="Stages\stage2.3_objects.txt" />
+    <Text Include="Stages\stage2_objects.txt" />
+    <Text Include="Stages\stage3.1_objects.txt" />
+    <Text Include="Stages\stage3_objects.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

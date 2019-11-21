@@ -46,6 +46,12 @@
     <Filter Include="Source Files\Enemy">
       <UniqueIdentifier>{b13ae898-6db1-4321-ae77-8a88dbe7ba0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\InputObjs">
+      <UniqueIdentifier>{44f68ac9-08e0-4a21-b980-9e20f36623cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\InputObjs\stages">
+      <UniqueIdentifier>{e51acb79-5ea0-49b7-99b5-a027577f452e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -451,5 +457,28 @@
     <ResourceCompile Include="Castlevania.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Stages\stage1_objects.txt">
+      <Filter>Source Files\InputObjs\stages</Filter>
+    </Text>
+    <Text Include="Stages\stage2.1_objects.txt">
+      <Filter>Source Files\InputObjs\stages</Filter>
+    </Text>
+    <Text Include="Stages\stage2.2_objects.txt">
+      <Filter>Source Files\InputObjs\stages</Filter>
+    </Text>
+    <Text Include="Stages\stage2.3_objects.txt">
+      <Filter>Source Files\InputObjs\stages</Filter>
+    </Text>
+    <Text Include="Stages\stage2_objects.txt">
+      <Filter>Source Files\InputObjs\stages</Filter>
+    </Text>
+    <Text Include="Stages\stage3.1_objects.txt">
+      <Filter>Source Files\InputObjs\stages</Filter>
+    </Text>
+    <Text Include="Stages\stage3_objects.txt">
+      <Filter>Source Files\InputObjs\stages</Filter>
+    </Text>
   </ItemGroup>
 </Project>

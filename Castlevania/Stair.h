@@ -12,7 +12,6 @@ enum StairType
 class Stair: public Boundary
 {
 public:
-	D3DXVECTOR2 getCanStandPos();
 	Stair();
 	~Stair();
 	int getStairType() const { return stairType; }
