@@ -1,0 +1,2 @@
+objects_endgame_idle_0	0	0	28	32	0	0	28	32
+objects_endgame_idle_1	28	0	56	32	28	0	56	32

@@ -58,7 +58,7 @@ void IntroScene::init() {
 	simon->setPos(450, 337);
 	simon->setFaceSide(SideLeft);
 	simon->setState(walking);
-	simon->doAutoWalkWithDistance(-230, 0.04, idleBack, SideLeft);
+	simon->doAutoWalkWithDistance(-220, 0.04, idleBack, SideLeft);
 
 	for (int i = 0; i < 3; i++) {
 		Bat* bat = new Bat();

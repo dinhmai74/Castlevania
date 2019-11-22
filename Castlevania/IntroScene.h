@@ -13,6 +13,7 @@ public:
 		bats.clear();
 
 		delete helicopter;
+		delete simon;
 	}
 
 	static IntroScene* getInstance() 
@@ -35,7 +36,7 @@ private:
 	static IntroScene* instance;
 	vector<Bat*> bats;
 	Simon* simon;
-	Helicopter* helicopter;
+	GameObject* helicopter;
 	bool isReady;
 	unordered_map<string, Sprite*> sprites;
 	unordered_map<string, Animation*> animations;

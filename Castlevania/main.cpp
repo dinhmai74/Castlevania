@@ -257,6 +257,7 @@ void loadResources()
 	LoadSprites(1000003, L"intro", D3DCOLOR_XRGB(0,0,0));
 	LoadSprites(1000004, L"bat_decoration");
 	LoadSprites(1000005, L"helicopter");
+	LoadSprites(1000006, L"objects_endgame");
 	vector<TileMapInfo> mapInfos;
 	mapInfos.push_back({ ID_STAGE_1,L"stage1","1",1536,320,32,32 });
 	mapInfos.push_back({ ID_STAGE_2,L"stage2","2",5632,352,32,32 });

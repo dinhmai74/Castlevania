@@ -131,6 +131,7 @@
     <ClCompile Include="Bubbles.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Candle.cpp" />
+    <ClCompile Include="DecorationHelicopter.cpp" />
     <ClCompile Include="EnemVampireBoss.cpp" />
     <ClCompile Include="EnemyBat.cpp" />
     <ClCompile Include="Boundary.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="ItemHeart.cpp" />
     <ClCompile Include="ItemMoneyBag.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ObjectEndGame.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -190,6 +192,7 @@
     <ClInclude Include="Bubble.h" />
     <ClInclude Include="Bubbles.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="DecorationHelicopter.h" />
     <ClInclude Include="EnemVampireBoss.h" />
     <ClInclude Include="EnemyBat.h" />
     <ClInclude Include="BigCandle.h" />
@@ -205,6 +208,7 @@
     <ClInclude Include="IntroScene.h" />
     <ClInclude Include="ItemContainer.h" />
     <ClInclude Include="ItemMoneyBag.h" />
+    <ClInclude Include="ObjectEndGame.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="stage1_castle.h" />
     <ClInclude Include="Stair.h" />

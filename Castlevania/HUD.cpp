@@ -90,7 +90,8 @@ void HUD::showHud() {
 	sprites["blackboard"]->draw(0, 0);
 
 	/*----------------- draw hp -----------------*/
-	auto simonHP = simon->getHp();
+	auto simonHP = 15;
+	if (simon) simonHP = simon->getHp();
 	auto boss = StageManager::getInstance()->getCurrentStage()->getBoss();
 	auto bossHp = 15;
 	if (boss) bossHp = boss->getHp();

@@ -1,0 +1,1 @@
+objects_endgame_idle_ani	objects_endgame_idle_0	100	objects_endgame_idle_1	100

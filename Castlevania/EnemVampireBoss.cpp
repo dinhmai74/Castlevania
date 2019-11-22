@@ -1,5 +1,6 @@
 ﻿#include "EnemVampireBoss.h"
 #include "StageManager.h"
+#include "ObjectEndGame.h"
 
 
 EnemyVampireBoss::EnemyVampireBoss() {
@@ -153,6 +154,11 @@ void EnemyVampireBoss::processDeathEffect() {
 	}
 	else if (startDying) {
 		startDying = false;
+		auto obj = new ObjectEndGame();
+		auto xPos = initPos.x + (getWidth() / 2);
+		auto yPos = y+ 80;
+		obj->setPos(xPos,yPos);
+		StageManager::getInstance()->add(obj);
 		setDisable();
 	}
 }

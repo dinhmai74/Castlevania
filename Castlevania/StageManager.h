@@ -44,7 +44,9 @@ public:
 	int getPlayerChoseWhenOver() const { return playerChoseWhenOver; }
 	void setPlayerChoseWhenOver(int val) { playerChoseWhenOver = val; }
 	int getSceneId() const { return isStartPlaying; }
-	void setPlaying(int val) { isStartPlaying = val; }
+	void setPlaying(int val) {
+		isStartPlaying = val;
+	}
 private:
 	int isStartPlaying;
 	int score;

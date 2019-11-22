@@ -502,6 +502,9 @@ void Stage::loadListObjFromGrid() {
 		auto obj = unit->get();
 
 		const auto type = obj->getType();
+		if(type == OBEndGame) {
+			DebugOut(L"endgame is real\n");
+		}
 		const auto notRenderObjs = type == OBBoundary || type == OBForceIdleSim || type == OBChangeStage;
 		if (!notRenderObjs) listRenderObj.push_back(obj);
 		switch (type) {
@@ -600,6 +603,8 @@ void Stage::updateCamera(const DWORD dt) const {
 	game->setCameraPosition(newX, newY);
 }
 
+/*----------------- keyboard  -----------------*/
+
 void Stage::onKeyDown(const int keyCode) {
 	if (!isGamePause) getSimon()->handleOnKeyDown(keyCode);
 	switch (keyCode) {
@@ -624,6 +629,8 @@ void Stage::onKeyDown(const int keyCode) {
 	case DIK_4: simon->setSubWeapon(itemStopWatch);
 		break;
 	case DIK_F: simon->addEnergy(100);
+		break;
+	case DIK_H: boss->getHurt(1);
 		break;
 	case DIK_G: isStopEnemyForDebug = !isStopEnemyForDebug;
 		break;
