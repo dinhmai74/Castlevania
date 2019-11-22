@@ -41,6 +41,7 @@ public:
 
 	bool shouldUpdate(DWORD dt);
 	void willUpdate();
+	void autoUpdateHp();
 	void update(DWORD dt, const vector<MapGameObjects>& maps);
 	void didUpdate();
 
@@ -84,6 +85,7 @@ private:
 	Timer* timerPowering = new Timer(SIM_POWERING_DURATION);
 	Timer* timerSitWhenCollideGround= new Timer(SIM_SIT_WHEN_LANDING);
 	Timer* timerThrowing = new Timer(SIM_DELTA_TRHOWING_TIME);
+	Timer* timerAddHp = new Timer(100);
 	float autoWalkDistance;
 	bool isReleaseSitButton{};
 	Whip* whip{};
@@ -106,6 +108,7 @@ private:
 	VectorInt changeStateDirection;
 	D3DXVECTOR2 changeStateDistanceRemain;
 	int canShotTimes;
+	int hpWillAdd;
 
 	bool isPowering() { return isTimerRunning(timerPowering); };
 	bool isChangingStage() { return changeStateDistanceRemain.x >= 0 && changeStateDistanceRemain.y >= 0; };

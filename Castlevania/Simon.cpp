@@ -104,12 +104,21 @@ void Simon::willUpdate() {
 	if (state != climbing && state != hittingWhenClimbing && state != throwingWhenClimbing) updateGravity(dt);
 }
 
+void Simon::autoUpdateHp() {
+	if (timerAddHp->isTimeUpAndRunAlr() && hpWillAdd > 0) {
+		hpWillAdd -= 1;
+		addHP(1);
+		timerAddHp->start();
+	}
+}
+
 void Simon::update(DWORD dt, const vector<MapGameObjects>& maps) {
 	if (!shouldUpdate(dt)) return;
 
 	willUpdate();
 	GameObject::update(dt);
 
+	autoUpdateHp();
 	checkCollision(dt, maps);
 	checkClimbingState();
 	updateAnimId();
@@ -502,7 +511,7 @@ void Simon::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs) {
 			const auto enemy = dynamic_cast<Enemy*>(i->obj);
 			if (enemy && enemy->getState() != death && getHurt(nx, ny, enemy->getDmg())) {
 				resetState();
-				if (enemy->getEnemyType() == EnemBat) enemy->getHurt(1,1,1);
+				if (enemy->getEnemyType() == EnemBat) enemy->getHurt(1, 1, 1);
 				continue;
 			}
 
@@ -1006,6 +1015,13 @@ bool Simon::addLife(int val) {
 }
 
 bool Simon::addHP(int val) {
+	if (val > 1) {
+		hpWillAdd = val - 1;
+		hp += 1;
+		if (hp > SIM_MAX_HP) hp = SIM_MAX_HP;
+		else timerAddHp->startDeep();
+		return true;
+	}
 	hp += val;
 	if (hp <= 0) {
 		hp = 0;
