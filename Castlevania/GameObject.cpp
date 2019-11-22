@@ -128,7 +128,7 @@ void GameObject::addAnimation(int id, string animTexId) {
 }
 
 bool GameObject::getHurt(int nx, int hpLose) {
-	return GameObject::getHurt(nx, 1, hpLose);
+	return getHurt(nx, 1, hpLose);
 }
 
 bool GameObject::getHurt(int nx, int ny, int hpLose) {
@@ -169,6 +169,7 @@ void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose) {
 void GameObject::doDeflect(int nx) {
 	setState(deflect);
 	if (nx == 0) nx = 1;
+	gravity = initGravity;
 	setNxDeflect(nx);
 	timerDeflect->start();
 }

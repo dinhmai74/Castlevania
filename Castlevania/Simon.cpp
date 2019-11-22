@@ -502,7 +502,7 @@ void Simon::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs) {
 			const auto enemy = dynamic_cast<Enemy*>(i->obj);
 			if (enemy && enemy->getState() != death && getHurt(nx, ny, enemy->getDmg())) {
 				resetState();
-				if (enemy->getEnemyType() == EnemBat) enemy->getHurt(EnemyFactory::getInstance()->getHp(EnemBat));
+				if (enemy->getEnemyType() == EnemBat) enemy->getHurt(1,1,1);
 				continue;
 			}
 

@@ -169,6 +169,7 @@ void Enemy::doDeathAnim() {
 }
 
 void Enemy::initAnim() {
+	addAnimation(ANIM_EMPTY, "empty_ani");
 }
 
 void Enemy::updateAnimId() {

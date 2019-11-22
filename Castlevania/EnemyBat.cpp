@@ -15,6 +15,7 @@ EnemyBat::~EnemyBat()
 void EnemyBat::initAnim() {
 	addAnimation(walking, "bat_fly_ani");
 	addAnimation(idle, "bat_idle_ani");
+	Enemy::initAnim();
 }
 
 void EnemyBat::update(DWORD dt, vector<GameObject*> * coObjects) {
@@ -71,4 +72,10 @@ Box EnemyBat::getBoundingBox() {
 		return getBoundingBoxBaseOnFileAndPassWidth(2);
 
 	return { 0,0,0,0 };
+}
+
+bool EnemyBat::getHurt(int nx, int ny, int hpLose) {
+	doDeathAnim();
+	animId = ANIM_EMPTY;
+	return true;
 }

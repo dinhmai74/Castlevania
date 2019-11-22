@@ -131,7 +131,6 @@
     <ClCompile Include="Bubbles.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Candle.cpp" />
-    <ClCompile Include="DecorationHelicopter.cpp" />
     <ClCompile Include="EnemVampireBoss.cpp" />
     <ClCompile Include="EnemyBat.cpp" />
     <ClCompile Include="Boundary.cpp" />
@@ -192,7 +191,6 @@
     <ClInclude Include="Bubble.h" />
     <ClInclude Include="Bubbles.h" />
     <ClInclude Include="Bullet.h" />
-    <ClInclude Include="DecorationHelicopter.h" />
     <ClInclude Include="EnemVampireBoss.h" />
     <ClInclude Include="EnemyBat.h" />
     <ClInclude Include="BigCandle.h" />

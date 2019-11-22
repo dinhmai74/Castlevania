@@ -630,7 +630,7 @@ void Stage::onKeyDown(const int keyCode) {
 		break;
 	case DIK_F: simon->addEnergy(100);
 		break;
-	case DIK_H: boss->getHurt(1);
+	case DIK_H: if(boss) boss->getHurt(1);
 		break;
 	case DIK_G: isStopEnemyForDebug = !isStopEnemyForDebug;
 		break;

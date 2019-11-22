@@ -15,6 +15,7 @@ public:
 
 
 	Box getBoundingBox() override;
+	bool getHurt(int nx, int ny, int hpLose) override;
 private:
 	Timer* timerAddVelocityY = new Timer(1000);
 	bool isBottom;

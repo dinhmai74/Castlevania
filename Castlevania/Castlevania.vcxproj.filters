@@ -228,9 +228,6 @@
     <ClCompile Include="Helicopter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DecorationHelicopter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectEndGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -456,9 +453,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Helicopter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DecorationHelicopter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ObjectEndGame.h">
