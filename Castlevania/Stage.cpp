@@ -59,6 +59,10 @@ void Stage::initSimon() {
 	simon->setHp(SIM_MAX_HP);
 }
 
+void Stage::add(GameObject* ob, D3DXVECTOR2 initPos) {
+	auto unit = new Unit(grid, ob, initPos.x, initPos.y);
+}
+
 void Stage::reset() {
 	resetAllList();
 	grid->reset();
@@ -130,15 +134,13 @@ void Stage::loadObjectFromFiles() {
 		case OBItem: {
 			int type;
 			fs >> type;
-			auto item = ItemFactory::Get()->getItem(type, { x, y });
-			auto unit = new Unit(getGrid(), item, x, y);
+			add(ItemFactory::Get()->getItem(type, { x, y }), { x,y });
 			break;
 		}
 		case OBCandle: {
 			int type, itemContainType, itemNx;
 			fs >> type >> itemContainType >> itemNx;
-			const auto candle = CandleFactory::Get()->getCandle(type, itemContainType, itemNx, { x, y });
-			auto unit = new Unit(getGrid(), candle, x, y);
+			add(CandleFactory::Get()->getCandle(type, itemContainType, itemNx, { x, y }), { x,y });
 			break;
 		}
 
@@ -157,7 +159,7 @@ void Stage::loadObjectFromFiles() {
 			obj->setChangeStateDestinationPoint({ xPoint, yPoint });
 			obj->setChangeStateVelocity({ vx, vy });
 			obj->setChangeStateAnimId(animId);
-			auto unit = new Unit(getGrid(), obj, x, y);
+			add(obj, { x,y });
 			break;
 		}
 
@@ -179,28 +181,29 @@ void Stage::loadObjectFromFiles() {
 			obj->setNextCameraLimit({ min, max });
 			obj->setMoveCamDistance(moveCam);
 			obj->setNewCheckPoint({ mapId, wsTemp, newCheckPointX, newCheckPointY });
-			auto unit = new Unit(getGrid(), obj, x, y);
+			add(obj, { x,y });
 			break;
 		}
 		case OBForceIdleSim: {
 			float width, height, nextX, nextY;
 			int direction;
 			fs >> width >> height >> direction >> nextX >> nextY;
-			auto ob = new ForceIdleSim();
-			ob->setWidhtHeight(width, height);
-			ob->setInitPos({ x, y });
-			ob->setPos(x, y);
-			ob->setDirection(direction);
-			ob->setNextX(nextX);
-			ob->setNextY(nextY);
-			auto unit = new Unit(getGrid(), ob, x, y);
+			auto obj = new ForceIdleSim();
+			obj->setWidhtHeight(width, height);
+			obj->setInitPos({ x, y });
+			obj->setPos(x, y);
+			obj->setDirection(direction);
+			obj->setNextX(nextX);
+			obj->setNextY(nextY);
+			add(obj, { x,y });
+
 			break;
 		}
 		case OBCastle: {
-			auto ob = new Stage1Castle();
-			ob->setInitPos({ x, y });
-			ob->setPos(x, y);
-			auto unit = new Unit(getGrid(), ob, x, y);
+			auto obj = new Stage1Castle();
+			obj->setInitPos({ x, y });
+			obj->setPos(x, y);
+			add(obj, { x,y });
 			break;
 		}
 		case OBBoss: {
@@ -208,7 +211,7 @@ void Stage::loadObjectFromFiles() {
 			boss->setInitPos({ x, y });
 			boss->setPos(x, y);
 			boss->setEnable();
-			auto unit = new Unit(grid, boss, x, y);
+			add(boss, { x,y });
 			break;
 		}
 
@@ -230,12 +233,13 @@ void Stage::loadObjectFromFiles() {
 			auto obj = new BrokenWall(x, y);
 			obj->setWidhtHeight(width, height);
 			obj->setItemId(itemId);
-			auto unit = new Unit(grid, obj, x, y);
+			add(obj, { x,y });
 		}
 		default:
 			break;
 		}
 	}
+
 
 	fs.close();
 }
@@ -316,6 +320,7 @@ void Stage::render() {
 
 	for (auto object : listRenderObj) {
 		if (renderBoundingBox) object->renderBoundingBox();
+		if (object->getType() == OBEnemy && isFightingBoss)  continue;
 		object->render();
 	}
 }
@@ -323,6 +328,7 @@ void Stage::render() {
 bool Stage::updateEnemy(vector<GameObject*>::value_type obj, DWORD dt) {
 	auto enem = dynamic_cast<Enemy*>(obj);
 	if (enem) {
+		if (isFightingBoss && enem->getType() == OBEnemy) return true;
 		if (simon->isWalkingOutDoor() || isStopEnemyForDebug) {
 			enem->reset();
 			return true;
@@ -512,10 +518,8 @@ void Stage::loadListObjFromGrid() {
 		auto obj = unit->get();
 
 		const auto type = obj->getType();
-		/*		const auto notRenderObjs = type == OBBoundary || type == OBForceIdleSim || type == OBChangeStage;
-				if (!notRenderObjs) listRenderObj.push_back(obj);
-			*/
-		listRenderObj.push_back(obj);
+		const auto notRenderObjs = type == OBBoundary || type == OBForceIdleSim || type == OBChangeStage;
+		if (!notRenderObjs) listRenderObj.push_back(obj);
 		switch (type) {
 		case OBItem: listItems.push_back(obj);
 			break;
@@ -523,7 +527,7 @@ void Stage::loadListObjFromGrid() {
 			break;
 		case OBCandle: listCanHitObjects.push_back(obj);
 			break;
-		case OBEnemy: listEnemy.push_back(obj);
+		case OBEnemy: if (!isFightingBoss) listEnemy.push_back(obj);
 			break;
 		case OBDoor: listDoor.push_back(obj);
 			listStopSimObjs.push_back(obj);
@@ -645,8 +649,18 @@ void Stage::onKeyDown(const int keyCode) {
 		break;
 	case DIK_H: if (boss) boss->getHurt(1);
 		break;
-	case DIK_G: isStopEnemyForDebug = !isStopEnemyForDebug;
+		//case DIK_G: isStopEnemyForDebug = !isStopEnemyForDebug;
+		//	break;
+	case DIK_5: {
+		auto potion = ItemFactory::Get()->getItem(itemGoldPotion, { simon->getPos().x + 50,0 });
+		add(potion, potion->getPos());
 		break;
+	}
+	case DIK_6: {
+		auto potion = ItemFactory::Get()->getItem(itemDoubleShot, { simon->getPos().x + 50,0 });
+		add(potion, potion->getPos());
+		break;
+	}
 	case DIK_PAUSE:
 		isGamePause = !isGamePause;
 		HUD::getInstance()->setIsGamePause(isGamePause);

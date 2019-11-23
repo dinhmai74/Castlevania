@@ -10,7 +10,5 @@ public:
 	~ObjectEndGame();
 	void initAnim() override;
 	void update(DWORD dt, vector<GameObject*>* coObjects) override;
-protected:
-	
-private:
+	Box getBoundingBox() override;
 };

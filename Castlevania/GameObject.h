@@ -115,6 +115,7 @@ public:
 	void createBlowUpEffectAndSetRespawnTimer();
 	virtual void processWhenBurnedEffectDone();
 	void doUntouchable();
+	void doUntouchable(DWORD time);
 
 	/*----------------- collide  -----------------*/
 

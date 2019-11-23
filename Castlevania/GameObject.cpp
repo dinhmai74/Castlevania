@@ -14,7 +14,12 @@ void GameObject::processWhenBurnedEffectDone() {
 }
 
 void GameObject::doUntouchable() {
-	timerUntouchable->start();
+	if (untouchableDuration > 0) timerUntouchable->start(untouchableDuration);
+	else timerUntouchable->start();
+}
+
+void GameObject::doUntouchable(DWORD time) {
+	timerUntouchable->start(time);
 }
 
 GameObject::GameObject() {

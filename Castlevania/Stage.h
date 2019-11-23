@@ -23,6 +23,7 @@ public:
 	void init(int mapId, wstring mapName, Simon* simon);
 	void initMap(int mapId, wstring mapName);
 	void initSimon();
+	void add(GameObject* ob, D3DXVECTOR2 initPos);
 	void reset();
 	void render();
 	bool updateEnemy(vector<GameObject*>::value_type obj, DWORD dt);

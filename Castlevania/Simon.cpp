@@ -197,6 +197,7 @@ void Simon::updateRGB() {
 		r = g + 80;
 		g = 100 + rand() % 150;
 		b = g + 35;
+		alpha = 255;
 		stageManager->pauseGame();
 	}
 	else if (timerPowering->isTimeUpAndRunAlr()) {
@@ -578,6 +579,12 @@ void Simon::processCollisionWithItem(Item* item) {
 			break;
 		case itemPorkChop:
 			addHP(6);
+			break;
+		case itemDoubleShot:
+			canShotTimes = 2;
+			break;
+		case itemGoldPotion:
+			doUntouchable(6000);
 			break;
 		case itemHolyCross:
 			StageManager::getInstance()->clearMapByItem();

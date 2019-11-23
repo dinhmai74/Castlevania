@@ -80,6 +80,7 @@ public:
 	void setDeathByWater() override;
 
 	void setCanShotTimes(int val) { canShotTimes = val; }
+	int getCanShotTimes() const { return canShotTimes; }
 private:
 	bool isHitting{};
 	bool isThrowing{};

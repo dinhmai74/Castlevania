@@ -21,3 +21,7 @@ void ObjectEndGame::update(DWORD dt, vector<GameObject*>* coObjects) {
 
 	updateGravity(dt);
 }
+
+Box ObjectEndGame::getBoundingBox() {
+	return getBoundingBoxBaseOnFileAndPassWidth(5);
+}

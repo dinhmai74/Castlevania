@@ -6,17 +6,16 @@
 
 using namespace std;
 
-class HUD
-{
+class HUD {
 public:
 	~HUD() { instance = nullptr; }
 
-	static HUD* getInstance()
-	{
+	static HUD* getInstance() {
 		if (instance == nullptr)
 			instance = new HUD;
 		return instance;
 	}
+
 	void init();
 	void update(DWORD dt);
 	void render();
@@ -31,10 +30,11 @@ private:
 	static HUD* instance;
 	Stage* stage;
 	Simon* simon;
-	unordered_map<int,Sprite*> subWeapons;
+	unordered_map<int, Sprite*> subWeapons;
 	unordered_map<string, Sprite*> sprites;
-	void addSprite(string id, string sprite);
-	void addSubWeaponSprite(int id, string sprite);
+	unordered_map<int, Sprite*> shotsType;
+	void add(string id, string sprite, unordered_map<string, Sprite*>& sprites);
+	void add(int id, const char* str, unordered_map<int, Sprite*>& pairs);
 
 	ID3DXFont* font;
 	RECT inforRect;

@@ -1,14 +1,14 @@
 #include "HUD.h"
 HUD* HUD::instance = nullptr;
 
-void HUD::addSprite(string id, string sprite) {
+
+void HUD::add(string id, string sprite, unordered_map<string, Sprite*>& sprites) {
 	auto spriteManager = SpriteManager::getInstance();
 	sprites[id] = spriteManager->get(sprite);
 }
 
-void HUD::addSubWeaponSprite(int id, string sprite) {
-	auto spriteManager = SpriteManager::getInstance();
-	subWeapons[id] = spriteManager->get(sprite);
+void HUD::add(int id, const char* str, unordered_map<int, Sprite*>& pairs) {
+	pairs[id] = SpriteManager::getInstance()->get(str);
 }
 
 void HUD::init() {
@@ -17,18 +17,20 @@ void HUD::init() {
 
 
 	stage = StageManager::getInstance()->getCurrentStage();
-	addSprite("blackboard", "blackboard_default_0");
-	addSprite("pause", "pause_0");
-	addSprite("lostHP", "HP_lose");
-	addSprite("playerHP", "HP_player");
-	addSprite("enemyHP", "HP_enemy");
-	addSprite("yesNo", "YesNo_default_0");
-	addSprite("chose", "item_largeheart");
-	addSubWeaponSprite(itemDagger, "item_dagger");
-	addSubWeaponSprite(itemAxe, "item_axe");
-	addSubWeaponSprite(itemBoomerang, "item_boomerang");
-	addSubWeaponSprite(itemHolyWater, "item_holywater");
-	addSubWeaponSprite(itemStopWatch, "item_stopwatch");
+	add("blackboard", "blackboard_default_0", sprites);
+	add("pause", "pause_0", sprites);
+	add("lostHP", "HP_lose", sprites);
+	add("playerHP", "HP_player", sprites);
+	add("enemyHP", "HP_enemy", sprites);
+	add("yesNo", "YesNo_default_0", sprites);
+	add("chose", "item_largeheart", sprites);
+	add(itemDagger, "item_dagger", subWeapons);
+	add(itemAxe, "item_axe", subWeapons);
+	add(itemBoomerang, "item_boomerang", subWeapons);
+	add(itemHolyWater, "item_holywater", subWeapons);
+	add(itemStopWatch, "item_stopwatch", subWeapons);
+	add(1, "empty_ani_0", shotsType);
+	add(2, "item_doubleshot", shotsType);
 }
 
 void HUD::update(DWORD dt) {
@@ -64,13 +66,13 @@ void HUD::render() {
 	else showHud();
 
 	auto offset = 50;
-	auto pauseX = SCREEN_WIDTH - 34 -offset;
+	auto pauseX = SCREEN_WIDTH - 34 - offset;
 	auto pauseY = SCREEN_HEIGHT - 52 - offset;
-	if (isGamePause) sprites["pause"]->draw(pauseX,pauseY);
+	if (isGamePause) sprites["pause"]->draw(pauseX, pauseY);
 }
 
 void HUD::showInfo() {
-	auto chose= StageManager::getInstance()->getPlayerChoseWhenOver();
+	auto chose = StageManager::getInstance()->getPlayerChoseWhenOver();
 	sprites["yesNo"]->draw(150, 150);
 	sprites["chose"]->draw(160, 244 + 40 * chose);
 }
@@ -103,5 +105,8 @@ void HUD::showHud() {
 	if (subtype != -1) {
 		subWeapons[subtype]->draw(1, 320, 38, 255, 255, 255, 255, 0);
 	}
+
+	auto shotType = simon->getCanShotTimes();
+	shotsType[shotType]->draw(1, 450, 38);
 }
 

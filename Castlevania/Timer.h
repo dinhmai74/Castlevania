@@ -2,20 +2,19 @@
 
 #include <Windows.h>
 
-class Timer
-{
+class Timer {
 	int startTime;
 	int limitedTime;
 	bool isRun;
 public:
 	Timer() { init(1000); }
 	Timer(int limitedTime) { init(limitedTime); }
-	void init(int limitedTime)
-	{
+	void init(int limitedTime) {
 		this->limitedTime = limitedTime; startTime = 0; isRun = false;
 	}
 
 	void start() { startTime = GetTickCount64(); isRun = true; }
+	void start(DWORD time) { if (!isRun) limitedTime = time; start(); }
 	void startDeep() { if (!isRun) start(); }
 	void stop() { startTime = 0; isRun = false; }
 	bool isTimeUp() const {
@@ -25,7 +24,7 @@ public:
 		return false;
 	}
 	bool isTimeUp(DWORD delayTime) const {
-		if (GetTickCount64() - startTime  >= limitedTime +delayTime) {
+		if (GetTickCount64() - startTime >= limitedTime + delayTime) {
 			return true;
 		}
 		return false;

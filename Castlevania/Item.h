@@ -18,6 +18,8 @@ enum ItemType
 	itemBlueMoneyBag,
 	itemPorkChop,
 	itemHolyCross,
+	itemDoubleShot,
+	itemGoldPotion,
 };
 
 class Item :

@@ -57,6 +57,8 @@ void Item::initAnim()
 	addAnimation(itemRedMoneyBag, "item_redmoneybag_ani");
 	addAnimation(itemPorkChop, "item_porkchop_ani");
 	addAnimation(itemHolyCross, "item_cross_ani");
+	addAnimation(itemGoldPotion, "item_invisibilitypotion_ani");
+	addAnimation(itemDoubleShot, "item_doubleshot_ani");
 }
 
 void Item::init()
