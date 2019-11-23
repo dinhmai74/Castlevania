@@ -366,6 +366,11 @@ void Simon::checkCollistionWithEndGame(vector<GameObject*>* objs) {
 	calcPotentialCollisions(objs, coEvents);
 	calcPotentialCollisionsAABB(objs, coEvents);
 	if (!coEvents.empty()) {
+		float minTx, minTy, nx, ny;
+		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
+		for (auto& i : coEventsResult) {
+			i->obj->setActive(false);
+		}
 		StageManager::getInstance()->setEndGame();
 	}
 }

@@ -110,9 +110,10 @@ void StageManager::updateEndGame() {
 	auto sim = currentStage->getSimon();
 	switch (endGameState) {
 	case EndGameStart: {
+		sim->setState(idle);
 		if (timerEndGame->isTimeUpAndRunAlr()) {
-		sim->addHP(SIM_MAX_HP);
-		endGameState = EndGameAddHp;
+			sim->addHP(SIM_MAX_HP);
+			endGameState = EndGameAddHp;
 		}
 		break;
 	}

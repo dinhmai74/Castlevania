@@ -157,7 +157,7 @@ void EnemyVampireBoss::processDeathEffect() {
 		startDying = false;
 		auto obj = new ObjectEndGame();
 		auto xPos = initPos.x + (getWidth() / 2);
-		auto yPos = y+ 80;
+		auto yPos = initPos.y+ 80;
 		obj->setPos(xPos,yPos);
 		StageManager::getInstance()->add(obj);
 		setDisable();
