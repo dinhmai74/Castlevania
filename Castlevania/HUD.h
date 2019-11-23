@@ -18,23 +18,19 @@ public:
 		return instance;
 	}
 	void init();
-	void update(DWORD dt, bool stopwatch = false);
+	void update(DWORD dt);
 	void render();
 
 	// hiển thị thông tin khi ấn phím Enter
 	void showInfo();
 	// hiển thị thông tin máu, Exit ở góc trái màn hình
 	void showHud();
-	void setTime(int val) { time = val; }
 	void setIsGamePause(bool val) { isGamePause = val; }
 private:
 	HUD() = default;
 	static HUD* instance;
 	Stage* stage;
 	Simon* simon;
-	DWORD time;
-	DWORD defaultTime;
-	int score;
 	unordered_map<int,Sprite*> subWeapons;
 	unordered_map<string, Sprite*> sprites;
 	void addSprite(string id, string sprite);

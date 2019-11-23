@@ -207,6 +207,7 @@ void Simon::updateRGB() {
 	}
 }
 
+
 void Simon::updateAutoWalk() {
 	if (canAutoWalkWithDistance()) {
 		vx = vxAutoWalk * float(faceSide);
@@ -349,8 +350,23 @@ void Simon::checkCollision(DWORD dt, const vector<MapGameObjects>& maps) {
 		case OBWater:
 			checkCollisionWithWater(map.objs);
 			break;
+		case OBEndGame:
+			checkCollistionWithEndGame(map.objs);
+			break;
 		default:;
 		}
+	}
+}
+
+void Simon::checkCollistionWithEndGame(vector<GameObject*>* objs) {
+	vector<LPCollisionEvent> coEvents;
+	vector<LPCollisionEvent> coEventsResult;
+	coEvents.clear();
+
+	calcPotentialCollisions(objs, coEvents);
+	calcPotentialCollisionsAABB(objs, coEvents);
+	if (!coEvents.empty()) {
+		StageManager::getInstance()->setEndGame();
 	}
 }
 

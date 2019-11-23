@@ -74,6 +74,8 @@ public:
 	void setAutoWalkDistance(float val) { autoWalkDistance = val; }
 	void setSubWeapon(int val) { subWeaponType = val; }
 	bool isWalkingOutDoor() { return collidedDoor != nullptr; }
+	void loseEnergy(int val=1) { energy-=val; energy = energy < 0 ? 0 : energy; };
+	void addEnergy() { energy++; energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy; };
 
 	void setDeathByWater() override;
 
@@ -131,8 +133,6 @@ private:
 	bool canThrow();
 	void doThrow(int type);
 	void throwSubWeapon();
-	void loseEnergy(int val=1) { energy-=val; energy = energy < 0 ? 0 : energy; };
-	void addEnergy() { energy++; energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy; };
 	void generateSubWeapon();
 	bool isHaveSubWeapon() const {
 		return subWeaponType != -1;
@@ -153,6 +153,7 @@ private:
 	void upgradeWhipLv(bool up = true) const;
 	void updateWhip(DWORD dt, vector<GameObject*>* objs);
 	void updateRGB();
+	void checkCollistionWithEndGame(vector<GameObject*>* objs);
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
 
 	void processCollisionWithItem(Item* item);

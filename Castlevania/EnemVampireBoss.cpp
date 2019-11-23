@@ -74,7 +74,7 @@ void EnemyVampireBoss::getNextPositionToFly() {
 }
 
 void EnemyVampireBoss::updateVelocity() {
-	if (state == idle || state == sleep) {
+	if (state == idle || state == sleep || state == death) {
 		vx = vy = 0;
 		return;
 	}
@@ -125,6 +125,7 @@ Box EnemyVampireBoss::getBoundingBox() {
 }
 
 void EnemyVampireBoss::getNewActionBaseOnState() {
+	if (state == death) return;
 	if (timerIdle->isTimeUpAndRunAlr()) {
 		timerIdle->stop();
 		setState(hitting);

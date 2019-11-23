@@ -414,6 +414,7 @@ vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects() {
 	map.push_back({ OBBoundary, &listStopSimObjs });
 	map.push_back({ OBBullet, &listBullet });
 	map.push_back({ OBWater, &listWater });
+	map.push_back({ OBEndGame, &listObjectsEndGame });
 	return map;
 }
 
@@ -502,9 +503,6 @@ void Stage::loadListObjFromGrid() {
 		auto obj = unit->get();
 
 		const auto type = obj->getType();
-		if(type == OBEndGame) {
-			DebugOut(L"endgame is real\n");
-		}
 		const auto notRenderObjs = type == OBBoundary || type == OBForceIdleSim || type == OBChangeStage;
 		if (!notRenderObjs) listRenderObj.push_back(obj);
 		switch (type) {
@@ -529,8 +527,13 @@ void Stage::loadListObjFromGrid() {
 			listBullet.push_back(obj);
 			break;
 		case OBBoundary: {
-			auto boun = dynamic_cast<Boundary*>(obj);
-			if (boun && boun->getBoundaryType() == BoundaryStair) listStairs.push_back(boun);
+			{
+				auto boun = dynamic_cast<Boundary*>(obj);
+				if (boun && boun->getBoundaryType() == BoundaryStair) listStairs.push_back(boun);
+				break;
+			}
+		case OBEndGame:
+			listObjectsEndGame.push_back(obj);
 			break;
 		}
 		default:;
@@ -542,8 +545,6 @@ void Stage::loadListObjFromGrid() {
 		listCanHitObjects.push_back(boss);
 	}
 	sort(listRenderObj.begin(), listRenderObj.end(), sortByType);
-
-	DebugOut(L"listRenderObj %d\n",listRenderObj.size());
 }
 
 void Stage::resetAllList() {
@@ -572,6 +573,7 @@ void Stage::resetAllUnitList() {
 	listForceIdleSim.clear();
 	listBullet.clear();
 	listStairs.clear();
+	listObjectsEndGame.clear();
 }
 
 void Stage::updateCamera(const DWORD dt) const {
@@ -630,7 +632,7 @@ void Stage::onKeyDown(const int keyCode) {
 		break;
 	case DIK_F: simon->addEnergy(100);
 		break;
-	case DIK_H: if(boss) boss->getHurt(1);
+	case DIK_H: if (boss) boss->getHurt(1);
 		break;
 	case DIK_G: isStopEnemyForDebug = !isStopEnemyForDebug;
 		break;

@@ -74,6 +74,7 @@ private:
 	vector<GameObject*> listForceIdleSim;
 	vector<GameObject*> listBullet;
 	vector<GameObject*> subWeapons;
+	vector<GameObject*> listObjectsEndGame;
 	vector<Unit*> listUnit;
 	vector<GameObject*> listStairs;
 	EnemyVampireBoss* boss;

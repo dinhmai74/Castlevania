@@ -10,6 +10,7 @@ StageManager* StageManager::instance = nullptr;
 void StageManager::resetGame() {
 	init(this->tileMapsInfo);
 	isStartPlaying = 1;
+	endGameState = EndGameNone;
 }
 
 bool StageManager::getIsWhipMaxLv() {
@@ -36,6 +37,13 @@ void StageManager::addSubWeapon(SubWeapon* subWeapon) {
 	currentStage->addSubWeapon(subWeapon);
 }
 
+void StageManager::setEndGame() {
+	if (endGameState == EndGameNone) {
+		endGameState = EndGameStart;
+		timerEndGame->start();
+	}
+}
+
 StageManager::~StageManager() {
 	isReleaseSelectMapKey = true;
 }
@@ -44,6 +52,7 @@ void StageManager::init(vector<TileMapInfo> tileMapsInfo) {
 	this->tileMapsInfo = tileMapsInfo;
 	score = 0;
 
+	endGameState = EndGameNone;
 	isStartPlaying = 0;
 	loadTileMaps();
 	currentStage = new Stage();
@@ -52,6 +61,8 @@ void StageManager::init(vector<TileMapInfo> tileMapsInfo) {
 	playerChoseWhenOver = 0;
 	isGameOver = false;
 	IntroScene::getInstance()->init();
+	defaultTime = DEFAULT_TIME_PLAY;
+	time = 0;
 
 	hud->init();
 }
@@ -81,9 +92,11 @@ void StageManager::resetStage(int id, wstring mapName) {
 	if (nextId > tileMapsInfo.size() - 1) nextId = 0;
 	newStage->init(tileMapsInfo[nextId].id, mapName, currentStage->getSimon());
 	setStage(newStage);
+	time = 0;
 }
 
 void StageManager::render() const {
+	if (endGameState == EndGameDone) return;
 	if (isStartPlaying == ID_MAIN_MENU) {
 		IntroScene::getInstance()->render();
 	}
@@ -93,18 +106,59 @@ void StageManager::render() const {
 	}
 }
 
-void StageManager::update(const DWORD dt) const {
+void StageManager::updateEndGame() {
+	auto sim = currentStage->getSimon();
+	switch (endGameState) {
+	case EndGameStart: {
+		if (timerEndGame->isTimeUpAndRunAlr()) {
+		sim->addHP(SIM_MAX_HP);
+		endGameState = EndGameAddHp;
+		}
+		break;
+	}
+	case EndGameAddHp:
+		if (sim->getHp() >= SIM_MAX_HP) endGameState = EndGameTimeToScore;
+		break;
+	case EndGameTimeToScore:
+		time += dt * 100;
+		score += dt;
+		if (getRemainTime() <= 0) endGameState = EndGameHeartToScore;
+		break;
+	case EndGameHeartToScore: {
+		auto heart = sim->getEnergy();
+		if (heart > 0) {
+			if (timerCountHeart->isTimeUp()) {
+				sim->loseEnergy(1);
+				score += 100;
+				timerCountHeart->start();
+			}
+		}
+		else {
+			endGameState = EndGameDone;
+		}
+
+		break;
+	}
+	default:;
+	}
+}
+
+void StageManager::update(const DWORD dt) {
+	if (endGameState == EndGameDone) return;
+	this->dt = dt;
+	updateEndGame();
 	if (isStartPlaying == ID_MAIN_MENU) {
 		IntroScene::getInstance()->update(dt);
 	}
 	else {
 		if (!isGameOver)getCurrentStage()->update(dt);
-		hud->update(dt, currentStage->getIsGamePause());
+		if (!currentStage->getIsGamePause() && endGameState == EndGameNone) { time += dt; }
+		hud->update(dt);
 	}
 }
 
 void StageManager::onKeyDown(int keyCode) {
-	DebugOut(L"[info] on key down %d", keyCode);
+	if (endGameState != EndGameNone || endGameState == EndGameDone) return;
 	if (isGameOver) {
 		if (keyCode == DIK_UP || keyCode == DIK_DOWN)
 			playerChoseWhenOver = (playerChoseWhenOver + 1) % 2;
@@ -135,6 +189,7 @@ void StageManager::onKeyDown(int keyCode) {
 		case DIK_Y: nextStage(1, L"stage2.2"); break;
 		case DIK_P: nextStage(1, L"stage2.3"); break;
 		case DIK_N: nextStage(); break;
+		case DIK_M: setEndGame(); break;
 		default:
 			break;
 		}
@@ -142,11 +197,13 @@ void StageManager::onKeyDown(int keyCode) {
 }
 
 void StageManager::onKeyUp(int keyCode) {
-	if (isGameOver || isStartPlaying== ID_MAIN_MENU) return;
-		getCurrentStage()->onKeyUp(keyCode);
+	if (endGameState != EndGameNone || endGameState == EndGameDone) return;
+	if (isGameOver || isStartPlaying == ID_MAIN_MENU) return;
+	getCurrentStage()->onKeyUp(keyCode);
 }
 
 void StageManager::keyState(BYTE* states) {
+	if (endGameState != EndGameNone || endGameState == EndGameDone) return;
 	if (isGameOver)  return;
 	getCurrentStage()->keyState(states);
 }
@@ -168,7 +225,6 @@ void StageManager::descreaseLife() {
 		simon->doUntouchable();
 		simon->setPos(checkPoint.x, checkPoint.y);
 		simon->setInitPos({ checkPoint.x,checkPoint.y });
-		HUD::getInstance()->setTime(0);
 	}
 	else {
 		isGameOver = true;

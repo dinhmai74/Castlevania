@@ -2,6 +2,15 @@
 #include "Stage.h"
 #include "TilemapManager.h"
 
+enum EndGameStatus {
+	EndGameNone,
+	EndGameStart,
+	EndGameAddHp,
+	EndGameTimeToScore, // 1s=10 score
+	EndGameHeartToScore, // 1h = 100 score
+	EndGameDone
+};
+
 class StageManager {
 public:
 	static StageManager* getInstance() {
@@ -19,7 +28,8 @@ public:
 	void setStage(Stage* newStage) { preStage = getCurrentStage(); currentStage = newStage; }
 	void render() const;
 
-	void update(const DWORD dt) const;
+	void updateEndGame() ;
+	void update(const DWORD dt) ;
 	void onKeyDown(int keyCode);
 	void onKeyUp(int keyCode);
 	void keyState(BYTE* states);
@@ -29,7 +39,9 @@ public:
 	void loadTileMaps();
 	void removeAllObjOutOfBound();
 	void addScore(int score) { this->score += score; }
-	void addSubWeapon(SubWeapon* subWeapon);;
+	void addSubWeapon(SubWeapon* subWeapon);
+	void setEndGame();
+	int getRemainTime() { return defaultTime - time/ CLOCKS_PER_SEC; };
 	void removeSubWeapon(GameObject* sub) { currentStage->removeSubWeapons(sub); }
 	int getCurrentSubWeaponsAmount() { return currentStage->getCurrentSubWeaponsAmount(); }
 	int getScore() { return score; };
@@ -51,6 +63,12 @@ private:
 	int isStartPlaying;
 	int score;
 	bool isReleaseSelectMapKey;
+	int endGameState;
+	Timer* timerCountHeart= new Timer(100);
+	int defaultTime;
+	int time;
+	DWORD dt;
+	Timer* timerEndGame= new Timer(1000);
 	static StageManager* instance;
 	Stage* currentStage = nullptr;
 	Stage* preStage = nullptr;

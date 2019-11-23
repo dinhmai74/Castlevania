@@ -15,11 +15,8 @@ void HUD::init() {
 	auto game = Game::getInstance();
 	font = game->getFont();
 
-	defaultTime = DEFAULT_TIME_PLAY;
-	time = 0;
 
 	stage = StageManager::getInstance()->getCurrentStage();
-	score = StageManager::getInstance()->getScore();
 	addSprite("blackboard", "blackboard_default_0");
 	addSprite("pause", "pause_0");
 	addSprite("lostHP", "HP_lose");
@@ -34,17 +31,10 @@ void HUD::init() {
 	addSubWeaponSprite(itemStopWatch, "item_stopwatch");
 }
 
-void HUD::update(DWORD dt, bool stopwatch) {
-	if (!stopwatch) {
-		time += dt;
-	}
-	int remainTime = defaultTime - time / CLOCKS_PER_SEC;
-	if (remainTime <= 0) {
-		remainTime = 0;
-		StageManager::getInstance()->descreaseLife();
-	}
+void HUD::update(DWORD dt) {
+	int remainTime = StageManager::getInstance()->getRemainTime();
 
-	score = StageManager::getInstance()->getScore();
+	auto score = StageManager::getInstance()->getScore();
 	simon = stage->getSimon();
 
 	string scoreStr = to_string(score);
