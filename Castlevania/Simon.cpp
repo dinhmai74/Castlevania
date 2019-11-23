@@ -620,7 +620,8 @@ bool Simon::climbStair(int direction) {
 
 	if (state != climbing) {
 		const auto collidePos = collidedStair->getPos();
-		const auto finalStandPos = collidePos.x - (getBoundingBox().l - x) - 5 * collidedStair->getFaceSide();
+		auto finalStandPos = collidePos.x - (getBoundingBox().l - x) - 5 * collidedStair->getFaceSide();
+		if (collidedStair->getInitStairPos() != -1) finalStandPos = collidedStair->getInitStairPos();
 		doAutoWalkWithDistance(finalStandPos - x);
 		staringStatus = ready;
 	}

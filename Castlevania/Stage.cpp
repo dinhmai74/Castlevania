@@ -250,10 +250,14 @@ void Stage::loadBoundaryCase(fstream& fs, float x, float y) {
 	boundary->setInitPos({ x, y });
 	switch (type) {
 	case BoundaryStair: {
-		float stairType, faceSide, nextX, nextY;
+		float stairType, faceSide, nextX, nextY, initPos;
 		fs >> stairType >> faceSide >> nextX >> nextY;
 		auto stair = dynamic_cast<Stair*>(boundary);
 		if (stair) {
+			if (stairType == StairStartDown || stairType == StairStartUp) {
+				fs >> initPos;
+				stair->setInitStairPos(initPos);
+			}
 			stair->setFaceSide(faceSide);
 			stair->setStairType(stairType);
 			stair->setNextPos({ nextX, nextY });
@@ -437,7 +441,7 @@ void Stage::updateInActiveUnit() {
 		auto enemy = dynamic_cast<Enemy*>(ob);
 		if (enemy && !isInViewport(enemy)) {
 			// set respawn immediately when user go out the init enemy pos
-			if(enemy->getType()==OBBoss) {
+			if (enemy->getType() == OBBoss) {
 				boss->setState(sleep);
 				continue;
 			}
@@ -508,9 +512,9 @@ void Stage::loadListObjFromGrid() {
 		auto obj = unit->get();
 
 		const auto type = obj->getType();
-/*		const auto notRenderObjs = type == OBBoundary || type == OBForceIdleSim || type == OBChangeStage;
-		if (!notRenderObjs) listRenderObj.push_back(obj);
-	*/
+		/*		const auto notRenderObjs = type == OBBoundary || type == OBForceIdleSim || type == OBChangeStage;
+				if (!notRenderObjs) listRenderObj.push_back(obj);
+			*/
 		listRenderObj.push_back(obj);
 		switch (type) {
 		case OBItem: listItems.push_back(obj);
