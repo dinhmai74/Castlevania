@@ -144,7 +144,6 @@ void Enemy::processWhenBurnedEffectDone() {
 
 void Enemy::setEnable(bool val /*= true*/) {
 	if (!val && isEnable) {
-		DebugOut(L"start timer respawn %d\n",GetTickCount64());
 		timerRespawn->start();
 	}
 	GameObject::setEnable(val);

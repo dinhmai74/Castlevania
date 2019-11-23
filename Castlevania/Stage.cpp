@@ -437,6 +437,10 @@ void Stage::updateInActiveUnit() {
 		auto enemy = dynamic_cast<Enemy*>(ob);
 		if (enemy && !isInViewport(enemy)) {
 			// set respawn immediately when user go out the init enemy pos
+			if(enemy->getType()==OBBoss) {
+				boss->setState(sleep);
+				continue;
+			}
 			auto initPos = enemy->getInitPos();
 			auto enemyBBox = enemy->getBoundingBoxBaseOnFile();
 			Box box;
@@ -494,6 +498,7 @@ void Stage::updateGrid() {
 
 void Stage::loadListObjFromGrid() {
 	resetAllUnitList();
+	listRenderObj = listCanCollideBoundary;
 	listStopSimObjs = listCanCollideBoundary;
 	listRenderObj.push_back(simon);
 	listRenderObj.insert(listRenderObj.begin(), subWeapons.begin(), subWeapons.end());
@@ -503,8 +508,10 @@ void Stage::loadListObjFromGrid() {
 		auto obj = unit->get();
 
 		const auto type = obj->getType();
-		const auto notRenderObjs = type == OBBoundary || type == OBForceIdleSim || type == OBChangeStage;
+/*		const auto notRenderObjs = type == OBBoundary || type == OBForceIdleSim || type == OBChangeStage;
 		if (!notRenderObjs) listRenderObj.push_back(obj);
+	*/
+		listRenderObj.push_back(obj);
 		switch (type) {
 		case OBItem: listItems.push_back(obj);
 			break;
