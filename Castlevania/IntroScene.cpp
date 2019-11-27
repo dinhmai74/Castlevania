@@ -11,13 +11,14 @@ void IntroScene::update(DWORD dt) {
 		if (simon->getState() == idleBack) timerChangingState->startDeep();
 		if (timerChangingState->isTimeUpAndRunAlr()) {
 			StageManager::getInstance()->setPlaying(1);
-			return;
 		}
 		if (helicopter) helicopter->update(dt);
 		for (auto bat : bats) bat->update(dt);
 		vector<MapGameObjects> temp;
-		simon->update(dt, temp);
-		simon->updatePosWhenNotCollide();
+		if (simon) {
+			simon->update(dt, temp);
+			simon->updatePosWhenNotCollide();
+		}
 
 	}
 }

@@ -7,6 +7,11 @@ HUD* hud = HUD::getInstance();
 
 StageManager* StageManager::instance = nullptr;
 
+bool StageManager::getPlaying()
+{
+	return isStartPlaying;
+}
+
 void StageManager::resetGame() {
 	init(this->tileMapsInfo);
 	isStartPlaying = 1;
@@ -95,7 +100,7 @@ void StageManager::resetStage(int id, wstring mapName) {
 	time = 0;
 }
 
-void StageManager::render() const {
+void StageManager::render() {
 	if (endGameState == EndGameDone) return;
 	if (isStartPlaying == ID_MAIN_MENU) {
 		IntroScene::getInstance()->render();
@@ -151,7 +156,7 @@ void StageManager::update(const DWORD dt) {
 	if (isStartPlaying == ID_MAIN_MENU) {
 		IntroScene::getInstance()->update(dt);
 	}
-	else {
+	if (isStartPlaying == 1) {
 		if (!isGameOver)getCurrentStage()->update(dt);
 		if (!currentStage->getIsGamePause() && endGameState == EndGameNone) { time += dt; }
 		hud->update(dt);

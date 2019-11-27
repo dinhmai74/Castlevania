@@ -16,7 +16,8 @@ void EnemyVampireBoss::init() {
 	setAnimId(sleep);
 	setEnable();
 	setFaceSide(SideLeft);
-	setHp(1);
+	untouchableDuration = 1;
+	setHp(15);
 	setInitGravity(0);
 	setGravity(0);
 	setInitSpeed({ 0.1f, 0.1f });

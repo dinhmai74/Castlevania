@@ -20,16 +20,15 @@ public:
 
 	~StageManager();
 
-	Stage* getCurrentState() const { return getCurrentStage(); }
 	string getCurrentMapDisplayName() const { return tileMapsInfo[currentStage->getId() - 1].mapDisplayName; }
 	void init(vector<TileMapInfo> tileMapsInfo);
 	void nextStage(int stageId = -1, wstring mapName = L"none");
 	void resetStage(int id = -1, wstring mapName = L"none");
 	void setStage(Stage* newStage) { preStage = getCurrentStage(); currentStage = newStage; }
-	void render() const;
+	void render() ;
 
-	void updateEndGame() ;
-	void update(const DWORD dt) ;
+	void updateEndGame();
+	void update(const DWORD dt);
 	void onKeyDown(int keyCode);
 	void onKeyUp(int keyCode);
 	void keyState(BYTE* states);
@@ -41,7 +40,7 @@ public:
 	void addScore(int score) { this->score += score; }
 	void addSubWeapon(SubWeapon* subWeapon);
 	void setEndGame();
-	int getRemainTime() { return defaultTime - time/ CLOCKS_PER_SEC; };
+	int getRemainTime() { return defaultTime - time / CLOCKS_PER_SEC; };
 	void removeSubWeapon(GameObject* sub) { currentStage->removeSubWeapons(sub); }
 	int getCurrentSubWeaponsAmount() { return currentStage->getCurrentSubWeaponsAmount(); }
 	int getScore() { return score; };
@@ -59,16 +58,17 @@ public:
 	void setPlaying(int val) {
 		isStartPlaying = val;
 	}
+	void resetGame();
 private:
 	int isStartPlaying;
 	int score;
 	bool isReleaseSelectMapKey;
 	int endGameState;
-	Timer* timerCountHeart= new Timer(100);
+	Timer* timerCountHeart = new Timer(100);
 	int defaultTime;
 	int time;
 	DWORD dt;
-	Timer* timerEndGame= new Timer(1000);
+	Timer* timerEndGame = new Timer(1000);
 	static StageManager* instance;
 	Stage* currentStage = nullptr;
 	Stage* preStage = nullptr;
@@ -76,5 +76,6 @@ private:
 	CheckPoint checkPoint;
 	bool isGameOver;
 	int playerChoseWhenOver;
-	void resetGame();
+public:
+	bool getPlaying();
 };

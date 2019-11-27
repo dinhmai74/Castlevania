@@ -159,7 +159,6 @@
     <ClCompile Include="ItemMoneyBag.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectEndGame.cpp" />
-    <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
@@ -170,7 +169,6 @@
     <ClCompile Include="SubWeapon.cpp" />
     <ClCompile Include="SubWeaponAxe.cpp" />
     <ClCompile Include="SubWeaponBoomerang.cpp" />
-    <ClCompile Include="SubWeaponEffect.cpp" />
     <ClCompile Include="SubWeaponFactory.cpp" />
     <ClCompile Include="SubWeaponHolyWater.cpp" />
     <ClCompile Include="SweptAABB.cpp" />

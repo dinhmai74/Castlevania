@@ -101,7 +101,10 @@ void HUD::showHud() {
 	for (int i = bossHp; i < SIM_MAX_HP; i++)
 		sprites["lostHP"]->draw(105 + i * 9, 47);
 
-	auto subtype = simon->getSubWeaponType();
+	auto subtype = -1;
+	if (simon) {
+		subtype = simon->getSubWeaponType();
+	}
 	if (subtype != -1) {
 		subWeapons[subtype]->draw(1, 320, 38, 255, 255, 255, 255, 0);
 	}
