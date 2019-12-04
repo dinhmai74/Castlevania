@@ -589,6 +589,7 @@ void Simon::processCollisionWithItem(Item* item) {
 			doUntouchable(6000);
 			break;
 		case itemHolyCross:
+			StageManager::getInstance()->doThunderEffect();
 			StageManager::getInstance()->clearMapByItem();
 			break;
 		default:

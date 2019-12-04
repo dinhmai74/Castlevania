@@ -67,6 +67,8 @@ public:
 	void resetGame();
 	std::unordered_map<std::wstring, Grid*> getGrids() const { return grids; }
 	void setGrids(std::unordered_map<std::wstring, Grid*> val) { grids = val; }
+	void doThunderEffect();
+	bool isDoingThunderEffect() { return timerThunderEffect->isRunning(); }
 private:
 	int isStartPlaying;
 	int score;
@@ -79,6 +81,7 @@ private:
 	int time;
 	DWORD dt;
 	Timer* timerEndGame = new Timer(1000);
+	Timer* timerThunderEffect = new Timer(500);
 	static StageManager* instance;
 	Stage* currentStage = nullptr;
 	Stage* preStage = nullptr;

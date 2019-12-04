@@ -317,6 +317,7 @@ void StageManager::updateEndGame() {
 
 void StageManager::update(const DWORD dt) {
 	if (endGameState == EndGameDone) return;
+	if (timerThunderEffect->isTimeUpAndRunAlr()) timerThunderEffect->stop();
 	this->dt = dt;
 	updateEndGame();
 	if (isStartPlaying == ID_MAIN_MENU) {
@@ -433,6 +434,11 @@ void StageManager::resetGame() {
 	init(this->tileMapsInfo, this->gridsInfo);
 	isStartPlaying = 1;
 	endGameState = EndGameNone;
+}
+
+void StageManager::doThunderEffect()
+{
+	timerThunderEffect->startDeep();
 }
 
 bool StageManager::getIsWhipMaxLv() {

@@ -313,10 +313,18 @@ void render()
 	if (d3ddv->BeginScene())
 	{
 		// Clear back buffer with a color
-		d3ddv->ColorFill(bb, NULL, BACKGROUND_COLOR);
+		auto bg = BACKGROUND_COLOR;
+
+		if (StageManager::getInstance()->isDoingThunderEffect()) {
+			auto random= rand() % 100;
+			bg = random > 60 ? THUNDER_EFFECT_COLOR : BACKGROUND_COLOR;
+		}
+		d3ddv->ColorFill(bb, NULL, bg);
+
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		float x, y;
 		Game::getInstance()->getCameraPosition(x, y);
+
 		StageManager::getInstance()->render();
 		spriteHandler->End();
 		d3ddv->EndScene();

@@ -253,7 +253,7 @@ void Stage::updateSubWeapon(SubWeapon* subWeapon, DWORD dt) {
 		temp.insert(temp.end(), listCanHitObjects.begin(), listCanHitObjects.end());
 		vector<MapGameObjects> maps;
 		maps.push_back({ OBEnemy, &temp });
-		maps.push_back({ OBBoundary, &listGround});
+		maps.push_back({ OBBoundary, &listGround });
 
 		holyWater->update(dt, simonPos, simon->getState(), maps);
 	}
@@ -411,7 +411,7 @@ void Stage::loadListObjFromGrid() {
 			break;
 		}
 		case OBBoss: {
-			auto temp= dynamic_cast<EnemyVampireBoss*>(obj);
+			auto temp = dynamic_cast<EnemyVampireBoss*>(obj);
 			boss = temp;
 			listEnemy.push_back(temp);
 			listCanHitObjects.push_back(temp);
@@ -435,7 +435,10 @@ void Stage::resetAllList() {
 
 void Stage::clearMapByItem() {
 	for (auto enemy : listEnemy)
-		enemy->getHurt(-9999999);
+	{
+		if (enemy->getType() != OBBoss)
+			enemy->getHurt(1,-9999999);
+	}
 }
 
 void Stage::resetAllUnitList() {
@@ -493,7 +496,7 @@ void Stage::onKeyDown(const int keyCode) {
 		break;
 	case DIK_D: simon->powerUpWhip(false);
 		break;
-	case DIK_X: simon->getHurt(1, 1, 1);
+	case DIK_X: simon->getHurt(1, 1, 8);
 		break;
 	case DIK_C: simon->getHurt(1, 1, 666);
 		break;
@@ -507,16 +510,6 @@ void Stage::onKeyDown(const int keyCode) {
 		break;
 	case DIK_4: simon->setSubWeapon(itemStopWatch);
 		break;
-	case DIK_F: simon->addEnergy(100);
-		break;
-	case DIK_H: if (boss) boss->getHurt(1);
-		break;
-	case DIK_J: if (boss) boss->getHurt(999);
-		break;
-	case DIK_L: if (boss) boss->resetPos();
-		break;
-		//case DIK_G: isStopEnemyForDebug = !isStopEnemyForDebug;
-		//	break;
 	case DIK_5: {
 		auto potion = ItemFactory::Get()->getItem(itemGoldPotion, { simon->getPos().x + 50,0 });
 		add(potion, potion->getPos());
@@ -527,6 +520,27 @@ void Stage::onKeyDown(const int keyCode) {
 		add(potion, potion->getPos());
 		break;
 	}
+	case DIK_7: {
+		auto potion = ItemFactory::Get()->getItem(itemPorkChop, { simon->getPos().x + 50,0 });
+		add(potion, potion->getPos());
+		break;
+	}
+	case DIK_8: {
+		auto potion = ItemFactory::Get()->getItem(itemHolyCross, { simon->getPos().x + 50,0 });
+		add(potion, potion->getPos());
+		break;
+	}
+	case DIK_F: simon->addEnergy(100);
+		break;
+	case DIK_H: if (boss) boss->getHurt(1);
+		break;
+	case DIK_J: if (boss) boss->getHurt(1,999);
+		break;
+	case DIK_L: if (boss) boss->resetPos();
+		break;
+		//case DIK_G: isStopEnemyForDebug = !isStopEnemyForDebug;
+		//	break;
+
 	case DIK_PAUSE:
 		isGamePause = !isGamePause;
 		HUD::getInstance()->setIsGamePause(isGamePause);
