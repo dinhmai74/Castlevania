@@ -1,6 +1,7 @@
 #pragma once
 #include "Stage.h"
 #include "TilemapManager.h"
+#include <unordered_map>
 
 enum EndGameStatus {
 	EndGameNone,
@@ -21,11 +22,15 @@ public:
 	~StageManager();
 
 	string getCurrentMapDisplayName() const { return tileMapsInfo[currentStage->getId() - 1].mapDisplayName; }
-	void init(vector<TileMapInfo> tileMapsInfo);
+	void init(vector<TileMapInfo> tileMapsInfo, vector<GridInfo> gridsInfo);
+
+	void loadObjectsFromFile(wstring mapObjsName);
+	void loadBoundaries(fstream& fs, float x, float y, wstring mapObjsName);
+	void loadEnemies(fstream& fs, float x, float y, wstring mapObjsName);
 	void nextStage(int stageId = -1, wstring mapName = L"none");
 	void resetStage(int id = -1, wstring mapName = L"none");
 	void setStage(Stage* newStage) { preStage = getCurrentStage(); currentStage = newStage; }
-	void render() ;
+	void render();
 
 	void updateEndGame();
 	void update(const DWORD dt);
@@ -33,6 +38,7 @@ public:
 	void onKeyUp(int keyCode);
 	void keyState(BYTE* states);
 	void add(GameObject* ob) const;
+	void add(GameObject* ob, float x, float y, wstring mapName) const;
 	Stage* getCurrentStage() const { return currentStage; }
 	void descreaseLife();
 	void loadTileMaps();
@@ -59,10 +65,14 @@ public:
 		isStartPlaying = val;
 	}
 	void resetGame();
+	std::unordered_map<std::wstring, Grid*> getGrids() const { return grids; }
+	void setGrids(std::unordered_map<std::wstring, Grid*> val) { grids = val; }
 private:
 	int isStartPlaying;
 	int score;
 	bool isReleaseSelectMapKey;
+	unordered_map<wstring, Grid*> grids;
+
 	int endGameState;
 	Timer* timerCountHeart = new Timer(100);
 	int defaultTime;
@@ -73,9 +83,11 @@ private:
 	Stage* currentStage = nullptr;
 	Stage* preStage = nullptr;
 	vector<TileMapInfo> tileMapsInfo;
+	vector<GridInfo> gridsInfo;
 	CheckPoint checkPoint;
 	bool isGameOver;
 	int playerChoseWhenOver;
+	void loadGrids();
 public:
 	bool getPlaying();
 };

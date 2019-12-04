@@ -22,3 +22,11 @@ struct TileMapInfo
 	int tileWidth;
 	int tileHeight;
 };
+
+struct GridInfo {
+	wstring gridObjsName;
+	int gridWidth;
+	int gridHeight;
+	int cellWidth;
+	int cellHeight;
+};

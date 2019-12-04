@@ -84,8 +84,6 @@ private:
 
 	void loadObjectFromFiles();
 	void loadContent();
-	void loadEnemies(fstream& fs, float x, float y);
-	void loadBoundaryCase(fstream& fs, float x, float y);
 	void respawnEnemies();
 	void loadListObjFromGrid();
 

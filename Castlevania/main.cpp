@@ -253,27 +253,42 @@ void loadTextures()
 
 void loadMaps()
 {
-	ifstream reader;
+	ifstream tileMapReader, gridReader;
 
-	reader.open(L"init-data\\maps.txt");
-	if (reader.fail()) {
+	tileMapReader.open(L"init-data\\maps.txt");
+	if (tileMapReader.fail()) {
 		DebugOut(L"[ERROR] load maps failed!: ID");
-		reader.close();
+		tileMapReader.close();
+		return;
+	}
+	gridReader.open(L"init-data\\grids.txt");
+	if (gridReader.fail()) {
+		DebugOut(L"[ERROR] load gridReader failed!: ID");
+		gridReader.close();
 		return;
 	}
 
 	int id, mapWidth, mapHeight, tileWidth, tileHeight;
 	string stageName, tileMapName;
 	vector<TileMapInfo> mapInfos;
-	while (reader >> id >> tileMapName >> stageName >> mapWidth >> mapHeight >> tileWidth >> tileHeight) {
+	while (tileMapReader >> id >> tileMapName >> stageName >> mapWidth >> mapHeight >> tileWidth >> tileHeight) {
 		std::wstring tileMapNameWS(tileMapName.begin(), tileMapName.end());
 		mapInfos.push_back({ id,tileMapNameWS,stageName,mapWidth,mapHeight,tileWidth,tileHeight });
 	}
 
-	auto stages = StageManager::getInstance();
-	stages->init(mapInfos);
+	vector <GridInfo> gridInfos;
+	int mapId, gridWidth, gridHeight, cellW, cellH;
+	string gridName;
+	while (gridReader >> gridName >> gridWidth >> gridHeight >> cellW >> cellH) {
+		std::wstring wsGrid(gridName.begin(), gridName.end());
+		gridInfos.push_back({ wsGrid,gridWidth,gridHeight,cellW,cellH });
+	}
 
-	reader.close();
+	auto stages = StageManager::getInstance();
+	stages->init(mapInfos, gridInfos);
+
+	tileMapReader.close();
+	gridReader.close();
 
 }
 

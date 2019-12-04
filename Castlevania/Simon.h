@@ -180,4 +180,5 @@ private:
 	bool isFalling;
 	int nxAfterAutoWalk;
 	int stateAfterAutoWalk;
+	bool deathByWater;
 };

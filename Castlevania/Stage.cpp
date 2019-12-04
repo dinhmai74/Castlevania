@@ -21,7 +21,11 @@ bool sortByType(GameObject* a, GameObject* b) {
 	return a->getType() < b->getType();
 }
 
-Stage::Stage() {}
+Stage::Stage() {
+	this->renderBoundingBox = false;
+	mapName = L"stage1";
+	simon = new Simon();
+}
 
 Stage::~Stage()
 = default;
@@ -30,17 +34,14 @@ void Stage::init(int mapId, wstring mapName) {
 	game->getCamera()->reset();
 	initMap(mapId, mapName);
 	initSimon();
-	loadContent();
 	timerStopEnemy->stop();
 }
 
 void Stage::init(int mapId, wstring mapName, Simon * simon) {
-	this->renderBoundingBox = false;
 	game->getCamera()->reset();
 	this->simon = simon;
 	this->simon->reset();
 	initMap(mapId, mapName);
-	loadContent();
 }
 
 void Stage::initMap(int mapId, wstring mapName) {
@@ -48,8 +49,9 @@ void Stage::initMap(int mapId, wstring mapName) {
 	this->mapId = mapId;
 	this->mapName = std::move(mapName);
 	const auto map = TileMapManager::getInstance()->get(mapId);
-	this->grid = new Grid(map->getMapWidth(), 480, map->getTileWidth() * 4);
+	grid = StageManager::getInstance()->getGrids()[this->mapName];
 	game->setLimitCamX({ 0, static_cast<float>(map->getMapWidth()) });
+	loadContent();
 }
 
 void Stage::initSimon() {
@@ -66,7 +68,6 @@ void Stage::add(GameObject* ob, D3DXVECTOR2 initPos) {
 void Stage::reset() {
 	resetAllList();
 	grid->reset();
-	loadContent();
 	simon->reset();
 	simon->doUntouchable();
 	game->setCameraPosition(initCam.x, initCam.y);
@@ -77,243 +78,111 @@ void Stage::loadContent() {
 }
 
 void Stage::loadObjectFromFiles() {
-	fstream fs;
 	const wstring objectsPath = STAGE_PREFIX_PATH + mapName + STAGE_OBJECTS_PATH;
-	fs.open(objectsPath.c_str(), ios::in);
-	if (fs.fail()) {
-		DebugOut(L"[ERROR] Scene %d load data failed: file path = %s\n", mapId, objectsPath.c_str());
-		fs.close();
+	DebugOut(L"mapName loaded : %ls\n", mapName.c_str());
+
+	// const wstring objectsPath = L"stages\\stage1_objects.txt";
+
+	fstream infile;
+	infile.open(objectsPath.c_str(), ios::in);
+	if (infile.fail()) {
+		DebugOut(L"[ERROR] Scene %d load data failed: file path = %s\n", 1, objectsPath.c_str());
+		infile.close();
 		return;
 	}
 
 	int id;
 	float x, y;
-
-	// read all file
-	while (!fs.eof()) {
-		// read line
-		fs >> id >> x >> y;
-		switch (id) {
-		case 666: {
-			int mapId;
-			string mapObjectsName;
-			fs >> mapId >> mapObjectsName;
-			std::wstring wsTemp(mapObjectsName.begin(), mapObjectsName.end());
-			StageManager::getInstance()->setCheckPoint({ mapId, wsTemp, x, y });
-			break;
-		}
-		case OBSimon: {
-			float max, min, camX, camY, climbDistance = 0;
-			int nx, state, climbDirection = 1;
-			fs >> nx >> min >> max >> camX >> camY >> state;
-			if (state == climbing) {
-				fs >> climbDistance >> climbDirection;
-				simon->setStairDxRemain(climbDistance);
-				simon->setStairDyRemain(climbDistance);
-				simon->setClimbDirection(climbDirection);
+	if (infile.is_open()) {
+		// read all file
+		std::string line;
+		while (getline(infile, line)) {
+			// read line
+			std::istringstream fs(line);
+			if (!(fs >> id >> x >> y)) continue;
+			switch (id) {
+			case 666: {
+				int mapId;
+				string mapObjectsName;
+				fs >> mapId >> mapObjectsName;
+				std::wstring wsTemp(mapObjectsName.begin(), mapObjectsName.end());
+				StageManager::getInstance()->setCheckPoint({ mapId, wsTemp, x, y });
+				break;
 			}
-			else if (state == walking) {
-				float autoWalkDistance, vAutoWalk;
-				fs >> autoWalkDistance >> vAutoWalk;
-				simon->doAutoWalkWithDistance(autoWalkDistance, vAutoWalk);
+			case OBSimon: {
+				DebugOut(L"loadsimon : %d\n", 2);
+				float max, min, camX, camY, climbDistance = 0;
+				int nx, state, climbDirection = 1;
+				fs >> nx >> min >> max >> camX >> camY >> state;
+				if (state == climbing) {
+					fs >> climbDistance >> climbDirection;
+					DebugOut(L"climbDirection : %d\n", climbDirection);
+					simon->setStairDxRemain(climbDistance);
+					simon->setStairDyRemain(climbDistance);
+					simon->setClimbDirection(climbDirection);
+				}
+				else if (state == walking) {
+					float autoWalkDistance, vAutoWalk;
+					fs >> autoWalkDistance >> vAutoWalk;
+					simon->doAutoWalkWithDistance(autoWalkDistance, vAutoWalk);
+				}
+				simon->setFaceSide(nx);
+				simon->setPos(x, y);
+				simon->setState(state);
+				simon->setInitState(state);
+				simon->setInitPos({ x, y });
+				game->setLimitCamX({ min, max });
+				initCam = { camX, camY };
+				game->setCameraPosition(camX, camY);
+				break;
 			}
-			simon->setFaceSide(nx);
-			simon->setPos(x, y);
-			simon->setState(state);
-			simon->setInitState(state);
-			simon->setInitPos({ x, y });
-			game->setLimitCamX({ min, max });
-			initCam = { camX, camY };
-			game->setCameraPosition(camX, camY);
-			break;
-		}
-		case OBBoundary: {
-			loadBoundaryCase(fs, x, y);
-			break;
-		}
-		case OBItem: {
-			int type;
-			fs >> type;
-			add(ItemFactory::Get()->getItem(type, { x, y }), { x,y });
-			break;
-		}
-		case OBCandle: {
-			int type, itemContainType, itemNx;
-			fs >> type >> itemContainType >> itemNx;
-			add(CandleFactory::Get()->getCandle(type, itemContainType, itemNx, { x, y }), { x,y });
-			break;
-		}
-
-		case OBChangeStage: {
-			float width, height, xPoint, yPoint, vx, vy, animId;
-			int nextStageId;
-			string nextStageName;
-			fs >> width >> height >> nextStageId >> nextStageName >> xPoint >> yPoint >> vx >> vy >> animId;
-			auto obj = new ObjectChangeStage();
-			obj->setWidthHeight(width, height);
-			obj->setPos(x, y);
-			obj->setInitPos({ x, y });
-			obj->setNextStageId(nextStageId);
-			std::wstring wsTemp(nextStageName.begin(), nextStageName.end());
-			obj->setNextStageMapObjName(wsTemp);
-			obj->setChangeStateDestinationPoint({ xPoint, yPoint });
-			obj->setChangeStateVelocity({ vx, vy });
-			obj->setChangeStateAnimId(animId);
-			add(obj, { x,y });
-			break;
-		}
-
-		case OBEnemy: {
-			loadEnemies(fs, x, y);
-			break;
-		}
-		case OBDoor: {
-			int nx;
-			float min, max, moveCam, newCheckPointX, newCheckPointY;
-			int mapId;
-			string mapObjectsName;
-			fs >> nx >> min >> max >> moveCam >> newCheckPointX >> newCheckPointY >> mapId >> mapObjectsName;
-			std::wstring wsTemp(mapObjectsName.begin(), mapObjectsName.end());
-			auto obj = new Door();
-			obj->setInitPos({ x, y });
-			obj->setPos(x, y);
-			obj->setFaceSide(nx);
-			obj->setNextCameraLimit({ min, max });
-			obj->setMoveCamDistance(moveCam);
-			obj->setNewCheckPoint({ mapId, wsTemp, newCheckPointX, newCheckPointY });
-			add(obj, { x,y });
-			break;
-		}
-		case OBForceIdleSim: {
-			float width, height, nextX, nextY;
-			int direction;
-			fs >> width >> height >> direction >> nextX >> nextY;
-			auto obj = new ForceIdleSim();
-			obj->setWidhtHeight(width, height);
-			obj->setInitPos({ x, y });
-			obj->setPos(x, y);
-			obj->setDirection(direction);
-			obj->setNextX(nextX);
-			obj->setNextY(nextY);
-			add(obj, { x,y });
-
-			break;
-		}
-		case OBCastle: {
-			auto obj = new Stage1Castle();
-			obj->setInitPos({ x, y });
-			obj->setPos(x, y);
-			add(obj, { x,y });
-			break;
-		}
-		case OBBoss: {
-			setBoss(new EnemyVampireBoss());
-			boss->setInitPos({ x, y });
-			boss->setPos(x, y);
-			boss->setEnable();
-			add(boss, { x,y });
-			break;
-		}
-
-		case OBWater: {
-			float width, height;
-			fs >> width >> height;
-			auto obj = new Water();
-			obj->setPos(x, y);
-			obj->setInitPos({ x, y });
-			obj->setWidhtHeight(width, height);
-			listWater.push_back(obj);
-			break;
-		}
-		case OBBrokenWall: {
-
-			float width, height;
-			int itemId;
-			fs >> width >> height >> itemId;
-			auto obj = new BrokenWall(x, y);
-			obj->setWidhtHeight(width, height);
-			obj->setItemId(itemId);
-			add(obj, { x,y });
-		}
-		default:
-			break;
-		}
-	}
-
-
-	fs.close();
-}
-
-void Stage::loadBoundaryCase(fstream& fs, float x, float y) {
-	float width, height;
-	int type;
-	fs >> width >> height >> type;
-	auto boundary = BoundaryFactory::getInstance()->getBoundary(type);
-	boundary->setWidhtHeight(width, height);
-	boundary->setPos(x, y);
-	boundary->setInitPos({ x, y });
-	switch (type) {
-	case BoundaryStair: {
-		float stairType, faceSide, nextX, nextY, initPos;
-		fs >> stairType >> faceSide >> nextX >> nextY;
-		auto stair = dynamic_cast<Stair*>(boundary);
-		if (stair) {
-			if (stairType == StairStartDown || stairType == StairStartUp) {
-				fs >> initPos;
-				stair->setInitStairPos(initPos);
+			case OBBoundary: {
+				float width, height;
+				int type;
+				fs >> width >> height >> type;
+				auto boundary = BoundaryFactory::getInstance()->getBoundary(type);
+				boundary->setWidhtHeight(width, height);
+				boundary->setPos(x, y);
+				boundary->setInitPos({ x, y });
+				switch (type) {
+				case BoundaryNormal:
+				case BoundaryGround:
+				case BoundaryTwoSide:
+					listCanCollideBoundary.push_back(boundary);
+					break;
+				default:
+					listDefaultBoundary.push_back(boundary);
+				}
+				break;
 			}
-			stair->setFaceSide(faceSide);
-			stair->setStairType(stairType);
-			stair->setNextPos({ nextX, nextY });
-			auto unit = new Unit(grid, boundary, x, y);
+			case OBBoss: {
+				if (boss) break;
+				setBoss(new EnemyVampireBoss());
+				boss->setInitPos({ x, y });
+				boss->setPos(x, y);
+				boss->setEnable();
+				break;
+			}
+
+			case OBWater: {
+				float width, height;
+				fs >> width >> height;
+				auto obj = new Water();
+				obj->setPos(x, y);
+				obj->setInitPos({ x, y });
+				obj->setWidhtHeight(width, height);
+				listWater.push_back(obj);
+				break;
+			}
+			default:
+				break;
+			}
 		}
-		break;
-	}
-	case BoundaryNormal:
-	case BoundaryGround:
-	case BoundaryTwoSide:
-		listCanCollideBoundary.push_back(boundary);
-		break;
-	default:
-		auto unit = new Unit(grid, boundary, x, y);
-		listDefaultBoundary.push_back(boundary);
+
+		infile.close();
 	}
 }
 
-void Stage::loadEnemies(fstream& fs, float x, float y) {
-	int type, faceSide, respawnTime, initState;
-	float minRespawn, maxRespawn;
-	fs >> faceSide >> type >> minRespawn >> maxRespawn >> respawnTime >> initState;
-	auto obj = EnemyFactory::getInstance()->getEnemy(type);
-	if (type == EnemWolf) {
-		float activeTerLeft, activeTerRight;
-		fs >> activeTerLeft >> activeTerRight;
-		auto wolf = dynamic_cast<EnemyWolf*>(obj);
-		wolf->setActiveTerritory({ activeTerLeft, activeTerRight });
-	}
-	else if (type == EnemFish) {
-		float jumpRange, activeRange;
-		fs >> jumpRange >> activeRange;
-		auto fish = dynamic_cast<EnemyFish*>(obj);
-		fish->setJumpingMaxRange(jumpRange);
-		fish->setActiveRange(activeRange);
-	}
-	else if (type == EnemBat) {
-		y = simon->getPos().y;
-	}
-	obj->setInitState(initState);
-	obj->setState(initState);
-	obj->setInitAnimId(initState);
-	obj->setAnimId(initState);
-	obj->setRespawnArea({ minRespawn, maxRespawn });
-	obj->setInitPos({ x, y });
-	obj->setPos(x, y);
-	obj->setInitFaceSide(faceSide);
-	obj->setFaceSide(faceSide);
-	obj->setRespawnTime(respawnTime);
-	obj->setEnable();
-	auto unit = new Unit(getGrid(), obj, x, y);
-}
 
 void Stage::render() {
 	TileMapManager::getInstance()->get(mapId)->draw();
@@ -511,6 +380,7 @@ void Stage::loadListObjFromGrid() {
 	//listRenderObj = listCanCollideBoundary;
 	listStopSimObjs = listCanCollideBoundary;
 	listRenderObj.push_back(simon);
+	if (boss)listRenderObj.push_back(boss);
 	listRenderObj.insert(listRenderObj.begin(), subWeapons.begin(), subWeapons.end());
 	grid->get(Game::getInstance()->getCameraPosition(), listUnit);
 
@@ -569,7 +439,6 @@ void Stage::resetAllList() {
 	listStairs.clear();
 	listWater.clear();
 }
-
 
 void Stage::clearMapByItem() {
 	for (auto enemy : listEnemy)
