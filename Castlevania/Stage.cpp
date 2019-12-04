@@ -143,8 +143,9 @@ void Stage::loadObjectFromFiles() {
 				boundary->setPos(x, y);
 				boundary->setInitPos({ x, y });
 				switch (type) {
-				case BoundaryNormal:
 				case BoundaryGround:
+					listGround.push_back(boundary);
+				case BoundaryNormal:
 				case BoundaryTwoSide:
 					listCanCollideBoundary.push_back(boundary);
 					break;
@@ -230,7 +231,6 @@ void Stage::update(DWORD dt) {
 			continue;
 		}
 
-
 		auto updateResult = updateEnemy(obj, dt);
 
 		auto listCO = listCanCollideBoundary;
@@ -253,7 +253,7 @@ void Stage::updateSubWeapon(SubWeapon* subWeapon, DWORD dt) {
 		temp.insert(temp.end(), listCanHitObjects.begin(), listCanHitObjects.end());
 		vector<MapGameObjects> maps;
 		maps.push_back({ OBEnemy, &temp });
-		maps.push_back({ OBBoundary, &listCanCollideBoundary });
+		maps.push_back({ OBBoundary, &listGround});
 
 		holyWater->update(dt, simonPos, simon->getState(), maps);
 	}
@@ -428,6 +428,7 @@ void Stage::resetAllList() {
 	resetAllUnitList();
 	listDefaultBoundary.clear();
 	listCanCollideBoundary.clear();
+	listGround.clear();
 	listStairs.clear();
 	listWater.clear();
 }

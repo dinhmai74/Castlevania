@@ -88,6 +88,7 @@ private:
 	bool isGameOver;
 	int playerChoseWhenOver;
 	void loadGrids();
+	bool introDone;
 public:
 	bool getPlaying();
 };

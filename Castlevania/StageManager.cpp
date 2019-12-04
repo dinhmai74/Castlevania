@@ -224,7 +224,7 @@ void StageManager::loadObjectsFromFile(wstring mapObjectsName)
 			break;
 		}
 		case OBBoss: {
-			auto obj= new EnemyVampireBoss();
+			auto obj = new EnemyVampireBoss();
 			obj->setInitPos({ x, y });
 			obj->setPos(x, y);
 			obj->setEnable();
@@ -324,7 +324,13 @@ void StageManager::update(const DWORD dt) {
 	}
 
 	if (isStartPlaying == 1) {
-		if (!isGameOver) getCurrentStage()->update(dt);
+		if (!isGameOver) {
+			if (!introDone) {
+				resetStage(0, L"stage1");
+				introDone = true;
+			}
+			getCurrentStage()->update(dt);
+		}
 		if (!currentStage->getIsGamePause() && endGameState == EndGameNone) { time += dt; }
 		hud->update(dt);
 	}

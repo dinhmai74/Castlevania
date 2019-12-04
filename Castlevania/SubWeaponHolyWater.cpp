@@ -14,7 +14,7 @@ void SubWeaponHolyWater::update(DWORD dt, D3DXVECTOR2 simonPos, int simonState, 
 	GameObject::update(dt);
 	updateAnimId();
 	checkCollision(dt, map);
-	updateGravity(dt,gravity);
+	updateGravity(dt, gravity);
 	updateEffect();
 }
 
@@ -46,12 +46,15 @@ void SubWeaponHolyWater::checkCollisionWithBoundary(DWORD dt, vector<GameObject*
 		float nx = 0;
 		float ny;
 		filterCollision(coEvents, coEventsResult, minTx, minTy, nx, ny);
-		updatePosInTheMomentCollideAndRemoveVelocity(minTx, minTy, nx, ny);
+		if (ny == CDIR_BOTTOM) {
+			updatePosInTheMomentCollideAndRemoveVelocity(minTx, minTy, nx, ny);
 
-		for (auto& i : coEventsResult) {
-			const auto object = (i->obj);
-			processWithBoundary(object, nx, ny);
+			for (auto& i : coEventsResult) {
+				const auto object = (i->obj);
+				processWithBoundary(object, nx, ny);
+			}
 		}
+		else updatePosWhenNotCollide();
 	}
 
 	for (auto& coEvent : coEvents) delete coEvent;

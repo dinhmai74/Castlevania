@@ -52,6 +52,7 @@ void EnemyVampireBoss::update(DWORD dt, vector<GameObject*> * coObjects /*= null
 
 void EnemyVampireBoss::checkCanAwake() {
 	if (state != sleep) return;
+	resetPos();
 	auto stage = StageManager::getInstance()->getCurrentStage();
 	simon = stage->getSimon();
 
@@ -157,7 +158,7 @@ void EnemyVampireBoss::setIdle() {
 
 Box EnemyVampireBoss::getBoundingBox() {
 	if (!IsEnable() || state == death) return { x,y,x,y };
-	return getBoundingBoxBaseOnFileAndPassWidth(50);
+	return getBoundingBoxBaseOnFileAndPassWidth(25);
 }
 
 void EnemyVampireBoss::setState(int state) {
