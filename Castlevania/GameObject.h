@@ -189,6 +189,7 @@ public:
 
 	virtual void setState(int state) {
 		this->previousState = this->state;
+
 		this->state = state;
 	}
 

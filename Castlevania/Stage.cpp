@@ -46,6 +46,7 @@ void Stage::init(int mapId, wstring mapName, Simon * simon) {
 
 void Stage::initMap(int mapId, wstring mapName) {
 	game = Game::getInstance();
+	resetAllList();
 	this->mapId = mapId;
 	this->mapName = std::move(mapName);
 	const auto map = TileMapManager::getInstance()->get(mapId);
@@ -155,15 +156,6 @@ void Stage::loadObjectFromFiles() {
 				}
 				break;
 			}
-			case OBBoss: {
-				if (boss) break;
-				setBoss(new EnemyVampireBoss());
-				boss->setInitPos({ x, y });
-				boss->setPos(x, y);
-				boss->setEnable();
-				break;
-			}
-
 			case OBWater: {
 				float width, height;
 				fs >> width >> height;
@@ -235,6 +227,7 @@ void Stage::update(DWORD dt) {
 
 		obj->setIsStopAllAction(isGamePause);
 		auto subWeapon = dynamic_cast<SubWeapon*>(obj);
+
 		if (subWeapon) {
 			if (!isGamePause) updateSubWeapon(subWeapon, dt);
 			continue;
@@ -380,7 +373,6 @@ void Stage::loadListObjFromGrid() {
 	//listRenderObj = listCanCollideBoundary;
 	listStopSimObjs = listCanCollideBoundary;
 	listRenderObj.push_back(simon);
-	if (boss)listRenderObj.push_back(boss);
 	listRenderObj.insert(listRenderObj.begin(), subWeapons.begin(), subWeapons.end());
 	grid->get(Game::getInstance()->getCameraPosition(), listUnit);
 
@@ -409,26 +401,29 @@ void Stage::loadListObjFromGrid() {
 			listStopSimObjs.push_back(obj);
 			break;
 		case OBBullet:
+			listCanHitObjects.push_back(obj);
 			listBullet.push_back(obj);
 			break;
-		case OBBoundary: {
-			{
-				auto boun = dynamic_cast<Boundary*>(obj);
-				if (boun && boun->getBoundaryType() == BoundaryStair) listStairs.push_back(boun);
-				break;
-			}
 		case OBEndGame:
 			listObjectsEndGame.push_back(obj);
 			break;
+		case OBBoundary:
+		{
+			auto boun = dynamic_cast<Boundary*>(obj);
+			if (boun && boun->getBoundaryType() == BoundaryStair) listStairs.push_back(boun);
+			break;
 		}
-		default:;
+		case OBBoss: {
+			auto temp= dynamic_cast<EnemyVampireBoss*>(obj);
+			boss = temp;
+			listEnemy.push_back(temp);
+			listCanHitObjects.push_back(temp);
+			break;
+		}
+		default:break;
 		}
 	}
 
-	if (boss) {
-		listEnemy.push_back(boss);
-		listCanHitObjects.push_back(boss);
-	}
 	sort(listRenderObj.begin(), listRenderObj.end(), sortByType);
 }
 

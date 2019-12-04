@@ -61,7 +61,7 @@ void Simon::render() {
 	if (state == StateNone) return;
 	renderWhip();
 	auto isPauseAnim = isStopAllAction || (staringStatus == pause && !isHitting);
-	animations[animId]->render(faceSide, x, y, alpha, r, g, b);
+	animations[animId]->render(faceSide, x, y, alpha, r, g, b, isPauseAnim, currentFrame);
 	didSimonRender();
 }
 
@@ -820,7 +820,8 @@ bool Simon::shouldKeyboardDisable() {
 /*----------------- utilities  -----------------*/
 
 void Simon::updateAnimId() {
-	if (isAutoWalking()) {
+	if (isAutoWalking() ) {
+		setAnimId(ANIM_WALK);
 		GameObject::updateAnimId();
 		return;
 	}
@@ -933,7 +934,6 @@ void Simon::resetState() {
 
 void Simon::reset() {
 	resetState();
-	deathByWater = false;
 	staringStatus = none;
 	stateAfterAutoWalk = -1;
 	nxAfterAutoWalk = -1;

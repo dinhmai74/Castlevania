@@ -218,10 +218,19 @@ void StageManager::loadObjectsFromFile(wstring mapObjectsName)
 			int itemId;
 			fs >> width >> height >> itemId;
 			auto obj = new BrokenWall(x, y);
-			DebugOut(L"wall : %d\n", 2);
 			obj->setWidhtHeight(width, height);
 			obj->setItemId(itemId);
 			add(obj, x, y, mapObjectsName);
+			break;
+		}
+		case OBBoss: {
+			auto obj= new EnemyVampireBoss();
+			obj->setInitPos({ x, y });
+			DebugOut(L"boss wall : %d\n", 2);
+			obj->setPos(x, y);
+			obj->setEnable();
+			add(obj, x, y, mapObjectsName);
+			break;
 		}
 		default:
 			break;
