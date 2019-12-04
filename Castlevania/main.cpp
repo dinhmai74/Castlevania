@@ -10,7 +10,7 @@ TextureManager* textureManager = TextureManager::getInstance();
 //Create keyboard handler for main program
 void SampleKeyHander::OnKeyDown(int KeyCode)
 {
-    //DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	StageManager::getInstance()->onKeyDown(KeyCode);
 	//if(KeyCode== DIK_B)
 	//{
@@ -159,6 +159,8 @@ int run()
 	return 1;
 }
 
+
+
 // Read data of sprites and animations from file.
 void LoadSprites(int id, wstring texName, D3DCOLOR transparentColor = MAIN_TEXTURE_TRANS_COLOR)
 {
@@ -227,44 +229,59 @@ void LoadSprites(int id, wstring texName, D3DCOLOR transparentColor = MAIN_TEXTU
 	animationReader.close();
 }
 
-void loadResources()
+void loadTextures()
 {
-	textureManager->add(ID_TEX_BBOX, L"textures\\Bbox.png");
-	LoadSprites(1000, L"simon");
-	LoadSprites(1001, L"whip");
-	LoadSprites(1002, L"Items");
-	LoadSprites(1003, L"Candle");
-	LoadSprites(1004, L"subweapons");
-	LoadSprites(1005, L"empty");
-	LoadSprites(1006, L"burned_effect");
-	LoadSprites(1007, L"Effect");
-	LoadSprites(1008, L"shouls");
-	LoadSprites(1009, L"stage1_castle");
-	LoadSprites(1010, L"door");
-	LoadSprites(1011, L"wolf");
-	LoadSprites(1012, L"bat");
-	LoadSprites(1013, L"fish");
-	LoadSprites(1014, L"bullet");
-	LoadSprites(1015, L"vampire_boss");
-	LoadSprites(1016, L"bubble");
-	LoadSprites(1017, L"broken_wall");
-	LoadSprites(100001, L"blackboard", D3DCOLOR_XRGB(0, 0, 0));
-	LoadSprites(100002, L"HP");
-	LoadSprites(100003, L"pause", D3DCOLOR_XRGB(0,0,0));
-	LoadSprites(100004, L"YesNo", D3DCOLOR_XRGB(0,0,0));
-	LoadSprites(1000001, L"mainmenu", D3DCOLOR_XRGB(0,0,0));
-	LoadSprites(1000002, L"mainmenu_tile", D3DCOLOR_XRGB(0,0,0));
-	LoadSprites(1000003, L"intro", D3DCOLOR_XRGB(0,0,0));
-	LoadSprites(1000004, L"bat_decoration");
-	LoadSprites(1000005, L"helicopter");
-	LoadSprites(1000006, L"objects_endgame");
+	ifstream reader;
+
+	reader.open(L"init-data\\textures.txt");
+	if (reader.fail())
+	{
+		DebugOut(L"[ERROR] LoadSprites failed!: ID");
+		reader.close();
+		return;
+	}
+
+	string name;
+	int r, id, g, b;
+	while (reader >> id >> name >> r >> g >> b)
+	{
+		std::wstring wsTemp(name.begin(), name.end());
+		LoadSprites(id, wsTemp, D3DCOLOR_XRGB(r, g, b));
+	}
+	reader.close();
+}
+
+void loadMaps()
+{
+	ifstream reader;
+
+	reader.open(L"init-data\\maps.txt");
+	if (reader.fail()) {
+		DebugOut(L"[ERROR] load maps failed!: ID");
+		reader.close();
+		return;
+	}
+
+	int id, mapWidth, mapHeight, tileWidth, tileHeight;
+	string stageName, tileMapName;
 	vector<TileMapInfo> mapInfos;
-	mapInfos.push_back({ ID_STAGE_1,L"stage1","1",1536,320,32,32 });
-	mapInfos.push_back({ ID_STAGE_2,L"stage2","2",5632,352,32,32 });
-	mapInfos.push_back({ ID_STAGE_3,L"stage3","2",1024,352,32,32 });
+	while (reader >> id >> tileMapName >> stageName >> mapWidth >> mapHeight >> tileWidth >> tileHeight) {
+		std::wstring tileMapNameWS(tileMapName.begin(), tileMapName.end());
+		mapInfos.push_back({ id,tileMapNameWS,stageName,mapWidth,mapHeight,tileWidth,tileHeight });
+	}
 
 	auto stages = StageManager::getInstance();
 	stages->init(mapInfos);
+
+	reader.close();
+
+}
+
+void loadResources()
+{
+	textureManager->add(ID_TEX_BBOX, L"textures\\Bbox.png");
+	loadTextures();
+	loadMaps();
 }
 
 void update(DWORD dt)

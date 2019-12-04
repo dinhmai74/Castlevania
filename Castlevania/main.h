@@ -7,6 +7,7 @@ HWND createGameWindow(HINSTANCE hInstance, int nCmdShow,
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 int run();
+void loadTextures();
 void loadResources();
 void loadEnvVariables();
 
