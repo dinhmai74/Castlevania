@@ -508,7 +508,7 @@ void Stage::updateGrid() {
 
 void Stage::loadListObjFromGrid() {
 	resetAllUnitList();
-	listRenderObj = listCanCollideBoundary;
+	//listRenderObj = listCanCollideBoundary;
 	listStopSimObjs = listCanCollideBoundary;
 	listRenderObj.push_back(simon);
 	listRenderObj.insert(listRenderObj.begin(), subWeapons.begin(), subWeapons.end());
@@ -648,6 +648,8 @@ void Stage::onKeyDown(const int keyCode) {
 	case DIK_F: simon->addEnergy(100);
 		break;
 	case DIK_H: if (boss) boss->getHurt(1);
+		break;
+	case DIK_J: if (boss) boss->getHurt(999);
 		break;
 		//case DIK_G: isStopEnemyForDebug = !isStopEnemyForDebug;
 		//	break;

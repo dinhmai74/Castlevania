@@ -25,6 +25,8 @@ void Simon::init() {
 	goThroughDoorStatus = nope;
 	changeStateDistanceRemain = { -1, -1 };
 	whip->setPos(x, y);
+	vxDeflect = 0.2f;
+	vyDeflect = 0.09f;
 
 	isInGround = false;
 	isReleaseSitButton = true;
@@ -151,6 +153,7 @@ void Simon::checkOutOfBound() {
 
 void Simon::updateCameraWhenGoThroughDoor() {
 	if (!collidedDoor) return;
+
 	auto cam = Camera::getInstance();
 	switch (goThroughDoorStatus) {
 	case ThroughDoorStarted:
@@ -207,7 +210,6 @@ void Simon::updateRGB() {
 		timerPowering->stop();
 	}
 }
-
 
 void Simon::updateAutoWalk() {
 	if (canAutoWalkWithDistance()) {
@@ -581,7 +583,7 @@ void Simon::processCollisionWithItem(Item* item) {
 			addHP(6);
 			break;
 		case itemDoubleShot:
-			canShotTimes = 2;
+			setCanShotTimes(2);
 			break;
 		case itemGoldPotion:
 			doUntouchable(6000);
@@ -695,6 +697,7 @@ void Simon::doThrow(int type) {
 	}
 	stopMoveWhenHitting();
 	isThrowing = true;
+	staringStatus = none;
 	setState(type);
 }
 

@@ -102,14 +102,8 @@ void HUD::showHud() {
 		sprites["lostHP"]->draw(105 + i * 9, 47);
 
 	auto subtype = -1;
-	if (simon) {
-		subtype = simon->getSubWeaponType();
-	}
-	if (subtype != -1) {
-		subWeapons[subtype]->draw(1, 320, 38, 255, 255, 255, 255, 0);
-	}
-
-	auto shotType = simon->getCanShotTimes();
-	shotsType[shotType]->draw(1, 450, 38);
+	if (simon) subtype = simon->getSubWeaponType();
+	if (subtype != -1) subWeapons[subtype]->draw(1, 320, 38, 255, 255, 255, 255, 0);
+	shotsType[simon->getCanShotTimes()]->draw(450, 38);
 }
 

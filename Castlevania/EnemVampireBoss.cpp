@@ -16,7 +16,7 @@ void EnemyVampireBoss::init() {
 	setAnimId(sleep);
 	setEnable();
 	setFaceSide(SideLeft);
-	untouchableDuration = 1;
+	untouchableDuration = 200;
 	setHp(15);
 	setInitGravity(0);
 	setGravity(0);
@@ -44,6 +44,7 @@ void EnemyVampireBoss::update(DWORD dt, vector<GameObject*> * coObjects /*= null
 	y += dy;
 	setAnimId(state);
 	processDeathEffect();
+	alpha = 255;
 }
 
 

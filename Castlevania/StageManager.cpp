@@ -194,7 +194,12 @@ void StageManager::onKeyDown(int keyCode) {
 		case DIK_T: nextStage(1, L"stage2.1"); break;
 		case DIK_Y: nextStage(1, L"stage2.2"); break;
 		case DIK_P: nextStage(1, L"stage2.3"); break;
-		case DIK_N: nextStage(); break;
+		case DIK_O: {
+			nextStage(1, L"stage2.3");
+			currentStage->getSimon()->setPos({ 5150,0 });
+			break;
+		}
+				  //case DIK_N: nextStage(); break;
 		case DIK_M: setEndGame(); break;
 		default:
 			break;
