@@ -53,6 +53,7 @@ EnemyFactory* EnemyFactory::instance = nullptr;
 
 int EnemyFactory::getHp(int enemyType) {
 	switch (enemyType) {
+	case OBBoss: return 15;
 	default: return 1;
 	}
 }

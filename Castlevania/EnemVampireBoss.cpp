@@ -14,17 +14,20 @@ EnemyVampireBoss::~EnemyVampireBoss() = default;
 void EnemyVampireBoss::init() {
 	initAnim();
 	setType(OBBoss);
+	setEnemyType(OBBoss);
 	setState(sleep);
 	setAnimId(sleep);
 	setEnable();
 	setFaceSide(SideLeft);
 	untouchableDuration = 200;
+	shootingRegion = 100;
 	setHp(15);
 	setInitGravity(0);
 	setGravity(0);
 	setInitSpeed({ 0.1f, 0.1f });
 	setScore(300);
 	setDmg(2);
+	missrate = 300;
 	nextTargetPos = { -1,-1 };
 }
 
@@ -53,6 +56,7 @@ void EnemyVampireBoss::update(DWORD dt, vector<GameObject*> * coObjects /*= null
 void EnemyVampireBoss::checkCanAwake() {
 	if (state != sleep) return;
 	resetPos();
+	resetHp();
 	auto stage = StageManager::getInstance()->getCurrentStage();
 	simon = stage->getSimon();
 
@@ -71,20 +75,55 @@ void EnemyVampireBoss::getNextPositionToFly() {
 
 	auto const dx = fabs(simon->getPos().x - x);
 	auto const dy = fabs(simon->getPos().y - y);
-	auto inRegionShoot = dx > 100 && dy < 100;
+	auto inRegionShoot = dx > shootingRegion&& dy < shootingRegion;
 	if (inRegionShoot && canShoot()) {
 		shoot();
 		nextTargetPos = { -1,-1 };
 	}
-	else if (state == hitting) {
-		nextTargetPos = simon->getPos();
-	}
-	else if (state == flying) {
+	else if (state == hitting)
+		nextTargetPos = getRandomPosBaseOnSim();
+	else if (state == flying)
 		nextTargetPos = getRandomPosInBound();
-	}
 	else nextTargetPos = { -1,-1 };
 }
 
+D3DXVECTOR2 EnemyVampireBoss::getRandomPosBaseOnSim()
+{
+	D3DXVECTOR2 finalPos;
+	auto random= rand() % 1000;
+	auto missHit = random < missrate;
+
+	auto simPos = simon->getPos();
+	if (missrate) {
+		finalPos.x = simPos.x + rand() % 50;
+		finalPos.y = simPos.y + rand() % 50;
+	}
+	else finalPos = simPos;
+
+	return finalPos;
+}
+
+
+D3DXVECTOR2 EnemyVampireBoss::getRandomPosInBound() {
+	D3DXVECTOR2 randomSpot;
+
+	float left = initPos.x - RANDOMSPOT_AREA;
+	float top = initPos.y;
+
+	float distance = 0;
+
+	do {
+		randomSpot.x = left + rand() % (2 * RANDOMSPOT_AREA);
+		randomSpot.y = top + rand() % (RANDOMSPOT_AREA);
+
+		float dx = abs(x - randomSpot.x);
+		float dy = abs(y - randomSpot.y);
+
+		distance = sqrt(pow(dx, 2) + pow(dy, 2));
+	} while (distance < 100.0f);
+
+	return randomSpot;
+}
 
 void EnemyVampireBoss::getNewActionBaseOnState() {
 	if (state == death) return;
@@ -130,26 +169,7 @@ void EnemyVampireBoss::updateVelocity() {
 	}
 }
 
-D3DXVECTOR2 EnemyVampireBoss::getRandomPosInBound() {
-	D3DXVECTOR2 randomSpot;
 
-	float left = initPos.x - RANDOMSPOT_AREA;
-	float top = initPos.y;
-
-	float distance = 0;
-
-	do {
-		randomSpot.x = left + rand() % (2 * RANDOMSPOT_AREA);
-		randomSpot.y = top + rand() % (RANDOMSPOT_AREA);
-
-		float dx = abs(x - randomSpot.x);
-		float dy = abs(y - randomSpot.y);
-
-		distance = sqrt(pow(dx, 2) + pow(dy, 2));
-	} while (distance < 100.0f);
-
-	return randomSpot;
-}
 
 void EnemyVampireBoss::setIdle() {
 	setState(idle);

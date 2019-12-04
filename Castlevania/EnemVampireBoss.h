@@ -29,10 +29,13 @@ private:
 	DWORD deathTime;
 	void setIdle();
 	void getNewActionBaseOnState();
+	// over 1000;
+	int missrate;
+	float shootingRegion;
 	void shoot() override;
 
 	virtual bool canShoot() override;
 
 	virtual void generateBullet() override;
-
+	D3DXVECTOR2 getRandomPosBaseOnSim();
 };
