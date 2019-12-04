@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "Enemy.h"
+#include "ShootingEnemy.h"
 
 auto constexpr RANDOMSPOT_AREA= 200;
 
-class EnemyVampireBoss final : public Enemy
+class EnemyVampireBoss final : public ShootingEnemy
 {
 public:
 	EnemyVampireBoss();
@@ -15,11 +15,11 @@ public:
 	void checkCanAwake();
 	void getNextPositionToFly();
 	void updateVelocity();
-	void chaseTarget();
 	Box getBoundingBox() override;
 	void processDeathEffect() override;
 	void setState(int state) override;
 private:
+	Timer* timerShooting = new Timer(1000);
 	GameObject* simon;
 	D3DXVECTOR2 nextTargetPos;
 	D3DXVECTOR2 getRandomPosInBound();
@@ -29,4 +29,10 @@ private:
 	DWORD deathTime;
 	void setIdle();
 	void getNewActionBaseOnState();
+	void shoot() override;
+
+	virtual bool canShoot() override;
+
+	virtual void generateBullet() override;
+
 };

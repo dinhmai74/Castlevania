@@ -1,6 +1,8 @@
 ﻿#include "EnemVampireBoss.h"
 #include "StageManager.h"
 #include "ObjectEndGame.h"
+#include "Bullet.h"
+#include "GameObject.h"
 
 
 EnemyVampireBoss::EnemyVampireBoss() {
@@ -66,7 +68,14 @@ void EnemyVampireBoss::checkCanAwake() {
 void EnemyVampireBoss::getNextPositionToFly() {
 	if (nextTargetPos.x > 0 && nextTargetPos.y > 0) return;
 
-	if (state == hitting) {
+	auto const dx = fabs(simon->getPos().x - x);
+	auto const dy = fabs(simon->getPos().y - y);
+	auto inRegionShoot = dx > 100 && dy < 100;
+	if (inRegionShoot && canShoot()) {
+		shoot();
+		nextTargetPos = { -1,-1 };
+	}
+	else if (state == hitting) {
 		nextTargetPos = simon->getPos();
 	}
 	else if (state == flying) {
@@ -74,6 +83,31 @@ void EnemyVampireBoss::getNextPositionToFly() {
 	}
 	else nextTargetPos = { -1,-1 };
 }
+
+
+void EnemyVampireBoss::getNewActionBaseOnState() {
+	if (state == death) return;
+	if (timerIdle->isTimeUpAndRunAlr()) {
+		timerIdle->stop();
+		setState(hitting);
+	}
+
+	if (timerShooting->isTimeUpAndRunAlr()) timerShooting->stop();
+
+	auto offset = 10;
+	auto gotToNextPos = fabs(x - nextTargetPos.x) <= offset && fabs(y - nextTargetPos.y) <= offset;
+	if (timerShooting->isRunning() && canShoot()) {
+		shoot();
+		setIdle();
+	}
+	else if (state == hitting) {
+		if (gotToNextPos)  setState(flying);
+	}
+	else if (state == flying) {
+		if (gotToNextPos)  setIdle();
+	}
+}
+
 
 void EnemyVampireBoss::updateVelocity() {
 	if (state == idle || state == sleep || state == death) {
@@ -122,26 +156,8 @@ void EnemyVampireBoss::setIdle() {
 }
 
 Box EnemyVampireBoss::getBoundingBox() {
-	if (!IsEnable() || state ==death) return { x,y,x,y };
+	if (!IsEnable() || state == death) return { x,y,x,y };
 	return getBoundingBoxBaseOnFileAndPassWidth(50);
-}
-
-void EnemyVampireBoss::getNewActionBaseOnState() {
-	if (state == death) return;
-	if (timerIdle->isTimeUpAndRunAlr()) {
-		timerIdle->stop();
-		setState(hitting);
-	}
-
-	auto offset = 10;
-	auto gotToNextPos = fabs(x - nextTargetPos.x) <= offset && fabs(y - nextTargetPos.y) <= offset;
-
-	if (state == hitting) {
-		if (gotToNextPos)  setState(flying);
-	}
-	else if (state == flying) {
-		if (gotToNextPos)  setIdle();
-	}
 }
 
 void EnemyVampireBoss::setState(int state) {
@@ -159,10 +175,41 @@ void EnemyVampireBoss::processDeathEffect() {
 		startDying = false;
 		auto obj = new ObjectEndGame();
 		auto xPos = initPos.x + (getWidth() / 2);
-		auto yPos = initPos.y+ 80;
-		obj->setPos(xPos,yPos);
+		auto yPos = initPos.y + 80;
+		obj->setPos(xPos, yPos);
 		StageManager::getInstance()->add(obj);
 		setDisable();
 	}
+}
+
+void EnemyVampireBoss::shoot()
+{
+	generateBullet();
+	timerShooting->setLimitedTime(3000);
+	timerShooting->startDeep();
+}
+
+bool EnemyVampireBoss::canShoot()
+{
+	return !timerShooting->isRunning() && state != sleep;
+}
+
+void EnemyVampireBoss::generateBullet()
+{
+	auto const dx = (simon->getPos().x - x);
+	auto const dy = (simon->getPos().y - y);
+
+	auto bullet = new Bullet();
+	auto bulletSide = dx > 0 ? SideRight : SideLeft;
+	bullet->setFaceSide(bulletSide);
+	auto box = getBoundingBox();
+	auto width = box.r - box.l;
+	const auto xBullet = bulletSide > 0 ? x + width + 5 : x;
+	bullet->setPos(xBullet, y + 10);
+	auto vx = 0.15f;
+	auto vy = 0.06f;
+	bullet->setSpeed(vx, vy);
+	bullet->setInitSpeed({ vx,vy });
+	StageManager::getInstance()->add(bullet);
 }
 

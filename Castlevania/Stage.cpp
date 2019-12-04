@@ -80,7 +80,6 @@ void Stage::loadContent() {
 
 void Stage::loadObjectFromFiles() {
 	const wstring objectsPath = STAGE_PREFIX_PATH + mapName + STAGE_OBJECTS_PATH;
-	DebugOut(L"mapName loaded : %ls\n", mapName.c_str());
 
 	// const wstring objectsPath = L"stages\\stage1_objects.txt";
 
@@ -111,13 +110,11 @@ void Stage::loadObjectFromFiles() {
 				break;
 			}
 			case OBSimon: {
-				DebugOut(L"loadsimon : %d\n", 2);
 				float max, min, camX, camY, climbDistance = 0;
 				int nx, state, climbDirection = 1;
 				fs >> nx >> min >> max >> camX >> camY >> state;
 				if (state == climbing) {
 					fs >> climbDistance >> climbDirection;
-					DebugOut(L"climbDirection : %d\n", climbDirection);
 					simon->setStairDxRemain(climbDistance);
 					simon->setStairDyRemain(climbDistance);
 					simon->setClimbDirection(climbDirection);
@@ -514,6 +511,8 @@ void Stage::onKeyDown(const int keyCode) {
 	case DIK_H: if (boss) boss->getHurt(1);
 		break;
 	case DIK_J: if (boss) boss->getHurt(999);
+		break;
+	case DIK_L: if (boss) boss->resetPos();
 		break;
 		//case DIK_G: isStopEnemyForDebug = !isStopEnemyForDebug;
 		//	break;

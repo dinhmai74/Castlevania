@@ -226,7 +226,6 @@ void StageManager::loadObjectsFromFile(wstring mapObjectsName)
 		case OBBoss: {
 			auto obj= new EnemyVampireBoss();
 			obj->setInitPos({ x, y });
-			DebugOut(L"boss wall : %d\n", 2);
 			obj->setPos(x, y);
 			obj->setEnable();
 			add(obj, x, y, mapObjectsName);

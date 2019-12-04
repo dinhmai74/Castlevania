@@ -159,6 +159,7 @@
     <ClCompile Include="ItemMoneyBag.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectEndGame.cpp" />
+    <ClCompile Include="ShootingEnemy.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="ItemMoneyBag.h" />
     <ClInclude Include="ObjectEndGame.h" />
     <ClInclude Include="ObjectFactory.h" />
+    <ClInclude Include="ShootingEnemy.h" />
     <ClInclude Include="stage1_castle.h" />
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Box.h" />

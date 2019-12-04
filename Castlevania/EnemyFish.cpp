@@ -77,15 +77,20 @@ bool EnemyFish::processCollisionWithGround(float minTy, float ny) {
 	return result;
 }
 
-void EnemyFish::generateBullet() {
-	auto bullet = new Bullet();
-	bullet->setFaceSide(faceSide);
-	auto box = getBoundingBox();
-	auto width = box.r - box.l;
-	const auto xBullet = faceSide> 0 ? x +width + 5 : x;
-	bullet->setPos(xBullet,y+10);
-
-	StageManager::getInstance()->add(bullet);
+void EnemyFish::generateEnemy(float playerX, float playerY) {
+	auto nx = StageManager::getInstance()->getCurrentStage()->getSimon()->getFaceSide();
+	auto posX = playerX - nx * activeRange;
+	auto posY = y;
+	reset();
+	setPos(posX, posY);
+	initPos.x = posX;
+	setFaceSide(nx);
+	setInitFaceSide(nx);
+	vx = initVelocity.x * faceSide;
+	if (!isInViewPort()) return;
+	getTimerRespawn()->stop();
+	setReadyToRespawn(false);
+	setEnable();
 }
 
 void EnemyFish::shoot() {
@@ -102,22 +107,5 @@ void EnemyFish::shoot() {
 }
 
 bool EnemyFish::canShoot() {
-	return timerShooting->isTimeUpAndRunAlr() && state == walking;
-}
-
-void EnemyFish::generateEnemy(float playerX, float playerY) {
-	auto nx = StageManager::getInstance()->getCurrentStage()->getSimon()->getFaceSide();
-	auto posX = playerX - nx * activeRange;
-	auto posY = y;
-	DebugOut(L"activeRange %f\n",activeRange);
-	reset();
-	setPos(posX, posY);
-	initPos.x = posX;
-	setFaceSide(nx);
-	setInitFaceSide(nx);
-	vx = initVelocity.x * faceSide;
-	if (!isInViewPort()) return;
-	getTimerRespawn()->stop();
-	setReadyToRespawn(false);
-	setEnable();
+	return ShootingEnemy::canShoot() && state == walking;
 }

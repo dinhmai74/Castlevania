@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "Enemy.h"
+#include "ShootingEnemy.h"
 
-class EnemyFish final : public Enemy
+class EnemyFish final : public ShootingEnemy
 {
 public:
 	EnemyFish();
@@ -20,11 +20,12 @@ public:
 	void generateEnemy(float playerX, float playerY) override;
 	float getActiveRange() const { return activeRange; }
 	void setActiveRange(float val) { activeRange = val; }
+
+	virtual bool canShoot() override;
+
+	virtual void shoot() override;
+
 private:
 	float jumpingMaxRange;
-	void generateBullet();
-	void shoot();
-	bool canShoot();
-	Timer* timerShooting= new Timer(2000);
 	float activeRange;
 };

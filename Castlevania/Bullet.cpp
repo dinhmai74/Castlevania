@@ -11,6 +11,7 @@ void Bullet::initAnim()
 void Bullet::updateSpeed()
 {
 	vx = initVelocity.x * faceSide;
+	vy = initVelocity.y;
 }
 
 Bullet::Bullet()

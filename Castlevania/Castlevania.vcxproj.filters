@@ -225,6 +225,9 @@
     <ClCompile Include="ItemContainer.cpp">
       <Filter>Source Files\Object\Item</Filter>
     </ClCompile>
+    <ClCompile Include="ShootingEnemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -450,6 +453,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ObjectEndGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShootingEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
