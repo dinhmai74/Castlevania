@@ -19,6 +19,12 @@ D3DXVECTOR2 Bullet::getCenter()
 	return { x,y - 20 };
 }
 
+void Bullet::render()
+{
+	if (state != death) animations[idle]->render(faceSide, x, y);
+	renderBurnEffect();
+}
+
 void Bullet::doDeathAnim()
 {
 	setState(death);
