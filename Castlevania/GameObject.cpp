@@ -66,12 +66,8 @@ void GameObject::render() {
 		animations[animId]->render(faceSide, x, y, alpha, 255, 255, 255, isStopAllAction, currentFrame);
 		currentFrame = animations[animId]->getCurrentFrame();
 	}
-	if (burnEffect) {
-		auto getCenterPos = getCenter();
-		const auto blowX = getCenterPos.x;
-		const auto blowY = getCenterPos.y;
-		burnEffect->render(1, blowX, blowY);
-	}
+	renderBurnEffect();
+
 }
 
 void GameObject::getSpeed(float& vx, float& vy) const {

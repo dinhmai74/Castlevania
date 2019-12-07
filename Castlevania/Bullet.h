@@ -19,6 +19,9 @@ public:
 	void doDeathAnim() override;
 	virtual D3DXVECTOR2 getCenter() override;
 
+
+	virtual void render() override;
+
 protected:
 	int ny;
 	D3DXVECTOR2 velocity;

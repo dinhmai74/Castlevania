@@ -88,6 +88,17 @@ public:
 	/*----------------- general  -----------------*/
 	virtual void initAnim() = 0;
 	virtual void render();
+
+	void renderBurnEffect()
+	{
+		if (burnEffect) {
+			auto getCenterPos = getCenter();
+			const auto blowX = getCenterPos.x;
+			const auto blowY = getCenterPos.y;
+			burnEffect->render(1, blowX, blowY);
+		}
+	}
+
 	virtual void updateAnimId();
 	virtual void renderBoundingBox();
 	void addAnimation(int id, string animTexId);
