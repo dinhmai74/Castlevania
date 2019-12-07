@@ -27,7 +27,7 @@ void EnemyVampireBoss::init() {
 	setInitSpeed({ 0.1f, 0.1f });
 	setScore(300);
 	setDmg(2);
-	missrate = 300;
+	missrate = MISS_ATTACK_RATE;
 	nextTargetPos = { -1,-1 };
 }
 
@@ -51,6 +51,7 @@ void EnemyVampireBoss::update(DWORD dt, vector<GameObject*> * coObjects /*= null
 	processDeathEffect();
 	alpha = 255;
 }
+
 
 
 void EnemyVampireBoss::checkCanAwake() {
@@ -90,7 +91,7 @@ void EnemyVampireBoss::getNextPositionToFly() {
 D3DXVECTOR2 EnemyVampireBoss::getRandomPosBaseOnSim()
 {
 	D3DXVECTOR2 finalPos;
-	auto random= rand() % 1000;
+	auto random = rand() % 100;
 	auto missHit = random < missrate;
 
 	auto simPos = simon->getPos();
@@ -154,21 +155,32 @@ void EnemyVampireBoss::updateVelocity() {
 		vx = vy = 0;
 		return;
 	}
-	auto pos = nextTargetPos;
-	auto nx = x - pos.x > 0 ? -1 : 1;
-	auto ny = y - pos.y > 0 ? -1 : 1;
+
+	updateDirection();
 
 	if (state == flying) {
 		vx = nx * getInitSpeed().x;
 		vy = ny * getInitSpeed().y;
 	}
 	else if (state == hitting) {
-
-		vx = nx * getInitSpeed().x * 1.5;
-		vy = ny * getInitSpeed().y * 1.5;
+		vx = nx * getInitSpeed().x * 2;
+		vy = ny * getInitSpeed().y * 2;
 	}
 }
 
+
+void EnemyVampireBoss::updateDirection()
+{
+	auto pos = nextTargetPos;
+	auto dx = x - pos.x;
+	auto dy = y - pos.y;
+	nx = dx > 0 ? -1 : 1;
+	ny = dy > 0 ? -1 : 1;
+
+	if (fabs(dx) < 10) nx = 0;
+	if (fabs(dy) < 10) ny = 0;
+
+}
 
 
 void EnemyVampireBoss::setIdle() {
