@@ -42,6 +42,7 @@ public:
 	void setItemType(int type);
 	int getItemType() const;
 	virtual void checkCollision(DWORD dt, vector<GameObject*>* boundary);
+	virtual void setCollected(bool val = true) ;
 private:
 	void initAnim() override;
 };

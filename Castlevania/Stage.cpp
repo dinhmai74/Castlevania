@@ -46,13 +46,21 @@ void Stage::init(int mapId, wstring mapName, Simon * simon) {
 
 void Stage::initMap(int mapId, wstring mapName) {
 	game = Game::getInstance();
-	resetAllList();
+	reset();
 	this->mapId = mapId;
 	this->mapName = std::move(mapName);
 	const auto map = TileMapManager::getInstance()->get(mapId);
 	grid = StageManager::getInstance()->getGrids()[this->mapName];
 	game->setLimitCamX({ 0, static_cast<float>(map->getMapWidth()) });
 	loadContent();
+}
+
+void Stage::reset() {
+	isFightingBoss = false;
+	isGamePause = false;
+	isStopEnemyForDebug = false;
+	if (boss)boss->setState(sleep);
+	resetAllList();
 }
 
 void Stage::initSimon() {
@@ -64,14 +72,6 @@ void Stage::initSimon() {
 
 void Stage::add(GameObject* ob, D3DXVECTOR2 initPos) {
 	auto unit = new Unit(grid, ob, initPos.x, initPos.y);
-}
-
-void Stage::reset() {
-	resetAllList();
-	grid->reset();
-	simon->reset();
-	simon->doUntouchable();
-	game->setCameraPosition(initCam.x, initCam.y);
 }
 
 void Stage::loadContent() {
@@ -172,7 +172,6 @@ void Stage::loadObjectFromFiles() {
 		infile.close();
 	}
 }
-
 
 void Stage::render() {
 	TileMapManager::getInstance()->get(mapId)->draw();
@@ -495,9 +494,9 @@ void Stage::onKeyDown(const int keyCode) {
 		break;
 	case DIK_D: simon->powerUpWhip(false);
 		break;
-	case DIK_X: simon->getHurt(1,1,4);
+	case DIK_X: simon->getHurt(1, 1, 4);
 		break;
-	case DIK_C: simon->getHurt(1,1,666);
+	case DIK_C: simon->getHurt(1, 1, 666);
 		break;
 	case DIK_0: simon->setSubWeapon(itemDagger);
 		break;
@@ -529,6 +528,15 @@ void Stage::onKeyDown(const int keyCode) {
 		debugItem(itemHolyCross);
 		break;
 	}
+	case DIK_F1:
+		debugItem(itemBlueMoneyBag);
+		break;
+	case DIK_F2:
+		debugItem(itemWhiteMoneyBag);
+		break;
+	case DIK_F3:
+		debugItem(itemRedMoneyBag);
+		break;
 	case DIK_F: simon->addEnergy(100);
 		break;
 	case DIK_H: if (boss) boss->getHurt(1);
@@ -553,7 +561,6 @@ void Stage::debugItem(int itemId)
 	auto ob = ItemFactory::Get()->getItem(itemId, { simon->getPos().x + 50,0 });
 	add(ob, ob->getPos());
 }
-
 
 void Stage::onKeyUp(const int keyCode) const {
 	getSimon()->handleOnKeyRelease(keyCode);

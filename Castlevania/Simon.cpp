@@ -540,7 +540,7 @@ void Simon::checkCollisionWithEnemy(DWORD dt, vector<GameObject*>* objs) {
 			}
 
 			const auto bullet = dynamic_cast<Bullet*>(i->obj);
-			if (bullet && getHurt(nx, ny, bullet->getDmg())) resetState();
+			if (bullet && bullet->getState() != death && getHurt(nx, ny, bullet->getDmg())) resetState();
 		}
 	}
 
@@ -603,7 +603,7 @@ void Simon::processCollisionWithItem(Item* item) {
 		}
 	}
 
-	item->setActive(false);
+	item->setCollected(true);
 }
 
 void Simon::checkCollisionWithForceIdleSim(DWORD dt, vector<GameObject*>* objs) {
@@ -826,7 +826,7 @@ bool Simon::shouldKeyboardDisable() {
 /*----------------- utilities  -----------------*/
 
 void Simon::updateAnimId() {
-	if (isAutoWalking() ) {
+	if (isAutoWalking()) {
 		setAnimId(ANIM_WALK);
 		GameObject::updateAnimId();
 		return;

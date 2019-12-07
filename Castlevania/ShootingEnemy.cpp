@@ -20,6 +20,7 @@ void ShootingEnemy::generateBullet()
 	auto width = box.r - box.l;
 	const auto xBullet = faceSide > 0 ? x + width + 5 : x;
 	bullet->setPos(xBullet, y + 10);
+	bullet->setInitPos({ xBullet, y + 10 });
 
 	StageManager::getInstance()->add(bullet);
 }

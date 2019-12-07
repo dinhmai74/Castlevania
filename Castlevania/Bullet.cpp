@@ -14,6 +14,17 @@ void Bullet::updateSpeed()
 	vy = initVelocity.y;
 }
 
+D3DXVECTOR2 Bullet::getCenter()
+{
+	return { x,y - 20 };
+}
+
+void Bullet::doDeathAnim()
+{
+	setState(death);
+	doBurnedEffect();
+}
+
 Bullet::Bullet()
 {
 	initAnim();
@@ -24,10 +35,7 @@ Bullet::Bullet()
 
 void Bullet::update(DWORD dt, vector<LPGAMEOBJECT> * coObject)
 {
-	if (timerBurnEffect->isTimeUpAndRunAlr()) {
-		setActive(false);
-		return;
-	}
+	processWhenBurnedEffectDone();
 	if (timerBurnEffect->isRunning()) return;
 	this->dt = dt;
 	dx = vx * dt;

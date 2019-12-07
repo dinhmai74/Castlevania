@@ -239,6 +239,7 @@ void EnemyVampireBoss::generateBullet()
 	auto width = box.r - box.l;
 	const auto xBullet = bulletSide > 0 ? x + width + 5 : x;
 	bullet->setPos(xBullet, y + 10);
+	bullet->setInitPos({ xBullet, y + 10 });
 	auto vx = 0.15f;
 	auto vy = 0.06f;
 	bullet->setSpeed(vx, vy);
