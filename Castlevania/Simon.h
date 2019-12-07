@@ -82,6 +82,7 @@ public:
 
 	void setCanShotTimes(int val) { canShotTimes = val; }
 	int getCanShotTimes() const { return canShotTimes; }
+	bool isTimerCollectExtraShotRunning() { return timerCollectExtraShot->isRunning(); }
 private:
 	bool isHitting{};
 	bool isThrowing{};
@@ -89,6 +90,7 @@ private:
 	Timer* timerPowering = new Timer(SIM_POWERING_DURATION);
 	Timer* timerSitWhenCollideGround= new Timer(SIM_SIT_WHEN_LANDING);
 	Timer* timerThrowing = new Timer(SIM_DELTA_TRHOWING_TIME);
+	Timer* timerCollectExtraShot = new Timer(SIM_EXTRA_SHOT_DURATION);
 	Timer* timerAddHp = new Timer(100);
 	float autoWalkDistance;
 	bool isReleaseSitButton{};

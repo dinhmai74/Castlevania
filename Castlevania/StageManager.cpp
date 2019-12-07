@@ -417,8 +417,6 @@ void StageManager::descreaseLife() {
 		simon->setState(idle);
 		simon->setFaceSide(SideRight);
 		simon->doUntouchable();
-		simon->setSubWeapon(-1);
-		simon->setLvWhip(1);
 		simon->setPos(checkPoint.x, checkPoint.y);
 		simon->setInitPos({ checkPoint.x,checkPoint.y });
 	}

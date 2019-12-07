@@ -20,6 +20,7 @@ enum ItemType
 	itemHolyCross,
 	itemDoubleShot,
 	itemGoldPotion,
+	itemTripleShot,
 };
 
 class Item :

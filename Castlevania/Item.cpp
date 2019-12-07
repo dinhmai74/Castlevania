@@ -59,6 +59,7 @@ void Item::initAnim()
 	addAnimation(itemHolyCross, "item_cross_ani");
 	addAnimation(itemGoldPotion, "item_invisibilitypotion_ani");
 	addAnimation(itemDoubleShot, "item_doubleshot_ani");
+	addAnimation(itemTripleShot, "item_tripleshot_ani");
 }
 
 void Item::init()

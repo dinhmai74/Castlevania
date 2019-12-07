@@ -583,10 +583,15 @@ void Simon::processCollisionWithItem(Item* item) {
 			addHP(6);
 			break;
 		case itemDoubleShot:
+			timerCollectExtraShot->start();
 			setCanShotTimes(2);
 			break;
+		case itemTripleShot:
+			timerCollectExtraShot->start();
+			setCanShotTimes(3);
+			break;
 		case itemGoldPotion:
-			doUntouchable(6000);
+			doUntouchable(SIM_ITEM_GOLD_POTION_DURATION);
 			break;
 		case itemHolyCross:
 			StageManager::getInstance()->doThunderEffect();
@@ -951,6 +956,9 @@ void Simon::reset() {
 	canDeflect = true;
 	isFalling = false;
 	r = g = b = 255;
+	setSubWeapon(-1);
+	setLvWhip(1);
+	setCanShotTimes(1);
 	setSpeed(0, 0);
 }
 

@@ -31,6 +31,7 @@ void HUD::init() {
 	add(itemStopWatch, "item_stopwatch", subWeapons);
 	add(1, "empty_ani_0", shotsType);
 	add(2, "item_doubleshot", shotsType);
+	add(3, "item_tripleshot", shotsType);
 }
 
 void HUD::update(DWORD dt) {
@@ -104,6 +105,11 @@ void HUD::showHud() {
 	auto subtype = -1;
 	if (simon) subtype = simon->getSubWeaponType();
 	if (subtype != -1) subWeapons[subtype]->draw(1, 320, 38, 255, 255, 255, 255, 0);
-	shotsType[simon->getCanShotTimes()]->draw(450, 38);
+
+	auto shotAlpha = 255;
+	if (simon->isTimerCollectExtraShotRunning()) {
+		shotAlpha = rand() % 255;
+	}
+	shotsType[simon->getCanShotTimes()]->draw(1, 450, 38, shotAlpha, 255, 255, 255, 0);
 }
 

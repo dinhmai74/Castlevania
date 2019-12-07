@@ -100,4 +100,5 @@ private:
 	bool isInViewPort(Box pos);
 	bool isStopEnemyForDebug;
 	void resetAllList();
+	void debugItem(int itemId);
 };

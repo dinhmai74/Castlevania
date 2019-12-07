@@ -13,6 +13,9 @@ constexpr auto SIM_DELTA_TRHOWING_TIME = 200;
 constexpr auto SIM_AUTO_WALK_DURATION = 1000;
 constexpr auto SIM_SIT_WHEN_LANDING = 100;
 constexpr auto SIM_CHANGING_STAGE_DURATION = 1000;
+constexpr auto SIM_ADD_HP_DURATION= 100;
+constexpr auto SIM_EXTRA_SHOT_DURATION= 1000;
+constexpr auto SIM_ITEM_GOLD_POTION_DURATION = 6000;
 
 
 // trong luc luc nhay

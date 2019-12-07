@@ -495,9 +495,9 @@ void Stage::onKeyDown(const int keyCode) {
 		break;
 	case DIK_D: simon->powerUpWhip(false);
 		break;
-	case DIK_X: simon->getHurt(1, 1, 8);
+	case DIK_X: simon->getHurt(1,1,4);
 		break;
-	case DIK_C: simon->getHurt(1, 1, 666);
+	case DIK_C: simon->getHurt(1,1,666);
 		break;
 	case DIK_0: simon->setSubWeapon(itemDagger);
 		break;
@@ -510,23 +510,23 @@ void Stage::onKeyDown(const int keyCode) {
 	case DIK_4: simon->setSubWeapon(itemStopWatch);
 		break;
 	case DIK_5: {
-		auto potion = ItemFactory::Get()->getItem(itemGoldPotion, { simon->getPos().x + 50,0 });
-		add(potion, potion->getPos());
+		debugItem(itemGoldPotion);
 		break;
 	}
 	case DIK_6: {
-		auto potion = ItemFactory::Get()->getItem(itemDoubleShot, { simon->getPos().x + 50,0 });
-		add(potion, potion->getPos());
+		debugItem(itemDoubleShot);
 		break;
 	}
 	case DIK_7: {
-		auto potion = ItemFactory::Get()->getItem(itemPorkChop, { simon->getPos().x + 50,0 });
-		add(potion, potion->getPos());
+		debugItem(itemTripleShot);
 		break;
 	}
 	case DIK_8: {
-		auto potion = ItemFactory::Get()->getItem(itemHolyCross, { simon->getPos().x + 50,0 });
-		add(potion, potion->getPos());
+		debugItem(itemPorkChop);
+		break;
+	}
+	case DIK_9: {
+		debugItem(itemHolyCross);
 		break;
 	}
 	case DIK_F: simon->addEnergy(100);
@@ -547,6 +547,13 @@ void Stage::onKeyDown(const int keyCode) {
 	default:;
 	}
 }
+
+void Stage::debugItem(int itemId)
+{
+	auto ob = ItemFactory::Get()->getItem(itemId, { simon->getPos().x + 50,0 });
+	add(ob, ob->getPos());
+}
+
 
 void Stage::onKeyUp(const int keyCode) const {
 	getSimon()->handleOnKeyRelease(keyCode);
@@ -569,8 +576,10 @@ int Stage::getId() {
 }
 
 void Stage::stopEnemyForABit(DWORD time) {
-	timerStopEnemy = new Timer(time);
-	timerStopEnemy->start();
+	if (!timerStopEnemy->isRunning()) {
+		timerStopEnemy = new Timer(time);
+		timerStopEnemy->start();
+	}
 }
 
 void Stage::addSubWeapon(SubWeapon* subWeapon) {
