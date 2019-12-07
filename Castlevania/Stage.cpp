@@ -365,8 +365,8 @@ void Stage::updateGrid() {
 }
 
 void Stage::loadListObjFromGrid() {
-	resetAllUnitList();
-	//listRenderObj = listCanCollideBoundary;
+	//resetAllUnitList();
+	listRenderObj = listCanCollideBoundary;
 	listStopSimObjs = listCanCollideBoundary;
 	listRenderObj.push_back(simon);
 	listRenderObj.insert(listRenderObj.begin(), subWeapons.begin(), subWeapons.end());
@@ -553,7 +553,6 @@ void Stage::debugItem(int itemId)
 	auto ob = ItemFactory::Get()->getItem(itemId, { simon->getPos().x + 50,0 });
 	add(ob, ob->getPos());
 }
-
 
 void Stage::onKeyUp(const int keyCode) const {
 	getSimon()->handleOnKeyRelease(keyCode);

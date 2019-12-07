@@ -2,6 +2,8 @@
 #include "ShootingEnemy.h"
 
 auto constexpr RANDOMSPOT_AREA= 200;
+auto constexpr MISS_ATTACK_RATE = 20;
+auto constexpr GET_NEW_POS_RATE = 50;
 
 class EnemyVampireBoss final : public ShootingEnemy
 {
@@ -19,9 +21,12 @@ public:
 	void processDeathEffect() override;
 	void setState(int state) override;
 private:
+	int nx;
+	int ny;
 	Timer* timerShooting = new Timer(1000);
 	GameObject* simon;
 	D3DXVECTOR2 nextTargetPos;
+	D3DXVECTOR2 safePos;
 	D3DXVECTOR2 getRandomPosInBound();
 	Timer* timerActionCountDown = new Timer(2000);
 	Timer* timerIdle = new Timer(1000);
@@ -38,4 +43,5 @@ private:
 
 	virtual void generateBullet() override;
 	D3DXVECTOR2 getRandomPosBaseOnSim();
+	void updateDirection();
 };
