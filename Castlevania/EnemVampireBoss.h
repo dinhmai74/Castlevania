@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "ShootingEnemy.h"
 
-auto constexpr RANDOMSPOT_AREA= 200;
+auto constexpr RANDOMSPOT_AREA = 200;
 auto constexpr MISS_ATTACK_RATE = 20;
 auto constexpr GET_NEW_POS_RATE = 50;
 
@@ -45,3 +45,4 @@ private:
 	D3DXVECTOR2 getRandomPosBaseOnSim();
 	void updateDirection();
 };
+
