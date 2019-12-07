@@ -81,11 +81,11 @@ void EnemyVampireBoss::getNextPositionToFly() {
 		shoot();
 		nextTargetPos = { -1,-1 };
 	}
-	else if (state == hitting)
-		nextTargetPos = getRandomPosBaseOnSim();
-	else if (state == flying)
-		nextTargetPos = getRandomPosInBound();
-	else nextTargetPos = { -1,-1 };
+	else
+		if (state == hitting)
+			nextTargetPos = getRandomPosBaseOnSim();
+		else if (state == flying)
+			nextTargetPos = getRandomPosInBound();
 }
 
 D3DXVECTOR2 EnemyVampireBoss::getRandomPosBaseOnSim()
@@ -245,4 +245,5 @@ void EnemyVampireBoss::generateBullet()
 	bullet->setInitSpeed({ vx,vy });
 	StageManager::getInstance()->add(bullet);
 }
+
 
