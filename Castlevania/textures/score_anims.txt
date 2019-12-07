@@ -1,0 +1,4 @@
+score_1000_ani	score_1000_0	100
+score_700_ani	score_700_0	100
+score_400_ani	score_400_0	100
+score_100_ani	score_100_0	100

@@ -40,10 +40,11 @@ GameObject::GameObject() {
 	untouchableDuration = 2000;
 	deflectTimeDuration = 400;
 	deathTimeDuration = 1000;
+	burningDuration = BURNED_DURATION;
 	timerUntouchable = new Timer(untouchableDuration);
 	timerDeflect = new Timer(deflectTimeDuration);
 	timerDeath = new Timer(deathTimeDuration);
-	timerBurnEffect = new Timer(BURNED_DURATION);
+	timerBurnEffect = new Timer(burningDuration);
 	vxDeflect = 0.15f;
 	vyDeflect = 0.06f;
 	nxDeflect = -1;
@@ -83,12 +84,11 @@ void GameObject::getPos(float& x, float& y) const {
 	y = this->y;
 }
 
-void GameObject::doBurnedEffect(bool enable) {
-	timerBurnEffect->start();
+void GameObject::doBurnedEffect() {
+	timerBurnEffect->startDeep();
 	const auto now = GetTickCount64();
 	burnEffect = AnimationManager::getInstance()->get(burnAnimId);
 	burnEffect->setAniStartTime(now);
-	setEnable(enable);
 }
 
 bool GameObject::processCollisionWithGround(float minTy, float ny) {
@@ -152,7 +152,10 @@ void GameObject::doDeathAnim() {
 	vy = 0;
 	this->setHp(0);
 	if (animations[ANIM_DEATH]) timerDeath->start();
-	else doBurnedEffect();
+	else {
+		doBurnedEffect();
+		setEnable(false);
+	}
 }
 
 void GameObject::loseHp(int hpLose) {
@@ -163,11 +166,11 @@ void GameObject::loseHp(int hpLose) {
 void GameObject::setStatusWhenStillHaveEnoughHP(int nx, int hpLose) {
 	if (animations[ANIM_DEFLECT] && canDeflect) {
 		doDeflect(nx);
-		doBurnedEffect(true);
+		doBurnedEffect();
 	}
 	else {
 		doUntouchable();
-		doBurnedEffect(true);
+		doBurnedEffect();
 	}
 }
 
@@ -301,7 +304,6 @@ void GameObject::checkCollisionWithWater(vector<LPGAMEOBJECT>* coObjects) {
 
 void GameObject::update(const DWORD dt, vector<GameObject*>* coObject) {
 	this->dt = dt;
-	createBlowUpEffectAndSetRespawnTimer();
 	processUntouchableEffect();
 	processWhenBurnedEffectDone();
 	dx = vx * dt;
@@ -329,13 +331,6 @@ void GameObject::processDeflectEffect() {
 		vx = vxDeflect * nxDeflect;
 		vy = -vyDeflect;
 		faceSide = -nxDeflect;
-	}
-}
-
-void GameObject::createBlowUpEffectAndSetRespawnTimer() {
-	if (timerBurnEffect->isTimeUpAndRunAlr()) {
-		timerBurnEffect->stop();
-		burnEffect = nullptr;
 	}
 }
 

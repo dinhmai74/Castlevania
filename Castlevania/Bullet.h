@@ -16,6 +16,9 @@ public:
 	void updateSpeed();
 	int getDmg() { return 2; }
 
+	void doDeathAnim() override;
+	virtual D3DXVECTOR2 getCenter() override;
+
 protected:
 	int ny;
 	D3DXVECTOR2 velocity;

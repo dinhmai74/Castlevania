@@ -78,6 +78,7 @@ protected:
 	float initGravity;
 	string burnAnimId;
 	bool isStopAllAction;
+	int burningDuration;
 
 public:
 	GameObject();
@@ -112,7 +113,6 @@ public:
 	void doDeflect(int nx);
 	void setStatusWhenStillHaveEnoughHP(int nx, int hpLose);
 	void processUntouchableEffect();
-	void createBlowUpEffectAndSetRespawnTimer();
 	virtual void processWhenBurnedEffectDone();
 	void doUntouchable();
 	void doUntouchable(DWORD time);
@@ -200,7 +200,7 @@ public:
 		this->boundingGameY = y;
 	}
 
-	D3DXVECTOR2 getCenter();
+	virtual D3DXVECTOR2 getCenter();
 
 	int getId() const { return id; }
 	int getType() const { return type; }
@@ -234,7 +234,7 @@ public:
 	void setAnimId(int val) { animId = val; }
 	int getInitState() const { return initState; }
 	void setInitState(int val) { initState = val; }
-	void doBurnedEffect(bool enable = false);
+	void doBurnedEffect();
 	virtual bool processCollisionWithGround(float minTy, float ny);
 	virtual bool processCollisionWithBoundaryByX(float minTx, float nx,
 	                                             GameObject* boundary);

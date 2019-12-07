@@ -62,6 +62,11 @@ void Item::initAnim()
 	addAnimation(itemTripleShot, "item_tripleshot_ani");
 }
 
+void Item::setCollected(bool val /*= true*/)
+{
+	setDisable();
+}
+
 void Item::init()
 {
 	type = OBItem;

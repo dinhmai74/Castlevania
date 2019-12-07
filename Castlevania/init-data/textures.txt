@@ -16,6 +16,7 @@
 1015 vampire_boss   255 0 255
 1016 bubble 255 0 255
 1017 broken_wall    255 0 255
+1018 score 255 0 255
 100002 HP 255 0 255
 100003 pause    0 0 0
 100004 YesNo    0 0 0
