@@ -263,7 +263,7 @@ void Stage::updateSubWeapon(SubWeapon* subWeapon, DWORD dt) {
 }
 
 void Stage::respawnEnemies() {
-	if (isFightingBoss) return;
+	if (isFightingBoss || timerStopEnemy->isRunning()) return;
 	for (auto obj : listEnemy) {
 		float playerX, playerY;
 		simon->getPos(playerX, playerY);
@@ -293,9 +293,11 @@ void Stage::updateInActiveUnit() {
 			auto type = ob->getType();
 			switch (type) {
 			case OBSubWeapon:
-				ob->setActive(false);
-				ob->setEnable(false);
+				ob->setDisable();
 				removeSubWeapons(ob);
+				break;
+			case OBBullet:
+				ob->setDisable();
 				break;
 			default:;
 			}
@@ -338,7 +340,6 @@ bool Stage::isInViewport(GameObject* object) {
 	return isInViewPort(object->getBoundingBox());
 }
 
-
 bool Stage::isInViewPort(Box pos) {
 	const auto camPosition = Game::getInstance()->getCameraPosition();
 	const auto left = camPosition.x;
@@ -353,7 +354,6 @@ bool Stage::isInViewPort(Box pos) {
 	return isInView;
 }
 
-
 void Stage::updateGrid() {
 	for (auto unit : listUnit) {
 		auto obj = unit->get();
@@ -363,7 +363,6 @@ void Stage::updateGrid() {
 		unit->move(pos.x, pos.y);
 	}
 }
-
 
 void Stage::loadListObjFromGrid() {
 	resetAllUnitList();
@@ -437,7 +436,7 @@ void Stage::clearMapByItem() {
 	for (auto enemy : listEnemy)
 	{
 		if (enemy->getType() != OBBoss)
-			enemy->getHurt(1,-9999999);
+			enemy->getHurt(1, 9999999);
 	}
 }
 
@@ -534,7 +533,7 @@ void Stage::onKeyDown(const int keyCode) {
 		break;
 	case DIK_H: if (boss) boss->getHurt(1);
 		break;
-	case DIK_J: if (boss) boss->getHurt(1,999);
+	case DIK_J: if (boss) boss->getHurt(1, 999);
 		break;
 	case DIK_L: if (boss) boss->resetPos();
 		break;
@@ -570,10 +569,8 @@ int Stage::getId() {
 }
 
 void Stage::stopEnemyForABit(DWORD time) {
-	if (!timerStopEnemy->isRunning()) {
-		timerStopEnemy = new Timer(time);
-		timerStopEnemy->start();
-	}
+	timerStopEnemy = new Timer(time);
+	timerStopEnemy->start();
 }
 
 void Stage::addSubWeapon(SubWeapon* subWeapon) {

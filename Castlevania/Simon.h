@@ -53,6 +53,7 @@ public:
 	void doAutoWalkWithDistance(float distance, float vx,int newState, int newFaceSide);
 
 	/*----------------- get set  -----------------*/
+	void setLvWhip(int lv);
 	SubWeapon* getSubWeapon() const { return subWeapon; }
 	int  getSubWeaponType() const { return subWeaponType; }
 	void powerUpWhip(bool upgrade = true);

@@ -324,7 +324,6 @@ void GameObject::processUntouchableEffect() {
 void GameObject::processDeflectEffect() {
 	if (timerDeflect->isTimeUpAndRunAlr()) {
 		doActionAfterDeflect();
-
 	}
 	else if (timerDeflect->isRunning()) {
 		vx = vxDeflect * nxDeflect;

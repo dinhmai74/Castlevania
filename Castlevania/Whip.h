@@ -24,4 +24,5 @@ public:
 	void updatePos(float simonX, float simonY, int simonState, int simonClimbDirect);
 	void update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT>* coObject, int simonState, int simClimbDirect);
 	bool isMaxLv();
+	void setLv(int lv);
 };

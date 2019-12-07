@@ -129,7 +129,7 @@ bool Enemy::canRespawn(D3DXVECTOR2 simPos) {
 	const auto isInRegion =
 		distance >= respawnArea.min && distance <= respawnArea.max;
 
-	return (readyToRespawn && isInRegion) || forceRespawn;
+	return ((readyToRespawn && isInRegion) || forceRespawn ) ;
 }
 
 void Enemy::processWhenBurnedEffectDone() {

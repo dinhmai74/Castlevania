@@ -24,8 +24,6 @@ void Whip::checkEnemyCollisions(vector<LPGAMEOBJECT> coObjects) {
 
 void Whip::render() {
 	animations[lv]->render(getFaceSide(), x, y);
-
-
 }
 
 void Whip::update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT> * coObject, int simonState, int simClimbDirect) {
@@ -48,6 +46,13 @@ void Whip::update(DWORD dt, float simonX, float simonY, vector<LPGAMEOBJECT> * c
 
 bool Whip::isMaxLv() {
 	return lv == MAX_WHIP_LV;
+}
+
+void Whip::setLv(int lv)
+{
+	if (lv < 1) lv = 1;
+	else if (lv > MAX_WHIP_LV) lv = MAX_WHIP_LV;
+	else lv = lv;
 }
 
 void Whip::setSide(int side) {

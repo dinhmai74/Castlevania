@@ -1075,5 +1075,10 @@ void Simon::addEnergy(int val/*=1*/) {
 	energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy;
 }
 
+void Simon::setLvWhip(int lv)
+{
+	whip->setLv(lv);
+}
+
 Simon::~Simon()
 = default;
