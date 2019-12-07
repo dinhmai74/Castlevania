@@ -364,8 +364,8 @@ void Stage::updateGrid() {
 }
 
 void Stage::loadListObjFromGrid() {
-	//resetAllUnitList();
-	listRenderObj = listCanCollideBoundary;
+	resetAllUnitList();
+	//listRenderObj = listCanCollideBoundary;
 	listStopSimObjs = listCanCollideBoundary;
 	listRenderObj.push_back(simon);
 	listRenderObj.insert(listRenderObj.begin(), subWeapons.begin(), subWeapons.end());
