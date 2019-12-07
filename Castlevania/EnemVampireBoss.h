@@ -45,3 +45,4 @@ private:
 	D3DXVECTOR2 getRandomPosBaseOnSim();
 	void updateDirection();
 };
+
