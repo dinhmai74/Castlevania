@@ -283,8 +283,10 @@ void Simon::doAutoClimb() {
 
 void Simon::checkIfFalling() {
 	if (state == death) return;
-	const auto isFailing = (vy > 0.2 && state != jumping && previousState != jumping && state != hitting && previousState != hitting) || vy > 0.47;
-	if (isFailing) doFall();
+	const auto isFailing =
+		(vy > 0.2 && state != jumping && previousState != jumping && state != hitting && previousState != hitting)
+		|| (vy > 0.47);
+	if (isFailing && !isHittingWhenJumping) doFall();
 	else isStopAllAction = false;
 }
 
@@ -491,7 +493,10 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 			vx = 0;
 			vy = 0;
 			if (isFalling) timerSitWhenCollideGround->startDeep();
-			else if (state == jumping && !timerSitWhenCollideGround->isRunning()) stand();
+			else if (state == jumping && !timerSitWhenCollideGround->isRunning() && isHittingWhenJumping) {
+				stand();
+				isHittingWhenJumping = false;
+			}
 			isInGround = true;
 			isFalling = false;
 		}
@@ -802,12 +807,14 @@ void Simon::handleOnKeyDown(int keyCode) {
 			jump();
 		break;
 	case DIK_LCONTROL: {
+		if (state == jumping) isHittingWhenJumping = true;
 		auto hittingType = getHittingInfo();
 		if (isReleaseThrowButton) hit(hittingType);
 		else doThrow(hittingType + 3);
 		break;
 	}
 	case DIK_A: {
+		if (state == jumping) isHittingWhenJumping = true;
 		auto hittingType = getHittingInfo();
 		this->doThrow(hittingType + 3);
 		break;

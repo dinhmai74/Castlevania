@@ -85,6 +85,7 @@ public:
 	bool isTimerCollectExtraShotRunning() { return timerCollectExtraShot->isRunning(); }
 private:
 	bool isHitting{};
+	bool isHittingWhenJumping;
 	bool isThrowing{};
 	bool isCollectingWhip{};
 	Timer* timerPowering = new Timer(SIM_POWERING_DURATION);
