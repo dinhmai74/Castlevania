@@ -493,7 +493,7 @@ CollisionResult Simon::checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>
 			vx = 0;
 			vy = 0;
 			if (isFalling) timerSitWhenCollideGround->startDeep();
-			else if (state == jumping && !timerSitWhenCollideGround->isRunning() && isHittingWhenJumping) {
+			else if (state == jumping && !timerSitWhenCollideGround->isRunning() || isHittingWhenJumping) {
 				stand();
 				isHittingWhenJumping = false;
 			}
