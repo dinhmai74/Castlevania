@@ -30,10 +30,8 @@ public:
 	void didSimonRender();
 	void renderWhip();
 
-	bool checkClimbingState();
 	virtual void updateAnimId();
 
-	bool processSitWhenCollideGroundAnim();
 
 	void refreshHitAnim(int stateAfterHit = idle, int animAfterHit = ANIM_IDLE);
 
@@ -74,11 +72,9 @@ public:
 	float getAutoWalkDistance() const { return autoWalkDistance; }
 	void setAutoWalkDistance(float val) { autoWalkDistance = val; }
 	void setSubWeapon(int val) { subWeaponType = val; }
-	bool isWalkingOutDoor() { return collidedDoor != nullptr; }
 	void loseEnergy(int val=1) { energy-=val; energy = energy < 0 ? 0 : energy; };
 	void addEnergy() { energy++; energy = energy > SIM_MAX_ENERGY ? SIM_MAX_ENERGY : energy; };
 
-	void setDeathByWater() override;
 
 	void setCanShotTimes(int val) { canShotTimes = val; }
 	int getCanShotTimes() const { return canShotTimes; }
@@ -119,10 +115,6 @@ private:
 
 	bool isPowering() { return isTimerRunning(timerPowering); };
 	bool isChangingStage() { return changeStateDistanceRemain.x >= 0 && changeStateDistanceRemain.y >= 0; };
-	bool isCollidingWithStair();
-	void setClimbStairInfo(int direction);
-	bool forceStopClimb(int direction);
-	void removeAutoClimbDistance();
 	int getHittingInfo() const;
 
 
@@ -131,10 +123,8 @@ private:
 	void jump();
 	void sit();
 	void stand();
-	bool climbStair(int direction);
 	void stopMoveWhenHitting();
 	void hit(int type);
-	void doFall();
 	bool canThrow();
 	void doThrow(int type);
 	void throwSubWeapon();
@@ -146,10 +136,8 @@ private:
 	bool canAutoWalkWithDistance() const;
 
 	/*----------------- special effect  -----------------*/
-	void checkCollisionWithObChangeStage(DWORD dt, vector<GameObject*>* objs);
 	void processDeathEffect();
 	void updateAutoWalk();
-	void moveCam(float distance = 235) const;
 
 	/*----------------- check collision -----------------*/
 	CollisionResult checkCollisionWithBoundary(DWORD dt, vector<LPGAMEOBJECT>* boundaries);
@@ -158,31 +146,18 @@ private:
 	void upgradeWhipLv(bool up = true) const;
 	void updateWhip(DWORD dt, vector<GameObject*>* objs);
 	void updateRGB();
-	void checkCollistionWithEndGame(vector<GameObject*>* objs);
 	void checkCollision(DWORD dt, const vector<MapGameObjects>& map);
 
 	void processCollisionWithItem(Item* item);
-	void updateChangingStageEffect();
-	void doChangeStageEffect(ObjectChangeStage* obj, DWORD changingDuration = SIM_CHANGING_STAGE_DURATION);
-	void checkCollisionWithStair(vector<GameObject*>* objs);
 
 	bool canAutoClimb() const;
-	void doAutoClimb();
 	bool isAutoWalking() const;
-	void checkIfFalling();
 	float vxAutoWalk;
-	void updateCameraWhenGoThroughDoor();
-	bool processCollisionWithDoor(float minTx, float nx, Door* door);
-	Door* collidedDoor;
 	bool forceDisable;
 	void checkOutOfBound();
-	void checkCollisionWithForceIdleSim(DWORD dt, vector<GameObject*>* objs);
 	bool isReleaseThrowButton;
-	int changeStateAnim;
-	std::wstring stageMapObjNameWillChangeto;
 	bool movingCam;
-	bool isFalling;
 	int nxAfterAutoWalk;
 	int stateAfterAutoWalk;
-	bool deathByWater;
+	int changeStateAnim;
 };

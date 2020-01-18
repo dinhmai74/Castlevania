@@ -71,16 +71,11 @@ private:
 	vector<GameObject*> listRenderObj;
 	vector<GameObject*> listObjectChangeStage;
 	vector<GameObject*> listEnemy;
-	vector<GameObject*> listDoor;
 	vector<GameObject*> listStopSimObjs;
-	vector<GameObject*> listForceIdleSim;
 	vector<GameObject*> listBullet;
 	vector<GameObject*> subWeapons;
-	vector<GameObject*> listObjectsEndGame;
 	vector<Unit*> listUnit;
-	vector<GameObject*> listStairs;
 	EnemyVampireBoss* boss;
-	vector<GameObject*> listWater;
 	Timer* timerStopEnemy = new Timer();
 
 	void loadObjectFromFiles();

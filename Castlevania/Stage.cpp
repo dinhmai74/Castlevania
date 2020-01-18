@@ -154,17 +154,7 @@ void Stage::loadObjectFromFiles() {
 				}
 				break;
 			}
-			case OBWater: {
-				float width, height;
-				fs >> width >> height;
-				auto obj = new Water();
-				obj->setPos(x, y);
-				obj->setInitPos({ x, y });
-				obj->setWidhtHeight(width, height);
-				listWater.push_back(obj);
-				break;
-			}
-			default:
+					default:
 				break;
 			}
 		}
@@ -187,7 +177,7 @@ bool Stage::updateEnemy(vector<GameObject*>::value_type obj, DWORD dt) {
 	auto enem = dynamic_cast<Enemy*>(obj);
 	if (enem) {
 		if (isFightingBoss && enem->getType() == OBEnemy) return true;
-		if (simon->isWalkingOutDoor() || isStopEnemyForDebug) {
+		if (isStopEnemyForDebug) {
 			enem->reset();
 			return true;
 		}
@@ -198,7 +188,6 @@ bool Stage::updateEnemy(vector<GameObject*>::value_type obj, DWORD dt) {
 		vector<GameObject*> canColide;
 		canColide = listCanCollideBoundary;
 		canColide.insert(canColide.begin(), listDefaultBoundary.begin(), listDefaultBoundary.end());
-		canColide.insert(canColide.begin(), listWater.begin(), listWater.end());
 
 		auto wolf = dynamic_cast<EnemyWolf*>(obj);
 		if (wolf)
@@ -233,7 +222,6 @@ void Stage::update(DWORD dt) {
 		auto updateResult = updateEnemy(obj, dt);
 
 		auto listCO = listCanCollideBoundary;
-		listCO.insert(listCO.begin(), listWater.begin(), listWater.end());
 		if (!updateResult && !isGamePause) obj->update(dt, &listCanCollideBoundary);
 	}
 
@@ -273,16 +261,12 @@ void Stage::respawnEnemies() {
 
 vector<MapGameObjects> Stage::getMapSimonCanCollisionObjects() {
 	vector<MapGameObjects> map;
-	map.push_back({ OBForceIdleSim, &listForceIdleSim });
-	map.push_back({ OBStair, &listStairs });
 	map.push_back({ OBItem, &listItems });
 	map.push_back({ OBCanHitObjs, &listCanHitObjects });
 	map.push_back({ OBChangeStage, &listObjectChangeStage });
 	map.push_back({ OBEnemy, &listEnemy });
 	map.push_back({ OBBoundary, &listStopSimObjs });
 	map.push_back({ OBBullet, &listBullet });
-	map.push_back({ OBWater, &listWater });
-	map.push_back({ OBEndGame, &listObjectsEndGame });
 	return map;
 }
 
@@ -386,11 +370,6 @@ void Stage::loadListObjFromGrid() {
 			break;
 		case OBEnemy: if (!isFightingBoss) listEnemy.push_back(obj);
 			break;
-		case OBDoor: listDoor.push_back(obj);
-			listStopSimObjs.push_back(obj);
-			break;
-		case OBForceIdleSim: listForceIdleSim.push_back((obj));
-			break;
 		case OBBrokenWall:
 			listCanHitObjects.push_back(obj);
 			listStopSimObjs.push_back(obj);
@@ -399,13 +378,9 @@ void Stage::loadListObjFromGrid() {
 			listCanHitObjects.push_back(obj);
 			listBullet.push_back(obj);
 			break;
-		case OBEndGame:
-			listObjectsEndGame.push_back(obj);
-			break;
 		case OBBoundary:
 		{
 			auto boun = dynamic_cast<Boundary*>(obj);
-			if (boun && boun->getBoundaryType() == BoundaryStair) listStairs.push_back(boun);
 			break;
 		}
 		case OBBoss: {
@@ -427,8 +402,6 @@ void Stage::resetAllList() {
 	listDefaultBoundary.clear();
 	listCanCollideBoundary.clear();
 	listGround.clear();
-	listStairs.clear();
-	listWater.clear();
 }
 
 void Stage::clearMapByItem() {
@@ -445,13 +418,9 @@ void Stage::resetAllUnitList() {
 	listItems.clear();
 	listCanHitObjects.clear();
 	listEnemy.clear();
-	listDoor.clear();
 	listStopSimObjs.clear();
 	listObjectChangeStage.clear();
-	listForceIdleSim.clear();
 	listBullet.clear();
-	listStairs.clear();
-	listObjectsEndGame.clear();
 }
 
 void Stage::updateCamera(const DWORD dt) const {

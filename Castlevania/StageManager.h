@@ -25,14 +25,11 @@ public:
 	void init(vector<TileMapInfo> tileMapsInfo, vector<GridInfo> gridsInfo);
 
 	void loadObjectsFromFile(wstring mapObjsName);
-	void loadBoundaries(fstream& fs, float x, float y, wstring mapObjsName);
-	void loadEnemies(fstream& fs, float x, float y, wstring mapObjsName);
 	void nextStage(int stageId = -1, wstring mapName = L"none");
 	void resetStage(int id = -1, wstring mapName = L"none");
 	void setStage(Stage* newStage) { preStage = getCurrentStage(); currentStage = newStage; }
 	void render();
 
-	void updateEndGame();
 	void update(const DWORD dt);
 	void onKeyDown(int keyCode);
 	void onKeyUp(int keyCode);
@@ -45,7 +42,6 @@ public:
 	void removeAllObjOutOfBound();
 	void addScore(int score) { this->score += score; }
 	void addSubWeapon(SubWeapon* subWeapon);
-	void setEndGame();
 	int getRemainTime() { return defaultTime - time / CLOCKS_PER_SEC; };
 	void removeSubWeapon(GameObject* sub) { currentStage->removeSubWeapons(sub); }
 	int getCurrentSubWeaponsAmount() { return currentStage->getCurrentSubWeaponsAmount(); }

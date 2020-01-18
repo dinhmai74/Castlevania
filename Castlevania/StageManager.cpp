@@ -277,49 +277,8 @@ void StageManager::render() {
 	}
 }
 
-void StageManager::updateEndGame() {
-	auto sim = currentStage->getSimon();
-	switch (endGameState) {
-	case EndGameStart: {
-		sim->setState(idle);
-		if (timerEndGame->isTimeUpAndRunAlr()) {
-			sim->addHP(SIM_MAX_HP);
-			endGameState = EndGameAddHp;
-		}
-		break;
-	}
-	case EndGameAddHp:
-		if (sim->getHp() >= SIM_MAX_HP) endGameState = EndGameTimeToScore;
-		break;
-	case EndGameTimeToScore:
-		time += dt * 100;
-		score += dt;
-		if (getRemainTime() <= 0) endGameState = EndGameHeartToScore;
-		break;
-	case EndGameHeartToScore: {
-		auto heart = sim->getEnergy();
-		if (heart > 0) {
-			if (timerCountHeart->isTimeUp()) {
-				sim->loseEnergy(1);
-				score += 100;
-				timerCountHeart->start();
-			}
-		}
-		else {
-			endGameState = EndGameDone;
-		}
-
-		break;
-	}
-	default:;
-	}
-}
-
 void StageManager::update(const DWORD dt) {
-	if (endGameState == EndGameDone) return;
-	if (timerThunderEffect->isTimeUpAndRunAlr()) timerThunderEffect->stop();
 	this->dt = dt;
-	updateEndGame();
 	if (isStartPlaying == ID_MAIN_MENU) {
 		IntroScene::getInstance()->update(dt);
 	}
@@ -376,7 +335,6 @@ void StageManager::onKeyDown(int keyCode) {
 			break;
 		}
 				  //case DIK_N: nextStage(); break;
-		case DIK_M: setEndGame(); break;
 		default:
 			break;
 		}
@@ -464,11 +422,3 @@ void StageManager::removeAllObjOutOfBound() {
 void StageManager::addSubWeapon(SubWeapon* subWeapon) {
 	currentStage->addSubWeapon(subWeapon);
 }
-
-void StageManager::setEndGame() {
-	if (endGameState == EndGameNone) {
-		endGameState = EndGameStart;
-		timerEndGame->start();
-	}
-}
-
