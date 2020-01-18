@@ -124,6 +124,7 @@ public:
 	void doDeflect(int nx);
 	void setStatusWhenStillHaveEnoughHP(int nx, int hpLose);
 	void processUntouchableEffect();
+	void createBlowUpEffectAndSetRespawnTimer();
 	virtual void processWhenBurnedEffectDone();
 	void doUntouchable();
 	void doUntouchable(DWORD time);
@@ -132,12 +133,12 @@ public:
 
 	LPCollisionEvent sweptAABBEx(LPGAMEOBJECT coO);
 	void calcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects,
-	                             vector<LPCollisionEvent>& coEvents);
+		vector<LPCollisionEvent>& coEvents);
 	void calcPotentialCollisionsAABB(vector<LPGAMEOBJECT>* coObjects,
-	                                 vector<LPCollisionEvent>& coEvents);
+		vector<LPCollisionEvent>& coEvents);
 	void filterCollision(vector<LPCollisionEvent>& coEvents,
-	                     vector<LPCollisionEvent>& coEventsResult, float& minTx,
-	                     float& minTy, float& nx, float& ny);
+		vector<LPCollisionEvent>& coEventsResult, float& minTx,
+		float& minTy, float& nx, float& ny);
 
 	void checkCollisionWithWater(vector<LPGAMEOBJECT>* coObjects);
 	/*----------------- update  -----------------*/
@@ -157,15 +158,15 @@ public:
 	void updateGravity(DWORD dt) { updateGravity(dt, this->gravity); };
 	void updatePosWhenNotCollide();
 	void updatePosInTheMomentCollideAndRemoveVelocity(float minTx, float minTy,
-	                                                  float nx, float ny);
+		float nx, float ny);
 	void updatePosInTheMomentCollide(float minTx, float minTy, float nx,
-	                                 float ny);
+		float ny);
 
 	void blockX(float minTx, float nx, float distance = 0.1) { x += minTx * dx + nx * distance; }
 	void blockY(float minTy, float ny) { y += minTy * dy + ny * 0.1f; }
 
 	void checkCollisionAndStopMovement(DWORD dt,
-	                                   vector<GameObject*>* coObjects);
+		vector<GameObject*>* coObjects);
 
 	/*----------------- bounding box  -----------------*/
 	Box getBoundingBoxBaseOnFile();
@@ -173,7 +174,7 @@ public:
 	virtual Box getBoundingBox(float width, float height);
 
 	virtual Box getBoundingBox() {
-		if (!isEnable) return {0, 0, 0, 0};
+		if (!isEnable) return { 0, 0, 0, 0 };
 		return getBoundingBox(-1, -1);
 	};
 	D3DXVECTOR2 getOffsetFromBoundingBox();
@@ -219,7 +220,7 @@ public:
 	int getState() const { return state; }
 	void getSpeed(float& vx, float& vy) const;
 	void getPos(float& x, float& y) const;
-	D3DXVECTOR2 getPos() { return {x, y}; }
+	D3DXVECTOR2 getPos() { return { x, y }; }
 	void setPos(D3DXVECTOR2 pos) { x = pos.x; y = pos.y; }
 
 	bool IsActive() const { return isActive; }
@@ -248,7 +249,7 @@ public:
 	void doBurnedEffect();
 	virtual bool processCollisionWithGround(float minTy, float ny);
 	virtual bool processCollisionWithBoundaryByX(float minTx, float nx,
-	                                             GameObject* boundary);
+		GameObject* boundary);
 	float getInitGravity() const { return initGravity; }
 	void setInitGravity(float val) { initGravity = val; }
 	int getHp() const { return hp; }
@@ -282,7 +283,7 @@ struct CollisionEvent {
 	float t, nx, ny;
 
 	CollisionEvent(const float t, const float nx, const float ny,
-	               const LPGAMEOBJECT obj = nullptr) {
+		const LPGAMEOBJECT obj = nullptr) {
 		this->t = t;
 		this->nx = nx;
 		this->ny = ny;

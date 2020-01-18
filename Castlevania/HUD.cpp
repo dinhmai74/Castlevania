@@ -36,6 +36,7 @@ void HUD::init() {
 
 void HUD::update(DWORD dt) {
 	int remainTime = StageManager::getInstance()->getRemainTime();
+	remainTime = remainTime <= 0 ? 0 : remainTime;
 
 	auto score = StageManager::getInstance()->getScore();
 	simon = stage->getSimon();

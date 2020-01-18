@@ -5,13 +5,6 @@
 #include "StageManager.h"
 #include "Bubbles.h"
 
-void GameObject::processWhenBurnedEffectDone() {
-	if (timerBurnEffect->isTimeUpAndRunAlr()) {
-		burnEffect = nullptr;
-		if (state == death) setActive(false);
-		timerBurnEffect->stop();
-	}
-}
 
 void GameObject::doUntouchable() {
 	if (untouchableDuration > 0) timerUntouchable->start(untouchableDuration);
@@ -81,7 +74,7 @@ void GameObject::getPos(float& x, float& y) const {
 }
 
 void GameObject::doBurnedEffect() {
-	timerBurnEffect->startDeep();
+	timerBurnEffect->start();
 	const auto now = GetTickCount64();
 	burnEffect = AnimationManager::getInstance()->get(burnAnimId);
 	burnEffect->setAniStartTime(now);
@@ -300,10 +293,19 @@ void GameObject::checkCollisionWithWater(vector<LPGAMEOBJECT>* coObjects) {
 
 void GameObject::update(const DWORD dt, vector<GameObject*>* coObject) {
 	this->dt = dt;
+	createBlowUpEffectAndSetRespawnTimer();
 	processUntouchableEffect();
 	processWhenBurnedEffectDone();
 	dx = vx * dt;
 	dy = vy * dt;
+}
+
+void GameObject::processWhenBurnedEffectDone() {
+	if (timerBurnEffect->isTimeUpAndRunAlr()) {
+		burnEffect = nullptr;
+		if (state == death) setActive(false);
+		timerBurnEffect->stop();
+	}
 }
 
 void GameObject::processDeathEffect() {
@@ -327,6 +329,13 @@ void GameObject::processDeflectEffect() {
 		vx = vxDeflect * nxDeflect;
 		vy = -vyDeflect;
 		faceSide = -nxDeflect;
+	}
+}
+
+void GameObject::createBlowUpEffectAndSetRespawnTimer() {
+	if (timerBurnEffect->isTimeUpAndRunAlr()) {
+		timerBurnEffect->stop();
+		burnEffect = nullptr;
 	}
 }
 
